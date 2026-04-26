@@ -1,14 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import PageHeader from "../components/PageHeader.astro";
-import StatCard from "../components/StatCard.astro";
-import roster from "../data/roster.json";
-import lootSummary from "../data/lootSummary.json";
-import bench from "../data/bench.json";
-
-const coreCount = roster.length;
-const lootTotal = lootSummary.reduce((sum, row) => sum + row.total, 0);
-const nextBench = [...bench].sort((a, b) => b.totalBenchCount - a.totalBenchCount)[0];
 ---
 
 <Layout title="Vitality | MoP Classic Guild">
@@ -18,12 +10,6 @@ const nextBench = [...bench].sort((a, b) => b.totalBenchCount - a.totalBenchCoun
     description="Raid planning, roster visibility, loot summaries, and bench rotation for the team."
   />
 
-  <section class="dashboard-grid compact">
-    <StatCard label="Active roster" value={coreCount} detail="Current raid team" href="/roster" />
-    <StatCard label="Tracked loot" value={lootTotal} detail="Player-level total" href="/loot" />
-    <StatCard label="Bench priority" value={nextBench?.player ?? "-"} detail="Next rotation note" href="/bench" />
-  </section>
-
   <section class="content-grid two-column">
     <article class="panel">
       <div class="section-heading">
@@ -32,14 +18,14 @@ const nextBench = [...bench].sort((a, b) => b.totalBenchCount - a.totalBenchCoun
       </div>
       <ul class="schedule-list">
         <li>
-          <span>Wednesday</span>
-          <strong>7:30 PM server</strong>
-          <small>Progression night</small>
+          <span>Sunday</span>
+          <strong>8:00 PM - 11:00 PM PST</strong>
+          <small>Pacific Standard Time</small>
         </li>
         <li>
-          <span>Sunday</span>
-          <strong>7:30 PM server</strong>
-          <small>Farm / cleanup night</small>
+          <span>Monday</span>
+          <strong>8:00 PM - 11:00 PM PST</strong>
+          <small>Pacific Standard Time</small>
         </li>
       </ul>
     </article>
@@ -50,10 +36,9 @@ const nextBench = [...bench].sort((a, b) => b.totalBenchCount - a.totalBenchCoun
         <h2>Discord and Applications</h2>
       </div>
       <div class="cta-stack">
-        <a class="button" href="#">Discord</a>
-        <a class="button secondary" href="#">Recruitment</a>
+        <a class="button" href="https://discord.gg/Eg3UkkgcGj">Discord</a>
+        <a class="button secondary" href="https://forms.gle/Ka2nMVkdp5wNCjZq8">Application</a>
       </div>
-      <p class="muted">Public invite and application links coming soon.</p>
     </article>
   </section>
 

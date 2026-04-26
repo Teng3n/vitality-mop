@@ -52,44 +52,6 @@ main {
   padding: 18px 0 28px;
 }
 
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  padding: 12px 0 24px;
-  background: rgba(11, 15, 13, 0.88);
-  backdrop-filter: blur(14px);
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-width: max-content;
-  color: var(--text);
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.brand img {
-  width: 44px;
-  height: 44px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-}
-
-nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 8px;
-}
-
-nav a,
 .button,
 .link-grid a {
   min-height: 38px;
@@ -103,15 +65,6 @@ nav a,
     background 160ms ease;
 }
 
-nav a {
-  display: inline-flex;
-  align-items: center;
-  padding: 0 12px;
-  font-size: 0.92rem;
-}
-
-nav a:hover,
-nav a[aria-current="page"],
 .link-grid a:hover {
   border-color: rgba(111, 207, 151, 0.7);
   color: var(--text);
@@ -458,15 +411,6 @@ p {
 }
 
 @media (max-width: 920px) {
-  .site-header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  nav {
-    justify-content: flex-start;
-  }
-
   .dashboard-grid,
   .dashboard-grid.compact,
   .card-grid,

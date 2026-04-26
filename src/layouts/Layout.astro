@@ -6,21 +6,6 @@ interface Props {
 }
 
 const { title = "Vitality" } = Astro.props;
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/roster", label: "Roster" },
-  { href: "/loot", label: "Loot" },
-  { href: "/bench", label: "Bench" },
-];
-
-const isActive = (href: string) => {
-  const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
-  if (href === "/") {
-    return pathname === "/";
-  }
-
-  return pathname === href || pathname.startsWith(`${href}/`);
-};
 ---
 
 <!doctype html>
@@ -37,15 +22,6 @@ const isActive = (href: string) => {
   </head>
   <body>
     <div class="site-shell">
-      <header class="site-header">
-        <a class="brand" href="/">
-          <img src="/guild-mark.svg" width="44" height="44" alt="" />
-          <span>Vitality</span>
-        </a>
-        <nav aria-label="Primary navigation">
-          {navItems.map((item) => <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a>)}
-        </nav>
-      </header>
       <main>
         <slot />
       </main>
