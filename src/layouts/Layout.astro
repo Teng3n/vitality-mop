@@ -6,6 +6,18 @@ interface Props {
 }
 
 const { title = "Vitality" } = Astro.props;
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/roster", label: "Roster" },
+  { href: "/loot", label: "Loot Summary" },
+  { href: "/loot/history", label: "Loot History" },
+  { href: "/bench", label: "Bench" },
+];
+
+const isActive = (href: string) => {
+  const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+  return pathname === href;
+};
 ---
 
 <!doctype html>
@@ -21,14 +33,29 @@ const { title = "Vitality" } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <div class="site-shell">
-      <main>
-        <slot />
-      </main>
-      <footer class="site-footer">
-        <span>MoP Classic guild dashboard</span>
-        <span>Static data MVP</span>
-      </footer>
+    <div class="app-frame">
+      <aside class="side-nav" aria-label="Guild navigation">
+        <a class="side-nav-title" href="/">Vitality</a>
+        <nav>
+          {
+            navItems.map((item) => (
+              <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+      </aside>
+
+      <div class="site-shell">
+        <main>
+          <slot />
+        </main>
+        <footer class="site-footer">
+          <span>MoP Classic guild dashboard</span>
+          <span>Static data MVP</span>
+        </footer>
+      </div>
     </div>
   </body>
 </html>
