@@ -356,6 +356,19 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   background: rgba(111, 207, 151, 0.06);
 }
 
+.loot-summary-table tbody tr[data-active-roster="false"] {
+  background: rgba(200, 155, 60, 0.1);
+  color: #d8bb73;
+}
+
+.loot-summary-table tbody tr[data-active-roster="false"]:hover {
+  background: rgba(200, 155, 60, 0.16);
+}
+
+.loot-summary-table tbody tr[data-active-roster="false"] td:first-child {
+  border-left: 3px solid rgba(200, 155, 60, 0.72);
+}
+
 .roster-table {
   min-width: 560px;
 }
