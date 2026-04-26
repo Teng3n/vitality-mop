@@ -3,6 +3,8 @@ export interface Column {
   key: string;
   label: string;
   align?: "left" | "center" | "right";
+  sortable?: boolean;
+  sortType?: "text" | "number";
 }
 
 interface Props {
@@ -10,9 +12,19 @@ interface Props {
   rows: Record<string, unknown>[];
   caption?: string;
   emptyLabel?: string;
+  initialSortKey?: string;
+  initialSortDirection?: "ascending" | "descending";
 }
 
-const { columns, rows, caption, emptyLabel = "No records yet." } = Astro.props;
+const {
+  columns,
+  rows,
+  caption,
+  emptyLabel = "No records yet.",
+  initialSortKey,
+  initialSortDirection = "ascending",
+} = Astro.props;
+const isSortable = columns.some((column) => column.sortable);
 
 const formatValue = (value: unknown) => {
   if (value === null || value === undefined || value === "") {
@@ -24,11 +36,38 @@ const formatValue = (value: unknown) => {
 ---
 
 <div class="table-shell">
-  <table class="data-table">
+  <table
+    class="data-table"
+    data-sortable-table={isSortable ? "true" : undefined}
+    data-initial-sort-key={initialSortKey}
+    data-initial-sort-direction={initialSortDirection}
+  >
     {caption && <caption>{caption}</caption>}
     <thead>
       <tr>
-        {columns.map((column) => <th class={`is-${column.align ?? "left"}`}>{column.label}</th>)}
+        {
+          columns.map((column) => (
+            <th
+              class={`is-${column.align ?? "left"}`}
+              aria-sort={column.key === initialSortKey ? initialSortDirection : undefined}
+              data-sort-type={column.sortable ? column.sortType ?? "text" : undefined}
+            >
+              {column.sortable ? (
+                <button
+                  class="sort-button"
+                  type="button"
+                  data-sort-key={column.key}
+                  data-sort-type={column.sortType ?? "text"}
+                >
+                  <span>{column.label}</span>
+                  <span class="sort-indicator" aria-hidden="true"></span>
+                </button>
+              ) : (
+                column.label
+              )}
+            </th>
+          ))
+        }
       </tr>
     </thead>
     <tbody>
@@ -37,7 +76,11 @@ const formatValue = (value: unknown) => {
           rows.map((row) => (
             <tr data-search={Object.values(row).join(" ").toLowerCase()}>
               {columns.map((column) => (
-                <td class={`is-${column.align ?? "left"}`} data-label={column.label}>
+                <td
+                  class={`is-${column.align ?? "left"}`}
+                  data-label={column.label}
+                  data-sort-value={formatValue(row[column.key])}
+                >
                   {formatValue(row[column.key])}
                 </td>
               ))}
@@ -52,3 +95,59 @@ const formatValue = (value: unknown) => {
     </tbody>
   </table>
 </div>
+
+<script>
+  type SortDirection = "ascending" | "descending";
+
+  const compareText = (a: string, b: string) => a.localeCompare(b, undefined, { sensitivity: "base" });
+
+  const getCellValue = (row: HTMLTableRowElement, index: number) => row.cells[index]?.dataset.sortValue ?? "";
+
+  const sortRows = (table: HTMLTableElement, columnIndex: number, sortType: string, direction: SortDirection) => {
+    const tbody = table.tBodies[0];
+    const rows = Array.from(tbody.rows);
+    const multiplier = direction === "ascending" ? 1 : -1;
+
+    rows.sort((a, b) => {
+      const aValue = getCellValue(a, columnIndex);
+      const bValue = getCellValue(b, columnIndex);
+
+      if (sortType === "number") {
+        const numericDiff = (Number(aValue) || 0) - (Number(bValue) || 0);
+        if (numericDiff !== 0) {
+          return numericDiff * multiplier;
+        }
+
+        return compareText(getCellValue(a, 0), getCellValue(b, 0));
+      }
+
+      return compareText(aValue, bValue) * multiplier;
+    });
+
+    tbody.append(...rows);
+  };
+
+  document.querySelectorAll<HTMLTableElement>("[data-sortable-table]").forEach((table) => {
+    const headers = Array.from(table.tHead?.rows[0]?.cells ?? []);
+
+    headers.forEach((header, columnIndex) => {
+      const button = header.querySelector<HTMLButtonElement>("[data-sort-key]");
+
+      button?.addEventListener("click", () => {
+        const currentSort = header.getAttribute("aria-sort");
+        const direction: SortDirection =
+          currentSort === "ascending"
+            ? "descending"
+            : currentSort === "descending"
+              ? "ascending"
+              : button.dataset.sortType === "number"
+                ? "descending"
+                : "ascending";
+
+        headers.forEach((item) => item.removeAttribute("aria-sort"));
+        header.setAttribute("aria-sort", direction);
+        sortRows(table, columnIndex, button.dataset.sortType ?? "text", direction);
+      });
+    });
+  });
+</script>

@@ -293,6 +293,59 @@ p {
   background: rgba(23, 33, 27, 0.86);
 }
 
+.sort-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: inherit;
+  gap: 6px;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: inherit;
+  text-transform: inherit;
+}
+
+.is-right .sort-button {
+  justify-content: flex-end;
+}
+
+.sort-button:hover,
+.sort-button:focus-visible {
+  color: var(--text);
+}
+
+.sort-button:focus-visible {
+  outline: 2px solid rgba(111, 207, 151, 0.42);
+  outline-offset: 3px;
+}
+
+.sort-indicator::after {
+  content: "-";
+  color: var(--muted);
+}
+
+th[aria-sort="ascending"] .sort-indicator::after {
+  content: "A-Z";
+  color: var(--jade);
+}
+
+th[aria-sort="descending"] .sort-indicator::after {
+  content: "Z-A";
+  color: var(--jade);
+}
+
+th[data-sort-type="number"][aria-sort="ascending"] .sort-indicator::after {
+  content: "Low";
+}
+
+th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
+  content: "High";
+}
+
 .data-table tr:last-child td {
   border-bottom: 0;
 }
