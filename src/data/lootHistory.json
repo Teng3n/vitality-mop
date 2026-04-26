@@ -1,50 +1,5586 @@
 [
   {
-    "date": "2026-04-18",
-    "player": "Embermoth",
-    "item": "Phoenixfire Robes",
-    "boss": "Elegon",
-    "instance": "Mogu'shan Vaults",
-    "type": "BiS"
+    "date": "2025-10-13",
+    "player": "Xinxao",
+    "item": "Spirits of the Sun",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
   },
   {
-    "date": "2026-04-18",
-    "player": "Auralin",
-    "item": "Stoneguard Greatcloak",
-    "boss": "The Stone Guard",
-    "instance": "Mogu'shan Vaults",
-    "type": "Major"
+    "date": "2025-10-13",
+    "player": "Xenthyk",
+    "item": "Zor'lok's Fizzing Chestguard",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Minor Upgrade"
   },
   {
-    "date": "2026-04-20",
-    "player": "Mistveil",
-    "item": "Jade Spirit Sash",
+    "date": "2025-10-13",
+    "player": "Xenthyk",
+    "item": "Wingslasher Pauldrons",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Xenthyk",
+    "item": "Regail's Band of the Endless",
+    "boss": "Protectors of the Endless",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Xenthyk",
+    "item": "Arrow Breaking Windcloak",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Tengen",
+    "item": "Yak Legguards of the Galeburst",
+    "boss": "Sha of Fear",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Tengen",
+    "item": "Yak Bracers of the Monkey",
     "boss": "Feng the Accursed",
-    "instance": "Mogu'shan Vaults",
-    "type": "Minor"
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
   },
   {
-    "date": "2026-04-20",
-    "player": "Ironwaltz",
-    "item": "Titansteel Shoulderplates",
-    "boss": "Will of the Emperor",
-    "instance": "Mogu'shan Vaults",
-    "type": "Major"
+    "date": "2025-10-13",
+    "player": "Tengen",
+    "item": "Vine Waistband of the Undertow",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
   },
   {
-    "date": "2026-04-22",
-    "player": "Sablefang",
-    "item": "Dagger of the Hidden Temple",
-    "boss": "Blade Lord Ta'yak",
-    "instance": "Heart of Fear",
-    "type": "BiS"
+    "date": "2025-10-13",
+    "player": "Tengen",
+    "item": "Engraved Mace of the Earthshaker",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
   },
   {
-    "date": "2026-04-22",
-    "player": "Lunarae",
-    "item": "Amber-Sealed Pendant",
+    "date": "2025-10-13",
+    "player": "Teehee",
+    "item": "Regail's Crackling Dagger",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Teehee",
+    "item": "Mindshard Drape",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Teehee",
+    "item": "Leggings of the Shadowy Vanquisher",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Teehee",
+    "item": "Leggings of Shadow Infestation",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Teehee",
+    "item": "Chest of the Shadowy Vanquisher",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Steveharvano",
+    "item": "Shoulderpads of Misshapen Life",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Steveharvano",
+    "item": "Impaling Treads",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Shrynx",
+    "item": "Sandals of the Blackest Night",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Shrynx",
+    "item": "Jin'ya, Orb of the Waterspeaker",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Shrynx",
+    "item": "Dreadwoven Leggings of Failure",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Oswaldmosley",
+    "item": "Pauldrons of the Broken Blade",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Oswaldmosley",
+    "item": "Kaolan's Withering Necklace",
+    "boss": "Protectors of the Endless",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Oswaldmosley",
+    "item": "Deepwater Greatboots",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Oswaldmosley",
+    "item": "Chest of the Shadowy Vanquisher",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Noxw",
+    "item": "Gauntlets of the Shadowy Protector",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Noxw",
+    "item": "Cuirass of the Animated Protector",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Niblainelock",
+    "item": "Shoulders of the Shadowy Conqueror",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Niblainelock",
+    "item": "Leggings of the Shadowy Conqueror",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Niblainelock",
+    "item": "Healthstone",
     "boss": "Amber-Shaper Un'sok",
-    "instance": "Heart of Fear",
-    "type": "Bonus Roll"
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Mennydotz",
+    "item": "Cloak of Overwhelming Corruption",
+    "boss": "Protectors of the Endless",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Meloni",
+    "item": "Leggings of the Shadowy Protector",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Meloni",
+    "item": "Jin'ya, Orb of the Waterspeaker",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Meloni",
+    "item": "Hood of Cursed Dreams",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Meloni",
+    "item": "Fan of Fiery Winds",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Meloni",
+    "item": "Circuit of the Frail Soul",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Lexou",
+    "item": "Regail's Band of the Endless",
+    "boss": "Protectors of the Endless",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Lexou",
+    "item": "Lightning Prisoner's Boots",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Lexou",
+    "item": "Fetters of Death",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Lexou",
+    "item": "Crown of the Doomed Empress",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Lexou",
+    "item": "Claws of Shek'zeer",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Kuradelh",
+    "item": "Regail's Band of the Endless",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Kuradelh",
+    "item": "Arrow Breaking Windcloak",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Karkonk",
+    "item": "Stoneflesh Leggings",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Karkonk",
+    "item": "Gara'kal, Fist of the Spiritbinder",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Karkonk",
+    "item": "Gara'kal, Fist of the Spiritbinder",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Karkonk",
+    "item": "Bracers of Violent Meditation",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Karkan",
+    "item": "Shoulders of the Shadowy Conqueror",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Pass"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Karkan",
+    "item": "Kilrak, Jaws of Terror",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Karkan",
+    "item": "Gauntlets of the Shadowy Conqueror",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "June",
+    "item": "Legbreaker Greatcloak",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "June",
+    "item": "Claws of Shek'zeer",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "June",
+    "item": "Amulet of the Hidden Kings",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Jackiedark",
+    "item": "Helm of the Shadowy Vanquisher",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Jackiedark",
+    "item": "Gauntlets of the Shadow's Caress",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Jackiedark",
+    "item": "Chest of the Shadowy Vanquisher",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Fhaena",
+    "item": "Weaver's Cord of Eternal Autumn",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Fhaena",
+    "item": "Shoulders of the Shadowy Protector",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Fhaena",
+    "item": "Bracers of Dark Thoughts",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Dread",
+    "item": "Spirits of the Sun",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Dread",
+    "item": "Grips of the Leviathan",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Dread",
+    "item": "Cloak of Overwhelming Corruption",
+    "boss": "Protectors of the Endless",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Dread",
+    "item": "Chest of the Shadowy Protector",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Zian's Choker of Coalesced Shadow",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Steelskin, Qiang's Impervious Shield",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Star-Stealer Waistguard",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Star-Stealer Waistguard",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Shoulders of the Shadowy Conqueror",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Ruby-Linked Girdle",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Ruby-Linked Girdle",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Legplates of Sagacious Shadows",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Legguards of Failing Purification",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Jin'ya, Orb of the Waterspeaker",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Gauntlets of the Shadow's Caress",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Gauntlets of the Shadow's Caress",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Autopass"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Daybreak Drape",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Claws of Amethyst",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Circuit of the Frail Soul",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Casque of Expelled Corruption",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Bonded Soul Bracers",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Drchicken",
+    "item": "Belt of Embodied Terror",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Cardinalcrzy",
+    "item": "Sandals of the Unbidden",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Cardinalcrzy",
+    "item": "Robes of Pinioned Eyes",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Cardinalcrzy",
+    "item": "Circuit of the Frail Soul",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Cardinalcrzy",
+    "item": "Attenuating Bracers",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Cabbage",
+    "item": "Robes of the Unknown Fear",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Cabbage",
+    "item": "Essence of Terror",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Bannedpex",
+    "item": "Gauntlets of the Shadow's Caress",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Bannedpex",
+    "item": "Feng's Seal of Binding",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Aurumai",
+    "item": "Seal of the Profane",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Xaril's Hood of Intoxicating Vapors",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Un'sok's Amber Scalpel",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Taoren, the Soul Burner",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Scent-Soaked Sandals",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Sandals of the Unbidden",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Pauldrons of the Broken Blade",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Gauntlets of the Shadowy Vanquisher",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Drape of Gathering Clouds",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Drape of Gathering Clouds",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Cloak of Raining Blades",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Chestplate of the Forbidden Tower",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Bracers of Unseen Strikes",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Boots of the Still Breath",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Boots of the Blowing Wind",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Bonebreaker Gauntlets",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-13",
+    "player": "Arrowqt",
+    "item": "Articulated Legplates",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-12",
+    "player": "Xenthyk",
+    "item": "Grips of the Leviathan",
+    "boss": "Garalon",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-12",
+    "player": "Tengen",
+    "item": "Yak Vest of the Windstorm",
+    "boss": "Imperial Vizier Zor'lok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-12",
+    "player": "Tengen",
+    "item": "Yak Spaulders of the Monkey",
+    "boss": "Imperial Vizier Zor'lok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-12",
+    "player": "Tengen",
+    "item": "Waterfall Leggings of the Eagle",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-12",
+    "player": "Tengen",
+    "item": "Temple Gauntlets of the Soldier",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-12",
+    "player": "Marz",
+    "item": "Attenuating Bracers",
+    "boss": "Imperial Vizier Zor'lok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-07",
+    "player": "Teehee",
+    "item": "Worldwaker Cabochon",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-07",
+    "player": "Steveharvano",
+    "item": "Lei Shen's Final Orders",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-07",
+    "player": "Meloni",
+    "item": "Worldwaker Cabochon",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-07",
+    "player": "Meloni",
+    "item": "Tihan, Scepter of the Sleeping Emperor",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-10-07",
+    "player": "Karkan",
+    "item": "Jang-xi's Devastating Legplates",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-07",
+    "player": "Drchicken",
+    "item": "Enameled Grips of Solemnity",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-07",
+    "player": "Drchicken",
+    "item": "Crown of Opportunistic Strikes",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Xinxao",
+    "item": "Leggings of the Shadowy Protector",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Xinxao",
+    "item": "Binder's Chain of Unending Summer",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Xenthyk",
+    "item": "Stonefang Chestguard",
+    "boss": "The Stone Guard",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Xenthyk",
+    "item": "Leggings of the Shadowy Protector",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Xenthyk",
+    "item": "Bottle of Infinite Stars",
+    "boss": "Elegon",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Tengen",
+    "item": "Waterfall Cord of the Seer",
+    "boss": "Sha of Fear",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Tengen",
+    "item": "Kilrak, Jaws of Terror",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Tengen",
+    "item": "Engraved Spear of the Soldier",
+    "boss": "Sha of Fear",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Tengen",
+    "item": "Dread Shadow Ring",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Teehee",
+    "item": "Shoulders of the Shadowy Vanquisher",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Teehee",
+    "item": "Sandals of the Blackest Night",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Steveharvano",
+    "item": "Dread Shadow Ring",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Runicbeard",
+    "item": "Kilrak, Jaws of Terror",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Runicbeard",
+    "item": "Darkmist Vortex",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Oswaldmosley",
+    "item": "Shin'ka, Execution of Dominion",
+    "boss": "Sha of Fear",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Oswaldmosley",
+    "item": "Daybreak Drape",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Oswaldmosley",
+    "item": "Darkmist Vortex",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Noxw",
+    "item": "Scimitar of Seven Stars",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Noxw",
+    "item": "Grasps of Serpentine Might",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Noxw",
+    "item": "Dread Shadow Ring",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Noxw",
+    "item": "Bracers of Six Oxen",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Noxw",
+    "item": "Band of Bursting Novas",
+    "boss": "Elegon",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Niblainelock",
+    "item": "Loshan, Terror Incarnate",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Niblainelock",
+    "item": "Chest of the Shadowy Conqueror",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Mennydotz",
+    "item": "Dreadwoven Leggings of Failure",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Maverickdog",
+    "item": "Helm of the Shadowy Protector",
+    "boss": "Sha of Fear",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Maverickdog",
+    "item": "Bottle of Infinite Stars",
+    "boss": "Elegon",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Marz",
+    "item": "Jade Warlord Figurine",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Lexou",
+    "item": "Un'sok's Amber Scalpel",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Lexou",
+    "item": "Helm of the Shadowy Protector",
+    "boss": "Sha of Fear",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Lexou",
+    "item": "Claws of Shek'zeer",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Lexou",
+    "item": "Chest of the Shadowy Protector",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Lexou",
+    "item": "Chain of Shadow",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Kuradelh",
+    "item": "Helm of the Shadowy Protector",
+    "boss": "Sha of Fear",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Koulikov",
+    "item": "Taoren, the Soul Burner",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Koulikov",
+    "item": "Stonemaw Armguards",
+    "boss": "The Stone Guard",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Koulikov",
+    "item": "Shadowgrip Girdle",
+    "boss": "Sha of Fear",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Koulikov",
+    "item": "Chest of the Shadowy Protector",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Karkan",
+    "item": "Starshatter",
+    "boss": "Elegon",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Offline or RCLootCouncil not installed"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Karkan",
+    "item": "Scimitar of Seven Stars",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Karkan",
+    "item": "Deepwater Greatboots",
+    "boss": "Protectors of the Endless",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Karkan",
+    "item": "Bracers of Defiled Earth",
+    "boss": "Protectors of the Endless",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Kali",
+    "item": "Chest of the Shadowy Protector",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "June",
+    "item": "Feng's Seal of Binding",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Fhaena",
+    "item": "Asani's Uncleansed Sandals",
+    "boss": "Protectors of the Endless",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Dread",
+    "item": "Watersoul Signet",
+    "boss": "Protectors of the Endless",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Dread",
+    "item": "Leggings of the Shadowy Protector",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Undying Shadow Grips",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Subetai's Pillaging Leggings",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Stonefang Chestguard",
+    "boss": "The Stone Guard",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Spiritsever",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Sollerets of Spirit Splitting",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Sollerets of Spirit Splitting",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Sixteen-Fanged Crown",
+    "boss": "The Stone Guard",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Sixteen-Fanged Crown",
+    "boss": "The Stone Guard",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Shoulders of the Shadowy Vanquisher",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Shoulderpads of Twisted Fate",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Shadowsummoner Spaulders",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Shadow Heart Spaulders",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Phasewalker Striders",
+    "boss": "Elegon",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Phasewalker Striders",
+    "boss": "Elegon",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Orbital Belt",
+    "boss": "Elegon",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Nullification Greathelm",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Mindshard Drape",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Legguards of Failing Purification",
+    "boss": "Protectors of the Endless",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Leggings of Shadow Infestation",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Leggings of Imprisoned Will",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Jade Dust Leggings",
+    "boss": "The Stone Guard",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Girdle of Delirious Visions",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Gara'kal, Fist of the Spiritbinder",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Fan of Fiery Winds",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Dagger of the Seven Stars",
+    "boss": "The Stone Guard",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Cuffs of the Corrupted Waters",
+    "boss": "Protectors of the Endless",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Chain of Shadow",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Breastplate of the Kings' Guard",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Bracers of Violent Meditation",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Bottle of Infinite Stars",
+    "boss": "Elegon",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Bindings of Ancient Spirits",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Drchicken",
+    "item": "Belt of Embodied Terror",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Cardinalcrzy",
+    "item": "Robes of Pinioned Eyes",
+    "boss": "Sha of Fear",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Cardinalcrzy",
+    "item": "Kri'tak, Imperial Scepter of the Swarm",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Cabbage",
+    "item": "Jin'ya, Orb of the Waterspeaker",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Cabbage",
+    "item": "Chest of the Shadowy Conqueror",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Bannedpex",
+    "item": "Terror in the Mists",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Bannedpex",
+    "item": "Legguards of Failing Purification",
+    "boss": "Protectors of the Endless",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Bannedpex",
+    "item": "Chest of the Shadowy Vanquisher",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-06",
+    "player": "Aurumai",
+    "item": "Shoulders of the Shadowy Protector",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Xenthyk",
+    "item": "Gauntlets of the Shadowy Protector",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Tengen",
+    "item": "Gauntlets of the Shadowy Protector",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Teehee",
+    "item": "Gauntlets of the Shadowy Vanquisher",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Teehee",
+    "item": "Belt of Malleable Amber",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Teehee",
+    "item": "Attenuating Bracers",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Runicbeard",
+    "item": "Impaling Treads",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Oswaldmosley",
+    "item": "Warbelt of Sealed Pods",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Oswaldmosley",
+    "item": "Shoulderpads of Misshapen Life",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Noxw",
+    "item": "Garalon's Hollow Skull",
+    "boss": "Garalon",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Meloni",
+    "item": "Robes of Eighty Lights",
+    "boss": "Garalon",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Meloni",
+    "item": "Robes of Eighty Lights",
+    "boss": "Garalon",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Meloni",
+    "item": "Korven's Amber-Sealed Beetle",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Meloni",
+    "item": "Gauntlets of Undesired Gifts",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Meloni",
+    "item": "Drape of Gathering Clouds",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Meloni",
+    "item": "Clutches of Dying Hope",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Maverickdog",
+    "item": "Leggings of the Shadowy Protector",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Maverickdog",
+    "item": "Choker of the Unleashed Storm",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Kuradelh",
+    "item": "Leggings of the Shadowy Protector",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Karkan",
+    "item": "Warbelt of Sealed Pods",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Karkan",
+    "item": "Hisek's Chrysanthemum Cape",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Karkan",
+    "item": "Garalon's Hollow Skull",
+    "boss": "Garalon",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Kali",
+    "item": "Ring of the Bladed Tempest",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Kali",
+    "item": "Gauntlets of the Shadowy Protector",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Jackiedark",
+    "item": "Painful Thorned Ring",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Fhaena",
+    "item": "Hood of Stilled Winds",
+    "boss": "Garalon",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Drchicken",
+    "item": "Stormwake Mistcloak",
+    "boss": "Garalon",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Drchicken",
+    "item": "Shoulders of Foaming Fluids",
+    "boss": "Garalon",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Drchicken",
+    "item": "Pauldrons of the Broken Blade",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Drchicken",
+    "item": "Mail of Screaming Secrets",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Drchicken",
+    "item": "Gauntlets of the Shadowy Vanquisher",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Drchicken",
+    "item": "Bracers of Unseen Strikes",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Drchicken",
+    "item": "Boots of the Blowing Wind",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Drchicken",
+    "item": "Bonebreaker Gauntlets",
+    "boss": "Garalon",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Drchicken",
+    "item": "Attenuating Bracers",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Cardinalcrzy",
+    "item": "Gauntlets of the Shadowy Conqueror",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-10-05",
+    "player": "Bannedpex",
+    "item": "Gauntlets of the Shadowy Vanquisher",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-09-30",
+    "player": "Runicbeard",
+    "item": "Helm of the Shadowy Vanquisher",
+    "boss": "Sha of Fear",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-30",
+    "player": "Oswaldmosley",
+    "item": "Helm of the Shadowy Vanquisher",
+    "boss": "Sha of Fear",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-30",
+    "player": "Noxw",
+    "item": "Shin'ka, Execution of Dominion",
+    "boss": "Sha of Fear",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-30",
+    "player": "Kuradelh",
+    "item": "Shadowgrip Girdle",
+    "boss": "Sha of Fear",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-30",
+    "player": "Koulikov",
+    "item": "Helm of the Shadowy Protector",
+    "boss": "Sha of Fear",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-30",
+    "player": "June",
+    "item": "Helm of the Shadowy Protector",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-09-30",
+    "player": "Cabbage",
+    "item": "Essence of Terror",
+    "boss": "Sha of Fear",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-30",
+    "player": "Arrowqt",
+    "item": "Shadowgrip Girdle",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Tengen",
+    "item": "Warbelt of Sealed Pods",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Tengen",
+    "item": "Shoulders of the Shadowy Protector",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Tengen",
+    "item": "Legplates of Regal Reinforcement",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Steveharvano",
+    "item": "Chest of the Shadowy Protector",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Shrynx",
+    "item": "Jin'ya, Orb of the Waterspeaker",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Shrynx",
+    "item": "Chest of the Shadowy Vanquisher",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Oswaldmosley",
+    "item": "Shoulders of the Shadowy Vanquisher",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Oswaldmosley",
+    "item": "Shackle of Eversparks",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Oswaldmosley",
+    "item": "Leggings of the Shadowy Vanquisher",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Oswaldmosley",
+    "item": "Gauntlets of the Shadowy Vanquisher",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Noxw",
+    "item": "Protector's Girdle of Endless Spring",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Noxw",
+    "item": "Leggings of the Shadowy Protector",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Niblainelock",
+    "item": "Belt of Malleable Amber",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Mennydotz",
+    "item": "Loshan, Terror Incarnate",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Maverickdog",
+    "item": "Terror in the Mists",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Maverickdog",
+    "item": "Gauntlets of the Shadowy Protector",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Marz",
+    "item": "Stormwake Mistcloak",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Marz",
+    "item": "Sandals of the Unbidden",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Lexou",
+    "item": "Terror in the Mists",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Lexou",
+    "item": "Pheromone-Coated Choker",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Lexou",
+    "item": "Jin'ya, Orb of the Waterspeaker",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Lexou",
+    "item": "Drape of Gathering Clouds",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Koulikov",
+    "item": "Painful Thorned Ring",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Koulikov",
+    "item": "Gauntlets of the Shadowy Protector",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Karkan",
+    "item": "Shoulders of the Shadowy Conqueror",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "June",
+    "item": "Legguards of Failing Purification",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "June",
+    "item": "Chest of the Shadowy Protector",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "June",
+    "item": "Bracers of Unseen Strikes",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Jackiedark",
+    "item": "Spiritsever",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Jackiedark",
+    "item": "Legguards of Failing Purification",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Fhaena",
+    "item": "Loshan, Terror Incarnate",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Dread",
+    "item": "Regail's Crackling Dagger",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Dread",
+    "item": "Mail of Screaming Secrets",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Dread",
+    "item": "Lightning Prisoner's Boots",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Dread",
+    "item": "Grips of the Leviathan",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Drchicken",
+    "item": "Xaril's Hood of Intoxicating Vapors",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Drchicken",
+    "item": "Treads of Deadly Secretions",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Drchicken",
+    "item": "Sword Dancer's Leggings",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Drchicken",
+    "item": "Sunwrought Mail Hauberk",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Drchicken",
+    "item": "Sollerets of Instability",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Drchicken",
+    "item": "Shadow Heart Spaulders",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Drchicken",
+    "item": "Gauntlets of Undesired Gifts",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Drchicken",
+    "item": "Gauntlets of the Shadow's Caress",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Drchicken",
+    "item": "Gao-Rei, Staff of the Legendary Protector",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Drchicken",
+    "item": "Clutches of Dying Hope",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Drchicken",
+    "item": "Bonebreaker Gauntlets",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Drchicken",
+    "item": "Belt of Embodied Terror",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Drchicken",
+    "item": "Articulated Legplates",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Cardinalcrzy",
+    "item": "Shoulders of the Shadowy Conqueror",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Cardinalcrzy",
+    "item": "Kri'tak, Imperial Scepter of the Swarm",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Cardinalcrzy",
+    "item": "Korven's Amber-Sealed Beetle",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Cardinalcrzy",
+    "item": "Jin'ya, Orb of the Waterspeaker",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Cabbage",
+    "item": "Tornado-Summoning Censer",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Cabbage",
+    "item": "Fragment of Fear Made Flesh",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Cabbage",
+    "item": "Cloak of Overwhelming Corruption",
+    "boss": "Protectors of the Endless",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Cabbage",
+    "item": "Belt of Malleable Amber",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Bannedpex",
+    "item": "Shoulders of the Shadowy Vanquisher",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Bannedpex",
+    "item": "Leggings of the Shadowy Vanquisher",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Bannedpex",
+    "item": "Choker of the Unleashed Storm",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Aurumai",
+    "item": "Regail's Crackling Dagger",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Aurumai",
+    "item": "Lightning Prisoner's Boots",
+    "boss": "Protectors of the Endless",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Aurumai",
+    "item": "Bracers of Tempestuous Fury",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Aurumai",
+    "item": "Binder's Chain of Unending Summer",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2025-09-29",
+    "player": "Arrowqt",
+    "item": "Legbreaker Greatcloak",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Tengen",
+    "item": "Stuff of Nightmares",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Tengen",
+    "item": "Deepwater Greatboots",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Steveharvano",
+    "item": "Helm of the Shadowy Protector",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Shrynx",
+    "item": "Cloak of Overwhelming Corruption",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Noxw",
+    "item": "Helm of the Shadowy Protector",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Noxw",
+    "item": "Daybreak Drape",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Noxw",
+    "item": "Chest of the Shadowy Protector",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Mxrz",
+    "item": "Leggings of Shadow Infestation",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Maverickdog",
+    "item": "Taoren, the Soul Burner",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Maverickdog",
+    "item": "Shadowgrip Girdle",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Lexou",
+    "item": "Chest of the Shadowy Protector",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Kuradelh",
+    "item": "Terror in the Mists",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Koulikov",
+    "item": "Waterborne Shoulderguards",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Karkan",
+    "item": "Shoulders of the Shadowy Conqueror",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Karkan",
+    "item": "Helm of the Shadowy Conqueror",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Jurx",
+    "item": "Wrap of Instant Petrification",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Jurx",
+    "item": "Shoulders of the Shadowy Vanquisher",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Juneww",
+    "item": "Shoulders of the Shadowy Protector",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Juneww",
+    "item": "Shadow Heart Spaulders",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Jackiedark",
+    "item": "Terror in the Mists",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Dreådly",
+    "item": "Sunwrought Mail Hauberk",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Chickenmd",
+    "item": "Kri'tak, Imperial Scepter of the Swarm",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Chickenmd",
+    "item": "Cuffs of the Corrupted Waters",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Cabbwl",
+    "item": "Sandals of the Blackest Night",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Arrowqt",
+    "item": "Waterborne Shoulderguards",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-23",
+    "player": "Arrowqt",
+    "item": "Chest of the Shadowy Protector",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Tengen",
+    "item": "Windblade Talons",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Shrynx",
+    "item": "Gauntlets of the Shadowy Vanquisher",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Shrynx",
+    "item": "Attenuating Bracers",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Noxw",
+    "item": "Pauldrons of the Broken Blade",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Noxw",
+    "item": "Cloak of Raining Blades",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Niblainelock",
+    "item": "Xaril's Hood of Intoxicating Vapors",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Mxrz",
+    "item": "Tornado-Summoning Censer",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Mxrz",
+    "item": "Leggings of the Shadowy Vanquisher",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Lexou",
+    "item": "Leggings of the Shadowy Protector",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Kuradelh",
+    "item": "Painful Thorned Ring",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Karkan",
+    "item": "Ring of the Shattered Shell",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Karkan",
+    "item": "Pauldrons of the Broken Blade",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Karkan",
+    "item": "Leggings of the Shadowy Conqueror",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Karkan",
+    "item": "Cloak of Raining Blades",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Karkan",
+    "item": "Articulated Legplates",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Kali",
+    "item": "Warbelt of Sealed Pods",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Jurx",
+    "item": "Treads of Deadly Secretions",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Jurx",
+    "item": "Gauntlets of the Shadowy Vanquisher",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Jurx",
+    "item": "Boots of the Still Breath",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Jackiedark",
+    "item": "Treads of Deadly Secretions",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Dreådly",
+    "item": "Un'sok's Amber Scalpel",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Dreådly",
+    "item": "Drape of Gathering Clouds",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Chickenmd",
+    "item": "Xaril's Hood of Intoxicating Vapors",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Cabbwl",
+    "item": "Xaril's Hood of Intoxicating Vapors",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-22",
+    "player": "Cabbwl",
+    "item": "Boots of the Blowing Wind",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-18",
+    "player": "Mennyzmage",
+    "item": "Imperial Ghostbinder's Robes",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-10 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Tengen",
+    "item": "Cuirass of the Animated Protector",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Runicbeard",
+    "item": "Chest of the Shadowy Vanquisher",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Oswaldmosley",
+    "item": "Shin'ka, Execution of Dominion",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Oswaldmosley",
+    "item": "Dread Shadow Ring",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Niblainelock",
+    "item": "Shoulders of the Shadowy Conqueror",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Niblainelock",
+    "item": "Invoker's Belt of Final Winter",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Mxrz",
+    "item": "Shoulders of the Shadowy Vanquisher",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Mxrz",
+    "item": "Helm of the Shadowy Vanquisher",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Mennydotz",
+    "item": "Robes of the Unknown Fear",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Maverickdog",
+    "item": "Chest of the Shadowy Protector",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Lexou",
+    "item": "Crown of the Doomed Empress",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Karkan",
+    "item": "Chest of the Shadowy Conqueror",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Kali",
+    "item": "Helm of the Shadowy Protector",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Jurx",
+    "item": "Shadow Heart Spaulders",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Jackiedark",
+    "item": "Helm of the Shadowy Vanquisher",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Fhaena",
+    "item": "Fear-Blackened Leggings",
+    "boss": "Sha of Fear",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Dreådly",
+    "item": "Sunwrought Mail Hauberk",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Dreådly",
+    "item": "Hood of Dark Dreams",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Cabbwl",
+    "item": "Shoulders of the Shadowy Conqueror",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-16",
+    "player": "Cabbwl",
+    "item": "Essence of Terror",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Xinxao",
+    "item": "Vestments of Steaming Ichor",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Xinxao",
+    "item": "Regail's Crackling Dagger",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Tengen",
+    "item": "Scimitar of Seven Stars",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Tengen",
+    "item": "Kaolan's Withering Necklace",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Steveharvano",
+    "item": "Garalon's Graven Carapace",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Shrynx",
+    "item": "Leggings of the Shadowy Vanquisher",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Runicbeard",
+    "item": "Ring of the Shattered Shell",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Runicbeard",
+    "item": "Cloak of Raining Blades",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Oswaldmosley",
+    "item": "Bracers of Defiled Earth",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Noxw",
+    "item": "Shoulderpads of Misshapen Life",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Noxw",
+    "item": "Garalon's Graven Carapace",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Niblainelock",
+    "item": "Cloak of Overwhelming Corruption",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Mxrz",
+    "item": "Gauntlets of the Shadowy Vanquisher",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Mennydotz",
+    "item": "Xaril's Hood of Intoxicating Vapors",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Mennydotz",
+    "item": "Watersoul Signet",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Kuradelh",
+    "item": "Leggings of the Shadowy Protector",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Kuradelh",
+    "item": "Gauntlets of the Shadowy Protector",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Karkan",
+    "item": "Bracers of Defiled Earth",
+    "boss": "Tsulong",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Fhaena",
+    "item": "Korven's Amber-Sealed Beetle",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Chickenmd",
+    "item": "Korven's Amber-Sealed Beetle",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Cardinalcrzy",
+    "item": "Shoulders of Foaming Fluids",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Bannedpex",
+    "item": "Treads of Deadly Secretions",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Arrowqt",
+    "item": "Leggings of the Shadowy Protector",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-15",
+    "player": "Arrowqt",
+    "item": "Gauntlets of the Shadowy Protector",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-14",
+    "player": "Shrynx",
+    "item": "Boots of the Blowing Wind",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-14",
+    "player": "Oswaldmosley",
+    "item": "Articulated Legplates",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-14",
+    "player": "Noxw",
+    "item": "Articulated Legplates",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2025-09-14",
+    "player": "Koulikov",
+    "item": "Choker of the Unleashed Storm",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-14",
+    "player": "Jurx",
+    "item": "Bracers of Unseen Strikes",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-14",
+    "player": "Jackiedark",
+    "item": "Pheromone-Coated Choker",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-14",
+    "player": "Chickenmd",
+    "item": "Gloves of Grasping Claws",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-14",
+    "player": "Chickenmd",
+    "item": "Drape of Gathering Clouds",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-14",
+    "player": "Cardinalcrzy",
+    "item": "Gloves of Grasping Claws",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-14",
+    "player": "Cardinalcrzy",
+    "item": "Drape of Gathering Clouds",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-14",
+    "player": "Arrowqt",
+    "item": "Choker of the Unleashed Storm",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Tengen",
+    "item": "Grasps of Serpentine Might",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Shrynx",
+    "item": "Shoulders of the Shadowy Vanquisher",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Runicbeard",
+    "item": "Bracers of Defiled Earth",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Oswaldmosley",
+    "item": "Helm of the Shadowy Vanquisher",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Noxw",
+    "item": "Dread Shadow Ring",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Mxrz",
+    "item": "Regail's Crackling Dagger",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Mennydotz",
+    "item": "Shoulders of the Shadowy Conqueror",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Leafealol",
+    "item": "Spirits of the Sun",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Leafealol",
+    "item": "Fear-Blackened Leggings",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Karkan",
+    "item": "Kilrak, Jaws of Terror",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Juneww",
+    "item": "Wrap of Instant Petrification",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Juneww",
+    "item": "Terror in the Mists",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Jackiedark",
+    "item": "Spiritsever",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Jackiedark",
+    "item": "Spiritsever",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Jackiedark",
+    "item": "Regail's Band of the Endless",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Jackiedark",
+    "item": "Helm of the Shadowy Vanquisher",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Cardinalcrzy",
+    "item": "Spirits of the Sun",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Cardinalcrzy",
+    "item": "Cuffs of the Corrupted Waters",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Bannedpex",
+    "item": "Shoulders of the Shadowy Vanquisher",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Bannedpex",
+    "item": "Regail's Band of the Endless",
+    "boss": "Lei Shi",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-09",
+    "player": "Bannedpex",
+    "item": "Helm of the Shadowy Vanquisher",
+    "boss": "Sha of Fear",
+    "instance": "Terrace of Endless Spring-25 Player",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Xinxao",
+    "item": "Korven's Amber-Sealed Beetle",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Shrynx",
+    "item": "Belt of Malleable Amber",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Runicbeard",
+    "item": "Gauntlets of the Shadowy Vanquisher",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Runicbeard",
+    "item": "Bracers of Defiled Earth",
+    "boss": "Unknown",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Noxw",
+    "item": "Necklace of Congealed Weaknesses",
+    "boss": "Garalon",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Noxw",
+    "item": "Gauntlets of the Shadowy Protector",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Niblainelock",
+    "item": "Sandals of the Unbidden",
+    "boss": "Garalon",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Mxrz",
+    "item": "Belt of Malleable Amber",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Mennydotz",
+    "item": "Sandals of the Unbidden",
+    "boss": "Garalon",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Lexou",
+    "item": "Painful Thorned Ring",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Kuradelh",
+    "item": "Choker of the Unleashed Storm",
+    "boss": "Garalon",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Koulikov",
+    "item": "Monstrous Stompers",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Kali",
+    "item": "Leggings of the Shadowy Protector",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Jackiedark",
+    "item": "Regail's Band of the Endless",
+    "boss": "Unknown",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Chickenmd",
+    "item": "Robes of Torn Nightmares",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Cardinalcrzy",
+    "item": "Leggings of the Shadowy Conqueror",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Cabbwl",
+    "item": "Leggings of the Shadowy Conqueror",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Cabbwl",
+    "item": "Gauntlets of the Shadowy Conqueror",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Terrace of Endless Spring-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-08",
+    "player": "Aurumai",
+    "item": "Stormwake Mistcloak",
+    "boss": "Garalon",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-07",
+    "player": "Tengen",
+    "item": "Vizier's Ruby Signet",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-07",
+    "player": "Runicbeard",
+    "item": "Waistplate of Overwhelming Assault",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-07",
+    "player": "Oswaldmosley",
+    "item": "Warbelt of Sealed Pods",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-07",
+    "player": "Niblainelock",
+    "item": "Twisting Wind Bracers",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-07",
+    "player": "Mxrz",
+    "item": "Boots of the Blowing Wind",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-07",
+    "player": "Lexou",
+    "item": "Grips of the Leviathan",
+    "boss": "Garalon",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-07",
+    "player": "Karkan",
+    "item": "Vizier's Ruby Signet",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-07",
+    "player": "Dreådly",
+    "item": "Bracers of Tempestuous Fury",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-07",
+    "player": "Chickenmd",
+    "item": "Scent-Soaked Sandals",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-07",
+    "player": "Aurumai",
+    "item": "Mail of Screaming Secrets",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-07",
+    "player": "Arrowqt",
+    "item": "Sword Dancer's Leggings",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-05",
+    "player": "Karkan",
+    "item": "Jasper Clawfeet",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-10 Player (Heroic)",
+    "type": "Pass"
+  },
+  {
+    "date": "2025-09-05",
+    "player": "Jurx",
+    "item": "Jade Bandit Figurine",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-10 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-05",
+    "player": "Jurx",
+    "item": "Arrow Breaking Windcloak",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-10 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-05",
+    "player": "Cardinalcrzy",
+    "item": "Ruby-Linked Girdle",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-10 Player (Heroic)",
+    "type": "Pass"
+  },
+  {
+    "date": "2025-09-05",
+    "player": "Cardinalcrzy",
+    "item": "Imperial Ghostbinder's Robes",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-10 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-03",
+    "player": "Noxw",
+    "item": "Breastplate of the Kings' Guard",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-10 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-03",
+    "player": "Mennydotz",
+    "item": "Mindshard Drape",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-10 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-03",
+    "player": "Koulikov",
+    "item": "Fetters of Death",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-10 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-03",
+    "player": "Fhaena",
+    "item": "Circuit of the Frail Soul",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-10 Player (Heroic)",
+    "type": "Current Best in Slot"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Xinxao",
+    "item": "Un'sok's Amber Scalpel",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Steveharvano",
+    "item": "Leggings of the Shadowy Protector",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Current Best in Slot"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Steveharvano",
+    "item": "Gauntlets of the Shadowy Protector",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Runicbeard",
+    "item": "Scimitar of Seven Stars",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Oswaldmosley",
+    "item": "Chest of the Shadowy Vanquisher",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Niblainelock",
+    "item": "Gauntlets of the Shadowy Conqueror",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Mennydotz",
+    "item": "Leggings of the Shadowy Conqueror",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Current Best in Slot"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Mennydotz",
+    "item": "Chest of the Shadowy Conqueror",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Mennydotz",
+    "item": "Amulet of Seven Curses",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-10 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Lexou",
+    "item": "Claws of Shek'zeer",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Koulikov",
+    "item": "Wingslasher Pauldrons",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Current Best in Slot"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Karkonk",
+    "item": "Stoneflesh Leggings",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-10 Player (Heroic)",
+    "type": "Pass"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Karkonk",
+    "item": "Arrow Breaking Windcloak",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-10 Player (Heroic)",
+    "type": "Current Best in Slot"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Karkan",
+    "item": "Impaling Treads",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Karkan",
+    "item": "Chest of the Shadowy Conqueror",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Dreådly",
+    "item": "Kri'tak, Imperial Scepter of the Swarm",
+    "boss": "Grand Empress Shek'zeer",
+    "instance": "Heart of Fear-25 Player",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Bannedpex",
+    "item": "Leggings of the Shadowy Vanquisher",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Bannedpex",
+    "item": "Gauntlets of the Shadowy Vanquisher",
+    "boss": "Wind Lord Mel'jarak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-02",
+    "player": "Arrowqt",
+    "item": "Monstrous Stompers",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Xinxao",
+    "item": "Tihan, Scepter of the Sleeping Emperor",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Xinxao",
+    "item": "Qin-xi's Polarizing Seal",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Tengen",
+    "item": "Pauldrons of the Broken Blade",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Stimshock",
+    "item": "Circuit of the Frail Soul",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Stimshock",
+    "item": "Chain of Shadow",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Steveharvano",
+    "item": "Ring of the Bladed Tempest",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Shrynx",
+    "item": "Mindshard Drape",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Oswaldmosley",
+    "item": "Hisek's Chrysanthemum Cape",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Noxw",
+    "item": "Starshatter",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Chickenmd"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Noxw",
+    "item": "Soulgrasp Choker",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Niblainelock",
+    "item": "Tornado-Summoning Censer",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Niblainelock",
+    "item": "Torch of the Celestial Spark",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Niblainelock",
+    "item": "Ruby-Linked Girdle",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Mxrz",
+    "item": "Undying Shadow Grips",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Mennydotz",
+    "item": "Tornado-Summoning Censer",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Mennydotz",
+    "item": "Amulet of Seven Curses",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Maverickdog",
+    "item": "Grips of the Leviathan",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Maverickdog",
+    "item": "Arrow Breaking Windcloak",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Lexou",
+    "item": "Zor'lok's Fizzing Chestguard",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Lexou",
+    "item": "Stonemaw Armguards",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Lexou",
+    "item": "Legbreaker Greatcloak",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Leafealol",
+    "item": "Gauntlets of Undesired Gifts",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Leafealol",
+    "item": "Drape of Gathering Clouds",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Kuradelh",
+    "item": "Subetai's Pillaging Leggings",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Kuradelh",
+    "item": "Stonemaw Armguards",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Koulikov",
+    "item": "Dreadeye Gaze",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Karkan",
+    "item": "Starcrusher Gauntlets",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Chickenmd"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Jurx",
+    "item": "Crown of Opportunistic Strikes",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Jurx",
+    "item": "Bracers of Violent Meditation",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Juneww",
+    "item": "Boots of the Still Breath",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Juneww",
+    "item": "Bonebreaker Gauntlets",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Jackiedark",
+    "item": "Bracers of Unseen Strikes",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Fhaena",
+    "item": "Robes of Eighty Lights",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Fhaena",
+    "item": "Gauntlets of Undesired Gifts",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Dreådly",
+    "item": "Zian's Choker of Coalesced Shadow",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Dreådly",
+    "item": "Eye of the Ancient Spirit",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Chickenmd",
+    "item": "Shoulders of Foaming Fluids",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Current Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Cardinalcrzy",
+    "item": "Scent-Soaked Sandals",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Cabbwl",
+    "item": "Stormwake Mistcloak",
+    "boss": "Unknown",
+    "instance": "Heart of Fear-25 Player (Heroic)",
+    "type": "Current Best in Slot"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Aurumai",
+    "item": "Feng's Ring of Dreams",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Chickenmd"
+  },
+  {
+    "date": "2025-09-01",
+    "player": "Aurumai",
+    "item": "Enameled Grips of Solemnity",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-08-31",
+    "player": "Steveharvano",
+    "item": "Nullification Greathelm",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Chickenmd"
+  },
+  {
+    "date": "2025-08-31",
+    "player": "Noxw",
+    "item": "Nullification Greathelm",
+    "boss": "Unknown",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Xinxao",
+    "item": "Vestments of Steaming Ichor",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Xinxao",
+    "item": "Mail of Screaming Secrets",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Xinxao",
+    "item": "Bracers of Tempestuous Fury",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Tengen",
+    "item": "Vizier's Ruby Signet",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Tengen",
+    "item": "Legplates of Regal Reinforcement",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Tengen",
+    "item": "Garalon's Hollow Skull",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Tengen",
+    "item": "Cloak of Raining Blades",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Runicbeard",
+    "item": "Gauntlets of the Shadowy Vanquisher",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Runicbeard",
+    "item": "Chest of the Shadowy Vanquisher",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Mxrz",
+    "item": "Stormwake Mistcloak",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Mxrz",
+    "item": "Gloves of Grasping Claws",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Mennydotz",
+    "item": "Gauntlets of the Shadowy Conqueror",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Maverickdog",
+    "item": "Leggings of the Shadowy Protector",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Leafealol",
+    "item": "Un'sok's Amber Scalpel",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Leafealol",
+    "item": "Clutches of Dying Hope",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Kuradelh",
+    "item": "Legbreaker Greatcloak",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Koulikov",
+    "item": "Leggings of the Shadowy Protector",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Koulikov",
+    "item": "Choker of the Unleashed Storm",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Karkan",
+    "item": "Vizier's Ruby Signet",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Kali",
+    "item": "Gauntlets of the Shadowy Protector",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Kali",
+    "item": "Chest of the Shadowy Protector",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Juneww",
+    "item": "Treads of Deadly Secretions",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Jackiedark",
+    "item": "Chest of the Shadowy Vanquisher",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Fhaena",
+    "item": "Kri'tak, Imperial Scepter of the Swarm",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Cardinalcrzy",
+    "item": "Kri'tak, Imperial Scepter of the Swarm",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Cabbwl",
+    "item": "Leggings of the Shadowy Conqueror",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Bannedpex",
+    "item": "Treads of Deadly Secretions",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Bannedpex",
+    "item": "Bracers of Unseen Strikes",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Aurumai",
+    "item": "Kaz'tik's Stormseizer Gauntlets",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Aurumai",
+    "item": "Bracers of Tempestuous Fury",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Arrowqt",
+    "item": "Sword Dancer's Leggings",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Arrowqt",
+    "item": "Pheromone-Coated Choker",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-08-26",
+    "player": "Arrowqt",
+    "item": "Painful Thorned Ring",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-25",
+    "player": "Xinxao",
+    "item": "Meng's Treads of Insanity",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-25",
+    "player": "Tengen",
+    "item": "Vial of Dragon's Blood",
+    "boss": "Elegon",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-25",
+    "player": "Mxrz",
+    "item": "Light of the Cosmos",
+    "boss": "Elegon",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-25",
+    "player": "Mxrz",
+    "item": "Hood of Focused Energy",
+    "boss": "Will of the Emperor",
+    "instance": "Pandaria-",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-25",
+    "player": "Mennydotz",
+    "item": "Worldwaker Cabochon",
+    "boss": "Will of the Emperor",
+    "instance": "Pandaria-",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-08-25",
+    "player": "Maverickdog",
+    "item": "Amulet of the Hidden Kings",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-25",
+    "player": "Leafealol",
+    "item": "Phasewalker Striders",
+    "boss": "Elegon",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-08-25",
+    "player": "Kali",
+    "item": "Breastplate of the Kings' Guard",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-25",
+    "player": "Juneww",
+    "item": "Bracers of Violent Meditation",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-25",
+    "player": "Juneww",
+    "item": "Bottle of Infinite Stars",
+    "boss": "Elegon",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-25",
+    "player": "Fhaena",
+    "item": "Qin-xi's Polarizing Seal",
+    "boss": "Will of the Emperor",
+    "instance": "Pandaria-",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-25",
+    "player": "Chickenmd",
+    "item": "Zian's Choker of Coalesced Shadow",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-25",
+    "player": "Aurumai",
+    "item": "Meng's Treads of Insanity",
+    "boss": "The Spirit Kings",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-25",
+    "player": "Arrowqt",
+    "item": "Fang Kung, Spark of Titans",
+    "boss": "Will of the Emperor",
+    "instance": "Pandaria-",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-25",
+    "player": "Arrowqt",
+    "item": "Bottle of Infinite Stars",
+    "boss": "Elegon",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-24",
+    "player": "Xinxao",
+    "item": "Sixteen-Fanged Crown",
+    "boss": "The Stone Guard",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-24",
+    "player": "Xinxao",
+    "item": "Leggings of Imprisoned Will",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-24",
+    "player": "Steveharvano",
+    "item": "Jasper Clawfeet",
+    "boss": "The Stone Guard",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-24",
+    "player": "Niblainelock",
+    "item": "Shadowsummoner Spaulders",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-24",
+    "player": "Mennydotz",
+    "item": "Jade Dust Leggings",
+    "boss": "The Stone Guard",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-24",
+    "player": "Leafealol",
+    "item": "Fan of Fiery Winds",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-24",
+    "player": "Juneww",
+    "item": "Arrow Breaking Windcloak",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-24",
+    "player": "Jackiedark",
+    "item": "Netherrealm Shoulderpads",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-24",
+    "player": "Fhaena",
+    "item": "Fan of Fiery Winds",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-24",
+    "player": "Bannedpex",
+    "item": "Arrow Breaking Windcloak",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-24",
+    "player": "Aurumai",
+    "item": "Leggings of Imprisoned Will",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Xinxao",
+    "item": "Shoulders of Empyreal Focus",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Tengen",
+    "item": "Sollerets of Spirit Splitting",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Tengen",
+    "item": "Nullification Greathelm",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Tengen",
+    "item": "Chestguard of Eternal Vigilance",
+    "boss": "Will of the Emperor",
+    "instance": "Pandaria-",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Shrynx",
+    "item": "Light of the Cosmos",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Runicbeard",
+    "item": "Soulgrasp Choker",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Runicbeard",
+    "item": "Lei Shen's Final Orders",
+    "boss": "Will of the Emperor",
+    "instance": "Pandaria-",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Oswaldmosley",
+    "item": "Lei Shen's Final Orders",
+    "boss": "Will of the Emperor",
+    "instance": "Pandaria-",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Oswaldmosley",
+    "item": "Band of Bursting Novas",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Niblainelock",
+    "item": "Undying Shadow Grips",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Niblainelock",
+    "item": "Light of the Cosmos",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Mennydotz",
+    "item": "Sandals of the Severed Soul",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Mennydotz",
+    "item": "Imperial Ghostbinder's Robes",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Mennydotz",
+    "item": "Feng's Ring of Dreams",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Lexou",
+    "item": "Bottle of Infinite Stars",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Leafealol",
+    "item": "Stonebound Cinch",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Koulikov",
+    "item": "Arrow Breaking Windcloak",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Karkan",
+    "item": "Steelskin, Qiang's Impervious Shield",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Karkan",
+    "item": "Star-Stealer Waistguard",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Karkan",
+    "item": "Jasper Clawfeet",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Karkan",
+    "item": "Beads of the Mogu'shi",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Kali",
+    "item": "Cloak of Peacock Feathers",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Juneww",
+    "item": "Gara'kal, Fist of the Spiritbinder",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Jackiedark",
+    "item": "Chestguard of Total Annihilation",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Fhaena",
+    "item": "Worldwaker Cabochon",
+    "boss": "Will of the Emperor",
+    "instance": "Pandaria-",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Chickenmd",
+    "item": "Screaming Tiger, Qiang's Unbreakable Polearm",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Autopass"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Chickenmd",
+    "item": "Circuit of the Frail Soul",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Cardinalcrzy",
+    "item": "Zian's Choker of Coalesced Shadow",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Cardinalcrzy",
+    "item": "Ruby-Linked Girdle",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Cabbwl",
+    "item": "Shadowsummoner Spaulders",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Cabbwl",
+    "item": "Jade Dust Leggings",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-18",
+    "player": "Aurumai",
+    "item": "Chain of Shadow",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-12",
+    "player": "Xinxao",
+    "item": "Enameled Grips of Solemnity",
+    "boss": "Will of the Emperor",
+    "instance": "Pandaria-",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-12",
+    "player": "Juneww",
+    "item": "Crown of Opportunistic Strikes",
+    "boss": "Will of the Emperor",
+    "instance": "Pandaria-",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-12",
+    "player": "Cardinalcrzy",
+    "item": "Qin-xi's Polarizing Seal",
+    "boss": "Will of the Emperor",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-12",
+    "player": "Bannedpex",
+    "item": "Crown of Opportunistic Strikes",
+    "boss": "Will of the Emperor",
+    "instance": "Pandaria-",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-12",
+    "player": "Aurumai",
+    "item": "Tihan, Scepter of the Sleeping Emperor",
+    "boss": "Will of the Emperor",
+    "instance": "Pandaria-",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-12",
+    "player": "Arrowqt",
+    "item": "Grips of Terra Cotta",
+    "boss": "Will of the Emperor",
+    "instance": "Pandaria-",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Xinxao",
+    "item": "Jade Magistrate Figurine",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Tengen",
+    "item": "Star-Stealer Waistguard",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Tengen",
+    "item": "Shoulderguards of the Unflanked",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Steveharvano",
+    "item": "Starcrusher Gauntlets",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Shrynx",
+    "item": "Undying Shadow Grips",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Shrynx",
+    "item": "Ruby-Linked Girdle",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Runicbeard",
+    "item": "Starshatter",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Oswaldmosley",
+    "item": "Starcrusher Gauntlets",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Oswaldmosley",
+    "item": "Soulgrasp Choker",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Mxrz",
+    "item": "Torch of the Celestial Spark",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Mxrz",
+    "item": "Amulet of Seven Curses",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Mennydotz",
+    "item": "Light of the Cosmos",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Maverickdog",
+    "item": "Wildfire Worldwalkers",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Lilmcmussy",
+    "item": "Gara'kal, Fist of the Spiritbinder",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Leafealol",
+    "item": "Spaulders of the Divided Mind",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Leafealol",
+    "item": "Jade Courtesan Figurine",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Karkan",
+    "item": "Nullification Greathelm",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Kali",
+    "item": "Jasper Clawfeet",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Juneww",
+    "item": "Netherrealm Shoulderpads",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Jackiedark",
+    "item": "Bracers of Violent Meditation",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Fhaena",
+    "item": "Phasewalker Striders",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Fhaena",
+    "item": "Feng's Ring of Dreams",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Fhaena",
+    "item": "Cape of Three Lanterns",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Cabbwl",
+    "item": "Undying Shadow Grips",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Cabbwl",
+    "item": "Sandals of the Severed Soul",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Cabbwl",
+    "item": "Ruby-Linked Girdle",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Bannedpex",
+    "item": "Tomb Raider's Girdle",
+    "boss": "Gara'jal the Spiritbinder",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Bannedpex",
+    "item": "Screaming Tiger, Qiang's Unbreakable Polearm",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-11",
+    "player": "Aurumai",
+    "item": "Zian's Choker of Coalesced Shadow",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-05",
+    "player": "Xinxao",
+    "item": "Enameled Grips of Solemnity",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-05",
+    "player": "Tengen",
+    "item": "Chestguard of Eternal Vigilance",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-05",
+    "player": "Shrynx",
+    "item": "Worldwaker Cabochon",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-05",
+    "player": "Mennydotz",
+    "item": "Worldwaker Cabochon",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-05",
+    "player": "Lilmcmussy",
+    "item": "Chestguard of Total Annihilation",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-05",
+    "player": "Lexou",
+    "item": "Subetai's Pillaging Leggings",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-05",
+    "player": "Kuradelh",
+    "item": "Bottle of Infinite Stars",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-05",
+    "player": "Koulikov",
+    "item": "Fang Kung, Spark of Titans",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-05",
+    "player": "Karkan",
+    "item": "Breastplate of the Kings' Guard",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-05",
+    "player": "Kali",
+    "item": "Starshatter",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-05",
+    "player": "Chickenmd",
+    "item": "Galaxyfire Girdle",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "MSV Best in Slot"
+  },
+  {
+    "date": "2025-08-05",
+    "player": "Cabbwl",
+    "item": "Light of the Cosmos",
+    "boss": "Unknown",
+    "instance": "Pandaria-",
+    "type": "Phase Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Xinxao",
+    "item": "Eye of the Ancient Spirit",
+    "boss": "The Spirit Kings",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Steveharvano",
+    "item": "Soulgrasp Choker",
+    "boss": "The Spirit Kings",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Runicbeard",
+    "item": "Nullification Greathelm",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Mxrz",
+    "item": "Ruby-Linked Girdle",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Mennydotz",
+    "item": "Circuit of the Frail Soul",
+    "boss": "The Spirit Kings",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Maverickdog",
+    "item": "Stonemaw Armguards",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Lilmcmussy",
+    "item": "Tomb Raider's Girdle",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Kuradelh",
+    "item": "Wildfire Worldwalkers",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Koulikov",
+    "item": "Jade Bandit Figurine",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Kali",
+    "item": "Soulgrasp Choker",
+    "boss": "The Spirit Kings",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Jackiedark",
+    "item": "Dagger of the Seven Stars",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Jackiedark",
+    "item": "Dagger of the Seven Stars",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Fhaena",
+    "item": "Stonebound Cinch",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Fhaena",
+    "item": "Hood of Cursed Dreams",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Chickenmd",
+    "item": "Jade Dust Leggings",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Cabbwl",
+    "item": "Circuit of the Frail Soul",
+    "boss": "The Spirit Kings",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Cabbwl",
+    "item": "Amulet of Seven Curses",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Bannedpex",
+    "item": "Netherrealm Shoulderpads",
+    "boss": "The Spirit Kings",
+    "instance": "Pandaria-",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2025-08-04",
+    "player": "Baezz",
+    "item": "Chain of Shadow",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults-25 Player (Heroic)",
+    "type": "Best in Slot"
   }
 ]

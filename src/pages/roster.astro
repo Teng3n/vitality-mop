@@ -4,7 +4,12 @@ import DataTable from "../components/DataTable.astro";
 import PageHeader from "../components/PageHeader.astro";
 import roster from "../data/roster.json";
 
-const roles = ["Tank", "Healer", "Melee DPS", "Ranged DPS"];
+const preferredRoles = ["Tank", "Healer", "Melee DPS", "Ranged DPS", "Unassigned"];
+const presentRoles = Array.from(new Set(roster.map((member) => member.role)));
+const roles = [
+  ...preferredRoles.filter((role) => presentRoles.includes(role)),
+  ...presentRoles.filter((role) => !preferredRoles.includes(role)).sort(),
+];
 const columns = [
   { key: "character", label: "Character" },
   { key: "class", label: "Class" },

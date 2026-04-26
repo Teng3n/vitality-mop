@@ -1,26 +1,128 @@
 [
   {
-    "player": "Stormcairn",
+    "player": "Nepir",
+    "totalBenchCount": 4,
+    "lastBenched": "Week 12",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Boazx",
     "totalBenchCount": 3,
-    "lastBenched": "2026-04-22",
-    "notes": "Priority invite next farm night"
+    "lastBenched": "Week 13",
+    "notes": "Public rotation summary"
   },
   {
-    "player": "Lunarae",
-    "totalBenchCount": 1,
-    "lastBenched": "2026-04-15",
-    "notes": "Trial rotation watch"
+    "player": "Cabbegh",
+    "totalBenchCount": 3,
+    "lastBenched": "Week 14",
+    "notes": "Public rotation summary"
   },
   {
-    "player": "Kairoth",
-    "totalBenchCount": 1,
-    "lastBenched": "2026-04-08",
-    "notes": "Tank swap available"
+    "player": "Chetsteele",
+    "totalBenchCount": 3,
+    "lastBenched": "Week 14",
+    "notes": "Public rotation summary"
   },
   {
-    "player": "Sablefang",
+    "player": "Elguapojefe",
+    "totalBenchCount": 3,
+    "lastBenched": "Week 14",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Kubara",
+    "totalBenchCount": 3,
+    "lastBenched": "Week 12",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Kuradelm",
+    "totalBenchCount": 3,
+    "lastBenched": "Week 14",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Leafealol",
+    "totalBenchCount": 3,
+    "lastBenched": "Week 11",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Maverickdog",
+    "totalBenchCount": 3,
+    "lastBenched": "Week 13",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Mxrz",
+    "totalBenchCount": 3,
+    "lastBenched": "Week 13",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Niblaine",
+    "totalBenchCount": 3,
+    "lastBenched": "Week 13",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Raunchy",
+    "totalBenchCount": 3,
+    "lastBenched": "Week 14",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Sceeto",
+    "totalBenchCount": 3,
+    "lastBenched": "Week 12",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Shandz",
+    "totalBenchCount": 3,
+    "lastBenched": "Week 12",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Synez",
+    "totalBenchCount": 3,
+    "lastBenched": "Week 11",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Tinyteehee",
+    "totalBenchCount": 3,
+    "lastBenched": "Week 13",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Tsgdream",
+    "totalBenchCount": 3,
+    "lastBenched": "Week 12",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Aurumai",
     "totalBenchCount": 2,
-    "lastBenched": "2026-04-11",
-    "notes": "Available as needed"
+    "lastBenched": "Week 10",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Jurx",
+    "totalBenchCount": 2,
+    "lastBenched": "Week 11",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Oswaldmosley",
+    "totalBenchCount": 2,
+    "lastBenched": "Week 10",
+    "notes": "Public rotation summary"
+  },
+  {
+    "player": "Shrynx",
+    "totalBenchCount": 2,
+    "lastBenched": "Week 11",
+    "notes": "Public rotation summary"
   }
 ]

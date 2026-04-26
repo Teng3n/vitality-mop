@@ -59,6 +59,14 @@ Future update path:
 
 Keep raw form responses, private comments, attendance explanations, credentials, and officer-only notes out of the repository.
 
+For the current workbook format, run:
+
+```bash
+python scripts/backfill_from_workbook.py "C:/path/to/Inept - MoP.xlsx"
+```
+
+The converter requires Python with `openpyxl`. It reads only selected public tabs and writes `roster.json`, `lootSummary.json`, `lootHistory.json`, `bench.json`, and `legendaryProgress.json`.
+
 ## Project Structure
 
 ```text

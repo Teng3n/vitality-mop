@@ -1,56 +1,245 @@
 [
   {
-    "player": "Auralin",
-    "bis": 1,
-    "major": 2,
-    "minor": 1,
-    "offspec": 0,
-    "bonusRolls": 2,
-    "total": 4
+    "player": "Karkant",
+    "bis": 10,
+    "major": 4,
+    "minor": 4,
+    "offspec": 13,
+    "bonusRolls": 0,
+    "total": 18
   },
   {
-    "player": "Embermoth",
-    "bis": 3,
-    "major": 1,
-    "minor": 2,
-    "offspec": 0,
-    "bonusRolls": 1,
-    "total": 6
+    "player": "Supergiant",
+    "bis": 10,
+    "major": 3,
+    "minor": 3,
+    "offspec": 10,
+    "bonusRolls": 0,
+    "total": 16
   },
   {
-    "player": "Ironwaltz",
-    "bis": 2,
-    "major": 2,
+    "player": "Ootermage",
+    "bis": 6,
+    "major": 5,
+    "minor": 4,
+    "offspec": 1,
+    "bonusRolls": 0,
+    "total": 15
+  },
+  {
+    "player": "Badpawsture",
+    "bis": 8,
+    "major": 5,
     "minor": 0,
     "offspec": 1,
     "bonusRolls": 0,
-    "total": 5
+    "total": 13
   },
   {
-    "player": "Lunarae",
-    "bis": 0,
+    "player": "Chazwazer",
+    "bis": 10,
+    "major": 1,
+    "minor": 2,
+    "offspec": 2,
+    "bonusRolls": 0,
+    "total": 13
+  },
+  {
+    "player": "Ghstmarauder",
+    "bis": 6,
+    "major": 6,
+    "minor": 1,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 13
+  },
+  {
+    "player": "Hekkapoo",
+    "bis": 7,
+    "major": 2,
+    "minor": 4,
+    "offspec": 7,
+    "bonusRolls": 0,
+    "total": 13
+  },
+  {
+    "player": "Leafea",
+    "bis": 9,
+    "major": 3,
+    "minor": 1,
+    "offspec": 15,
+    "bonusRolls": 0,
+    "total": 13
+  },
+  {
+    "player": "Drchicken",
+    "bis": 7,
+    "major": 1,
+    "minor": 4,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 12
+  },
+  {
+    "player": "Daat",
+    "bis": 5,
+    "major": 3,
+    "minor": 3,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 11
+  },
+  {
+    "player": "Elguapojefe",
+    "bis": 4,
+    "major": 3,
+    "minor": 4,
+    "offspec": 1,
+    "bonusRolls": 0,
+    "total": 11
+  },
+  {
+    "player": "Jrewind",
+    "bis": 1,
+    "major": 8,
+    "minor": 2,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 11
+  },
+  {
+    "player": "Luckeylock",
+    "bis": 5,
+    "major": 2,
+    "minor": 4,
+    "offspec": 7,
+    "bonusRolls": 0,
+    "total": 11
+  },
+  {
+    "player": "Niblood",
+    "bis": 8,
+    "major": 2,
+    "minor": 1,
+    "offspec": 1,
+    "bonusRolls": 0,
+    "total": 11
+  },
+  {
+    "player": "Boboroni",
+    "bis": 1,
+    "major": 3,
+    "minor": 6,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 10
+  },
+  {
+    "player": "Lilgargussy",
+    "bis": 5,
+    "major": 1,
+    "minor": 4,
+    "offspec": 6,
+    "bonusRolls": 0,
+    "total": 10
+  },
+  {
+    "player": "Runicbeard",
+    "bis": 6,
     "major": 1,
     "minor": 3,
     "offspec": 0,
-    "bonusRolls": 3,
-    "total": 4
-  },
-  {
-    "player": "Mistveil",
-    "bis": 2,
-    "major": 0,
-    "minor": 2,
-    "offspec": 0,
     "bonusRolls": 2,
-    "total": 4
+    "total": 10
   },
   {
-    "player": "Sablefang",
-    "bis": 1,
-    "major": 3,
+    "player": "Stimadin",
+    "bis": 4,
+    "major": 4,
+    "minor": 2,
+    "offspec": 5,
+    "bonusRolls": 0,
+    "total": 10
+  },
+  {
+    "player": "Washedmage",
+    "bis": 5,
+    "major": 4,
     "minor": 1,
     "offspec": 0,
+    "bonusRolls": 0,
+    "total": 10
+  },
+  {
+    "player": "Tengen",
+    "bis": 7,
+    "major": 1,
+    "minor": 1,
+    "offspec": 8,
+    "bonusRolls": 4,
+    "total": 9
+  },
+  {
+    "player": "Aurumai",
+    "bis": 2,
+    "major": 2,
+    "minor": 3,
+    "offspec": 17,
     "bonusRolls": 1,
-    "total": 5
+    "total": 7
+  },
+  {
+    "player": "Locksicles",
+    "bis": 5,
+    "major": 1,
+    "minor": 1,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 7
+  },
+  {
+    "player": "Shandz",
+    "bis": 4,
+    "major": 0,
+    "minor": 3,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 7
+  },
+  {
+    "player": "Fynx",
+    "bis": 2,
+    "major": 0,
+    "minor": 4,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 6
+  },
+  {
+    "player": "Kabus",
+    "bis": 2,
+    "major": 0,
+    "minor": 1,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 3
+  },
+  {
+    "player": "Dimzim",
+    "bis": 2,
+    "major": 0,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 2
+  },
+  {
+    "player": "Tegridytree",
+    "bis": 0,
+    "major": 0,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 0
   }
 ]

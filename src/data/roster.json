@@ -1,58 +1,191 @@
 [
   {
-    "character": "Auralin",
-    "class": "Druid",
-    "spec": "Guardian",
-    "role": "Tank",
-    "status": "Core"
-  },
-  {
-    "character": "Kairoth",
-    "class": "Paladin",
-    "spec": "Protection",
-    "role": "Tank",
-    "status": "Core"
-  },
-  {
-    "character": "Mistveil",
-    "class": "Monk",
-    "spec": "Mistweaver",
-    "role": "Healer",
-    "status": "Core"
-  },
-  {
-    "character": "Lunarae",
-    "class": "Priest",
-    "spec": "Discipline",
-    "role": "Healer",
-    "status": "Trial"
-  },
-  {
-    "character": "Ironwaltz",
-    "class": "Warrior",
-    "spec": "Arms",
-    "role": "Melee DPS",
-    "status": "Core"
-  },
-  {
-    "character": "Sablefang",
-    "class": "Rogue",
-    "spec": "Assassination",
-    "role": "Melee DPS",
-    "status": "Core"
-  },
-  {
-    "character": "Embermoth",
-    "class": "Mage",
-    "spec": "Fire",
-    "role": "Ranged DPS",
-    "status": "Core"
-  },
-  {
-    "character": "Stormcairn",
+    "character": "Aurumai",
     "class": "Shaman",
-    "spec": "Elemental",
-    "role": "Ranged DPS",
-    "status": "Bench"
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Badpawsture",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Boboroni",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Chazwazer",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Daat",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Dimzim",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Drchicken",
+    "class": "Priest",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Elguapojefe",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Fynx",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Ghstmarauder",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Hekkapoo",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Jrewind",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Kabus",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Karkant",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Leafea",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Lilgargussy",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Locksicles",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Luckeylock",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Niblood",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Ootermage",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Runicbeard",
+    "class": "Deathknight",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Shandz",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Stimadin",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Supergiant",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Tegridytree",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Tengen",
+    "class": "Warrior",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Washedmage",
+    "class": "Unknown",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
   }
 ]
