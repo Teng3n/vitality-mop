@@ -172,7 +172,7 @@ nav a[aria-current="page"],
 }
 
 .link-grid {
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 }
 
 .link-grid a {
@@ -358,23 +358,6 @@ p {
 
 .roster-table tbody td {
   color: inherit;
-}
-
-.roster-table tbody td:first-child {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.class-swatch {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  flex: 0 0 auto;
-  border: 1px solid currentColor;
-  border-radius: 999px;
-  background: currentColor;
-  box-shadow: 0 0 14px color-mix(in srgb, currentColor 38%, transparent);
 }
 
 .is-center {

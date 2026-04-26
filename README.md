@@ -1,6 +1,6 @@
 # vitality-mop
 
-A static-first Astro + TypeScript MVP for Vitality, a World of Warcraft Mists of Pandaria Classic guild website. The site uses local sample JSON in `src/data` so public roster, loot, bench, and legendary-progress data can be replaced later without adding secrets or private officer notes.
+A static-first Astro + TypeScript MVP for Vitality, a World of Warcraft Mists of Pandaria Classic guild website. The site uses local sample JSON in `src/data` so public roster, loot, and bench data can be replaced later without adding secrets or private officer notes.
 
 ## Local Setup
 
@@ -47,7 +47,6 @@ Current data is sample-only and lives in:
 - `src/data/lootSummary.json`
 - `src/data/lootHistory.json`
 - `src/data/bench.json`
-- `src/data/legendaryProgress.json`
 
 Future update path:
 
@@ -65,7 +64,7 @@ For the current workbook format, run:
 python scripts/backfill_from_workbook.py "C:/path/to/Copy of Inept - MoP.xlsx"
 ```
 
-The converter requires Python with `openpyxl`. It reads the reduced public workbook tabs (`Calendar`, `History`, and `Bench`) and writes `roster.json`, `lootSummary.json`, `lootHistory.json`, `bench.json`, and `legendaryProgress.json`.
+The converter requires Python with `openpyxl`. It reads the reduced public workbook tabs (`Calendar`, `History`, and `Bench`) and writes `roster.json`, `lootSummary.json`, `lootHistory.json`, and `bench.json`.
 
 ## Project Structure
 

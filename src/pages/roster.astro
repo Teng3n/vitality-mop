@@ -50,7 +50,6 @@ const classColor = (className: string) => classColors[className] ?? "#f2f0e8";
             members.map((member) => (
               <tr style={`--class-color: ${classColor(member.class)}`}>
                 <td data-label="Character">
-                  <span class="class-swatch" aria-hidden="true"></span>
                   <strong>{member.character}</strong>
                 </td>
                 <td data-label="Class">{member.class}</td>

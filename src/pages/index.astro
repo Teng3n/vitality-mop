@@ -5,15 +5,9 @@ import StatCard from "../components/StatCard.astro";
 import roster from "../data/roster.json";
 import lootSummary from "../data/lootSummary.json";
 import bench from "../data/bench.json";
-import legendaryProgress from "../data/legendaryProgress.json";
-
-interface LegendaryProgress {
-  status: string;
-}
 
 const coreCount = roster.length;
 const lootTotal = lootSummary.reduce((sum, row) => sum + row.total, 0);
-const activeLegendary = (legendaryProgress as LegendaryProgress[]).filter((row) => row.status === "Active").length;
 const nextBench = [...bench].sort((a, b) => b.totalBenchCount - a.totalBenchCount)[0];
 ---
 
@@ -21,13 +15,12 @@ const nextBench = [...bench].sort((a, b) => b.totalBenchCount - a.totalBenchCoun
   <PageHeader
     eyebrow="World of Warcraft MoP Classic"
     title="Vitality"
-    description="Raid planning, roster visibility, loot summaries, bench rotation, and legendary progress for the team."
+    description="Raid planning, roster visibility, loot summaries, and bench rotation for the team."
   />
 
-  <section class="dashboard-grid">
+  <section class="dashboard-grid compact">
     <StatCard label="Active roster" value={coreCount} detail="Current raid team" href="/roster" />
     <StatCard label="Tracked loot" value={lootTotal} detail="Player-level total" href="/loot" />
-    <StatCard label="Legendary tracks" value={activeLegendary} detail="Active progress" href="/legendary" />
     <StatCard label="Bench priority" value={nextBench?.player ?? "-"} detail="Next rotation note" href="/bench" />
   </section>
 
@@ -69,8 +62,5 @@ const nextBench = [...bench].sort((a, b) => b.totalBenchCount - a.totalBenchCoun
     <a href="/loot">Loot Summary</a>
     <a href="/loot/history">Loot History</a>
     <a href="/bench">Bench</a>
-    <a href="/guides/consumes">Consumes</a>
-    <a href="/guides/gems">Gems</a>
-    <a href="/legendary">Legendary</a>
   </section>
 </Layout>

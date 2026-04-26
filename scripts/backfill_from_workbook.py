@@ -292,8 +292,6 @@ def main() -> None:
     write_json("lootSummary.json", build_loot_summary(calendar_rows))
     write_json("roster.json", build_roster(calendar_rows, class_by_player))
     write_json("bench.json", build_bench(wb, calendar_rows))
-    write_json("legendaryProgress.json", [])
-
     print(
         json.dumps(
             {
@@ -301,7 +299,6 @@ def main() -> None:
                 "lootSummary": len(calendar_rows),
                 "lootHistory": len(history),
                 "bench": len(build_bench(wb, calendar_rows)),
-                "legendaryProgress": 0,
             },
             indent=2,
         )
