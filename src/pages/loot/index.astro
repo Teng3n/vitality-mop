@@ -4,10 +4,17 @@ import DataTable from "../../components/DataTable.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import StatCard from "../../components/StatCard.astro";
 import lootSummary from "../../data/lootSummary.json";
+import roster from "../../data/roster.json";
 
-const rows = [...lootSummary].sort((a, b) => a.player.localeCompare(b.player, undefined, { sensitivity: "base" }));
-const totalLoot = rows.reduce((sum, row) => sum + row.total, 0);
-const totalBis = rows.reduce((sum, row) => sum + row.bis, 0);
+const activeRoster = new Set(roster.map((row) => row.character.toLocaleLowerCase()));
+const rows = [...lootSummary]
+  .map((row) => ({
+    ...row,
+    activeRoster: activeRoster.has(row.player.toLocaleLowerCase()),
+  }))
+  .sort((a, b) => a.player.localeCompare(b.player, undefined, { sensitivity: "base" }));
+const activeRows = rows.filter((row) => row.activeRoster);
+const activeLoot = activeRows.reduce((sum, row) => sum + row.total, 0);
 const columns = [
   { key: "player", label: "Player", sortable: true, sortType: "text" },
   { key: "bis", label: "BiS", align: "right", sortable: true, sortType: "number" },
@@ -27,12 +34,52 @@ const columns = [
   />
 
   <section class="dashboard-grid compact">
-    <StatCard label="Tracked awards" value={totalLoot} detail="All summary rows" />
-    <StatCard label="BiS awards" value={totalBis} detail="Priority count" />
+    <StatCard label="Active recipients" value={activeRows.length} detail="Shown by default" />
+    <StatCard label="Active awards" value={activeLoot} detail="BiS, major, and minor" />
     <StatCard label="History" value="View" detail="Award log" href="/loot/history" />
   </section>
 
   <section class="panel">
-    <DataTable columns={columns} rows={rows} initialSortKey="player" initialSortDirection="ascending" />
+    <div class="toolbar">
+      <label class="check-field">
+        <input type="checkbox" data-include-all-loot />
+        <span>Include all loot recipients</span>
+      </label>
+      <span class="muted" data-loot-summary-count>{activeRows.length} players</span>
+    </div>
+    <DataTable
+      columns={columns}
+      rows={rows}
+      initialSortKey="player"
+      initialSortDirection="ascending"
+      tableClass="loot-summary-table"
+    />
   </section>
+
+  <script>
+    const includeAllLoot = document.querySelector<HTMLInputElement>("[data-include-all-loot]");
+    const visibleCount = document.querySelector<HTMLElement>("[data-loot-summary-count]");
+    const lootRows = Array.from(document.querySelectorAll<HTMLTableRowElement>(".loot-summary-table tbody tr"));
+
+    const updateLootRows = () => {
+      const showAll = includeAllLoot?.checked ?? false;
+      let count = 0;
+
+      for (const row of lootRows) {
+        const hidden = !showAll && row.dataset.activeRoster === "false";
+        row.hidden = hidden;
+
+        if (!hidden) {
+          count += 1;
+        }
+      }
+
+      if (visibleCount) {
+        visibleCount.textContent = `${count} players`;
+      }
+    };
+
+    includeAllLoot?.addEventListener("change", updateLootRows);
+    updateLootRows();
+  </script>
 </Layout>

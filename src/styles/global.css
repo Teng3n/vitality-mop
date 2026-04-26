@@ -296,9 +296,9 @@ p {
 .sort-button {
   display: inline-flex;
   align-items: center;
-  justify-content: inherit;
-  gap: 6px;
-  width: 100%;
+  justify-content: flex-start;
+  gap: 4px;
+  max-width: 100%;
   border: 0;
   padding: 0;
   background: transparent;
@@ -324,26 +324,28 @@ p {
 }
 
 .sort-indicator::after {
-  content: "-";
+  content: "";
+  display: inline-block;
+  width: 0.8em;
   color: var(--muted);
 }
 
 th[aria-sort="ascending"] .sort-indicator::after {
-  content: "A-Z";
+  content: "^";
   color: var(--jade);
 }
 
 th[aria-sort="descending"] .sort-indicator::after {
-  content: "Z-A";
+  content: "v";
   color: var(--jade);
 }
 
 th[data-sort-type="number"][aria-sort="ascending"] .sort-indicator::after {
-  content: "Low";
+  content: "^";
 }
 
 th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
-  content: "High";
+  content: "v";
 }
 
 .data-table tr:last-child td {
@@ -389,6 +391,22 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   color: var(--muted);
   font-size: 0.9rem;
   font-weight: 700;
+}
+
+.check-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.check-field input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--jade);
 }
 
 .field input {

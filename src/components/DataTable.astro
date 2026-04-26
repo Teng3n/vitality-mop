@@ -14,6 +14,7 @@ interface Props {
   emptyLabel?: string;
   initialSortKey?: string;
   initialSortDirection?: "ascending" | "descending";
+  tableClass?: string;
 }
 
 const {
@@ -23,6 +24,7 @@ const {
   emptyLabel = "No records yet.",
   initialSortKey,
   initialSortDirection = "ascending",
+  tableClass = "",
 } = Astro.props;
 const isSortable = columns.some((column) => column.sortable);
 
@@ -37,7 +39,7 @@ const formatValue = (value: unknown) => {
 
 <div class="table-shell">
   <table
-    class="data-table"
+    class:list={["data-table", tableClass]}
     data-sortable-table={isSortable ? "true" : undefined}
     data-initial-sort-key={initialSortKey}
     data-initial-sort-direction={initialSortDirection}
@@ -74,7 +76,11 @@ const formatValue = (value: unknown) => {
       {
         rows.length > 0 ? (
           rows.map((row) => (
-            <tr data-search={Object.values(row).join(" ").toLowerCase()}>
+            <tr
+              data-search={Object.values(row).join(" ").toLowerCase()}
+              data-active-roster={typeof row.activeRoster === "boolean" ? String(row.activeRoster) : undefined}
+              hidden={row.activeRoster === false ? true : undefined}
+            >
               {columns.map((column) => (
                 <td
                   class={`is-${column.align ?? "left"}`}
