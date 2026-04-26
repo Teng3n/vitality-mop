@@ -1,200 +1,353 @@
 [
   {
-    "player": "Tengen",
-    "bis": 4,
-    "major": 4,
-    "minor": 12,
-    "offspec": 1,
-    "bonusRolls": 0,
-    "total": 20
-  },
-  {
-    "player": "Drchicken",
-    "bis": 7,
-    "major": 4,
-    "minor": 4,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 15
-  },
-  {
-    "player": "June",
-    "bis": 4,
+    "player": "Karkan",
+    "bis": 12,
     "major": 9,
-    "minor": 2,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 15
+    "minor": 13,
+    "offspec": 7,
+    "bonusRolls": 13,
+    "total": 34
   },
   {
-    "player": "Aurumai",
-    "bis": 5,
-    "major": 6,
-    "minor": 3,
-    "offspec": 1,
-    "bonusRolls": 0,
-    "total": 14
+    "player": "Tengen",
+    "bis": 10,
+    "major": 7,
+    "minor": 13,
+    "offspec": 10,
+    "bonusRolls": 7,
+    "total": 30
   },
   {
     "player": "Marz",
-    "bis": 2,
-    "major": 10,
-    "minor": 2,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 14
-  },
-  {
-    "player": "Cardinalcrzy",
-    "bis": 2,
-    "major": 4,
-    "minor": 7,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 13
-  },
-  {
-    "player": "Noxw",
-    "bis": 5,
-    "major": 6,
-    "minor": 2,
-    "offspec": 12,
-    "bonusRolls": 0,
-    "total": 13
-  },
-  {
-    "player": "Fae",
-    "bis": 3,
-    "major": 6,
+    "bis": 10,
+    "major": 15,
     "minor": 3,
     "offspec": 0,
-    "bonusRolls": 0,
-    "total": 12
+    "bonusRolls": 11,
+    "total": 28
   },
   {
-    "player": "Karkan",
-    "bis": 4,
-    "major": 3,
-    "minor": 5,
-    "offspec": 2,
-    "bonusRolls": 0,
-    "total": 12
-  },
-  {
-    "player": "Cabbage",
-    "bis": 2,
+    "player": "Kubara",
+    "bis": 19,
     "major": 7,
     "minor": 1,
     "offspec": 0,
-    "bonusRolls": 0,
-    "total": 10
+    "bonusRolls": 9,
+    "total": 27
   },
   {
-    "player": "Shrynx",
-    "bis": 3,
-    "major": 3,
-    "minor": 4,
+    "player": "Noxw",
+    "bis": 13,
+    "major": 11,
+    "minor": 3,
+    "offspec": 33,
+    "bonusRolls": 10,
+    "total": 27
+  },
+  {
+    "player": "Aurumai",
+    "bis": 10,
+    "major": 8,
+    "minor": 7,
+    "offspec": 9,
+    "bonusRolls": 16,
+    "total": 25
+  },
+  {
+    "player": "Cabbage",
+    "bis": 9,
+    "major": 11,
+    "minor": 5,
     "offspec": 1,
-    "bonusRolls": 0,
-    "total": 10
+    "bonusRolls": 15,
+    "total": 25
   },
   {
-    "player": "Bannedpex",
-    "bis": 2,
+    "player": "Drchicken",
+    "bis": 13,
     "major": 6,
-    "minor": 1,
+    "minor": 6,
     "offspec": 2,
-    "bonusRolls": 0,
-    "total": 9
+    "bonusRolls": 10,
+    "total": 25
   },
   {
-    "player": "Kali",
-    "bis": 2,
-    "major": 3,
-    "minor": 4,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 9
-  },
-  {
-    "player": "Oswaldmosley",
-    "bis": 4,
-    "major": 5,
-    "minor": 0,
+    "player": "Susen",
+    "bis": 13,
+    "major": 9,
+    "minor": 3,
     "offspec": 4,
     "bonusRolls": 0,
-    "total": 9
+    "total": 25
+  },
+  {
+    "player": "Cardinalcrzy",
+    "bis": 10,
+    "major": 5,
+    "minor": 8,
+    "offspec": 8,
+    "bonusRolls": 10,
+    "total": 23
+  },
+  {
+    "player": "June",
+    "bis": 8,
+    "major": 11,
+    "minor": 4,
+    "offspec": 0,
+    "bonusRolls": 14,
+    "total": 23
   },
   {
     "player": "Lexou",
-    "bis": 5,
-    "major": 2,
-    "minor": 1,
+    "bis": 14,
+    "major": 6,
+    "minor": 3,
+    "offspec": 17,
+    "bonusRolls": 19,
+    "total": 23
+  },
+  {
+    "player": "Shrynx",
+    "bis": 12,
+    "major": 3,
+    "minor": 8,
     "offspec": 1,
-    "bonusRolls": 0,
-    "total": 8
+    "bonusRolls": 15,
+    "total": 23
   },
   {
-    "player": "Maverickdog",
-    "bis": 3,
-    "major": 4,
-    "minor": 1,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 8
-  },
-  {
-    "player": "Kuradelh",
-    "bis": 4,
-    "major": 2,
-    "minor": 1,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 7
-  },
-  {
-    "player": "Runicbeard",
-    "bis": 2,
-    "major": 3,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 5
-  },
-  {
-    "player": "Teehee",
-    "bis": 0,
-    "major": 3,
-    "minor": 2,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 5
+    "player": "Bannedpex",
+    "bis": 12,
+    "major": 7,
+    "minor": 3,
+    "offspec": 9,
+    "bonusRolls": 13,
+    "total": 22
   },
   {
     "player": "Yellock",
-    "bis": 2,
-    "major": 0,
+    "bis": 12,
+    "major": 2,
+    "minor": 8,
+    "offspec": 1,
+    "bonusRolls": 9,
+    "total": 22
+  },
+  {
+    "player": "Maverickdog",
+    "bis": 11,
+    "major": 8,
     "minor": 2,
     "offspec": 0,
-    "bonusRolls": 0,
-    "total": 4
+    "bonusRolls": 9,
+    "total": 21
+  },
+  {
+    "player": "Oswaldmosley",
+    "bis": 14,
+    "major": 6,
+    "minor": 1,
+    "offspec": 25,
+    "bonusRolls": 4,
+    "total": 21
+  },
+  {
+    "player": "Teehee",
+    "bis": 9,
+    "major": 6,
+    "minor": 5,
+    "offspec": 2,
+    "bonusRolls": 13,
+    "total": 20
+  },
+  {
+    "player": "Fae",
+    "bis": 8,
+    "major": 7,
+    "minor": 4,
+    "offspec": 10,
+    "bonusRolls": 7,
+    "total": 19
+  },
+  {
+    "player": "Runicbeard",
+    "bis": 13,
+    "major": 6,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 2,
+    "total": 19
+  },
+  {
+    "player": "Kali",
+    "bis": 7,
+    "major": 6,
+    "minor": 4,
+    "offspec": 0,
+    "bonusRolls": 7,
+    "total": 17
+  },
+  {
+    "player": "Nagafish",
+    "bis": 10,
+    "major": 7,
+    "minor": 0,
+    "offspec": 1,
+    "bonusRolls": 12,
+    "total": 17
+  },
+  {
+    "player": "Noctuahati",
+    "bis": 12,
+    "major": 3,
+    "minor": 2,
+    "offspec": 15,
+    "bonusRolls": 12,
+    "total": 17
+  },
+  {
+    "player": "Deéz",
+    "bis": 8,
+    "major": 4,
+    "minor": 2,
+    "offspec": 0,
+    "bonusRolls": 7,
+    "total": 14
+  },
+  {
+    "player": "Imincolombia",
+    "bis": 10,
+    "major": 2,
+    "minor": 2,
+    "offspec": 14,
+    "bonusRolls": 5,
+    "total": 14
   },
   {
     "player": "Arrowqt",
-    "bis": 1,
+    "bis": 10,
+    "major": 2,
+    "minor": 1,
+    "offspec": 0,
+    "bonusRolls": 6,
+    "total": 13
+  },
+  {
+    "player": "Kuradelh",
+    "bis": 7,
+    "major": 4,
+    "minor": 2,
+    "offspec": 0,
+    "bonusRolls": 12,
+    "total": 13
+  },
+  {
+    "player": "Foggy",
+    "bis": 3,
+    "major": 5,
+    "minor": 4,
+    "offspec": 0,
+    "bonusRolls": 10,
+    "total": 12
+  },
+  {
+    "player": "Meloni",
+    "bis": 6,
+    "major": 5,
+    "minor": 1,
+    "offspec": 0,
+    "bonusRolls": 9,
+    "total": 12
+  },
+  {
+    "player": "Xenthyk",
+    "bis": 3,
+    "major": 3,
+    "minor": 6,
+    "offspec": 0,
+    "bonusRolls": 11,
+    "total": 12
+  },
+  {
+    "player": "Niblainelock",
+    "bis": 3,
+    "major": 4,
+    "minor": 2,
+    "offspec": 0,
+    "bonusRolls": 3,
+    "total": 9
+  },
+  {
+    "player": "Jackiedark",
+    "bis": 6,
+    "major": 2,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 5,
+    "total": 8
+  },
+  {
+    "player": "Allenii",
+    "bis": 3,
     "major": 1,
+    "minor": 1,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 5
+  },
+  {
+    "player": "Xinxao",
+    "bis": 1,
+    "major": 4,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 2,
+    "total": 5
+  },
+  {
+    "player": "Lëy",
+    "bis": 2,
+    "major": 0,
+    "minor": 1,
+    "offspec": 1,
+    "bonusRolls": 1,
+    "total": 3
+  },
+  {
+    "player": "Fhaena",
+    "bis": 0,
+    "major": 2,
     "minor": 0,
     "offspec": 0,
     "bonusRolls": 0,
     "total": 2
   },
   {
-    "player": "Kubara",
+    "player": "Kaiysz",
     "bis": 1,
+    "major": 0,
+    "minor": 1,
+    "offspec": 2,
+    "bonusRolls": 5,
+    "total": 2
+  },
+  {
+    "player": "Koulikov",
+    "bis": 0,
     "major": 1,
-    "minor": 0,
+    "minor": 1,
     "offspec": 0,
-    "bonusRolls": 0,
+    "bonusRolls": 2,
+    "total": 2
+  },
+  {
+    "player": "Volkswórgen",
+    "bis": 1,
+    "major": 0,
+    "minor": 1,
+    "offspec": 1,
+    "bonusRolls": 4,
     "total": 2
   },
   {
@@ -203,70 +356,7 @@
     "major": 0,
     "minor": 0,
     "offspec": 0,
-    "bonusRolls": 0,
-    "total": 0
-  },
-  {
-    "player": "Deéz",
-    "bis": 0,
-    "major": 0,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 0
-  },
-  {
-    "player": "Foggy",
-    "bis": 0,
-    "major": 0,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 0
-  },
-  {
-    "player": "Imincolombia",
-    "bis": 0,
-    "major": 0,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 0
-  },
-  {
-    "player": "Kaiysz",
-    "bis": 0,
-    "major": 0,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 0
-  },
-  {
-    "player": "Nagafish",
-    "bis": 0,
-    "major": 0,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 0
-  },
-  {
-    "player": "Noctuahati",
-    "bis": 0,
-    "major": 0,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 0
-  },
-  {
-    "player": "Volkswórgen",
-    "bis": 0,
-    "major": 0,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 0,
+    "bonusRolls": 1,
     "total": 0
   }
 ]

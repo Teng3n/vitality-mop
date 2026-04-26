@@ -66,6 +66,14 @@ python scripts/backfill_from_workbook.py "C:/path/to/Copy of Inept - MoP.xlsx"
 
 The converter requires Python with `openpyxl`. It reads the reduced public workbook tabs (`Calendar`, `History`, and `Bench`) and writes `roster.json`, `lootSummary.json`, `lootHistory.json`, and `bench.json`.
 
+For a loot-only History TSV export, run:
+
+```bash
+node scripts/backfill_loot_from_tsv.mjs "C:/path/to/Inept - MoP - History.tsv"
+```
+
+The TSV converter writes only `lootHistory.json` and `lootSummary.json`. It keeps the public award fields and ignores raw item strings, votes, gear comparisons, notes, owners, and IDs.
+
 ## Project Structure
 
 ```text
