@@ -7,9 +7,13 @@ import lootSummary from "../data/lootSummary.json";
 import bench from "../data/bench.json";
 import legendaryProgress from "../data/legendaryProgress.json";
 
-const coreCount = roster.filter((member) => member.status === "Core").length;
+interface LegendaryProgress {
+  status: string;
+}
+
+const coreCount = roster.filter((member) => member.status === "Core" || member.status === "Active").length;
 const lootTotal = lootSummary.reduce((sum, row) => sum + row.total, 0);
-const activeLegendary = legendaryProgress.filter((row) => row.status === "Active").length;
+const activeLegendary = (legendaryProgress as LegendaryProgress[]).filter((row) => row.status === "Active").length;
 const nextBench = [...bench].sort((a, b) => b.totalBenchCount - a.totalBenchCount)[0];
 ---
 
@@ -21,7 +25,7 @@ const nextBench = [...bench].sort((a, b) => b.totalBenchCount - a.totalBenchCoun
   />
 
   <section class="dashboard-grid">
-    <StatCard label="Core roster" value={coreCount} detail="Active raid team" href="/roster" />
+    <StatCard label="Active roster" value={coreCount} detail="Current raid team" href="/roster" />
     <StatCard label="Tracked loot" value={lootTotal} detail="Player-level total" href="/loot" />
     <StatCard label="Legendary tracks" value={activeLegendary} detail="Active progress" href="/legendary" />
     <StatCard label="Bench priority" value={nextBench?.player ?? "-"} detail="Next rotation note" href="/bench" />

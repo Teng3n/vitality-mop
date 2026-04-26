@@ -1,10 +1,15 @@
-"""Convert selected public workbook tabs into the site's JSON data files.
+"""Convert the trimmed MoP workbook into the site's public JSON files.
 
 Usage:
-    python scripts/backfill_from_workbook.py "C:/path/to/Inept - MoP.xlsx"
+    python scripts/backfill_from_workbook.py "C:/path/to/Copy of Inept - MoP.xlsx"
 
-The converter intentionally ignores raw form-response tabs and private-ish
-columns such as notes, owner, gear comparisons, emails, and comments.
+The reduced workbook source of truth is:
+    - Calendar: roster and player-level loot/bench totals
+    - History: public loot award history
+    - Bench: public bench schedule
+
+The converter intentionally ignores private-ish History columns such as notes,
+owner, raw item strings, gear comparisons, votes, and IDs.
 """
 
 from __future__ import annotations
@@ -13,7 +18,7 @@ import json
 import re
 import sys
 from collections import Counter, defaultdict
-from datetime import date, datetime, time
+from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 
@@ -23,19 +28,25 @@ import openpyxl
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "src" / "data"
 
+ROLE_CODES = {
+    "T": "Tank",
+    "H": "Healer",
+    "M": "Melee DPS",
+    "R": "Ranged DPS",
+}
 
 CLASS_ROLES = {
-    "DEATHKNIGHT": "Unassigned",
-    "DRUID": "Unassigned",
-    "HUNTER": "Ranged DPS",
-    "MAGE": "Ranged DPS",
-    "MONK": "Unassigned",
-    "PALADIN": "Unassigned",
-    "PRIEST": "Unassigned",
-    "ROGUE": "Melee DPS",
-    "SHAMAN": "Unassigned",
-    "WARLOCK": "Ranged DPS",
-    "WARRIOR": "Unassigned",
+    "Deathknight": "Unassigned",
+    "Druid": "Unassigned",
+    "Hunter": "Ranged DPS",
+    "Mage": "Ranged DPS",
+    "Monk": "Unassigned",
+    "Paladin": "Unassigned",
+    "Priest": "Unassigned",
+    "Rogue": "Melee DPS",
+    "Shaman": "Unassigned",
+    "Warlock": "Ranged DPS",
+    "Warrior": "Unassigned",
 }
 
 
@@ -68,71 +79,58 @@ def as_date(value: Any) -> str:
     if isinstance(value, date):
         return value.isoformat()
     text = clean_text(value)
-    if not text:
-        return ""
-    return text.split(" ")[0]
+    return text.split(" ")[0] if text else ""
 
 
 def write_json(name: str, rows: Any) -> None:
-    path = DATA_DIR / name
-    path.write_text(json.dumps(rows, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    (DATA_DIR / name).write_text(json.dumps(rows, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
-def sheet_rows(ws: Any) -> list[list[Any]]:
+def nonempty_rows(ws: Any) -> list[list[Any]]:
     return [list(row) for row in ws.iter_rows(values_only=True) if any(cell not in (None, "") for cell in row)]
 
 
-def build_loot_summary(wb: Any) -> list[dict[str, Any]]:
-    bonus_counts = Counter()
-    for row in sheet_rows(wb["BonusRolls"])[1:]:
-        player = clean_text(row[0] if len(row) > 0 else "")
-        if player:
-            bonus_counts[player.lower()] += 1
-
-    rows = []
-    for row in sheet_rows(wb["Sheet46"])[1:]:
-        player = clean_text(row[2] if len(row) > 2 else "")
-        if not player:
-            continue
-        rows.append(
-            {
-                "player": player,
-                "bis": as_int(row[3] if len(row) > 3 else 0),
-                "major": as_int(row[4] if len(row) > 4 else 0),
-                "minor": as_int(row[5] if len(row) > 5 else 0),
-                "offspec": as_int(row[7] if len(row) > 7 else 0),
-                "bonusRolls": bonus_counts[player.lower()],
-                "total": as_int(row[6] if len(row) > 6 else 0),
-            }
-        )
-    return sorted(rows, key=lambda row: (-row["total"], row["player"].lower()))
+def header_index(headers: list[Any]) -> dict[str, int]:
+    return {clean_text(header): index for index, header in enumerate(headers) if clean_text(header)}
 
 
-def build_loot_history(wb: Any) -> tuple[list[dict[str, Any]], dict[str, str]]:
-    rows = sheet_rows(wb["History-MoP-P1"])
-    headers = [clean_text(value) for value in rows[0]]
-    index = {header: pos for pos, header in enumerate(headers)}
+def find_header_row(rows: list[list[Any]], required: set[str]) -> tuple[int, dict[str, int]]:
+    for row_index, row in enumerate(rows):
+        index = header_index(row)
+        if required.issubset(index):
+            return row_index, index
+    raise ValueError(f"Could not find header row with {sorted(required)}")
+
+
+def build_history(wb: Any) -> tuple[list[dict[str, str]], dict[str, str]]:
+    rows = nonempty_rows(wb["History"])
+    index = header_index(rows[0])
+    required = {"player", "date", "item", "response", "class", "instance", "boss"}
+    missing = sorted(required - set(index))
+    if missing:
+        raise ValueError(f"History sheet missing columns: {missing}")
+
     class_counts: dict[str, Counter[str]] = defaultdict(Counter)
     history = []
 
     for row in rows[1:]:
-        player = clean_text(row[index["player"]])
-        item = clean_item(row[index["item"]])
+        player = clean_text(row[index["player"]] if len(row) > index["player"] else "")
+        item = clean_item(row[index["item"]] if len(row) > index["item"] else "")
         if not player or not item:
             continue
 
-        player_class = clean_text(row[index["class"]]).title()
+        player_class = clean_text(row[index["class"]] if len(row) > index["class"] else "").title()
         if player_class:
             class_counts[player][player_class] += 1
 
         history.append(
             {
-                "date": as_date(row[index["date"]]),
+                "date": as_date(row[index["date"]] if len(row) > index["date"] else ""),
                 "player": player,
                 "item": item,
-                "boss": clean_text(row[index["boss"]]),
-                "instance": clean_text(row[index["instance"]]),
-                "type": clean_text(row[index["response"]]),
+                "boss": clean_text(row[index["boss"]] if len(row) > index["boss"] else ""),
+                "instance": clean_text(row[index["instance"]] if len(row) > index["instance"] else ""),
+                "type": clean_text(row[index["response"]] if len(row) > index["response"] else ""),
             }
         )
 
@@ -145,17 +143,60 @@ def build_loot_history(wb: Any) -> tuple[list[dict[str, Any]], dict[str, str]]:
     return history, class_by_player
 
 
-def build_roster(loot_summary: list[dict[str, Any]], class_by_player: dict[str, str]) -> list[dict[str, str]]:
+def build_calendar_rows(wb: Any) -> list[dict[str, Any]]:
+    rows = nonempty_rows(wb["Calendar"])
+    header_row, index = find_header_row(rows, {"Name", "BiS", "Ma", "Mi", "#", "OS"})
+    output = []
+
+    for row in rows[header_row + 1 :]:
+        player = clean_text(row[index["Name"]] if len(row) > index["Name"] else "")
+        if not player:
+            continue
+        output.append(
+            {
+                "player": player,
+                "roleCode": clean_text(row[index.get("R", -1)] if len(row) > index.get("R", 999) else ""),
+                "spec": clean_text(row[index.get("S", -1)] if len(row) > index.get("S", 999) else ""),
+                "bis": as_int(row[index["BiS"]] if len(row) > index["BiS"] else 0),
+                "major": as_int(row[index["Ma"]] if len(row) > index["Ma"] else 0),
+                "minor": as_int(row[index["Mi"]] if len(row) > index["Mi"] else 0),
+                "total": as_int(row[index["#"]] if len(row) > index["#"] else 0),
+                "bonusRolls": as_int(row[index.get("🎲", -1)] if len(row) > index.get("🎲", 999) else 0),
+                "offspec": as_int(row[index["OS"]] if len(row) > index["OS"] else 0),
+                "benchTotal": as_int(row[index.get("Bench", -1)] if len(row) > index.get("Bench", 999) else 0),
+            }
+        )
+
+    return output
+
+
+def build_loot_summary(calendar_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows = [
+        {
+            "player": row["player"],
+            "bis": row["bis"],
+            "major": row["major"],
+            "minor": row["minor"],
+            "offspec": row["offspec"],
+            "bonusRolls": row["bonusRolls"],
+            "total": row["total"],
+        }
+        for row in calendar_rows
+    ]
+    return sorted(rows, key=lambda row: (-row["total"], row["player"].lower()))
+
+
+def build_roster(calendar_rows: list[dict[str, Any]], class_by_player: dict[str, str]) -> list[dict[str, str]]:
     roster = []
-    for row in loot_summary:
+    for row in calendar_rows:
         player = row["player"]
         player_class = class_by_player.get(player, "Unknown")
-        role = CLASS_ROLES.get(player_class.replace(" ", "").upper(), "Unassigned")
+        role = ROLE_CODES.get(row["roleCode"].upper()) or CLASS_ROLES.get(player_class, "Unassigned")
         roster.append(
             {
                 "character": player,
                 "class": player_class,
-                "spec": "TBD",
+                "spec": row["spec"] or "TBD",
                 "role": role,
                 "status": "Active",
             }
@@ -163,138 +204,66 @@ def build_roster(loot_summary: list[dict[str, Any]], class_by_player: dict[str, 
     return sorted(roster, key=lambda row: (row["role"], row["character"].lower()))
 
 
-def build_bench(wb: Any) -> list[dict[str, Any]]:
-    rows = sheet_rows(wb["Bench"])
-    header = rows[0]
-    week_cols = [
-        (pos, clean_text(value))
-        for pos, value in enumerate(header)
-        if clean_text(value).lower().startswith("week")
-    ]
-    bench = []
-    for row in rows[2:]:
-        player = clean_text(row[2] if len(row) > 2 else "")
-        total = as_int(row[1] if len(row) > 1 else 0)
-        if not player or not total:
+def build_bench(wb: Any, calendar_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows = nonempty_rows(wb["Bench"])
+    date_row = next((row for row in rows if any(isinstance(cell, (datetime, date)) for cell in row)), [])
+    schedule: dict[str, list[str]] = defaultdict(list)
+
+    for row in rows:
+        if row is date_row:
             continue
-        marked = [label for pos, label in week_cols if len(row) > pos and clean_text(row[pos]).upper() == "X"]
-        bench.append(
+        for index, value in enumerate(row):
+            player = clean_text(value)
+            if not player or player == "Bench Schedule":
+                continue
+            bench_date = as_date(date_row[index]) if index < len(date_row) else ""
+            if bench_date:
+                schedule[player].append(bench_date)
+
+    calendar_counts = {row["player"]: row["benchTotal"] for row in calendar_rows}
+    players = sorted(set(calendar_counts) | set(schedule), key=str.lower)
+    bench_rows = []
+
+    for player in players:
+        dates = sorted(set(schedule.get(player, [])))
+        total = calendar_counts.get(player, 0) or len(dates)
+        if total <= 0 and not dates:
+            continue
+        bench_rows.append(
             {
                 "player": player,
                 "totalBenchCount": total,
-                "lastBenched": marked[-1] if marked else "",
-                "notes": "Public rotation summary",
+                "lastBenched": dates[-1] if dates else "",
+                "notes": f"Scheduled: {', '.join(dates)}" if dates else "No upcoming bench date listed",
             }
         )
-    return sorted(bench, key=lambda row: (-row["totalBenchCount"], row["player"].lower()))
 
-
-def stage_progress(value: Any, required: int | None = None) -> tuple[int, int]:
-    if isinstance(value, bool):
-        return (1 if value else 0, 1)
-    count = as_int(value)
-    if required is None:
-        required = max(count, 1)
-    return (min(count, required), required)
-
-
-def build_track_progress(wb: Any, sheet_name: str, track: str, stage_requirements: dict[str, int]) -> list[dict[str, Any]]:
-    rows = sheet_rows(wb[sheet_name])
-    players = []
-    seen_players = set()
-    for offset, value in enumerate(rows[0][1:], start=1):
-        player = clean_text(value)
-        if not player or player.lower() in seen_players:
-            continue
-        players.append((offset, player))
-        seen_players.add(player.lower())
-    output = []
-
-    for offset, player in players:
-        completed = 0
-        required = 0
-        next_stage = "Complete"
-        for row in rows[1:]:
-            stage = clean_text(row[0] if row else "")
-            if not stage or stage not in stage_requirements:
-                continue
-            stage_done, stage_required = stage_progress(row[offset] if len(row) > offset else None, stage_requirements[stage])
-            completed += stage_done
-            required += stage_required
-            if next_stage == "Complete" and stage_done < stage_required:
-                next_stage = stage
-        if required:
-            output.append(
-                {
-                    "player": player,
-                    "track": track,
-                    "stage": next_stage,
-                    "completed": completed,
-                    "required": required,
-                    "status": "Complete" if completed >= required else "Active",
-                }
-            )
-
-    return output
-
-
-def build_legendary_progress(wb: Any) -> list[dict[str, Any]]:
-    staff = build_track_progress(
-        wb,
-        "Staff Progress",
-        "Staff",
-        {
-            "25 Eternal Embers": 25,
-            "Solo Nexus Quests": 1,
-            "Anvil of Conflag Raid Quest": 1,
-            "1000 Seething Cinders": 1000,
-            "250 Smouldering Essences": 250,
-            "Ragnaros Heart of Flame": 1,
-        },
-    )
-    daggers = build_track_progress(
-        wb,
-        "Dagger Progress",
-        "Daggers",
-        {
-            "Pickpocket Hagara": 1,
-            "Solo Quests 1 - First Daggers": 1,
-            "333 Shadowy Gems": 333,
-            "Solo Quests 2 - Second Daggers": 1,
-            "60 Elementium Gem Clusters": 60,
-            "Fragment of Deathwing's Jaw": 1,
-        },
-    )
-    return sorted(staff + daggers, key=lambda row: (row["track"], row["status"], row["player"].lower()))
+    return sorted(bench_rows, key=lambda row: (-row["totalBenchCount"], row["player"].lower()))
 
 
 def main() -> None:
     if len(sys.argv) != 2:
         raise SystemExit("Usage: python scripts/backfill_from_workbook.py <workbook.xlsx>")
 
-    workbook_path = Path(sys.argv[1])
-    wb = openpyxl.load_workbook(workbook_path, data_only=True)
+    wb = openpyxl.load_workbook(Path(sys.argv[1]), data_only=True)
 
-    loot_summary = build_loot_summary(wb)
-    loot_history, class_by_player = build_loot_history(wb)
-    roster = build_roster(loot_summary, class_by_player)
-    bench = build_bench(wb)
-    legendary_progress = build_legendary_progress(wb)
+    history, class_by_player = build_history(wb)
+    calendar_rows = build_calendar_rows(wb)
 
-    write_json("lootSummary.json", loot_summary)
-    write_json("lootHistory.json", loot_history)
-    write_json("roster.json", roster)
-    write_json("bench.json", bench)
-    write_json("legendaryProgress.json", legendary_progress)
+    write_json("lootHistory.json", history)
+    write_json("lootSummary.json", build_loot_summary(calendar_rows))
+    write_json("roster.json", build_roster(calendar_rows, class_by_player))
+    write_json("bench.json", build_bench(wb, calendar_rows))
+    write_json("legendaryProgress.json", [])
 
     print(
         json.dumps(
             {
-                "roster": len(roster),
-                "lootSummary": len(loot_summary),
-                "lootHistory": len(loot_history),
-                "bench": len(bench),
-                "legendaryProgress": len(legendary_progress),
+                "roster": len(calendar_rows),
+                "lootSummary": len(calendar_rows),
+                "lootHistory": len(history),
+                "bench": len(build_bench(wb, calendar_rows)),
+                "legendaryProgress": 0,
             },
             indent=2,
         )

@@ -1,128 +1,152 @@
 [
   {
-    "player": "Nepir",
+    "player": "Yellock",
+    "totalBenchCount": 8,
+    "lastBenched": "2026-04-27",
+    "notes": "Scheduled: 2026-04-26, 2026-04-27"
+  },
+  {
+    "player": "Shrynx",
+    "totalBenchCount": 7,
+    "lastBenched": "",
+    "notes": "No upcoming bench date listed"
+  },
+  {
+    "player": "Bannedpex",
+    "totalBenchCount": 6,
+    "lastBenched": "2026-04-27",
+    "notes": "Scheduled: 2026-04-26, 2026-04-27"
+  },
+  {
+    "player": "Nagafish",
+    "totalBenchCount": 6,
+    "lastBenched": "2026-04-27",
+    "notes": "Scheduled: 2026-04-26, 2026-04-27"
+  },
+  {
+    "player": "Noctuahati",
+    "totalBenchCount": 6,
+    "lastBenched": "2026-05-18",
+    "notes": "Scheduled: 2026-05-17, 2026-05-18"
+  },
+  {
+    "player": "Deéz",
+    "totalBenchCount": 5,
+    "lastBenched": "2026-05-18",
+    "notes": "Scheduled: 2026-05-17, 2026-05-18"
+  },
+  {
+    "player": "Runicbeard",
+    "totalBenchCount": 5,
+    "lastBenched": "2026-04-20",
+    "notes": "Scheduled: 2026-04-19, 2026-04-20"
+  },
+  {
+    "player": "Arrowqt",
     "totalBenchCount": 4,
-    "lastBenched": "Week 12",
-    "notes": "Public rotation summary"
+    "lastBenched": "2026-04-20",
+    "notes": "Scheduled: 2026-04-19, 2026-04-20"
   },
   {
-    "player": "Boazx",
-    "totalBenchCount": 3,
-    "lastBenched": "Week 13",
-    "notes": "Public rotation summary"
-  },
-  {
-    "player": "Cabbegh",
-    "totalBenchCount": 3,
-    "lastBenched": "Week 14",
-    "notes": "Public rotation summary"
-  },
-  {
-    "player": "Chetsteele",
-    "totalBenchCount": 3,
-    "lastBenched": "Week 14",
-    "notes": "Public rotation summary"
-  },
-  {
-    "player": "Elguapojefe",
-    "totalBenchCount": 3,
-    "lastBenched": "Week 14",
-    "notes": "Public rotation summary"
+    "player": "Foggy",
+    "totalBenchCount": 4,
+    "lastBenched": "2026-05-04",
+    "notes": "Scheduled: 2026-05-03, 2026-05-04"
   },
   {
     "player": "Kubara",
-    "totalBenchCount": 3,
-    "lastBenched": "Week 12",
-    "notes": "Public rotation summary"
+    "totalBenchCount": 4,
+    "lastBenched": "2026-04-27",
+    "notes": "Scheduled: 2026-04-26, 2026-04-27"
   },
   {
-    "player": "Kuradelm",
-    "totalBenchCount": 3,
-    "lastBenched": "Week 14",
-    "notes": "Public rotation summary"
+    "player": "Marz",
+    "totalBenchCount": 4,
+    "lastBenched": "2026-04-20",
+    "notes": "Scheduled: 2026-04-19, 2026-04-20"
   },
   {
-    "player": "Leafealol",
+    "player": "Aurumai",
     "totalBenchCount": 3,
-    "lastBenched": "Week 11",
-    "notes": "Public rotation summary"
+    "lastBenched": "2026-05-11",
+    "notes": "Scheduled: 2026-05-10, 2026-05-11"
+  },
+  {
+    "player": "Cardinalcrzy",
+    "totalBenchCount": 3,
+    "lastBenched": "2026-05-11",
+    "notes": "Scheduled: 2026-05-10, 2026-05-11"
+  },
+  {
+    "player": "Kali",
+    "totalBenchCount": 3,
+    "lastBenched": "2026-05-11",
+    "notes": "Scheduled: 2026-05-10, 2026-05-11"
   },
   {
     "player": "Maverickdog",
     "totalBenchCount": 3,
-    "lastBenched": "Week 13",
-    "notes": "Public rotation summary"
+    "lastBenched": "2026-05-04",
+    "notes": "Scheduled: 2026-05-03, 2026-05-04"
   },
   {
-    "player": "Mxrz",
-    "totalBenchCount": 3,
-    "lastBenched": "Week 13",
-    "notes": "Public rotation summary"
-  },
-  {
-    "player": "Niblaine",
-    "totalBenchCount": 3,
-    "lastBenched": "Week 13",
-    "notes": "Public rotation summary"
-  },
-  {
-    "player": "Raunchy",
-    "totalBenchCount": 3,
-    "lastBenched": "Week 14",
-    "notes": "Public rotation summary"
-  },
-  {
-    "player": "Sceeto",
-    "totalBenchCount": 3,
-    "lastBenched": "Week 12",
-    "notes": "Public rotation summary"
-  },
-  {
-    "player": "Shandz",
-    "totalBenchCount": 3,
-    "lastBenched": "Week 12",
-    "notes": "Public rotation summary"
-  },
-  {
-    "player": "Synez",
-    "totalBenchCount": 3,
-    "lastBenched": "Week 11",
-    "notes": "Public rotation summary"
-  },
-  {
-    "player": "Tinyteehee",
-    "totalBenchCount": 3,
-    "lastBenched": "Week 13",
-    "notes": "Public rotation summary"
-  },
-  {
-    "player": "Tsgdream",
-    "totalBenchCount": 3,
-    "lastBenched": "Week 12",
-    "notes": "Public rotation summary"
-  },
-  {
-    "player": "Aurumai",
+    "player": "Chonkars",
     "totalBenchCount": 2,
-    "lastBenched": "Week 10",
-    "notes": "Public rotation summary"
+    "lastBenched": "2026-05-18",
+    "notes": "Scheduled: 2026-05-17, 2026-05-18"
   },
   {
-    "player": "Jurx",
+    "player": "Fae",
     "totalBenchCount": 2,
-    "lastBenched": "Week 11",
-    "notes": "Public rotation summary"
+    "lastBenched": "2026-05-18",
+    "notes": "Scheduled: 2026-05-17, 2026-05-18"
   },
   {
-    "player": "Oswaldmosley",
+    "player": "Imincolombia",
     "totalBenchCount": 2,
-    "lastBenched": "Week 10",
-    "notes": "Public rotation summary"
+    "lastBenched": "2026-05-04",
+    "notes": "Scheduled: 2026-05-03, 2026-05-04"
   },
   {
-    "player": "Shrynx",
+    "player": "June",
     "totalBenchCount": 2,
-    "lastBenched": "Week 11",
-    "notes": "Public rotation summary"
+    "lastBenched": "2026-05-11",
+    "notes": "Scheduled: 2026-05-10, 2026-05-11"
+  },
+  {
+    "player": "Kaiysz",
+    "totalBenchCount": 2,
+    "lastBenched": "2026-05-11",
+    "notes": "Scheduled: 2026-05-10, 2026-05-11"
+  },
+  {
+    "player": "Kuradelh",
+    "totalBenchCount": 2,
+    "lastBenched": "",
+    "notes": "No upcoming bench date listed"
+  },
+  {
+    "player": "Noxw",
+    "totalBenchCount": 2,
+    "lastBenched": "2026-05-04",
+    "notes": "Scheduled: 2026-05-03, 2026-05-04"
+  },
+  {
+    "player": "Teehee",
+    "totalBenchCount": 2,
+    "lastBenched": "2026-04-27",
+    "notes": "Scheduled: 2026-04-26, 2026-04-27"
+  },
+  {
+    "player": "Volkswórgen",
+    "totalBenchCount": 2,
+    "lastBenched": "2026-05-04",
+    "notes": "Scheduled: 2026-05-03, 2026-05-04"
+  },
+  {
+    "player": "Tengen",
+    "totalBenchCount": 1,
+    "lastBenched": "",
+    "notes": "No upcoming bench date listed"
   }
 ]

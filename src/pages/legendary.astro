@@ -4,7 +4,18 @@ import PageHeader from "../components/PageHeader.astro";
 import ProgressBar from "../components/ProgressBar.astro";
 import legendaryProgress from "../data/legendaryProgress.json";
 
-const rows = [...legendaryProgress].sort((a, b) => a.track.localeCompare(b.track) || a.player.localeCompare(b.player));
+interface LegendaryProgress {
+  player: string;
+  track: string;
+  stage: string;
+  completed: number;
+  required: number;
+  status: string;
+}
+
+const rows = [...(legendaryProgress as LegendaryProgress[])].sort(
+  (a, b) => a.track.localeCompare(b.track) || a.player.localeCompare(b.player),
+);
 ---
 
 <Layout title="Legendary Progress | Vitality">
@@ -16,19 +27,26 @@ const rows = [...legendaryProgress].sort((a, b) => a.track.localeCompare(b.track
 
   <section class="card-grid">
     {
-      rows.map((entry) => (
-        <article class="panel progress-card">
-          <div class="section-heading inline">
-            <div>
-              <p class="eyebrow">{entry.track}</p>
-              <h2>{entry.player}</h2>
+      rows.length > 0 ? (
+        rows.map((entry) => (
+          <article class="panel progress-card">
+            <div class="section-heading inline">
+              <div>
+                <p class="eyebrow">{entry.track}</p>
+                <h2>{entry.player}</h2>
+              </div>
+              <span class="status-pill">{entry.status}</span>
             </div>
-            <span class="status-pill">{entry.status}</span>
-          </div>
-          <p>{entry.stage}</p>
-          <ProgressBar completed={entry.completed} required={entry.required} label={entry.stage} />
+            <p>{entry.stage}</p>
+            <ProgressBar completed={entry.completed} required={entry.required} label={entry.stage} />
+          </article>
+        ))
+      ) : (
+        <article class="panel">
+          <h2>No active legendary tracking</h2>
+          <p class="muted">Add rows to the source workbook when this becomes relevant again.</p>
         </article>
-      ))
+      )
     }
   </section>
 </Layout>

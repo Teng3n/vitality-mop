@@ -1,5 +1,61 @@
 [
   {
+    "character": "Arrowqt",
+    "class": "Hunter",
+    "spec": "TBD",
+    "role": "Ranged DPS",
+    "status": "Active"
+  },
+  {
+    "character": "Cabbage",
+    "class": "Warlock",
+    "spec": "TBD",
+    "role": "Ranged DPS",
+    "status": "Active"
+  },
+  {
+    "character": "Kuradelh",
+    "class": "Hunter",
+    "spec": "TBD",
+    "role": "Ranged DPS",
+    "status": "Active"
+  },
+  {
+    "character": "Marz",
+    "class": "Mage",
+    "spec": "TBD",
+    "role": "Ranged DPS",
+    "status": "Active"
+  },
+  {
+    "character": "Maverickdog",
+    "class": "Hunter",
+    "spec": "TBD",
+    "role": "Ranged DPS",
+    "status": "Active"
+  },
+  {
+    "character": "Shrynx",
+    "class": "Mage",
+    "spec": "TBD",
+    "role": "Ranged DPS",
+    "status": "Active"
+  },
+  {
+    "character": "Teehee",
+    "class": "Mage",
+    "spec": "TBD",
+    "role": "Ranged DPS",
+    "status": "Active"
+  },
+  {
+    "character": "Yellock",
+    "class": "Warlock",
+    "spec": "TBD",
+    "role": "Ranged DPS",
+    "status": "Active"
+  },
+  {
     "character": "Aurumai",
     "class": "Shaman",
     "spec": "TBD",
@@ -7,35 +63,28 @@
     "status": "Active"
   },
   {
-    "character": "Badpawsture",
+    "character": "Bannedpex",
+    "class": "Druid",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Cardinalcrzy",
+    "class": "Priest",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Chonkars",
     "class": "Unknown",
     "spec": "TBD",
     "role": "Unassigned",
     "status": "Active"
   },
   {
-    "character": "Boboroni",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
-  },
-  {
-    "character": "Chazwazer",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
-  },
-  {
-    "character": "Daat",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
-  },
-  {
-    "character": "Dimzim",
+    "character": "Deéz",
     "class": "Unknown",
     "spec": "TBD",
     "role": "Unassigned",
@@ -49,92 +98,92 @@
     "status": "Active"
   },
   {
-    "character": "Elguapojefe",
+    "character": "Fae",
+    "class": "Paladin",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Foggy",
     "class": "Unknown",
     "spec": "TBD",
     "role": "Unassigned",
     "status": "Active"
   },
   {
-    "character": "Fynx",
+    "character": "Imincolombia",
     "class": "Unknown",
     "spec": "TBD",
     "role": "Unassigned",
     "status": "Active"
   },
   {
-    "character": "Ghstmarauder",
+    "character": "June",
+    "class": "Monk",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Kaiysz",
     "class": "Unknown",
     "spec": "TBD",
     "role": "Unassigned",
     "status": "Active"
   },
   {
-    "character": "Hekkapoo",
+    "character": "Kali",
+    "class": "Warrior",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Karkan",
+    "class": "Paladin",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Kubara",
+    "class": "Shaman",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Lexou",
+    "class": "Shaman",
+    "spec": "TBD",
+    "role": "Unassigned",
+    "status": "Active"
+  },
+  {
+    "character": "Nagafish",
     "class": "Unknown",
     "spec": "TBD",
     "role": "Unassigned",
     "status": "Active"
   },
   {
-    "character": "Jrewind",
+    "character": "Noctuahati",
     "class": "Unknown",
     "spec": "TBD",
     "role": "Unassigned",
     "status": "Active"
   },
   {
-    "character": "Kabus",
-    "class": "Unknown",
+    "character": "Noxw",
+    "class": "Warrior",
     "spec": "TBD",
     "role": "Unassigned",
     "status": "Active"
   },
   {
-    "character": "Karkant",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
-  },
-  {
-    "character": "Leafea",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
-  },
-  {
-    "character": "Lilgargussy",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
-  },
-  {
-    "character": "Locksicles",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
-  },
-  {
-    "character": "Luckeylock",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
-  },
-  {
-    "character": "Niblood",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
-  },
-  {
-    "character": "Ootermage",
-    "class": "Unknown",
+    "character": "Oswaldmosley",
+    "class": "Deathknight",
     "spec": "TBD",
     "role": "Unassigned",
     "status": "Active"
@@ -147,34 +196,6 @@
     "status": "Active"
   },
   {
-    "character": "Shandz",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
-  },
-  {
-    "character": "Stimadin",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
-  },
-  {
-    "character": "Supergiant",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
-  },
-  {
-    "character": "Tegridytree",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
-  },
-  {
     "character": "Tengen",
     "class": "Warrior",
     "spec": "TBD",
@@ -182,7 +203,7 @@
     "status": "Active"
   },
   {
-    "character": "Washedmage",
+    "character": "Volkswórgen",
     "class": "Unknown",
     "spec": "TBD",
     "role": "Unassigned",
