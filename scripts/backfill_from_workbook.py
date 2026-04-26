@@ -49,6 +49,39 @@ CLASS_ROLES = {
     "Warrior": "Unassigned",
 }
 
+ROSTER_DETAILS = {
+    "Arrowqt": ("Hunter", "Survival", "Ranged DPS"),
+    "Aurumai": ("Shaman", "Elemental", "Ranged DPS"),
+    "Bannedpex": ("Druid", "Feral", "Melee DPS"),
+    "Cabbage": ("Warlock", "Affliction", "Ranged DPS"),
+    "Cardinalcrzy": ("Priest", "Discipline", "Healer"),
+    "Chonkars": ("Warrior", "Arcane", "Unassigned"),
+    "Deéz": ("Death Knight", "Unholy", "Melee DPS"),
+    "Drchicken": ("Priest", "Discipline", "Healer"),
+    "Fae": ("Paladin", "Holy", "Healer"),
+    "Foggy": ("Warlock", "Affliction", "Ranged DPS"),
+    "Imincolombia": ("Monk", "Mistweaver", "Healer"),
+    "June": ("Monk", "Windwalker", "Melee DPS"),
+    "Kaiysz": ("Paladin", "Retribution", "Melee DPS"),
+    "Kali": ("Warrior", "Arms", "Melee DPS"),
+    "Karkan": ("Paladin", "Protection", "Tank"),
+    "Kubara": ("Shaman", "Elemental", "Ranged DPS"),
+    "Kuradelh": ("Hunter", "Survival", "Ranged DPS"),
+    "Lexou": ("Shaman", "Enhancement", "Melee DPS"),
+    "Marz": ("Mage", "Fire", "Ranged DPS"),
+    "Maverickdog": ("Hunter", "Survival", "Ranged DPS"),
+    "Nagafish": ("Rogue", "Subtlety", "Melee DPS"),
+    "Noctuahati": ("Druid", "Balance", "Ranged DPS"),
+    "Noxw": ("Warrior", "Arms", "Melee DPS"),
+    "Oswaldmosley": ("Death Knight", "Unholy", "Melee DPS"),
+    "Runicbeard": ("Death Knight", "Frost", "Melee DPS"),
+    "Shrynx": ("Mage", "Fire", "Ranged DPS"),
+    "Teehee": ("Mage", "Fire", "Ranged DPS"),
+    "Tengen": ("Warrior", "Protection", "Tank"),
+    "Volkswórgen": ("Rogue", "Subtlety", "Melee DPS"),
+    "Yellock": ("Warlock", "Affliction", "Ranged DPS"),
+}
+
 
 def clean_text(value: Any) -> str:
     if value is None:
@@ -190,18 +223,23 @@ def build_roster(calendar_rows: list[dict[str, Any]], class_by_player: dict[str,
     roster = []
     for row in calendar_rows:
         player = row["player"]
-        player_class = class_by_player.get(player, "Unknown")
-        role = ROLE_CODES.get(row["roleCode"].upper()) or CLASS_ROLES.get(player_class, "Unassigned")
+        player_class, spec, role = ROSTER_DETAILS.get(
+            player,
+            (
+                class_by_player.get(player, "Unknown"),
+                row["spec"] or "TBD",
+                ROLE_CODES.get(row["roleCode"].upper()) or CLASS_ROLES.get(class_by_player.get(player, "Unknown"), "Unassigned"),
+            ),
+        )
         roster.append(
             {
                 "character": player,
                 "class": player_class,
-                "spec": row["spec"] or "TBD",
+                "spec": spec,
                 "role": role,
-                "status": "Active",
             }
         )
-    return sorted(roster, key=lambda row: (row["role"], row["character"].lower()))
+    return sorted(roster, key=lambda row: row["character"].casefold())
 
 
 def build_bench(wb: Any, calendar_rows: list[dict[str, Any]]) -> list[dict[str, Any]]:

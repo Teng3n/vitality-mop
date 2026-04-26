@@ -2,211 +2,181 @@
   {
     "character": "Arrowqt",
     "class": "Hunter",
-    "spec": "TBD",
-    "role": "Ranged DPS",
-    "status": "Active"
-  },
-  {
-    "character": "Cabbage",
-    "class": "Warlock",
-    "spec": "TBD",
-    "role": "Ranged DPS",
-    "status": "Active"
-  },
-  {
-    "character": "Kuradelh",
-    "class": "Hunter",
-    "spec": "TBD",
-    "role": "Ranged DPS",
-    "status": "Active"
-  },
-  {
-    "character": "Marz",
-    "class": "Mage",
-    "spec": "TBD",
-    "role": "Ranged DPS",
-    "status": "Active"
-  },
-  {
-    "character": "Maverickdog",
-    "class": "Hunter",
-    "spec": "TBD",
-    "role": "Ranged DPS",
-    "status": "Active"
-  },
-  {
-    "character": "Shrynx",
-    "class": "Mage",
-    "spec": "TBD",
-    "role": "Ranged DPS",
-    "status": "Active"
-  },
-  {
-    "character": "Teehee",
-    "class": "Mage",
-    "spec": "TBD",
-    "role": "Ranged DPS",
-    "status": "Active"
-  },
-  {
-    "character": "Yellock",
-    "class": "Warlock",
-    "spec": "TBD",
-    "role": "Ranged DPS",
-    "status": "Active"
+    "spec": "Survival",
+    "role": "Ranged DPS"
   },
   {
     "character": "Aurumai",
     "class": "Shaman",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "spec": "Elemental",
+    "role": "Ranged DPS"
   },
   {
     "character": "Bannedpex",
     "class": "Druid",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "spec": "Feral",
+    "role": "Melee DPS"
+  },
+  {
+    "character": "Cabbage",
+    "class": "Warlock",
+    "spec": "Affliction",
+    "role": "Ranged DPS"
   },
   {
     "character": "Cardinalcrzy",
     "class": "Priest",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "spec": "Discipline",
+    "role": "Healer"
   },
   {
     "character": "Chonkars",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "class": "Warrior",
+    "spec": "Arcane",
+    "role": "Unassigned"
   },
   {
     "character": "Deéz",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "class": "Death Knight",
+    "spec": "Unholy",
+    "role": "Melee DPS"
   },
   {
     "character": "Drchicken",
     "class": "Priest",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "spec": "Discipline",
+    "role": "Healer"
   },
   {
     "character": "Fae",
     "class": "Paladin",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "spec": "Holy",
+    "role": "Healer"
   },
   {
     "character": "Foggy",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "class": "Warlock",
+    "spec": "Affliction",
+    "role": "Ranged DPS"
   },
   {
     "character": "Imincolombia",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "class": "Monk",
+    "spec": "Mistweaver",
+    "role": "Healer"
   },
   {
     "character": "June",
     "class": "Monk",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "spec": "Windwalker",
+    "role": "Melee DPS"
   },
   {
     "character": "Kaiysz",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "class": "Paladin",
+    "spec": "Retribution",
+    "role": "Melee DPS"
   },
   {
     "character": "Kali",
     "class": "Warrior",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "spec": "Arms",
+    "role": "Melee DPS"
   },
   {
     "character": "Karkan",
     "class": "Paladin",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "spec": "Protection",
+    "role": "Tank"
   },
   {
     "character": "Kubara",
     "class": "Shaman",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "spec": "Elemental",
+    "role": "Ranged DPS"
+  },
+  {
+    "character": "Kuradelh",
+    "class": "Hunter",
+    "spec": "Survival",
+    "role": "Ranged DPS"
   },
   {
     "character": "Lexou",
     "class": "Shaman",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "spec": "Enhancement",
+    "role": "Melee DPS"
+  },
+  {
+    "character": "Marz",
+    "class": "Mage",
+    "spec": "Fire",
+    "role": "Ranged DPS"
+  },
+  {
+    "character": "Maverickdog",
+    "class": "Hunter",
+    "spec": "Survival",
+    "role": "Ranged DPS"
   },
   {
     "character": "Nagafish",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "class": "Rogue",
+    "spec": "Subtlety",
+    "role": "Melee DPS"
   },
   {
     "character": "Noctuahati",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "class": "Druid",
+    "spec": "Balance",
+    "role": "Ranged DPS"
   },
   {
     "character": "Noxw",
     "class": "Warrior",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "spec": "Arms",
+    "role": "Melee DPS"
   },
   {
     "character": "Oswaldmosley",
-    "class": "Deathknight",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "class": "Death Knight",
+    "spec": "Unholy",
+    "role": "Melee DPS"
   },
   {
     "character": "Runicbeard",
-    "class": "Deathknight",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "class": "Death Knight",
+    "spec": "Frost",
+    "role": "Melee DPS"
+  },
+  {
+    "character": "Shrynx",
+    "class": "Mage",
+    "spec": "Fire",
+    "role": "Ranged DPS"
+  },
+  {
+    "character": "Teehee",
+    "class": "Mage",
+    "spec": "Fire",
+    "role": "Ranged DPS"
   },
   {
     "character": "Tengen",
     "class": "Warrior",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "spec": "Protection",
+    "role": "Tank"
   },
   {
     "character": "Volkswórgen",
-    "class": "Unknown",
-    "spec": "TBD",
-    "role": "Unassigned",
-    "status": "Active"
+    "class": "Rogue",
+    "spec": "Subtlety",
+    "role": "Melee DPS"
+  },
+  {
+    "character": "Yellock",
+    "class": "Warlock",
+    "spec": "Affliction",
+    "role": "Ranged DPS"
   }
 ]

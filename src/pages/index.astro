@@ -11,7 +11,7 @@ interface LegendaryProgress {
   status: string;
 }
 
-const coreCount = roster.filter((member) => member.status === "Core" || member.status === "Active").length;
+const coreCount = roster.length;
 const lootTotal = lootSummary.reduce((sum, row) => sum + row.total, 0);
 const activeLegendary = (legendaryProgress as LegendaryProgress[]).filter((row) => row.status === "Active").length;
 const nextBench = [...bench].sort((a, b) => b.totalBenchCount - a.totalBenchCount)[0];

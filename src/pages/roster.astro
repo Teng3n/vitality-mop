@@ -1,46 +1,65 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import DataTable from "../components/DataTable.astro";
 import PageHeader from "../components/PageHeader.astro";
 import roster from "../data/roster.json";
 
-const preferredRoles = ["Tank", "Healer", "Melee DPS", "Ranged DPS", "Unassigned"];
-const presentRoles = Array.from(new Set(roster.map((member) => member.role)));
-const roles = [
-  ...preferredRoles.filter((role) => presentRoles.includes(role)),
-  ...presentRoles.filter((role) => !preferredRoles.includes(role)).sort(),
-];
-const columns = [
-  { key: "character", label: "Character" },
-  { key: "class", label: "Class" },
-  { key: "spec", label: "Spec" },
-  { key: "status", label: "Status" },
-];
+const classColors: Record<string, string> = {
+  "Death Knight": "#c41e3a",
+  Druid: "#ff7c0a",
+  Hunter: "#aad372",
+  Mage: "#3fc7eb",
+  Monk: "#00ff98",
+  Paladin: "#f48cba",
+  Priest: "#ffffff",
+  Rogue: "#fff468",
+  Shaman: "#0070dd",
+  Warlock: "#8788ee",
+  Warrior: "#c69b6d",
+};
+
+const members = [...roster].sort((a, b) => a.character.localeCompare(b.character, undefined, { sensitivity: "base" }));
+
+const classColor = (className: string) => classColors[className] ?? "#f2f0e8";
 ---
 
 <Layout title="Roster | Vitality">
   <PageHeader
     eyebrow="Roster"
     title="Raid Team"
-    description="Raid team grouped by role for quick planning."
+    description="Current roster sorted alphabetically by character."
   />
 
-  <div class="stack">
-    {
-      roles.map((role) => {
-        const members = roster.filter((member) => member.role === role);
-        return (
-          <section class="panel">
-            <div class="section-heading inline">
-              <div>
-                <p class="eyebrow">{role}</p>
-                <h2>{members.length} Characters</h2>
-              </div>
-            </div>
-            <DataTable columns={columns} rows={members} emptyLabel={`No ${role} characters yet.`} />
-          </section>
-        );
-      })
-    }
-  </div>
+  <section class="panel">
+    <div class="section-heading inline">
+      <div>
+        <p class="eyebrow">Roster</p>
+        <h2>{members.length} Characters</h2>
+      </div>
+    </div>
+    <div class="table-shell">
+      <table class="data-table roster-table">
+        <thead>
+          <tr>
+            <th>Character</th>
+            <th>Class</th>
+            <th>Spec</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            members.map((member) => (
+              <tr style={`--class-color: ${classColor(member.class)}`}>
+                <td data-label="Character">
+                  <span class="class-swatch" aria-hidden="true"></span>
+                  <strong>{member.character}</strong>
+                </td>
+                <td data-label="Class">{member.class}</td>
+                <td data-label="Spec">{member.spec}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
 </Layout>
