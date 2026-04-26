@@ -1,0 +1,44 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+
+const categories = [
+  {
+    title: "Flasks",
+    items: ["Primary stat flask", "Spirit flask", "Stamina flask"],
+  },
+  {
+    title: "Food",
+    items: ["Main stat feast", "Personal food", "Backup food"],
+  },
+  {
+    title: "Potions",
+    items: ["Pre-pot choice", "Combat potion", "Utility potion"],
+  },
+  {
+    title: "Utility",
+    items: ["Tomes, drums, and repairs", "Class-specific reagents"],
+  },
+];
+---
+
+<Layout title="Consumables Guide | Vitality">
+  <PageHeader
+    eyebrow="Guides"
+    title="Consumables Reference"
+    description="Baseline consumables guide for MoP Classic raid preparation."
+  />
+
+  <section class="card-grid">
+    {
+      categories.map((category) => (
+        <article class="panel">
+          <h2>{category.title}</h2>
+          <ul class="clean-list">
+            {category.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </article>
+      ))
+    }
+  </section>
+</Layout>

@@ -1,0 +1,58 @@
+[
+  {
+    "character": "Auralin",
+    "class": "Druid",
+    "spec": "Guardian",
+    "role": "Tank",
+    "status": "Core"
+  },
+  {
+    "character": "Kairoth",
+    "class": "Paladin",
+    "spec": "Protection",
+    "role": "Tank",
+    "status": "Core"
+  },
+  {
+    "character": "Mistveil",
+    "class": "Monk",
+    "spec": "Mistweaver",
+    "role": "Healer",
+    "status": "Core"
+  },
+  {
+    "character": "Lunarae",
+    "class": "Priest",
+    "spec": "Discipline",
+    "role": "Healer",
+    "status": "Trial"
+  },
+  {
+    "character": "Ironwaltz",
+    "class": "Warrior",
+    "spec": "Arms",
+    "role": "Melee DPS",
+    "status": "Core"
+  },
+  {
+    "character": "Sablefang",
+    "class": "Rogue",
+    "spec": "Assassination",
+    "role": "Melee DPS",
+    "status": "Core"
+  },
+  {
+    "character": "Embermoth",
+    "class": "Mage",
+    "spec": "Fire",
+    "role": "Ranged DPS",
+    "status": "Core"
+  },
+  {
+    "character": "Stormcairn",
+    "class": "Shaman",
+    "spec": "Elemental",
+    "role": "Ranged DPS",
+    "status": "Bench"
+  }
+]

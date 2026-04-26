@@ -1,0 +1,43 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+
+const gemGroups = [
+  {
+    socket: "Red",
+    guidance: "Primary stat gem for strength, agility, or intellect users.",
+  },
+  {
+    socket: "Yellow",
+    guidance: "Secondary stat gem for haste, crit, mastery, or hybrid choices.",
+  },
+  {
+    socket: "Blue",
+    guidance: "Spirit, hit, stamina, or hybrid gem based on role needs.",
+  },
+  {
+    socket: "Meta",
+    guidance: "Meta gem by spec and role.",
+  },
+];
+---
+
+<Layout title="Gems Guide | Vitality">
+  <PageHeader
+    eyebrow="Guides"
+    title="Gems Reference"
+    description="Baseline gem notes for quick raid preparation."
+  />
+
+  <section class="card-grid">
+    {
+      gemGroups.map((group) => (
+        <article class="panel accent-panel">
+          <p class="eyebrow">{group.socket} Socket</p>
+          <h2>{group.socket} Gems</h2>
+          <p>{group.guidance}</p>
+        </article>
+      ))
+    }
+  </section>
+</Layout>

@@ -1,0 +1,58 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import DataTable from "../../components/DataTable.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import lootHistory from "../../data/lootHistory.json";
+
+const rows = [...lootHistory].sort((a, b) => b.date.localeCompare(a.date));
+const columns = [
+  { key: "date", label: "Date" },
+  { key: "player", label: "Player" },
+  { key: "item", label: "Item" },
+  { key: "boss", label: "Boss" },
+  { key: "instance", label: "Instance" },
+  { key: "type", label: "Response / Type" },
+];
+---
+
+<Layout title="Loot History | Vitality">
+  <PageHeader
+    eyebrow="Loot History"
+    title="Award Log"
+    description="Recent awards by date, player, item, boss, instance, and response type."
+  />
+
+  <section class="panel">
+    <div class="toolbar">
+      <label class="field">
+        <span>Search history</span>
+        <input type="search" data-history-search placeholder="Player, item, boss, instance" />
+      </label>
+      <span class="muted" data-history-count>{rows.length} rows</span>
+    </div>
+    <DataTable columns={columns} rows={rows} />
+  </section>
+
+  <script>
+    const searchInput = document.querySelector<HTMLInputElement>("[data-history-search]");
+    const countLabel = document.querySelector<HTMLElement>("[data-history-count]");
+    const rows = Array.from(document.querySelectorAll<HTMLElement>("[data-search]"));
+
+    searchInput?.addEventListener("input", () => {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      for (const row of rows) {
+        const matches = row.dataset.search?.includes(query) ?? false;
+        row.hidden = !matches;
+        if (matches) {
+          visibleCount += 1;
+        }
+      }
+
+      if (countLabel) {
+        countLabel.textContent = `${visibleCount} rows`;
+      }
+    });
+  </script>
+</Layout>

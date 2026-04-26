@@ -1,0 +1,41 @@
+---
+import Layout from "../layouts/Layout.astro";
+import DataTable from "../components/DataTable.astro";
+import PageHeader from "../components/PageHeader.astro";
+import roster from "../data/roster.json";
+
+const roles = ["Tank", "Healer", "Melee DPS", "Ranged DPS"];
+const columns = [
+  { key: "character", label: "Character" },
+  { key: "class", label: "Class" },
+  { key: "spec", label: "Spec" },
+  { key: "status", label: "Status" },
+];
+---
+
+<Layout title="Roster | Vitality">
+  <PageHeader
+    eyebrow="Roster"
+    title="Raid Team"
+    description="Raid team grouped by role for quick planning."
+  />
+
+  <div class="stack">
+    {
+      roles.map((role) => {
+        const members = roster.filter((member) => member.role === role);
+        return (
+          <section class="panel">
+            <div class="section-heading inline">
+              <div>
+                <p class="eyebrow">{role}</p>
+                <h2>{members.length} Characters</h2>
+              </div>
+            </div>
+            <DataTable columns={columns} rows={members} emptyLabel={`No ${role} characters yet.`} />
+          </section>
+        );
+      })
+    }
+  </div>
+</Layout>

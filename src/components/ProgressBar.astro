@@ -1,0 +1,20 @@
+---
+interface Props {
+  completed: number;
+  required: number;
+  label?: string;
+}
+
+const { completed, required, label = "Progress" } = Astro.props;
+const percent = required > 0 ? Math.min(Math.round((completed / required) * 100), 100) : 0;
+---
+
+<div class="progress-block" aria-label={`${label}: ${completed} of ${required}`}>
+  <div class="progress-meta">
+    <span>{label}</span>
+    <strong>{completed}/{required}</strong>
+  </div>
+  <div class="progress-track">
+    <span style={`width: ${percent}%`}></span>
+  </div>
+</div>

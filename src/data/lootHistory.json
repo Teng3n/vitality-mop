@@ -1,0 +1,50 @@
+[
+  {
+    "date": "2026-04-18",
+    "player": "Embermoth",
+    "item": "Phoenixfire Robes",
+    "boss": "Elegon",
+    "instance": "Mogu'shan Vaults",
+    "type": "BiS"
+  },
+  {
+    "date": "2026-04-18",
+    "player": "Auralin",
+    "item": "Stoneguard Greatcloak",
+    "boss": "The Stone Guard",
+    "instance": "Mogu'shan Vaults",
+    "type": "Major"
+  },
+  {
+    "date": "2026-04-20",
+    "player": "Mistveil",
+    "item": "Jade Spirit Sash",
+    "boss": "Feng the Accursed",
+    "instance": "Mogu'shan Vaults",
+    "type": "Minor"
+  },
+  {
+    "date": "2026-04-20",
+    "player": "Ironwaltz",
+    "item": "Titansteel Shoulderplates",
+    "boss": "Will of the Emperor",
+    "instance": "Mogu'shan Vaults",
+    "type": "Major"
+  },
+  {
+    "date": "2026-04-22",
+    "player": "Sablefang",
+    "item": "Dagger of the Hidden Temple",
+    "boss": "Blade Lord Ta'yak",
+    "instance": "Heart of Fear",
+    "type": "BiS"
+  },
+  {
+    "date": "2026-04-22",
+    "player": "Lunarae",
+    "item": "Amber-Sealed Pendant",
+    "boss": "Amber-Shaper Un'sok",
+    "instance": "Heart of Fear",
+    "type": "Bonus Roll"
+  }
+]

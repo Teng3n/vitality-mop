@@ -1,0 +1,38 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import DataTable from "../../components/DataTable.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import StatCard from "../../components/StatCard.astro";
+import lootSummary from "../../data/lootSummary.json";
+
+const rows = [...lootSummary].sort((a, b) => b.total - a.total || a.player.localeCompare(b.player));
+const totalLoot = rows.reduce((sum, row) => sum + row.total, 0);
+const totalBis = rows.reduce((sum, row) => sum + row.bis, 0);
+const columns = [
+  { key: "player", label: "Player" },
+  { key: "bis", label: "BiS", align: "right" },
+  { key: "major", label: "Major", align: "right" },
+  { key: "minor", label: "Minor", align: "right" },
+  { key: "offspec", label: "Offspec", align: "right" },
+  { key: "bonusRolls", label: "Bonus Rolls", align: "right" },
+  { key: "total", label: "Total", align: "right" },
+] satisfies Array<{ key: string; label: string; align?: "left" | "center" | "right" }>;
+---
+
+<Layout title="Loot Summary | Vitality">
+  <PageHeader
+    eyebrow="Loot"
+    title="Player Loot Summary"
+    description="Player-level loot counts sorted by total awards."
+  />
+
+  <section class="dashboard-grid compact">
+    <StatCard label="Tracked awards" value={totalLoot} detail="All summary rows" />
+    <StatCard label="BiS awards" value={totalBis} detail="Priority count" />
+    <StatCard label="History" value="View" detail="Award log" href="/loot/history" />
+  </section>
+
+  <section class="panel">
+    <DataTable columns={columns} rows={rows} />
+  </section>
+</Layout>

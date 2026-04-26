@@ -1,0 +1,34 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import ProgressBar from "../components/ProgressBar.astro";
+import legendaryProgress from "../data/legendaryProgress.json";
+
+const rows = [...legendaryProgress].sort((a, b) => a.track.localeCompare(b.track) || a.player.localeCompare(b.player));
+---
+
+<Layout title="Legendary Progress | Vitality">
+  <PageHeader
+    eyebrow="Legendary"
+    title="Staff and Dagger Progress"
+    description="Progress cards for legendary-style quest tracking."
+  />
+
+  <section class="card-grid">
+    {
+      rows.map((entry) => (
+        <article class="panel progress-card">
+          <div class="section-heading inline">
+            <div>
+              <p class="eyebrow">{entry.track}</p>
+              <h2>{entry.player}</h2>
+            </div>
+            <span class="status-pill">{entry.status}</span>
+          </div>
+          <p>{entry.stage}</p>
+          <ProgressBar completed={entry.completed} required={entry.required} label={entry.stage} />
+        </article>
+      ))
+    }
+  </section>
+</Layout>

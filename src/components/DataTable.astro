@@ -1,0 +1,54 @@
+---
+export interface Column {
+  key: string;
+  label: string;
+  align?: "left" | "center" | "right";
+}
+
+interface Props {
+  columns: Column[];
+  rows: Record<string, unknown>[];
+  caption?: string;
+  emptyLabel?: string;
+}
+
+const { columns, rows, caption, emptyLabel = "No records yet." } = Astro.props;
+
+const formatValue = (value: unknown) => {
+  if (value === null || value === undefined || value === "") {
+    return "-";
+  }
+
+  return String(value);
+};
+---
+
+<div class="table-shell">
+  <table class="data-table">
+    {caption && <caption>{caption}</caption>}
+    <thead>
+      <tr>
+        {columns.map((column) => <th class={`is-${column.align ?? "left"}`}>{column.label}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.length > 0 ? (
+          rows.map((row) => (
+            <tr data-search={Object.values(row).join(" ").toLowerCase()}>
+              {columns.map((column) => (
+                <td class={`is-${column.align ?? "left"}`} data-label={column.label}>
+                  {formatValue(row[column.key])}
+                </td>
+              ))}
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colspan={columns.length}>{emptyLabel}</td>
+          </tr>
+        )
+      }
+    </tbody>
+  </table>
+</div>

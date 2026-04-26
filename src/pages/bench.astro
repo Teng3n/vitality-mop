@@ -1,0 +1,26 @@
+---
+import Layout from "../layouts/Layout.astro";
+import DataTable from "../components/DataTable.astro";
+import PageHeader from "../components/PageHeader.astro";
+import bench from "../data/bench.json";
+
+const rows = [...bench].sort((a, b) => b.totalBenchCount - a.totalBenchCount || a.player.localeCompare(b.player));
+const columns = [
+  { key: "player", label: "Player" },
+  { key: "totalBenchCount", label: "Total Bench Count", align: "right" },
+  { key: "lastBenched", label: "Last Benched" },
+  { key: "notes", label: "Notes / Upcoming" },
+] satisfies Array<{ key: string; label: string; align?: "left" | "center" | "right" }>;
+---
+
+<Layout title="Bench | Vitality">
+  <PageHeader
+    eyebrow="Bench"
+    title="Bench Rotation"
+    description="Public rotation summary for keeping raid sits visible and fair."
+  />
+
+  <section class="panel">
+    <DataTable columns={columns} rows={rows} />
+  </section>
+</Layout>

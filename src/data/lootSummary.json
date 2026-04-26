@@ -1,0 +1,56 @@
+[
+  {
+    "player": "Auralin",
+    "bis": 1,
+    "major": 2,
+    "minor": 1,
+    "offspec": 0,
+    "bonusRolls": 2,
+    "total": 4
+  },
+  {
+    "player": "Embermoth",
+    "bis": 3,
+    "major": 1,
+    "minor": 2,
+    "offspec": 0,
+    "bonusRolls": 1,
+    "total": 6
+  },
+  {
+    "player": "Ironwaltz",
+    "bis": 2,
+    "major": 2,
+    "minor": 0,
+    "offspec": 1,
+    "bonusRolls": 0,
+    "total": 5
+  },
+  {
+    "player": "Lunarae",
+    "bis": 0,
+    "major": 1,
+    "minor": 3,
+    "offspec": 0,
+    "bonusRolls": 3,
+    "total": 4
+  },
+  {
+    "player": "Mistveil",
+    "bis": 2,
+    "major": 0,
+    "minor": 2,
+    "offspec": 0,
+    "bonusRolls": 2,
+    "total": 4
+  },
+  {
+    "player": "Sablefang",
+    "bis": 1,
+    "major": 3,
+    "minor": 1,
+    "offspec": 0,
+    "bonusRolls": 1,
+    "total": 5
+  }
+]

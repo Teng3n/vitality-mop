@@ -1,0 +1,34 @@
+[
+  {
+    "player": "Embermoth",
+    "track": "Staff",
+    "stage": "Sigil collection",
+    "completed": 8,
+    "required": 20,
+    "status": "Active"
+  },
+  {
+    "player": "Mistveil",
+    "track": "Staff",
+    "stage": "Runestone collection",
+    "completed": 4,
+    "required": 12,
+    "status": "Queued"
+  },
+  {
+    "player": "Sablefang",
+    "track": "Daggers",
+    "stage": "Cluster collection",
+    "completed": 37,
+    "required": 60,
+    "status": "Active"
+  },
+  {
+    "player": "Ironwaltz",
+    "track": "Daggers",
+    "stage": "Gem turn-ins",
+    "completed": 2,
+    "required": 6,
+    "status": "Queued"
+  }
+]
