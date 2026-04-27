@@ -39,7 +39,7 @@ const recentLootRows = profile.recentLoot.map(({ date, item, boss, instance, typ
   <section class="panel profile-overview">
     <div>
       <p class="eyebrow">Character</p>
-      <h2 class="profile-character" style={getPlayerNameStyle(profile.character)}>{profile.character}</h2>
+      <h2 class="profile-character player-name" style={getPlayerNameStyle(profile.character)}>{profile.character}</h2>
       <p class="muted">{profile.rosterStatus}</p>
     </div>
     <dl class="profile-meta">
@@ -161,8 +161,8 @@ const recentLootRows = profile.recentLoot.map(({ date, item, boss, instance, typ
       <ul class="clean-list profile-list">
         <li><span>Total Bench Count</span><strong>{profile.benchSummary?.totalBenchCount ?? 0}</strong></li>
         <li><span>Last Benched</span><strong>{profile.benchSummary?.lastBenched || "Not listed"}</strong></li>
+        <li><span>Notes / Upcoming</span><strong>{profile.benchSummary?.notes || "Not listed"}</strong></li>
       </ul>
-      {profile.benchSummary?.notes && <p class="info-note">{profile.benchSummary.notes}</p>}
     </article>
   </section>
 
