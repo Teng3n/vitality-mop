@@ -141,7 +141,6 @@ const nextScheduledBench = profile.upcomingBenchDates[0]?.isoDate ?? "";
       <div>
         <div class="section-heading compact">
           <p class="eyebrow">Rotation Summary</p>
-          <h3>Bench Notes</h3>
         </div>
         <ul class="clean-list profile-list">
           <li><span>Total Bench Count</span><strong>{profile.benchSummary?.totalBenchCount ?? 0}</strong></li>
@@ -153,7 +152,6 @@ const nextScheduledBench = profile.upcomingBenchDates[0]?.isoDate ?? "";
       <div>
         <div class="section-heading compact">
           <p class="eyebrow">Bench History</p>
-          <h3>Recent Bench Marks</h3>
         </div>
         {
           benchHistoryRows.length > 0 ? (

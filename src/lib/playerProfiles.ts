@@ -222,7 +222,9 @@ export const getPlayerProfile = (name: string): PlayerProfile => {
     attendance,
     benchSummary,
     lastBenchDate,
-    benchHistory: sortedBenchHistory,
+    benchHistory: allBenchDates
+      .sort((a, b) => b.isoDate.localeCompare(a.isoDate))
+      .map((date) => ({ ...date, status: "Bench" })),
     upcomingBenchDates,
     lootSummary: {
       ...lootSummaryRow,
