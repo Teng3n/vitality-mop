@@ -1,7 +1,6 @@
 ---
 import DataTable from "../../components/DataTable.astro";
 import Layout from "../../layouts/Layout.astro";
-import PageHeader from "../../components/PageHeader.astro";
 import StatCard from "../../components/StatCard.astro";
 import { getPlayerNameStyle } from "../../lib/playerStyles";
 import { getPlayerProfiles, type PlayerProfile } from "../../lib/playerProfiles";
@@ -32,11 +31,10 @@ const recentLootRows = profile.recentLoot.map(({ date, item, boss, instance, typ
 ---
 
 <Layout title={`${profile.character} | Vitality`}>
-  <PageHeader
-    eyebrow="Player Profile"
-    title={profile.character}
-    description={`${classSpec} profile with attendance, bench, and loot history from the public site data.`}
-  />
+  <section class="page-header">
+    <p class="eyebrow">Player Profile</p>
+    <h1 class="player-name" style={getPlayerNameStyle(profile.character)}>{profile.character}</h1>
+  </section>
 
   <section class="panel profile-overview">
     <div>
