@@ -110,9 +110,13 @@ const showSummaryLists = mode === "snapshot";
     )
   }
 
-  <div class="raid-window-toolbar">
-    <span class="muted" data-raid-window-label>Upcoming raids</span>
-  </div>
+  {
+    mode === "history" && (
+      <div class="raid-window-toolbar">
+        <span class="muted" data-raid-window-label>Upcoming raids</span>
+      </div>
+    )
+  }
 
   <div class="calendar-shell calendar-window-shell">
     <table class="calendar-table calendar-window-table">
@@ -175,7 +179,6 @@ const showSummaryLists = mode === "snapshot";
 </section>
 
 <script>
-  const dayMs = 24 * 60 * 60 * 1000;
   const toLocalDate = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
   const parseIsoDate = (isoDate: string) => {
     const [year, month, day] = isoDate.split("-").map(Number);
@@ -240,6 +243,7 @@ const showSummaryLists = mode === "snapshot";
     }
 
     const visibleDateSet = new Set(visibleDates.map(({ isoDate }) => isoDate));
+    const firstVisibleDate = visibleDates[0]?.isoDate ?? "";
     const getRaidWeekDates = () => {
       const currentWeekStart = getWeekStart(today);
       const currentWeekDates = uniqueDates.filter(
@@ -282,7 +286,9 @@ const showSummaryLists = mode === "snapshot";
 
     const updateRows = () => {
       for (const cell of datedCells) {
-        cell.hidden = !visibleDateSet.has(cell.dataset.raidDate ?? "");
+        const raidDate = cell.dataset.raidDate ?? "";
+        cell.hidden = !visibleDateSet.has(raidDate);
+        cell.toggleAttribute("data-window-start", raidDate === firstVisibleDate);
       }
 
       let visiblePlayerRows = 0;
@@ -361,13 +367,9 @@ const showSummaryLists = mode === "snapshot";
       if (label && visibleDates.length > 0) {
         const first = visibleDates[0].date;
         const last = visibleDates[visibleDates.length - 1].date;
-        const weeks = Math.max(1, Math.ceil(((last.getTime() - first.getTime()) / dayMs + 1) / 7));
         const range = `${formatRangeDate(first)} - ${formatRangeDate(last)}`;
 
-        label.textContent =
-          mode === "history"
-            ? `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows)`
-            : `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows, ${weeks} weeks)`;
+        label.textContent = `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows)`;
       }
     };
 
