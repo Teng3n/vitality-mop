@@ -39,13 +39,24 @@ const raidPayload = calendar.raidDates.map((date) => ({
       color: getPlayerClassColor(player.name),
       href: getPlayerProfileHref(player.name),
     })),
+  late: calendar.players
+    .filter((player) => player.schedule[date.label] === "Late")
+    .map((player) => ({
+      name: cleanPlayerName(player.name),
+      className: getPlayerClass(player.name),
+      color: getPlayerClassColor(player.name),
+      href: getPlayerProfileHref(player.name),
+    })),
 }));
 ---
 
-<section class="panel next-raid-card" data-next-raid>
+<section class="panel next-raid-card dashboard-raid-card" data-next-raid>
   <div class="next-raid-heading">
-    <p class="eyebrow">Tonight / Next Raid</p>
-    <h2>Next Raid: <span data-next-raid-date>Upcoming raid</span></h2>
+    <div>
+      <p class="eyebrow">Tonight / Next Raid</p>
+      <h2>Next Raid: <span data-next-raid-date>Upcoming raid</span></h2>
+    </div>
+    <span class="muted" data-raid-week-label>Raid week</span>
   </div>
 
   <div class="next-raid-grid">
@@ -64,20 +75,27 @@ const raidPayload = calendar.raidDates.map((date) => ({
       </div>
     </dl>
 
-    <div class="next-raid-statuses">
+    <div class="next-raid-statuses is-week">
       <article class="next-raid-list">
         <div>
-          <span>Benched tonight</span>
-          <strong data-next-raid-bench-count>0</strong>
+          <span>Bench this week</span>
+          <strong data-week-bench-count>0</strong>
         </div>
-        <ul data-next-raid-bench></ul>
+        <ul data-week-bench></ul>
       </article>
       <article class="next-raid-list">
         <div>
-          <span>Out tonight</span>
-          <strong data-next-raid-out-count>0</strong>
+          <span>Out this week</span>
+          <strong data-week-out-count>0</strong>
         </div>
-        <ul data-next-raid-out></ul>
+        <ul data-week-out></ul>
+      </article>
+      <article class="next-raid-list">
+        <div>
+          <span>Late this week</span>
+          <strong data-week-late-count>0</strong>
+        </div>
+        <ul data-week-late></ul>
       </article>
     </div>
   </div>
@@ -91,6 +109,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const [year, month, day] = isoDate.split("-").map(Number);
     return new Date(year, month - 1, day);
   };
+  const getWeekStart = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
   const ordinal = (day: number) => {
     const rem100 = day % 100;
     if (rem100 >= 11 && rem100 <= 13) {
@@ -121,28 +140,53 @@ const raidPayload = calendar.raidDates.map((date) => ({
         return `<li><a class="player-name player-link"${href}${color}${title}>${escapeHtml(player.name)}</a></li>`;
       })
       .join("");
+  const uniquePlayers = (players: Array<{ name: string; className?: string; color?: string; href?: string }>) => {
+    const byPlayer = new Map<string, { name: string; className?: string; color?: string; href?: string }>();
+
+    for (const player of players) {
+      byPlayer.set(player.href || player.name.toLocaleLowerCase(), player);
+    }
+
+    return [...byPlayer.values()].sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
+  };
 
   document.querySelectorAll<HTMLElement>("[data-next-raid]").forEach((card) => {
     const dataNode = card.querySelector<HTMLScriptElement>("[data-next-raid-data]");
     const dateNode = card.querySelector<HTMLElement>("[data-next-raid-date]");
-    const benchNode = card.querySelector<HTMLElement>("[data-next-raid-bench]");
-    const outNode = card.querySelector<HTMLElement>("[data-next-raid-out]");
-    const benchCount = card.querySelector<HTMLElement>("[data-next-raid-bench-count]");
-    const outCount = card.querySelector<HTMLElement>("[data-next-raid-out-count]");
+    const weekLabel = card.querySelector<HTMLElement>("[data-raid-week-label]");
+    const benchNode = card.querySelector<HTMLElement>("[data-week-bench]");
+    const outNode = card.querySelector<HTMLElement>("[data-week-out]");
+    const lateNode = card.querySelector<HTMLElement>("[data-week-late]");
+    const benchCount = card.querySelector<HTMLElement>("[data-week-bench-count]");
+    const outCount = card.querySelector<HTMLElement>("[data-week-out-count]");
+    const lateCount = card.querySelector<HTMLElement>("[data-week-late-count]");
     const raids = JSON.parse(dataNode?.textContent ?? "[]") as Array<{
       label: string;
       isoDate: string;
       bench: Array<{ name: string; className?: string; color?: string; href?: string }>;
       out: Array<{ name: string; className?: string; color?: string; href?: string }>;
+      late: Array<{ name: string; className?: string; color?: string; href?: string }>;
     }>;
     const today = toLocalDate(new Date());
-    const nextRaid = raids.find((raid) => parseIsoDate(raid.isoDate) >= today) ?? raids[raids.length - 1];
+    const datedRaids = raids.map((raid) => ({ ...raid, date: parseIsoDate(raid.isoDate) }));
+    const nextRaid = datedRaids.find((raid) => raid.date >= today) ?? datedRaids[datedRaids.length - 1];
 
     if (!nextRaid) {
       return;
     }
 
-    const raidDate = parseIsoDate(nextRaid.isoDate);
+    const currentWeekStart = getWeekStart(today);
+    const currentWeekRaids = datedRaids.filter((raid) => getWeekStart(raid.date).getTime() === currentWeekStart.getTime());
+    const hasCurrentOrUpcomingRaidThisWeek = currentWeekRaids.some((raid) => raid.date >= today);
+    const targetWeekStart =
+      hasCurrentOrUpcomingRaidThisWeek && (today.getDay() === 0 || today.getDay() === 1)
+        ? currentWeekStart
+        : getWeekStart(nextRaid.date);
+    const weekRaids = datedRaids.filter((raid) => getWeekStart(raid.date).getTime() === targetWeekStart.getTime()).slice(0, 2);
+    const weekBench = uniquePlayers(weekRaids.flatMap((raid) => raid.bench));
+    const weekOut = uniquePlayers(weekRaids.flatMap((raid) => raid.out));
+    const weekLate = uniquePlayers(weekRaids.flatMap((raid) => raid.late));
+    const raidDate = nextRaid.date;
     const weekday = new Intl.DateTimeFormat(undefined, { weekday: "long" }).format(raidDate);
     const month = new Intl.DateTimeFormat(undefined, { month: "short" }).format(raidDate);
 
@@ -150,20 +194,35 @@ const raidPayload = calendar.raidDates.map((date) => ({
       dateNode.textContent = `${weekday}, ${month} ${ordinal(raidDate.getDate())}`;
     }
 
+    if (weekLabel) {
+      weekLabel.textContent =
+        weekRaids.length > 1
+          ? `${weekRaids[0].label} / ${weekRaids[weekRaids.length - 1].label}`
+          : weekRaids[0]?.label ?? nextRaid.label;
+    }
+
     if (benchNode) {
-      benchNode.innerHTML = playerListHtml(nextRaid.bench);
+      benchNode.innerHTML = playerListHtml(weekBench);
     }
 
     if (outNode) {
-      outNode.innerHTML = playerListHtml(nextRaid.out);
+      outNode.innerHTML = playerListHtml(weekOut);
+    }
+
+    if (lateNode) {
+      lateNode.innerHTML = playerListHtml(weekLate);
     }
 
     if (benchCount) {
-      benchCount.textContent = String(nextRaid.bench.length);
+      benchCount.textContent = String(weekBench.length);
     }
 
     if (outCount) {
-      outCount.textContent = String(nextRaid.out.length);
+      outCount.textContent = String(weekOut.length);
+    }
+
+    if (lateCount) {
+      lateCount.textContent = String(weekLate.length);
     }
   });
 </script>

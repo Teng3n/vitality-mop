@@ -544,7 +544,7 @@ p {
   font-size: 1.45rem;
 }
 
-.next-raid-heading span {
+.next-raid-heading h2 span {
   color: var(--gold);
 }
 
@@ -588,6 +588,14 @@ p {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+}
+
+.next-raid-statuses.is-week {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dashboard-raid-card .next-raid-grid {
+  grid-template-columns: minmax(220px, 0.52fr) minmax(0, 1.48fr);
 }
 
 .next-raid-list {
@@ -1267,6 +1275,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .raid-card-grid,
   .card-grid,
   .next-raid-statuses,
+  .next-raid-statuses.is-week,
   .profile-overview,
   .two-column,
   .resource-list {
