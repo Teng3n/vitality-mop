@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import { getPlayerClass, getPlayerNameStyle } from "../lib/playerStyles";
+import { getPlayerProfileHref } from "../lib/playerNames";
 
 const discordUrl = "https://discord.gg/Eg3UkkgcGj";
 const applicationUrl = "https://forms.gle/Ka2nMVkdp5wNCjZq8";
@@ -106,13 +107,14 @@ const addons = [
           leaders.map((leader) => (
             <li>
               <span>{leader.role}</span>
-              <strong
+              <a
                 class="player-name"
+                href={getPlayerProfileHref(leader.name)}
                 style={getPlayerNameStyle(leader.name)}
                 title={getPlayerClass(leader.name)}
               >
                 {leader.name}
-              </strong>
+              </a>
             </li>
           ))
         }

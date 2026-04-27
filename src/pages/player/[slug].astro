@@ -1,0 +1,178 @@
+---
+import DataTable from "../../components/DataTable.astro";
+import Layout from "../../layouts/Layout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import StatCard from "../../components/StatCard.astro";
+import { getPlayerNameStyle } from "../../lib/playerStyles";
+import { getPlayerProfiles, type PlayerProfile } from "../../lib/playerProfiles";
+
+export const getStaticPaths = () =>
+  getPlayerProfiles().map((profile) => ({
+    params: { slug: profile.slug },
+    props: { profile },
+  }));
+
+const { profile } = Astro.props as { profile: PlayerProfile };
+const classSpec = [profile.className, profile.spec].filter(Boolean).join(" / ") || "Class and spec not listed";
+const benchHistoryRows = profile.benchHistory.slice(0, 10);
+const recentLootColumns = [
+  { key: "date", label: "Date" },
+  { key: "item", label: "Item" },
+  { key: "boss", label: "Boss" },
+  { key: "instance", label: "Instance" },
+  { key: "type", label: "Type" },
+];
+const recentLootRows = profile.recentLoot.map(({ date, item, boss, instance, type }) => ({
+  date,
+  item,
+  boss,
+  instance,
+  type,
+}));
+---
+
+<Layout title={`${profile.character} | Vitality`}>
+  <PageHeader
+    eyebrow="Player Profile"
+    title={profile.character}
+    description={`${classSpec} profile with attendance, bench, and loot history from the public site data.`}
+  />
+
+  <section class="panel profile-overview">
+    <div>
+      <p class="eyebrow">Character</p>
+      <h2 class="profile-character" style={getPlayerNameStyle(profile.character)}>{profile.character}</h2>
+      <p class="muted">{profile.rosterStatus}</p>
+    </div>
+    <dl class="profile-meta">
+      <div>
+        <dt>Class / Spec</dt>
+        <dd>{classSpec}</dd>
+      </div>
+      <div>
+        <dt>Role</dt>
+        <dd>{profile.role ?? "Not listed"}</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="dashboard-grid">
+    <StatCard label="Raid Nights" value={profile.attendance.raidNights} detail="Calendar nights tracked" />
+    <StatCard label="Bench" value={profile.attendance.bench} detail="Bench marks" />
+    <StatCard label="Out / Late" value={`${profile.attendance.out} / ${profile.attendance.late}`} detail="Calendar marks" />
+    <StatCard label="Loot Total" value={profile.lootSummary.total} detail="BiS, major, and minor" />
+  </section>
+
+  <section class="content-grid two-column">
+    <article class="panel">
+      <div class="section-heading">
+        <p class="eyebrow">Attendance</p>
+        <h2>Calendar Summary</h2>
+      </div>
+      <ul class="clean-list profile-list">
+        <li><span>Bench</span><strong>{profile.attendance.bench}</strong></li>
+        <li><span>Out</span><strong>{profile.attendance.out}</strong></li>
+        <li><span>Late</span><strong>{profile.attendance.late}</strong></li>
+        <li><span>MIA</span><strong>{profile.attendance.mia}</strong></li>
+        <li><span>Trial</span><strong>{profile.attendance.trial}</strong></li>
+      </ul>
+    </article>
+
+    <article class="panel">
+      <div class="section-heading">
+        <p class="eyebrow">Bench</p>
+        <h2>Upcoming Bench Dates</h2>
+      </div>
+      {
+        profile.upcomingBenchDates.length > 0 ? (
+          <ul class="clean-list profile-list">
+            {profile.upcomingBenchDates.map((date) => (
+              <li>
+                <span>{date.label}</span>
+                <strong>{date.isoDate}</strong>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="info-note">No upcoming bench dates listed.</p>
+        )
+      }
+    </article>
+  </section>
+
+  <section class="content-grid two-column">
+    <article class="panel">
+      <div class="section-heading">
+        <p class="eyebrow">Loot</p>
+        <h2>Loot Summary</h2>
+      </div>
+      <ul class="clean-list profile-list">
+        <li><span>BiS</span><strong>{profile.lootSummary.bis}</strong></li>
+        <li><span>Major</span><strong>{profile.lootSummary.major}</strong></li>
+        <li><span>Minor</span><strong>{profile.lootSummary.minor}</strong></li>
+        <li><span>Offspec</span><strong>{profile.lootSummary.offspec}</strong></li>
+        <li><span>Bonus Rolls</span><strong>{profile.lootSummary.bonusRolls}</strong></li>
+        <li><span>Total</span><strong>{profile.lootSummary.total}</strong></li>
+      </ul>
+    </article>
+
+    <article class="panel">
+      <div class="section-heading">
+        <p class="eyebrow">Notes</p>
+        <h2>Status & Links</h2>
+      </div>
+      <ul class="clean-list">
+        {profile.notes.map((note) => <li>{note}</li>)}
+      </ul>
+      <div class="profile-actions">
+        <a class="resource-link" href={profile.warcraftLogsUrl} target="_blank" rel="noreferrer">
+          <span>Warcraft Logs</span>
+          <small>Search this character</small>
+        </a>
+      </div>
+    </article>
+  </section>
+
+  <section class="content-grid two-column">
+    <article class="panel">
+      <div class="section-heading">
+        <p class="eyebrow">Bench History</p>
+        <h2>Recent Bench Marks</h2>
+      </div>
+      {
+        benchHistoryRows.length > 0 ? (
+          <ul class="clean-list profile-list">
+            {benchHistoryRows.map((date) => (
+              <li>
+                <span>{date.label}</span>
+                <strong>{date.isoDate}</strong>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="info-note">No bench history listed.</p>
+        )
+      }
+    </article>
+
+    <article class="panel">
+      <div class="section-heading">
+        <p class="eyebrow">Bench Notes</p>
+        <h2>Rotation Summary</h2>
+      </div>
+      <ul class="clean-list profile-list">
+        <li><span>Total Bench Count</span><strong>{profile.benchSummary?.totalBenchCount ?? 0}</strong></li>
+        <li><span>Last Benched</span><strong>{profile.benchSummary?.lastBenched || "Not listed"}</strong></li>
+      </ul>
+      {profile.benchSummary?.notes && <p class="info-note">{profile.benchSummary.notes}</p>}
+    </article>
+  </section>
+
+  <section class="panel">
+    <div class="section-heading">
+      <p class="eyebrow">Recent Loot</p>
+      <h2>Latest Awards</h2>
+    </div>
+    <DataTable columns={recentLootColumns} rows={recentLootRows} emptyLabel="No recent loot listed." />
+  </section>
+</Layout>

@@ -41,6 +41,15 @@ a {
   font-weight: 900;
 }
 
+a.player-name {
+  text-decoration: none;
+}
+
+a.player-name:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -925,6 +934,61 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   background: linear-gradient(90deg, var(--jade), var(--gold));
 }
 
+.profile-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.8fr);
+  gap: 20px;
+  align-items: end;
+}
+
+.profile-character {
+  margin: 6px 0;
+  font-size: 2.2rem;
+}
+
+.profile-meta {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.profile-meta div,
+.profile-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.profile-meta div {
+  border: 1px solid rgba(43, 58, 49, 0.7);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(23, 33, 27, 0.7);
+}
+
+.profile-meta dt,
+.profile-list span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.profile-meta dd {
+  margin: 0;
+  font-weight: 900;
+}
+
+.profile-list strong {
+  text-align: right;
+}
+
+.profile-actions {
+  margin-top: 14px;
+}
+
 .site-footer {
   display: flex;
   justify-content: space-between;
@@ -1003,6 +1067,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .addon-list,
   .card-grid,
   .next-raid-statuses,
+  .profile-overview,
   .two-column,
   .resource-list {
     grid-template-columns: 1fr;

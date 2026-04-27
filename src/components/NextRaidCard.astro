@@ -1,5 +1,6 @@
 ---
 import { getPlayerClass, getPlayerClassColor } from "../lib/playerStyles";
+import { cleanPlayerName, getPlayerProfileHref } from "../lib/playerNames";
 
 interface RaidDate {
   label: string;
@@ -25,16 +26,18 @@ const raidPayload = calendar.raidDates.map((date) => ({
   bench: calendar.players
     .filter((player) => player.schedule[date.label] === "Bench")
     .map((player) => ({
-      name: player.name,
+      name: cleanPlayerName(player.name),
       className: getPlayerClass(player.name),
       color: getPlayerClassColor(player.name),
+      href: getPlayerProfileHref(player.name),
     })),
   out: calendar.players
     .filter((player) => player.schedule[date.label] === "Out")
     .map((player) => ({
-      name: player.name,
+      name: cleanPlayerName(player.name),
       className: getPlayerClass(player.name),
       color: getPlayerClassColor(player.name),
+      href: getPlayerProfileHref(player.name),
     })),
 }));
 ---
@@ -109,12 +112,13 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
       return entities[character] ?? character;
     });
-  const playerListHtml = (players: Array<{ name: string; className?: string; color?: string }>) =>
+  const playerListHtml = (players: Array<{ name: string; className?: string; color?: string; href?: string }>) =>
     players
       .map((player) => {
         const color = player.color ? ` style="--player-color: ${escapeHtml(player.color)}"` : "";
         const title = player.className ? ` title="${escapeHtml(player.className)}"` : "";
-        return `<li><span class="player-name"${color}${title}>${escapeHtml(player.name)}</span></li>`;
+        const href = player.href ? ` href="${escapeHtml(player.href)}"` : "";
+        return `<li><a class="player-name player-link"${href}${color}${title}>${escapeHtml(player.name)}</a></li>`;
       })
       .join("");
 
@@ -128,8 +132,8 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const raids = JSON.parse(dataNode?.textContent ?? "[]") as Array<{
       label: string;
       isoDate: string;
-      bench: Array<{ name: string; className?: string; color?: string }>;
-      out: Array<{ name: string; className?: string; color?: string }>;
+      bench: Array<{ name: string; className?: string; color?: string; href?: string }>;
+      out: Array<{ name: string; className?: string; color?: string; href?: string }>;
     }>;
     const today = toLocalDate(new Date());
     const nextRaid = raids.find((raid) => parseIsoDate(raid.isoDate) >= today) ?? raids[raids.length - 1];

@@ -1,5 +1,6 @@
 ---
 import { getPlayerClass, getPlayerClassColor, getPlayerNameStyle } from "../lib/playerStyles";
+import { cleanPlayerName, getPlayerProfileHref } from "../lib/playerNames";
 
 export interface CalendarSummary {
   label: string;
@@ -116,11 +117,20 @@ const showSummaryLists = mode === "snapshot";
       <tbody>
         {
           calendar.players.map((player) => (
-            <tr data-calendar-player-row data-player-color={getPlayerClassColor(player.name)}>
+            <tr
+              data-calendar-player-row
+              data-player-color={getPlayerClassColor(player.name)}
+              data-player-href={getPlayerProfileHref(player.name)}
+            >
               <th class="calendar-player">
-                <span class="player-name" style={getPlayerNameStyle(player.name)} title={getPlayerClass(player.name)}>
-                  {player.name}
-                </span>
+                <a
+                  class="player-name"
+                  href={getPlayerProfileHref(player.name)}
+                  style={getPlayerNameStyle(player.name)}
+                  title={getPlayerClass(player.name)}
+                >
+                  {cleanPlayerName(player.name)}
+                </a>
               </th>
               {
                 calendar.raidDates.map((date) => {
@@ -254,18 +264,19 @@ const showSummaryLists = mode === "snapshot";
       for (const card of summaryCards) {
         const values = JSON.parse(card.dataset.summaryValues ?? "{}") as Record<string, string>;
         const status = card.dataset.summaryStatus ?? "";
-        const playerMap = new Map<string, { dates: string[]; color: string }>();
+        const playerMap = new Map<string, { dates: string[]; color: string; href: string }>();
 
         if (summaryStrategy === "raid-week") {
           for (const row of playerRows) {
             const playerName = row.querySelector<HTMLElement>(".calendar-player")?.textContent?.trim() ?? "";
             const playerColor = row.dataset.playerColor ?? "";
+            const playerHref = row.dataset.playerHref ?? "";
 
             for (const cell of Array.from(row.querySelectorAll<HTMLElement>("[data-calendar-status]"))) {
               const date = uniqueDates.find(({ isoDate }) => isoDate === cell.dataset.raidDate);
 
               if (playerName && date && summaryDateSet.has(date.isoDate) && cell.dataset.calendarStatus === status) {
-                const entry = playerMap.get(playerName) ?? { dates: [], color: playerColor };
+                const entry = playerMap.get(playerName) ?? { dates: [], color: playerColor, href: playerHref };
                 entry.dates.push(date.label);
                 playerMap.set(playerName, entry);
               }
@@ -303,12 +314,13 @@ const showSummaryLists = mode === "snapshot";
           } else {
             listNode.innerHTML = Array.from(playerMap.entries())
               .map(([playerName, entry]) => {
-                const { dates, color } = entry;
+                const { dates, color, href } = entry;
                 const uniqueLabels = [...new Set(dates)];
                 const needsDateLabel = uniqueLabels.length !== summaryDates.length;
                 const suffix = needsDateLabel ? ` <small>${escapeHtml(uniqueLabels.join(", "))}</small>` : "";
                 const style = color ? ` style="--player-color: ${escapeHtml(color)}"` : "";
-                return `<li><span class="player-name"${style}>${escapeHtml(playerName)}</span>${suffix}</li>`;
+                const hrefAttribute = href ? ` href="${escapeHtml(href)}"` : "";
+                return `<li><a class="player-name player-link"${hrefAttribute}${style}>${escapeHtml(playerName)}</a>${suffix}</li>`;
               })
               .join("");
           }

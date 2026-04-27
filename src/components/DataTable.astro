@@ -1,5 +1,6 @@
 ---
 import { getPlayerClass, getPlayerNameStyle } from "../lib/playerStyles";
+import { cleanPlayerName, getPlayerProfileHref } from "../lib/playerNames";
 
 export interface Column {
   key: string;
@@ -39,6 +40,7 @@ const formatValue = (value: unknown) => {
 };
 const playerNameKeys = new Set(["player", "character", "name"]);
 const isPlayerNameColumn = (key: string) => playerNameKeys.has(key);
+const getPlayerValue = (value: unknown) => cleanPlayerName(formatValue(value));
 ---
 
 <div class="table-shell">
@@ -91,14 +93,15 @@ const isPlayerNameColumn = (key: string) => playerNameKeys.has(key);
                   data-label={column.label}
                   data-sort-value={formatValue(row[column.key])}
                 >
-                  {isPlayerNameColumn(column.key) ? (
-                    <span
+                  {isPlayerNameColumn(column.key) && formatValue(row[column.key]) !== "-" ? (
+                    <a
                       class="player-name"
-                      style={getPlayerNameStyle(formatValue(row[column.key]))}
-                      title={getPlayerClass(formatValue(row[column.key]))}
+                      href={getPlayerProfileHref(getPlayerValue(row[column.key]))}
+                      style={getPlayerNameStyle(getPlayerValue(row[column.key]))}
+                      title={getPlayerClass(getPlayerValue(row[column.key]))}
                     >
-                      {formatValue(row[column.key])}
-                    </span>
+                      {getPlayerValue(row[column.key])}
+                    </a>
                   ) : (
                     formatValue(row[column.key])
                   )}

@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import roster from "../data/roster.json";
 import { classColors, getPlayerNameStyle } from "../lib/playerStyles";
+import { cleanPlayerName, getPlayerProfileHref } from "../lib/playerNames";
 
 const members = [...roster].sort((a, b) => a.character.localeCompare(b.character, undefined, { sensitivity: "base" }));
 
@@ -37,9 +38,13 @@ const classColor = (className: string) => classColors[className] ?? "#f2f0e8";
             members.map((member) => (
               <tr style={`--class-color: ${classColor(member.class)}`}>
                 <td data-label="Character">
-                  <strong class="player-name" style={getPlayerNameStyle(member.character)}>
-                    {member.character}
-                  </strong>
+                  <a
+                    class="player-name"
+                    href={getPlayerProfileHref(member.character)}
+                    style={getPlayerNameStyle(member.character)}
+                  >
+                    {cleanPlayerName(member.character)}
+                  </a>
                 </td>
                 <td data-label="Class">{member.class}</td>
                 <td data-label="Spec">{member.spec}</td>
