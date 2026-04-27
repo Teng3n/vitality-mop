@@ -54,7 +54,6 @@ const statusClass = (value: string) => (value ? `calendar-status status-${slugSt
 const summaryRows = summaryTypes
   .map((label) => calendar.summary.find((row) => row.label === label))
   .filter((row): row is CalendarSummary => Boolean(row));
-const showRosterToggle = mode === "snapshot";
 const showSummaryLists = mode === "snapshot";
 ---
 
@@ -69,7 +68,7 @@ const showSummaryLists = mode === "snapshot";
     <div>
       <p class="eyebrow">{eyebrow}</p>
       <h2>{title}</h2>
-      <p class="muted">{description}</p>
+      {description && <p class="muted">{description}</p>}
     </div>
     <div class="status-legend" aria-label="Calendar status legend">
       {statusTypes.map((status) => <span class={`calendar-status status-${slugStatus(status)}`}>{status}</span>)}
@@ -98,14 +97,6 @@ const showSummaryLists = mode === "snapshot";
 
   <div class="raid-window-toolbar">
     <span class="muted" data-raid-window-label>Upcoming raids</span>
-    {
-      showRosterToggle && (
-        <label class="check-field">
-          <input type="checkbox" data-show-all-calendar-rows />
-          <span>Show all roster rows</span>
-        </label>
-      )
-    }
   </div>
 
   <div class="calendar-shell calendar-window-shell">
@@ -173,7 +164,6 @@ const showSummaryLists = mode === "snapshot";
     const mode = panel.dataset.calendarMode ?? "snapshot";
     const summaryStrategy = panel.dataset.summaryStrategy ?? "visible";
     const windowSize = Number(panel.dataset.windowSize ?? 12);
-    const showAllRows = panel.querySelector<HTMLInputElement>("[data-show-all-calendar-rows]");
     const label = panel.querySelector<HTMLElement>("[data-raid-window-label]");
     const dateHeaders = Array.from(panel.querySelectorAll<HTMLElement>("thead [data-raid-date]"));
     const datedCells = Array.from(panel.querySelectorAll<HTMLElement>("[data-raid-date]"));
@@ -245,16 +235,10 @@ const showSummaryLists = mode === "snapshot";
       }
 
       let visiblePlayerRows = 0;
-      const showAll = mode === "history" || (showAllRows?.checked ?? false);
 
       for (const row of playerRows) {
-        const hasVisibleStatus = Array.from(row.querySelectorAll<HTMLElement>("[data-calendar-status]")).some(
-          (cell) => visibleDateSet.has(cell.dataset.raidDate ?? "") && Boolean(cell.dataset.calendarStatus),
-        );
-        row.hidden = !showAll && !hasVisibleStatus;
-        if (!row.hidden) {
-          visiblePlayerRows += 1;
-        }
+        row.hidden = false;
+        visiblePlayerRows += 1;
       }
 
       for (const card of summaryCards) {
@@ -327,11 +311,10 @@ const showSummaryLists = mode === "snapshot";
         label.textContent =
           mode === "history"
             ? `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows)`
-            : `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows shown, ${weeks} weeks)`;
+            : `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows, ${weeks} weeks)`;
       }
     };
 
-    showAllRows?.addEventListener("change", updateRows);
     updateRows();
   });
 </script>
