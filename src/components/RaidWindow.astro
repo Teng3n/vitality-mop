@@ -1,4 +1,6 @@
 ---
+import { getPlayerClass, getPlayerClassColor, getPlayerNameStyle } from "../lib/playerStyles";
+
 export interface CalendarSummary {
   label: string;
   values: Record<string, string>;
@@ -110,8 +112,12 @@ const showSummaryLists = mode === "snapshot";
       <tbody>
         {
           calendar.players.map((player) => (
-            <tr data-calendar-player-row>
-              <th class="calendar-player">{player.name}</th>
+            <tr data-calendar-player-row data-player-color={getPlayerClassColor(player.name)}>
+              <th class="calendar-player">
+                <span class="player-name" style={getPlayerNameStyle(player.name)} title={getPlayerClass(player.name)}>
+                  {player.name}
+                </span>
+              </th>
               {
                 calendar.raidDates.map((date) => {
                   const status = player.schedule[date.label] ?? "";
@@ -244,19 +250,20 @@ const showSummaryLists = mode === "snapshot";
       for (const card of summaryCards) {
         const values = JSON.parse(card.dataset.summaryValues ?? "{}") as Record<string, string>;
         const status = card.dataset.summaryStatus ?? "";
-        const playerMap = new Map<string, string[]>();
+        const playerMap = new Map<string, { dates: string[]; color: string }>();
 
         if (summaryStrategy === "raid-week") {
           for (const row of playerRows) {
             const playerName = row.querySelector<HTMLElement>(".calendar-player")?.textContent?.trim() ?? "";
+            const playerColor = row.dataset.playerColor ?? "";
 
             for (const cell of Array.from(row.querySelectorAll<HTMLElement>("[data-calendar-status]"))) {
               const date = uniqueDates.find(({ isoDate }) => isoDate === cell.dataset.raidDate);
 
               if (playerName && date && summaryDateSet.has(date.isoDate) && cell.dataset.calendarStatus === status) {
-                const dates = playerMap.get(playerName) ?? [];
-                dates.push(date.label);
-                playerMap.set(playerName, dates);
+                const entry = playerMap.get(playerName) ?? { dates: [], color: playerColor };
+                entry.dates.push(date.label);
+                playerMap.set(playerName, entry);
               }
             }
           }
@@ -291,11 +298,13 @@ const showSummaryLists = mode === "snapshot";
             listNode.innerHTML = "<li>None</li>";
           } else {
             listNode.innerHTML = Array.from(playerMap.entries())
-              .map(([playerName, dates]) => {
+              .map(([playerName, entry]) => {
+                const { dates, color } = entry;
                 const uniqueLabels = [...new Set(dates)];
                 const needsDateLabel = uniqueLabels.length !== summaryDates.length;
                 const suffix = needsDateLabel ? ` <small>${escapeHtml(uniqueLabels.join(", "))}</small>` : "";
-                return `<li><span>${escapeHtml(playerName)}</span>${suffix}</li>`;
+                const style = color ? ` style="--player-color: ${escapeHtml(color)}"` : "";
+                return `<li><span class="player-name"${style}>${escapeHtml(playerName)}</span>${suffix}</li>`;
               })
               .join("");
           }

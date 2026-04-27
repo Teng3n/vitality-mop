@@ -36,6 +36,11 @@ a {
   color: inherit;
 }
 
+.player-name {
+  color: var(--player-color, inherit);
+  font-weight: 900;
+}
+
 img {
   display: block;
   max-width: 100%;

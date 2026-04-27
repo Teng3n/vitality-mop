@@ -2,20 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import roster from "../data/roster.json";
-
-const classColors: Record<string, string> = {
-  "Death Knight": "#c41e3a",
-  Druid: "#ff7c0a",
-  Hunter: "#aad372",
-  Mage: "#3fc7eb",
-  Monk: "#00ff98",
-  Paladin: "#f48cba",
-  Priest: "#ffffff",
-  Rogue: "#fff468",
-  Shaman: "#0070dd",
-  Warlock: "#8788ee",
-  Warrior: "#c69b6d",
-};
+import { classColors, getPlayerNameStyle } from "../lib/playerStyles";
 
 const members = [...roster].sort((a, b) => a.character.localeCompare(b.character, undefined, { sensitivity: "base" }));
 
@@ -50,7 +37,9 @@ const classColor = (className: string) => classColors[className] ?? "#f2f0e8";
             members.map((member) => (
               <tr style={`--class-color: ${classColor(member.class)}`}>
                 <td data-label="Character">
-                  <strong>{member.character}</strong>
+                  <strong class="player-name" style={getPlayerNameStyle(member.character)}>
+                    {member.character}
+                  </strong>
                 </td>
                 <td data-label="Class">{member.class}</td>
                 <td data-label="Spec">{member.spec}</td>
