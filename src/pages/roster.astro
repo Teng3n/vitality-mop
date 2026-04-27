@@ -18,12 +18,12 @@ const classColor = (className: string) => classColors[className] ?? "#f2f0e8";
     title="Raid Team"
   />
 
-  <section class="dashboard-grid">
-    <StatCard label="Roster Count" value={members.length} detail="Active raiders" />
-    <StatCard label="Tanks" value={roleCount("Tank")} detail="Protection and mitigation roles" />
-    <StatCard label="Healers" value={roleCount("Healer")} detail="Primary healing roster" />
-    <StatCard label="Melee DPS" value={roleCount("Melee DPS")} detail="Close-range damage" />
-    <StatCard label="Ranged DPS" value={roleCount("Ranged DPS")} detail="Caster and ranged damage" />
+  <section class="dashboard-grid roster-summary-grid">
+    <StatCard label="Roster Count" value={members.length} />
+    <StatCard label="Tanks" value={roleCount("Tank")} />
+    <StatCard label="Healers" value={roleCount("Healer")} />
+    <StatCard label="Melee DPS" value={roleCount("Melee DPS")} />
+    <StatCard label="Ranged DPS" value={roleCount("Ranged DPS")} />
   </section>
 
   <section class="panel">
