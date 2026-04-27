@@ -29,7 +29,7 @@ interface Props {
   title?: string;
   description?: string;
   mode?: "snapshot" | "history";
-  windowStrategy?: "next" | "raid-week";
+  summaryStrategy?: "visible" | "next-raid-day";
   windowSize?: number;
   calendar: {
     raidDates: RaidDate[];
@@ -43,7 +43,7 @@ const {
   title = "Upcoming Raid Window",
   description = "Showing the next Sunday and Monday raid cycles from the Calendar export.",
   mode = "snapshot",
-  windowStrategy = "next",
+  summaryStrategy = "visible",
   windowSize = 12,
   calendar,
 } = Astro.props;
@@ -61,7 +61,7 @@ const showRosterToggle = mode === "snapshot";
   class="panel raid-window-panel"
   data-raid-window
   data-calendar-mode={mode}
-  data-window-strategy={windowStrategy}
+  data-summary-strategy={summaryStrategy}
   data-window-size={windowSize}
 >
   <div class="section-heading inline">
@@ -142,7 +142,6 @@ const showRosterToggle = mode === "snapshot";
     const [year, month, day] = isoDate.split("-").map(Number);
     return new Date(year, month - 1, day);
   };
-  const getWeekStart = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
   const asNumber = (value: unknown) => {
     const parsed = Number(value);
     return Number.isFinite(parsed) ? parsed : 0;
@@ -150,7 +149,7 @@ const showRosterToggle = mode === "snapshot";
 
   document.querySelectorAll<HTMLElement>("[data-raid-window]").forEach((panel) => {
     const mode = panel.dataset.calendarMode ?? "snapshot";
-    const windowStrategy = panel.dataset.windowStrategy ?? "next";
+    const summaryStrategy = panel.dataset.summaryStrategy ?? "visible";
     const windowSize = Number(panel.dataset.windowSize ?? 12);
     const showAllRows = panel.querySelector<HTMLInputElement>("[data-show-all-calendar-rows]");
     const label = panel.querySelector<HTMLElement>("[data-raid-window-label]");
@@ -169,26 +168,7 @@ const showRosterToggle = mode === "snapshot";
     let visibleDates = uniqueDates;
 
     if (mode !== "history") {
-      if (windowStrategy === "raid-week") {
-        const currentWeekStart = getWeekStart(today);
-        const currentWeekDates = uniqueDates.filter(
-          ({ date }) => getWeekStart(date).getTime() === currentWeekStart.getTime(),
-        );
-        const hasCurrentOrUpcomingRaidThisWeek = currentWeekDates.some(({ date }) => date >= today);
-        const firstFutureRaid = uniqueDates.find(({ date }) => date >= today);
-        const targetWeekStart =
-          hasCurrentOrUpcomingRaidThisWeek && (today.getDay() === 0 || today.getDay() === 1)
-            ? currentWeekStart
-            : firstFutureRaid
-              ? getWeekStart(firstFutureRaid.date)
-              : getWeekStart(uniqueDates[uniqueDates.length - 1]?.date ?? today);
-
-        visibleDates = uniqueDates
-          .filter(({ date }) => getWeekStart(date).getTime() === targetWeekStart.getTime())
-          .slice(0, windowSize);
-      } else {
-        visibleDates = uniqueDates.filter(({ date }) => date >= today).slice(0, windowSize);
-      }
+      visibleDates = uniqueDates.filter(({ date }) => date >= today).slice(0, windowSize);
 
       if (visibleDates.length === 0) {
         visibleDates = uniqueDates.slice(-windowSize);
@@ -196,6 +176,8 @@ const showRosterToggle = mode === "snapshot";
     }
 
     const visibleDateSet = new Set(visibleDates.map(({ isoDate }) => isoDate));
+    const nextRaidDate = uniqueDates.find(({ date }) => date >= today) ?? uniqueDates[uniqueDates.length - 1];
+    const summaryDates = summaryStrategy === "next-raid-day" && nextRaidDate ? [nextRaidDate] : visibleDates;
 
     const formatRangeDate = (date: Date) =>
       date.toLocaleDateString(undefined, {
@@ -223,8 +205,8 @@ const showRosterToggle = mode === "snapshot";
 
       for (const card of summaryCards) {
         const values = JSON.parse(card.dataset.summaryValues ?? "{}") as Record<string, string>;
-        const total = visibleDates.reduce((sum, date) => sum + asNumber(values[date.label]), 0);
-        const activeDates = visibleDates.filter((date) => asNumber(values[date.label]) > 0).length;
+        const total = summaryDates.reduce((sum, date) => sum + asNumber(values[date.label]), 0);
+        const activeDates = summaryDates.filter((date) => asNumber(values[date.label]) > 0).length;
         const totalNode = card.querySelector<HTMLElement>("[data-summary-total]");
         const detailNode = card.querySelector<HTMLElement>("[data-summary-detail]");
 
@@ -236,8 +218,8 @@ const showRosterToggle = mode === "snapshot";
           detailNode.textContent =
             mode === "history"
               ? `${activeDates} raid nights in history`
-              : windowStrategy === "raid-week"
-                ? `${activeDates} raid nights this week`
+              : summaryStrategy === "next-raid-day"
+                ? `${summaryDates[0]?.label ?? "Next raid"} only`
               : `${activeDates} upcoming raid nights`;
         }
       }
@@ -251,8 +233,6 @@ const showRosterToggle = mode === "snapshot";
         label.textContent =
           mode === "history"
             ? `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows)`
-            : windowStrategy === "raid-week"
-              ? `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows shown, raid week)`
             : `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows shown, ${weeks} weeks)`;
       }
     };

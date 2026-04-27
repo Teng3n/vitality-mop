@@ -77,10 +77,9 @@ const calendarData = calendar as unknown as {
 
   <RaidWindow
     calendar={calendarData}
-    windowStrategy="raid-week"
-    windowSize={2}
+    summaryStrategy="next-raid-day"
     eyebrow="Raid Assignments"
     title="Current Calendar Snapshot"
-    description="The active Sunday and Monday raid week from the Calendar export."
+    description="The latest upcoming raid window from the Calendar export."
   />
 </Layout>
