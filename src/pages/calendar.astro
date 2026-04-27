@@ -1,0 +1,123 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import StatCard from "../components/StatCard.astro";
+import calendar from "../data/calendar.json";
+
+interface CalendarSummary {
+  label: string;
+  values: Record<string, string>;
+}
+
+interface CalendarPlayer {
+  name: string;
+  bis: number;
+  major: number;
+  minor: number;
+  total: number;
+  bonusRolls: number;
+  offspec: number;
+  mia: number;
+  out: number;
+  late: number;
+  bench: number;
+  schedule: Record<string, string>;
+}
+
+const calendarData = calendar as unknown as {
+  dates: string[];
+  summary: CalendarSummary[];
+  players: CalendarPlayer[];
+};
+const statusTotal = calendarData.players.reduce((sum, player) => sum + Object.keys(player.schedule).length, 0);
+const benchTotal = calendarData.players.reduce((sum, player) => sum + player.bench, 0);
+const statusTypes = ["Bench", "Out", "MIA", "Late", "Trial"];
+
+const slugStatus = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+const statusClass = (value: string) => (value ? `calendar-status status-${slugStatus(value)}` : "calendar-empty");
+---
+
+<Layout title="Raid Calendar | Vitality">
+  <PageHeader
+    eyebrow="Calendar"
+    title="Raid Calendar"
+    description="Attendance, bench, and raid-night planning from the public Calendar export."
+  />
+
+  <section class="dashboard-grid compact">
+    <StatCard label="Raid nights" value={calendarData.dates.length} detail="Calendar columns" />
+    <StatCard label="Players" value={calendarData.players.length} detail="Roster rows" />
+    <StatCard label="Bench marks" value={benchTotal} detail={`${statusTotal} total statuses`} />
+  </section>
+
+  <section class="panel">
+    <div class="section-heading inline">
+      <div>
+        <p class="eyebrow">Schedule Grid</p>
+        <h2>Calendar Export</h2>
+      </div>
+      <div class="status-legend" aria-label="Calendar status legend">
+        {statusTypes.map((status) => <span class={`calendar-status status-${slugStatus(status)}`}>{status}</span>)}
+      </div>
+    </div>
+
+    <div class="calendar-shell">
+      <table class="calendar-table">
+        <thead>
+          <tr>
+            <th class="calendar-player">Player / Summary</th>
+            <th>BiS</th>
+            <th>Major</th>
+            <th>Minor</th>
+            <th>Total</th>
+            <th>Bonus</th>
+            <th>OS</th>
+            <th>MIA</th>
+            <th>Out</th>
+            <th>Late</th>
+            <th>Bench</th>
+            {calendarData.dates.map((date) => <th>{date}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {
+            calendarData.summary.map((row) => (
+              <tr class="calendar-summary-row">
+                <th class="calendar-player">{row.label}</th>
+                <td colspan="10"></td>
+                {calendarData.dates.map((date) => <td>{row.values[date] ?? ""}</td>)}
+              </tr>
+            ))
+          }
+          {
+            calendarData.players.map((player) => (
+              <tr>
+                <th class="calendar-player">{player.name}</th>
+                <td>{player.bis}</td>
+                <td>{player.major}</td>
+                <td>{player.minor}</td>
+                <td>{player.total}</td>
+                <td>{player.bonusRolls}</td>
+                <td>{player.offspec}</td>
+                <td>{player.mia}</td>
+                <td>{player.out}</td>
+                <td>{player.late}</td>
+                <td>{player.bench}</td>
+                {
+                  calendarData.dates.map((date) => {
+                    const status = player.schedule[date] ?? "";
+                    return (
+                      <td class={statusClass(status)} title={status ? `${player.name}: ${status} on ${date}` : undefined}>
+                        {status}
+                      </td>
+                    );
+                  })
+                }
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Layout>

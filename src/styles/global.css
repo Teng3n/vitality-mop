@@ -294,6 +294,22 @@ p {
   color: var(--muted);
 }
 
+.status-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.status-legend .calendar-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  border-radius: 999px;
+  padding: 0 9px;
+  font-size: 0.76rem;
+}
+
 .stack {
   display: grid;
   gap: 18px;
@@ -406,6 +422,94 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
 .loot-summary-table tbody tr[data-active-roster="false"] td:first-child {
   border-left: 3px solid rgba(200, 155, 60, 0.72);
+}
+
+.calendar-shell {
+  max-height: 72vh;
+  overflow: auto;
+  border: 1px solid rgba(43, 58, 49, 0.7);
+  border-radius: 8px;
+}
+
+.calendar-table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+.calendar-table th,
+.calendar-table td {
+  min-width: 74px;
+  border-right: 1px solid rgba(43, 58, 49, 0.58);
+  border-bottom: 1px solid rgba(43, 58, 49, 0.58);
+  padding: 9px 10px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.calendar-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  color: var(--gold);
+  text-transform: uppercase;
+  background: #17211b;
+}
+
+.calendar-table .calendar-player {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 170px;
+  text-align: left;
+  background: #111714;
+}
+
+.calendar-table thead .calendar-player {
+  z-index: 3;
+  background: #17211b;
+}
+
+.calendar-summary-row th,
+.calendar-summary-row td {
+  color: var(--muted);
+  font-weight: 800;
+  background: rgba(23, 33, 27, 0.72);
+}
+
+.calendar-summary-row .calendar-player {
+  color: var(--gold);
+}
+
+.calendar-status {
+  color: var(--text);
+  font-weight: 800;
+}
+
+.status-bench {
+  background: rgba(200, 155, 60, 0.16);
+  color: #d8bb73;
+}
+
+.status-out {
+  background: rgba(216, 108, 92, 0.16);
+  color: #ee9a8e;
+}
+
+.status-mia {
+  background: rgba(174, 184, 173, 0.15);
+  color: #d9dfd8;
+}
+
+.status-late {
+  background: rgba(111, 207, 151, 0.12);
+  color: #9be0b7;
+}
+
+.status-trial {
+  background: rgba(150, 118, 214, 0.18);
+  color: #cdbfff;
 }
 
 .roster-table {
@@ -600,6 +704,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
   .toolbar,
   .site-footer,
+  .status-legend,
   .section-heading.inline {
     align-items: stretch;
     flex-direction: column;

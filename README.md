@@ -44,6 +44,7 @@ This MVP uses Astro static output and does not require Cloudflare Workers, Pages
 Current data is sample-only and lives in:
 
 - `src/data/roster.json`
+- `src/data/calendar.json`
 - `src/data/lootSummary.json`
 - `src/data/lootHistory.json`
 - `src/data/bench.json`
@@ -73,6 +74,14 @@ node scripts/backfill_loot_from_tsv.mjs "C:/path/to/Inept - MoP - History.tsv"
 ```
 
 The TSV converter writes only `lootHistory.json` and `lootSummary.json`. It keeps the public award fields and ignores raw item strings, votes, gear comparisons, notes, owners, and IDs.
+
+For a Calendar CSV export, run:
+
+```bash
+node scripts/backfill_calendar_from_csv.mjs "C:/path/to/Copy of Inept - MoP - Calendar.csv"
+```
+
+The Calendar converter writes `calendar.json` with public schedule statuses and summary counts only.
 
 ## Project Structure
 
