@@ -90,8 +90,8 @@ const showSummaryLists = mode === "snapshot";
             <span>{row.label}</span>
             <strong data-summary-total>0</strong>
           </div>
-          <small data-summary-detail>Visible dates</small>
           {showSummaryLists && <ul class="calendar-summary-list" data-summary-list></ul>}
+          <small data-summary-detail>Visible dates</small>
         </article>
       ))
     }
@@ -295,7 +295,7 @@ const showSummaryLists = mode === "snapshot";
 
         if (listNode) {
           if (playerMap.size === 0) {
-            listNode.innerHTML = "<li>None</li>";
+            listNode.innerHTML = '<li class="is-empty">None</li>';
           } else {
             listNode.innerHTML = Array.from(playerMap.entries())
               .map(([playerName, entry]) => {
