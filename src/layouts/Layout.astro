@@ -8,6 +8,7 @@ interface Props {
 const { title = "Vitality" } = Astro.props;
 const navItems = [
   { href: "/", label: "Home" },
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/roster", label: "Roster" },
   { href: "/calendar", label: "Calendar" },
   { href: "/loot", label: "Loot Summary" },
@@ -28,7 +29,7 @@ const isActive = (href: string) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Static guild dashboard for a World of Warcraft Mists of Pandaria Classic raid team."
+      content="Static guild site for a World of Warcraft Mists of Pandaria Classic raid team."
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
@@ -53,7 +54,7 @@ const isActive = (href: string) => {
           <slot />
         </main>
         <footer class="site-footer">
-          <span>MoP Classic guild dashboard</span>
+          <span>MoP Classic guild site</span>
           <span>Static data MVP</span>
         </footer>
       </div>

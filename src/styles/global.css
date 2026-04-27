@@ -261,6 +261,39 @@ p {
   padding: 12px;
 }
 
+.copy-panel {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+}
+
+.info-copy {
+  display: grid;
+  gap: 14px;
+}
+
+.info-copy p,
+.info-note,
+.expectation-list li {
+  margin: 0;
+  color: var(--muted);
+}
+
+.leadership-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.leadership-list span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .resource-list {
   display: grid;
   align-self: center;
