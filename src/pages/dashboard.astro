@@ -4,6 +4,8 @@ import NextRaidCard from "../components/NextRaidCard.astro";
 import PageHeader from "../components/PageHeader.astro";
 import RaidWindow from "../components/RaidWindow.astro";
 import calendar from "../data/calendar.json";
+import { getPlayersForStatusRange, getThisWeekRaidNights, type CalendarStatus } from "../lib/guildData";
+import { getPlayerClass, getPlayerNameStyle } from "../lib/playerStyles";
 
 const calendarData = calendar as unknown as {
   raidDates: Array<{ label: string; isoDate: string }>;
@@ -23,6 +25,20 @@ const calendarData = calendar as unknown as {
     schedule: Record<string, string>;
   }>;
 };
+const thisWeekRaidNights = getThisWeekRaidNights();
+const thisWeekLabel = thisWeekRaidNights.map((night) => night.label).join(" / ");
+const planningStatuses = (["Bench", "Out", "Late"] as CalendarStatus[]).map((status) => ({
+  status,
+  players: getPlayersForStatusRange(thisWeekRaidNights, status),
+}));
+const rosterIssuePlayers = [
+  ...new Map(
+    thisWeekRaidNights
+      .flatMap((night) => [...night.bench, ...night.out, ...night.late])
+      .filter((player) => !player.className)
+      .map((player) => [player.slug, player]),
+  ).values(),
+];
 ---
 
 <Layout title="Raider Dashboard | Vitality">
@@ -32,6 +48,74 @@ const calendarData = calendar as unknown as {
   />
 
   <NextRaidCard calendar={calendarData} />
+
+  <section class="panel action-panel">
+    <div class="section-heading inline">
+      <div>
+        <p class="eyebrow">Raid Lead Actions</p>
+        <h2>This Week</h2>
+      </div>
+      <span class="muted">{thisWeekLabel || "No upcoming raid dates"}</span>
+    </div>
+
+    <div class="action-metrics">
+      {
+        planningStatuses.map(({ status, players }) => (
+          <div>
+            <span>{status}</span>
+            <strong>{players.length}</strong>
+          </div>
+        ))
+      }
+      <div>
+        <span>Roster Issues</span>
+        <strong>{rosterIssuePlayers.length}</strong>
+      </div>
+    </div>
+
+    <div class="action-columns">
+      {
+        planningStatuses.map(({ status, players }) => (
+          <article>
+            <h3>{status}</h3>
+            {
+              players.length > 0 ? (
+                <ul class="inline-player-list">
+                  {players.map((player) => (
+                    <li>
+                      <a class="player-name" href={player.href} style={getPlayerNameStyle(player.name)} title={getPlayerClass(player.name)}>
+                        {player.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p class="info-note">No players marked {status.toLowerCase()} this week.</p>
+              )
+            }
+          </article>
+        ))
+      }
+      <article>
+        <h3>Roster Issues</h3>
+        {
+          rosterIssuePlayers.length > 0 ? (
+            <ul class="inline-player-list">
+              {rosterIssuePlayers.map((player) => (
+                <li>
+                  <a class="player-name" href={player.href} style={getPlayerNameStyle(player.name)} title={getPlayerClass(player.name)}>
+                    {player.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="info-note">No roster mismatches found for this week.</p>
+          )
+        }
+      </article>
+    </div>
+  </section>
 
   <RaidWindow
     calendar={calendarData}
