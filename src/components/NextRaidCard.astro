@@ -1,0 +1,165 @@
+---
+import { getPlayerClass, getPlayerClassColor } from "../lib/playerStyles";
+
+interface RaidDate {
+  label: string;
+  isoDate: string;
+}
+
+interface CalendarPlayer {
+  name: string;
+  schedule: Record<string, string>;
+}
+
+interface Props {
+  calendar: {
+    raidDates: RaidDate[];
+    players: CalendarPlayer[];
+  };
+  raidName?: string;
+}
+
+const { calendar, raidName = "Throne of Thunder" } = Astro.props;
+const raidPayload = calendar.raidDates.map((date) => ({
+  ...date,
+  bench: calendar.players
+    .filter((player) => player.schedule[date.label] === "Bench")
+    .map((player) => ({
+      name: player.name,
+      className: getPlayerClass(player.name),
+      color: getPlayerClassColor(player.name),
+    })),
+  out: calendar.players
+    .filter((player) => player.schedule[date.label] === "Out")
+    .map((player) => ({
+      name: player.name,
+      className: getPlayerClass(player.name),
+      color: getPlayerClassColor(player.name),
+    })),
+}));
+---
+
+<section class="panel next-raid-card" data-next-raid>
+  <div class="next-raid-heading">
+    <p class="eyebrow">Tonight / Next Raid</p>
+    <h2>Next Raid: <span data-next-raid-date>Upcoming raid</span></h2>
+  </div>
+
+  <div class="next-raid-grid">
+    <dl class="next-raid-meta">
+      <div>
+        <dt>Raid</dt>
+        <dd>{raidName}</dd>
+      </div>
+      <div>
+        <dt>Start</dt>
+        <dd>8:00 PM PT</dd>
+      </div>
+      <div>
+        <dt>Invites</dt>
+        <dd>7:45 PM PT</dd>
+      </div>
+    </dl>
+
+    <div class="next-raid-statuses">
+      <article class="next-raid-list">
+        <div>
+          <span>Benched tonight</span>
+          <strong data-next-raid-bench-count>0</strong>
+        </div>
+        <ul data-next-raid-bench></ul>
+      </article>
+      <article class="next-raid-list">
+        <div>
+          <span>Out tonight</span>
+          <strong data-next-raid-out-count>0</strong>
+        </div>
+        <ul data-next-raid-out></ul>
+      </article>
+    </div>
+  </div>
+
+  <script is:inline type="application/json" data-next-raid-data set:html={JSON.stringify(raidPayload)} />
+</section>
+
+<script>
+  const toLocalDate = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const parseIsoDate = (isoDate: string) => {
+    const [year, month, day] = isoDate.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  };
+  const ordinal = (day: number) => {
+    const rem100 = day % 100;
+    if (rem100 >= 11 && rem100 <= 13) {
+      return `${day}th`;
+    }
+
+    const suffix = day % 10 === 1 ? "st" : day % 10 === 2 ? "nd" : day % 10 === 3 ? "rd" : "th";
+    return `${day}${suffix}`;
+  };
+  const escapeHtml = (value: string) =>
+    value.replace(/[&<>"']/g, (character) => {
+      const entities: Record<string, string> = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;",
+      };
+
+      return entities[character] ?? character;
+    });
+  const playerListHtml = (players: Array<{ name: string; className?: string; color?: string }>) =>
+    players
+      .map((player) => {
+        const color = player.color ? ` style="--player-color: ${escapeHtml(player.color)}"` : "";
+        const title = player.className ? ` title="${escapeHtml(player.className)}"` : "";
+        return `<li><span class="player-name"${color}${title}>${escapeHtml(player.name)}</span></li>`;
+      })
+      .join("");
+
+  document.querySelectorAll<HTMLElement>("[data-next-raid]").forEach((card) => {
+    const dataNode = card.querySelector<HTMLScriptElement>("[data-next-raid-data]");
+    const dateNode = card.querySelector<HTMLElement>("[data-next-raid-date]");
+    const benchNode = card.querySelector<HTMLElement>("[data-next-raid-bench]");
+    const outNode = card.querySelector<HTMLElement>("[data-next-raid-out]");
+    const benchCount = card.querySelector<HTMLElement>("[data-next-raid-bench-count]");
+    const outCount = card.querySelector<HTMLElement>("[data-next-raid-out-count]");
+    const raids = JSON.parse(dataNode?.textContent ?? "[]") as Array<{
+      label: string;
+      isoDate: string;
+      bench: Array<{ name: string; className?: string; color?: string }>;
+      out: Array<{ name: string; className?: string; color?: string }>;
+    }>;
+    const today = toLocalDate(new Date());
+    const nextRaid = raids.find((raid) => parseIsoDate(raid.isoDate) >= today) ?? raids[raids.length - 1];
+
+    if (!nextRaid) {
+      return;
+    }
+
+    const raidDate = parseIsoDate(nextRaid.isoDate);
+    const weekday = new Intl.DateTimeFormat(undefined, { weekday: "long" }).format(raidDate);
+    const month = new Intl.DateTimeFormat(undefined, { month: "short" }).format(raidDate);
+
+    if (dateNode) {
+      dateNode.textContent = `${weekday}, ${month} ${ordinal(raidDate.getDate())}`;
+    }
+
+    if (benchNode) {
+      benchNode.innerHTML = playerListHtml(nextRaid.bench);
+    }
+
+    if (outNode) {
+      outNode.innerHTML = playerListHtml(nextRaid.out);
+    }
+
+    if (benchCount) {
+      benchCount.textContent = String(nextRaid.bench.length);
+    }
+
+    if (outCount) {
+      outCount.textContent = String(nextRaid.out.length);
+    }
+  });
+</script>

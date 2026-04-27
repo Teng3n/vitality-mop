@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import NextRaidCard from "../components/NextRaidCard.astro";
 import PageHeader from "../components/PageHeader.astro";
 import RaidWindow from "../components/RaidWindow.astro";
 import calendar from "../data/calendar.json";
@@ -25,6 +26,8 @@ const calendarData = calendar as unknown as {
 ---
 
 <Layout title="Vitality | MoP Classic Guild">
+  <NextRaidCard calendar={calendarData} />
+
   <PageHeader
     eyebrow="World of Warcraft MoP Classic"
     title="Vitality"
@@ -40,11 +43,11 @@ const calendarData = calendar as unknown as {
       <ul class="schedule-list">
         <li>
           <span>Sunday</span>
-          <strong>8:00 PM - 11:00 PM PST</strong>
+          <strong>8:00 PM - 11:00 PM PT</strong>
         </li>
         <li>
           <span>Monday</span>
-          <strong>8:00 PM - 11:00 PM PST</strong>
+          <strong>8:00 PM - 11:00 PM PT</strong>
         </li>
       </ul>
     </article>
