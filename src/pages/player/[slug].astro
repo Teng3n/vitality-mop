@@ -132,39 +132,45 @@ const nextScheduledBench = profile.upcomingBenchDates[0]?.isoDate ?? "";
     </article>
   </section>
 
-  <section class="content-grid two-column">
-    <article class="panel">
-      <div class="section-heading">
-        <p class="eyebrow">Bench History</p>
-        <h2>Recent Bench Marks</h2>
+  <section class="panel">
+    <div class="section-heading">
+      <p class="eyebrow">Bench</p>
+      <h2>Bench Rotation</h2>
+    </div>
+    <div class="profile-bench-grid">
+      <div>
+        <div class="section-heading compact">
+          <p class="eyebrow">Rotation Summary</p>
+          <h3>Bench Notes</h3>
+        </div>
+        <ul class="clean-list profile-list">
+          <li><span>Total Bench Count</span><strong>{profile.benchSummary?.totalBenchCount ?? 0}</strong></li>
+          <li><span>Last Benched</span><strong>{profile.lastBenchDate?.isoDate ?? ""}</strong></li>
+          <li><span>Scheduled</span><strong>{nextScheduledBench}</strong></li>
+        </ul>
       </div>
-      {
-        benchHistoryRows.length > 0 ? (
-          <ul class="clean-list profile-list">
-            {benchHistoryRows.map((date) => (
-              <li>
-                <span>{date.label}</span>
-                <strong>{date.isoDate}</strong>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p class="info-note">No bench history listed.</p>
-        )
-      }
-    </article>
 
-    <article class="panel">
-      <div class="section-heading">
-        <p class="eyebrow">Bench Notes</p>
-        <h2>Rotation Summary</h2>
+      <div>
+        <div class="section-heading compact">
+          <p class="eyebrow">Bench History</p>
+          <h3>Recent Bench Marks</h3>
+        </div>
+        {
+          benchHistoryRows.length > 0 ? (
+            <ul class="clean-list profile-list">
+              {benchHistoryRows.map((date) => (
+                <li>
+                  <span>{date.label}</span>
+                  <strong>{date.isoDate}</strong>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="info-note">No bench history listed.</p>
+          )
+        }
       </div>
-      <ul class="clean-list profile-list">
-        <li><span>Total Bench Count</span><strong>{profile.benchSummary?.totalBenchCount ?? 0}</strong></li>
-        <li><span>Last Benched</span><strong>{profile.lastBenchDate?.isoDate ?? ""}</strong></li>
-        <li><span>Scheduled</span><strong>{nextScheduledBench}</strong></li>
-      </ul>
-    </article>
+    </div>
   </section>
 
   <section class="panel">
