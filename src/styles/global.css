@@ -949,6 +949,12 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   border-radius: 8px;
 }
 
+[data-calendar-mode="snapshot"] .calendar-shell {
+  max-height: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 [data-calendar-mode="history"] .calendar-shell {
   max-height: 68vh;
 }
