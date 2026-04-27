@@ -29,6 +29,7 @@ interface Props {
   title?: string;
   description?: string;
   mode?: "snapshot" | "history";
+  windowStrategy?: "next" | "raid-week";
   windowSize?: number;
   calendar: {
     raidDates: RaidDate[];
@@ -42,11 +43,12 @@ const {
   title = "Upcoming Raid Window",
   description = "Showing the next Sunday and Monday raid cycles from the Calendar export.",
   mode = "snapshot",
+  windowStrategy = "next",
   windowSize = 12,
   calendar,
 } = Astro.props;
-const statusTypes = ["Bench", "Out", "MIA", "Late", "Trial"];
-const summaryTypes = ["MIA", "Out", "Late", "Bench"];
+const statusTypes = mode === "snapshot" ? ["Bench", "Out", "Late", "Trial"] : ["Bench", "Out", "MIA", "Late", "Trial"];
+const summaryTypes = mode === "snapshot" ? ["Out", "Late", "Bench"] : ["MIA", "Out", "Late", "Bench"];
 const slugStatus = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 const statusClass = (value: string) => (value ? `calendar-status status-${slugStatus(value)}` : "calendar-empty");
 const summaryRows = summaryTypes
@@ -55,7 +57,13 @@ const summaryRows = summaryTypes
 const showRosterToggle = mode === "snapshot";
 ---
 
-<section class="panel raid-window-panel" data-raid-window data-calendar-mode={mode} data-window-size={windowSize}>
+<section
+  class="panel raid-window-panel"
+  data-raid-window
+  data-calendar-mode={mode}
+  data-window-strategy={windowStrategy}
+  data-window-size={windowSize}
+>
   <div class="section-heading inline">
     <div>
       <p class="eyebrow">{eyebrow}</p>
@@ -134,6 +142,7 @@ const showRosterToggle = mode === "snapshot";
     const [year, month, day] = isoDate.split("-").map(Number);
     return new Date(year, month - 1, day);
   };
+  const getWeekStart = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
   const asNumber = (value: unknown) => {
     const parsed = Number(value);
     return Number.isFinite(parsed) ? parsed : 0;
@@ -141,6 +150,7 @@ const showRosterToggle = mode === "snapshot";
 
   document.querySelectorAll<HTMLElement>("[data-raid-window]").forEach((panel) => {
     const mode = panel.dataset.calendarMode ?? "snapshot";
+    const windowStrategy = panel.dataset.windowStrategy ?? "next";
     const windowSize = Number(panel.dataset.windowSize ?? 12);
     const showAllRows = panel.querySelector<HTMLInputElement>("[data-show-all-calendar-rows]");
     const label = panel.querySelector<HTMLElement>("[data-raid-window-label]");
@@ -159,7 +169,26 @@ const showRosterToggle = mode === "snapshot";
     let visibleDates = uniqueDates;
 
     if (mode !== "history") {
-      visibleDates = uniqueDates.filter(({ date }) => date >= today).slice(0, windowSize);
+      if (windowStrategy === "raid-week") {
+        const currentWeekStart = getWeekStart(today);
+        const currentWeekDates = uniqueDates.filter(
+          ({ date }) => getWeekStart(date).getTime() === currentWeekStart.getTime(),
+        );
+        const hasCurrentOrUpcomingRaidThisWeek = currentWeekDates.some(({ date }) => date >= today);
+        const firstFutureRaid = uniqueDates.find(({ date }) => date >= today);
+        const targetWeekStart =
+          hasCurrentOrUpcomingRaidThisWeek && (today.getDay() === 0 || today.getDay() === 1)
+            ? currentWeekStart
+            : firstFutureRaid
+              ? getWeekStart(firstFutureRaid.date)
+              : getWeekStart(uniqueDates[uniqueDates.length - 1]?.date ?? today);
+
+        visibleDates = uniqueDates
+          .filter(({ date }) => getWeekStart(date).getTime() === targetWeekStart.getTime())
+          .slice(0, windowSize);
+      } else {
+        visibleDates = uniqueDates.filter(({ date }) => date >= today).slice(0, windowSize);
+      }
 
       if (visibleDates.length === 0) {
         visibleDates = uniqueDates.slice(-windowSize);
@@ -207,6 +236,8 @@ const showRosterToggle = mode === "snapshot";
           detailNode.textContent =
             mode === "history"
               ? `${activeDates} raid nights in history`
+              : windowStrategy === "raid-week"
+                ? `${activeDates} raid nights this week`
               : `${activeDates} upcoming raid nights`;
         }
       }
@@ -220,6 +251,8 @@ const showRosterToggle = mode === "snapshot";
         label.textContent =
           mode === "history"
             ? `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows)`
+            : windowStrategy === "raid-week"
+              ? `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows shown, raid week)`
             : `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows shown, ${weeks} weeks)`;
       }
     };

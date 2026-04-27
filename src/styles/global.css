@@ -320,6 +320,10 @@ p {
   margin-bottom: 14px;
 }
 
+[data-calendar-mode="snapshot"] .calendar-summary-cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .calendar-summary-card {
   display: grid;
   gap: 4px;
