@@ -28,7 +28,6 @@ const recentLootRows = profile.recentLoot.map(({ date, item, boss, instance, typ
   instance,
   type,
 }));
-const nextScheduledBench = profile.upcomingBenchDates[0]?.isoDate ?? "";
 ---
 
 <Layout title={`${profile.character} | Vitality`}>
@@ -133,42 +132,30 @@ const nextScheduledBench = profile.upcomingBenchDates[0]?.isoDate ?? "";
   </section>
 
   <section class="panel">
-    <div class="section-heading">
-      <p class="eyebrow">Bench</p>
-      <h2>Bench Rotation</h2>
-    </div>
-    <div class="profile-bench-grid">
+    <div class="section-heading inline">
       <div>
-        <div class="section-heading compact">
-          <p class="eyebrow">Rotation Summary</p>
-        </div>
+        <p class="eyebrow">Bench</p>
+        <h2>Bench Rotation</h2>
+      </div>
+      <div class="profile-bench-count">
+        <span>Total Bench Count</span>
+        <strong>{profile.benchSummary?.totalBenchCount ?? 0}</strong>
+      </div>
+    </div>
+    {
+      benchHistoryRows.length > 0 ? (
         <ul class="clean-list profile-list">
-          <li><span>Total Bench Count</span><strong>{profile.benchSummary?.totalBenchCount ?? 0}</strong></li>
-          <li><span>Last Benched</span><strong>{profile.lastBenchDate?.isoDate ?? ""}</strong></li>
-          <li><span>Scheduled</span><strong>{nextScheduledBench}</strong></li>
+          {benchHistoryRows.map((date) => (
+            <li>
+              <span>{date.label}</span>
+              <strong>{date.isoDate}</strong>
+            </li>
+          ))}
         </ul>
-      </div>
-
-      <div>
-        <div class="section-heading compact">
-          <p class="eyebrow">Bench History</p>
-        </div>
-        {
-          benchHistoryRows.length > 0 ? (
-            <ul class="clean-list profile-list">
-              {benchHistoryRows.map((date) => (
-                <li>
-                  <span>{date.label}</span>
-                  <strong>{date.isoDate}</strong>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p class="info-note">No bench history listed.</p>
-          )
-        }
-      </div>
-    </div>
+      ) : (
+        <p class="info-note">No bench history listed.</p>
+      )
+    }
   </section>
 
   <section class="panel">

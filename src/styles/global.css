@@ -222,10 +222,6 @@ main {
   margin-bottom: 18px;
 }
 
-.section-heading.compact {
-  margin-bottom: 12px;
-}
-
 .section-heading.inline {
   display: flex;
   align-items: start;
@@ -989,10 +985,33 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   text-align: right;
 }
 
-.profile-bench-grid {
+.profile-bench-count {
   display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: 18px;
+  justify-items: end;
+  gap: 4px;
+}
+
+.profile-bench-count span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.profile-bench-count strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  min-height: 24px;
+  border: 1px solid rgba(242, 240, 232, 0.16);
+  border-radius: 6px;
+  padding: 0 8px;
+  background: rgba(242, 240, 232, 0.08);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .profile-actions {
@@ -1078,7 +1097,6 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .card-grid,
   .next-raid-statuses,
   .profile-overview,
-  .profile-bench-grid,
   .two-column,
   .resource-list {
     grid-template-columns: 1fr;
