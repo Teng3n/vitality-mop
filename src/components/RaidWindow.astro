@@ -80,7 +80,7 @@ const showSummaryLists = mode === "snapshot";
   <div class="section-heading inline">
     <div>
       <p class="eyebrow">{eyebrow}</p>
-      <h2>{title}</h2>
+      <h2 data-raid-window-title>{title}</h2>
       {description && <p class="muted">{description}</p>}
     </div>
     <div class="status-legend" aria-label="Calendar status legend">
@@ -206,6 +206,7 @@ const showSummaryLists = mode === "snapshot";
     const mode = panel.dataset.calendarMode ?? "snapshot";
     const summaryStrategy = panel.dataset.summaryStrategy ?? "visible";
     const windowSize = Number(panel.dataset.windowSize ?? 12);
+    const titleNode = panel.querySelector<HTMLElement>("[data-raid-window-title]");
     const label = panel.querySelector<HTMLElement>("[data-raid-window-label]");
     const dateHeaders = Array.from(panel.querySelectorAll<HTMLElement>("thead [data-raid-date]"));
     const datedCells = Array.from(panel.querySelectorAll<HTMLElement>("[data-raid-date]"));
@@ -272,6 +273,22 @@ const showSummaryLists = mode === "snapshot";
         month: "short",
         day: "numeric",
       });
+    const formatHeadingDate = (date: Date) => {
+      const day = date.getDate();
+      let suffix = "th";
+
+      if (day % 10 === 1 && day !== 11) {
+        suffix = "st";
+      } else if (day % 10 === 2 && day !== 12) {
+        suffix = "nd";
+      } else if (day % 10 === 3 && day !== 13) {
+        suffix = "rd";
+      }
+
+      const month = date.toLocaleDateString(undefined, { month: "long" });
+
+      return `${month} ${day}${suffix}`;
+    };
     const formatSummaryRange = () => {
       if (summaryDates.length === 0) {
         return "No raid dates";
@@ -364,12 +381,18 @@ const showSummaryLists = mode === "snapshot";
         }
       }
 
-      if (label && visibleDates.length > 0) {
+      if (visibleDates.length > 0) {
         const first = visibleDates[0].date;
         const last = visibleDates[visibleDates.length - 1].date;
-        const range = `${formatRangeDate(first)} - ${formatRangeDate(last)}`;
 
-        label.textContent = `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows)`;
+        if (titleNode && mode !== "history") {
+          titleNode.textContent = `${formatHeadingDate(first)} through ${formatHeadingDate(last)}`;
+        }
+
+        if (label) {
+          const range = `${formatRangeDate(first)} - ${formatRangeDate(last)}`;
+          label.textContent = `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows)`;
+        }
       }
     };
 
