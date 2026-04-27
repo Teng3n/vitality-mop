@@ -200,7 +200,32 @@ const calendar = {
   players,
 };
 
+const todayIso = new Date().toISOString().slice(0, 10);
+const benchSummary = players
+  .map((player) => {
+    const benchDates = raidDates.filter((date) => player.schedule[date.label] === "Bench");
+    const pastBenchDates = benchDates.filter((date) => date.isoDate < todayIso);
+    const futureBenchDates = benchDates.filter((date) => date.isoDate >= todayIso);
+
+    return {
+      player: player.name,
+      totalBenchCount: benchDates.length,
+      lastBenched: pastBenchDates.at(-1)?.isoDate ?? "",
+      notes:
+        futureBenchDates.length > 0
+          ? `Scheduled: ${futureBenchDates.map((date) => date.isoDate).join(", ")}`
+          : "No upcoming bench date listed",
+    };
+  })
+  .filter((player) => player.totalBenchCount > 0)
+  .sort(
+    (a, b) =>
+      b.totalBenchCount - a.totalBenchCount ||
+      a.player.localeCompare(b.player, undefined, { sensitivity: "base" }),
+  );
+
 await fs.writeFile(path.join(dataDir, "calendar.json"), `${JSON.stringify(calendar, null, 2)}\n`, "utf8");
+await fs.writeFile(path.join(dataDir, "bench.json"), `${JSON.stringify(benchSummary, null, 2)}\n`, "utf8");
 
 console.log(
   JSON.stringify(
@@ -211,6 +236,7 @@ console.log(
       summaryRows: summary.length,
       players: players.length,
       statusCells: players.reduce((sum, player) => sum + Object.keys(player.schedule).length, 0),
+      benchRows: benchSummary.length,
     },
     null,
     2,

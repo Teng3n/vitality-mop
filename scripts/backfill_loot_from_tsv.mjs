@@ -8,7 +8,7 @@ const dataDir = path.join(root, "src", "data");
 const inputPath = process.argv[2];
 
 if (!inputPath) {
-  console.error("Usage: node scripts/backfill_loot_from_tsv.mjs <history.tsv>");
+  console.error("Usage: node scripts/backfill_loot_from_tsv.mjs <history.csv|history.tsv>");
   process.exit(1);
 }
 
@@ -16,6 +16,17 @@ const REQUIRED_COLUMNS = ["player", "date", "item", "response", "instance", "bos
 
 function cleanText(value) {
   return String(value ?? "").trim();
+}
+
+function parsePlayer(value) {
+  const characterRealm = cleanText(value);
+  const match = /^(.+)-([^-]+)$/.exec(characterRealm);
+
+  return {
+    player: match?.[1] ?? characterRealm,
+    realm: match?.[2] ?? "",
+    characterRealm,
+  };
 }
 
 function cleanItem(value) {
@@ -46,24 +57,80 @@ function parseTime(value) {
   return Number(hours) * 3600 + Number(minutes) * 60 + Number(seconds);
 }
 
-function parseTsv(text) {
-  const lines = text.replace(/^\uFEFF/, "").split(/\r?\n/).filter((line) => line.trim());
-  const headers = lines.shift()?.split("\t").map(cleanText) ?? [];
+function parseDelimited(text, delimiter) {
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let inQuotes = false;
+  const source = text.replace(/^\uFEFF/, "");
+
+  for (let index = 0; index < source.length; index += 1) {
+    const char = source[index];
+    const next = source[index + 1];
+
+    if (char === "\"") {
+      if (inQuotes && next === "\"") {
+        cell += "\"";
+        index += 1;
+      } else {
+        inQuotes = !inQuotes;
+      }
+      continue;
+    }
+
+    if (char === delimiter && !inQuotes) {
+      row.push(cell);
+      cell = "";
+      continue;
+    }
+
+    if ((char === "\n" || char === "\r") && !inQuotes) {
+      if (char === "\r" && next === "\n") {
+        index += 1;
+      }
+      row.push(cell);
+      if (row.some((value) => cleanText(value))) {
+        rows.push(row);
+      }
+      row = [];
+      cell = "";
+      continue;
+    }
+
+    cell += char;
+  }
+
+  if (cell || row.length > 0) {
+    row.push(cell);
+    if (row.some((value) => cleanText(value))) {
+      rows.push(row);
+    }
+  }
+
+  return rows;
+}
+
+function parseHistory(text) {
+  const firstLine = text.replace(/^\uFEFF/, "").split(/\r?\n/, 1)[0] ?? "";
+  const delimiter = firstLine.includes("\t") ? "\t" : ",";
+  const rows = parseDelimited(text, delimiter);
+  const headers = rows.shift()?.map(cleanText) ?? [];
   const missing = REQUIRED_COLUMNS.filter((column) => !headers.includes(column));
 
   if (missing.length > 0) {
-    throw new Error(`History TSV missing columns: ${missing.join(", ")}`);
+    throw new Error(`History file missing columns: ${missing.join(", ")}`);
   }
 
-  return lines.map((line) => {
-    const values = line.split("\t");
+  return rows.map((values) => {
     return Object.fromEntries(headers.map((header, index) => [header, values[index] ?? ""]));
   });
 }
 
-function emptySummary(player) {
+function emptySummary(player, playerInfo = {}) {
   return {
     player,
+    realm: playerInfo.realm ?? "",
+    characterRealm: playerInfo.characterRealm ?? player,
     bis: 0,
     major: 0,
     minor: 0,
@@ -101,13 +168,14 @@ function sortByPlayer(a, b) {
 }
 
 const rawTsv = await fs.readFile(inputPath, "utf8");
-const sourceRows = parseTsv(rawTsv);
+const sourceRows = parseHistory(rawTsv);
 const summaryByPlayer = new Map();
 const responseCounts = new Map();
 
 const history = sourceRows
   .map((row) => {
-    const player = cleanText(row.player);
+    const playerInfo = parsePlayer(row.player);
+    const player = playerInfo.player;
     const item = cleanItem(row.item);
     const response = cleanText(row.response);
 
@@ -116,7 +184,7 @@ const history = sourceRows
     }
 
     if (!summaryByPlayer.has(player)) {
-      summaryByPlayer.set(player, emptySummary(player));
+      summaryByPlayer.set(player, emptySummary(player, playerInfo));
     }
 
     applySummaryCount(summaryByPlayer.get(player), response);
@@ -125,6 +193,8 @@ const history = sourceRows
     return {
       date: parseDate(row.date),
       player,
+      realm: playerInfo.realm,
+      characterRealm: playerInfo.characterRealm,
       item,
       boss: cleanText(row.boss),
       instance: cleanText(row.instance),
