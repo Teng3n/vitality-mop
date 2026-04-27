@@ -961,6 +961,10 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   white-space: nowrap;
 }
 
+[data-calendar-mode="snapshot"] .calendar-table [data-week-boundary="true"] {
+  box-shadow: inset 4px 0 0 rgba(200, 155, 60, 0.78);
+}
+
 .calendar-table thead th {
   position: sticky;
   top: 0;

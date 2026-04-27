@@ -52,10 +52,18 @@ const {
   showSummaryCards = true,
   calendar,
 } = Astro.props;
-const statusTypes = mode === "snapshot" ? ["Bench", "Out", "Late", "Trial"] : ["Bench", "Out", "MIA", "Late", "Trial"];
+const statusTypes = mode === "snapshot" ? ["Bench", "Out", "Late"] : ["Bench", "Out", "MIA", "Late"];
 const summaryTypes = mode === "snapshot" ? ["Out", "Late", "Bench"] : ["MIA", "Out", "Late", "Bench"];
 const slugStatus = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 const statusClass = (value: string) => (value ? `calendar-status status-${slugStatus(value)}` : "calendar-empty");
+const isWeekBoundary = (isoDate: string, index: number) => {
+  if (index === 0) {
+    return false;
+  }
+
+  const [year, month, day] = isoDate.split("-").map(Number);
+  return new Date(year, month - 1, day).getDay() === 0;
+};
 const summaryRows = summaryTypes
   .map((label) => calendar.summary.find((row) => row.label === label))
   .filter((row): row is CalendarSummary => Boolean(row));
@@ -111,7 +119,17 @@ const showSummaryLists = mode === "snapshot";
       <thead>
         <tr>
           <th class="calendar-player">Player</th>
-          {calendar.raidDates.map((date) => <th data-raid-date={date.isoDate} data-raid-label={date.label}>{date.label}</th>)}
+          {
+            calendar.raidDates.map((date, index) => (
+              <th
+                data-raid-date={date.isoDate}
+                data-raid-label={date.label}
+                data-week-boundary={isWeekBoundary(date.isoDate, index) ? "true" : undefined}
+              >
+                {date.label}
+              </th>
+            ))
+          }
         </tr>
       </thead>
       <tbody>
@@ -133,13 +151,14 @@ const showSummaryLists = mode === "snapshot";
                 </a>
               </th>
               {
-                calendar.raidDates.map((date) => {
+                calendar.raidDates.map((date, index) => {
                   const status = player.schedule[date.label] ?? "";
                   return (
                     <td
                       class={statusClass(status)}
                       data-raid-date={date.isoDate}
                       data-calendar-status={status}
+                      data-week-boundary={isWeekBoundary(date.isoDate, index) ? "true" : undefined}
                       title={status ? `${player.name}: ${status} on ${date.label}` : undefined}
                     >
                       {status}
