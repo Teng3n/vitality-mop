@@ -550,7 +550,7 @@ p {
 
 .next-raid-grid {
   display: grid;
-  grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1.28fr);
+  grid-template-columns: 1fr;
   gap: 18px;
 }
 
@@ -591,11 +591,11 @@ p {
 }
 
 .next-raid-statuses.is-week {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .dashboard-raid-card .next-raid-grid {
-  grid-template-columns: minmax(220px, 0.52fr) minmax(0, 1.48fr);
+  grid-template-columns: 1fr;
 }
 
 .next-raid-list {
@@ -649,6 +649,36 @@ p {
 
 .next-raid-list li {
   min-width: 0;
+}
+
+.next-raid-list-count {
+  align-content: stretch;
+}
+
+.available-raiders {
+  align-self: center;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.available-raiders strong {
+  min-width: 0;
+  min-height: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font-size: 2.25rem;
+  line-height: 1;
+}
+
+.available-raiders span {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .status-legend {

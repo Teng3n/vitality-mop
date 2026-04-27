@@ -18,10 +18,9 @@ interface Props {
     raidDates: RaidDate[];
     players: CalendarPlayer[];
   };
-  raidName?: string;
 }
 
-const { calendar, raidName = "Throne of Thunder" } = Astro.props;
+const { calendar } = Astro.props;
 const activeRosterCount = activeRosterPlayers.length;
 const raidPayload = calendar.raidDates.map((date) => ({
   ...date,
@@ -65,18 +64,16 @@ const raidPayload = calendar.raidDates.map((date) => ({
   </div>
 
   <div class="next-raid-grid">
-    <dl class="next-raid-meta">
-      <div>
-        <dt>Raid</dt>
-        <dd>{raidName}</dd>
-      </div>
-      <div>
-        <dt>Raiders</dt>
-        <dd><span data-week-raiders-count>{activeRosterCount}</span> Raiders</dd>
-      </div>
-    </dl>
-
     <div class="next-raid-statuses is-week">
+      <article class="next-raid-list next-raid-list-count">
+        <div>
+          <span>Raiders</span>
+        </div>
+        <div class="available-raiders">
+          <strong data-week-raiders-count>{activeRosterCount}</strong>
+          <span>Available</span>
+        </div>
+      </article>
       <article class="next-raid-list">
         <div>
           <span>Bench this week</span>
