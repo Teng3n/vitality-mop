@@ -392,7 +392,11 @@ p {
 
 [data-calendar-mode="snapshot"] .calendar-summary-list {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-content: start;
+  align-self: center;
+  justify-self: center;
+  align-content: center;
+  justify-content: center;
+  width: min(100%, 320px);
 }
 
 .calendar-summary-list li {
@@ -407,6 +411,11 @@ p {
 
 .calendar-summary-list li.is-empty {
   grid-column: 1 / -1;
+}
+
+[data-calendar-mode="snapshot"] .calendar-summary-list li {
+  justify-content: center;
+  text-align: center;
 }
 
 .calendar-summary-list li small {
