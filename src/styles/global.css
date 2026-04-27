@@ -326,14 +326,22 @@ p {
 
 .calendar-summary-card {
   display: grid;
-  gap: 4px;
-  min-height: 92px;
+  align-content: start;
+  gap: 8px;
+  min-height: 130px;
   border: 1px solid rgba(43, 58, 49, 0.7);
   border-radius: 8px;
   padding: 13px;
 }
 
-.calendar-summary-card span {
+.calendar-summary-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.calendar-summary-card-header > span {
   color: var(--muted);
   font-size: 0.74rem;
   font-weight: 900;
@@ -342,14 +350,44 @@ p {
 }
 
 .calendar-summary-card strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 28px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
   color: var(--text);
-  font-size: 2rem;
+  font-size: 0.95rem;
   line-height: 1;
 }
 
 .calendar-summary-card small {
   color: var(--muted);
   font-size: 0.78rem;
+}
+
+.calendar-summary-list {
+  display: grid;
+  gap: 5px;
+  margin: 2px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.calendar-summary-list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--text);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.calendar-summary-list li small {
+  flex: 0 0 auto;
+  font-size: 0.72rem;
 }
 
 .raid-window-panel .section-heading {

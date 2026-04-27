@@ -29,7 +29,7 @@ interface Props {
   title?: string;
   description?: string;
   mode?: "snapshot" | "history";
-  summaryStrategy?: "visible" | "next-raid-day";
+  summaryStrategy?: "visible" | "next-raid-day" | "raid-week";
   windowSize?: number;
   calendar: {
     raidDates: RaidDate[];
@@ -55,6 +55,7 @@ const summaryRows = summaryTypes
   .map((label) => calendar.summary.find((row) => row.label === label))
   .filter((row): row is CalendarSummary => Boolean(row));
 const showRosterToggle = mode === "snapshot";
+const showSummaryLists = mode === "snapshot";
 ---
 
 <section
@@ -78,10 +79,18 @@ const showRosterToggle = mode === "snapshot";
   <div class="calendar-summary-cards" aria-label="Calendar status totals">
     {
       summaryRows.map((row) => (
-        <article class={`calendar-summary-card status-${slugStatus(row.label)}`} data-summary-card data-summary-values={JSON.stringify(row.values)}>
-          <span>{row.label}</span>
-          <strong data-summary-total>0</strong>
+        <article
+          class={`calendar-summary-card status-${slugStatus(row.label)}`}
+          data-summary-card
+          data-summary-status={row.label}
+          data-summary-values={JSON.stringify(row.values)}
+        >
+          <div class="calendar-summary-card-header">
+            <span>{row.label}</span>
+            <strong data-summary-total>0</strong>
+          </div>
           <small data-summary-detail>Visible dates</small>
+          {showSummaryLists && <ul class="calendar-summary-list" data-summary-list></ul>}
         </article>
       ))
     }
@@ -142,10 +151,23 @@ const showRosterToggle = mode === "snapshot";
     const [year, month, day] = isoDate.split("-").map(Number);
     return new Date(year, month - 1, day);
   };
+  const getWeekStart = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
   const asNumber = (value: unknown) => {
     const parsed = Number(value);
     return Number.isFinite(parsed) ? parsed : 0;
   };
+  const escapeHtml = (value: string) =>
+    value.replace(/[&<>"']/g, (character) => {
+      const entities: Record<string, string> = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;",
+      };
+
+      return entities[character] ?? character;
+    });
 
   document.querySelectorAll<HTMLElement>("[data-raid-window]").forEach((panel) => {
     const mode = panel.dataset.calendarMode ?? "snapshot";
@@ -177,13 +199,45 @@ const showRosterToggle = mode === "snapshot";
 
     const visibleDateSet = new Set(visibleDates.map(({ isoDate }) => isoDate));
     const nextRaidDate = uniqueDates.find(({ date }) => date >= today) ?? uniqueDates[uniqueDates.length - 1];
-    const summaryDates = summaryStrategy === "next-raid-day" && nextRaidDate ? [nextRaidDate] : visibleDates;
+    const getRaidWeekDates = () => {
+      const currentWeekStart = getWeekStart(today);
+      const currentWeekDates = uniqueDates.filter(
+        ({ date }) => getWeekStart(date).getTime() === currentWeekStart.getTime(),
+      );
+      const hasCurrentOrUpcomingRaidThisWeek = currentWeekDates.some(({ date }) => date >= today);
+      const targetWeekStart =
+        hasCurrentOrUpcomingRaidThisWeek && (today.getDay() === 0 || today.getDay() === 1)
+          ? currentWeekStart
+          : nextRaidDate
+            ? getWeekStart(nextRaidDate.date)
+            : getWeekStart(uniqueDates[uniqueDates.length - 1]?.date ?? today);
+
+      return uniqueDates.filter(({ date }) => getWeekStart(date).getTime() === targetWeekStart.getTime()).slice(0, 2);
+    };
+    const summaryDates =
+      summaryStrategy === "raid-week"
+        ? getRaidWeekDates()
+        : summaryStrategy === "next-raid-day" && nextRaidDate
+          ? [nextRaidDate]
+          : visibleDates;
+    const summaryDateSet = new Set(summaryDates.map(({ isoDate }) => isoDate));
 
     const formatRangeDate = (date: Date) =>
       date.toLocaleDateString(undefined, {
         month: "short",
         day: "numeric",
       });
+    const formatSummaryRange = () => {
+      if (summaryDates.length === 0) {
+        return "No raid dates";
+      }
+
+      if (summaryDates.length === 1) {
+        return summaryDates[0].label;
+      }
+
+      return `${summaryDates[0].label} - ${summaryDates[summaryDates.length - 1].label}`;
+    };
 
     const updateRows = () => {
       for (const cell of datedCells) {
@@ -205,10 +259,33 @@ const showRosterToggle = mode === "snapshot";
 
       for (const card of summaryCards) {
         const values = JSON.parse(card.dataset.summaryValues ?? "{}") as Record<string, string>;
-        const total = summaryDates.reduce((sum, date) => sum + asNumber(values[date.label]), 0);
+        const status = card.dataset.summaryStatus ?? "";
+        const playerMap = new Map<string, string[]>();
+
+        if (summaryStrategy === "raid-week") {
+          for (const row of playerRows) {
+            const playerName = row.querySelector<HTMLElement>(".calendar-player")?.textContent?.trim() ?? "";
+
+            for (const cell of Array.from(row.querySelectorAll<HTMLElement>("[data-calendar-status]"))) {
+              const date = uniqueDates.find(({ isoDate }) => isoDate === cell.dataset.raidDate);
+
+              if (playerName && date && summaryDateSet.has(date.isoDate) && cell.dataset.calendarStatus === status) {
+                const dates = playerMap.get(playerName) ?? [];
+                dates.push(date.label);
+                playerMap.set(playerName, dates);
+              }
+            }
+          }
+        }
+
+        const total =
+          summaryStrategy === "raid-week"
+            ? playerMap.size
+            : summaryDates.reduce((sum, date) => sum + asNumber(values[date.label]), 0);
         const activeDates = summaryDates.filter((date) => asNumber(values[date.label]) > 0).length;
         const totalNode = card.querySelector<HTMLElement>("[data-summary-total]");
         const detailNode = card.querySelector<HTMLElement>("[data-summary-detail]");
+        const listNode = card.querySelector<HTMLElement>("[data-summary-list]");
 
         if (totalNode) {
           totalNode.textContent = String(total);
@@ -218,9 +295,26 @@ const showRosterToggle = mode === "snapshot";
           detailNode.textContent =
             mode === "history"
               ? `${activeDates} raid nights in history`
+              : summaryStrategy === "raid-week"
+                ? formatSummaryRange()
               : summaryStrategy === "next-raid-day"
                 ? `${summaryDates[0]?.label ?? "Next raid"} only`
               : `${activeDates} upcoming raid nights`;
+        }
+
+        if (listNode) {
+          if (playerMap.size === 0) {
+            listNode.innerHTML = "<li>None</li>";
+          } else {
+            listNode.innerHTML = Array.from(playerMap.entries())
+              .map(([playerName, dates]) => {
+                const uniqueLabels = [...new Set(dates)];
+                const needsDateLabel = uniqueLabels.length !== summaryDates.length;
+                const suffix = needsDateLabel ? ` <small>${escapeHtml(uniqueLabels.join(", "))}</small>` : "";
+                return `<li><span>${escapeHtml(playerName)}</span>${suffix}</li>`;
+              })
+              .join("");
+          }
         }
       }
 
