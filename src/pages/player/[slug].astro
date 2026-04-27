@@ -161,7 +161,7 @@ const nextScheduledBench = profile.upcomingBenchDates[0]?.isoDate ?? "";
       </div>
       <ul class="clean-list profile-list">
         <li><span>Total Bench Count</span><strong>{profile.benchSummary?.totalBenchCount ?? 0}</strong></li>
-        <li><span>Last Benched</span><strong>{profile.benchSummary?.lastBenched || "Not listed"}</strong></li>
+        <li><span>Last Benched</span><strong>{profile.lastBenchDate?.isoDate ?? ""}</strong></li>
         <li><span>Scheduled</span><strong>{nextScheduledBench}</strong></li>
       </ul>
     </article>

@@ -70,6 +70,7 @@ export interface PlayerProfile {
     trial: number;
   };
   benchSummary?: BenchRow;
+  lastBenchDate?: { label: string; isoDate: string };
   benchHistory: Array<{ label: string; isoDate: string; status: string }>;
   upcomingBenchDates: Array<{ label: string; isoDate: string }>;
   lootSummary: LootSummaryRow;
@@ -107,9 +108,31 @@ const parseIsoDate = (isoDate: string) => {
   return new Date(year, month - 1, day);
 };
 
+const dateByIso = new Map(calendarData.raidDates.map((date) => [date.isoDate, date]));
+const isoDatePattern = /\d{4}-\d{2}-\d{2}/g;
+const getDateLabel = (isoDate: string) => dateByIso.get(isoDate)?.label ?? isoDate;
+
 const todayIso = () => {
   const today = new Date();
   return new Date(today.getFullYear(), today.getMonth(), today.getDate()).toISOString().slice(0, 10);
+};
+
+const getBenchSummaryDates = (benchSummary?: BenchRow) => {
+  if (!benchSummary) {
+    return [];
+  }
+
+  const dates = new Set<string>();
+
+  if (benchSummary.lastBenched.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    dates.add(benchSummary.lastBenched);
+  }
+
+  for (const date of benchSummary.notes.match(isoDatePattern) ?? []) {
+    dates.add(date);
+  }
+
+  return [...dates].map((isoDate) => ({ label: getDateLabel(isoDate), isoDate }));
 };
 
 const getUniquePlayerNames = () => {
@@ -170,6 +193,23 @@ export const getPlayerProfile = (name: string): PlayerProfile => {
     "Officer/private notes are not exposed on the site.",
   ];
   const displayName = cleanPlayerName(rosterMember?.character ?? calendarPlayer?.name ?? name);
+  const sortedBenchHistory = benchHistory.sort(
+    (a, b) => parseIsoDate(b.isoDate).getTime() - parseIsoDate(a.isoDate).getTime(),
+  );
+  const benchDateByIso = new Map(
+    [...sortedBenchHistory, ...getBenchSummaryDates(benchSummary)].map((date) => [
+      date.isoDate,
+      { label: getDateLabel(date.isoDate), isoDate: date.isoDate },
+    ]),
+  );
+  const allBenchDates = [...benchDateByIso.values()];
+  const lastBenchDate = allBenchDates
+    .filter((date) => date.isoDate < today)
+    .sort((a, b) => b.isoDate.localeCompare(a.isoDate))[0];
+  const upcomingBenchDates = allBenchDates
+    .filter((date) => date.isoDate > today)
+    .sort((a, b) => a.isoDate.localeCompare(b.isoDate))
+    .map(({ label, isoDate }) => ({ label, isoDate }));
 
   return {
     character: displayName,
@@ -181,11 +221,9 @@ export const getPlayerProfile = (name: string): PlayerProfile => {
     rosterStatus: rosterMember ? "Active roster" : "Not on active roster",
     attendance,
     benchSummary,
-    benchHistory: benchHistory.sort((a, b) => parseIsoDate(b.isoDate).getTime() - parseIsoDate(a.isoDate).getTime()),
-    upcomingBenchDates: benchHistory
-      .filter((date) => date.isoDate >= today)
-      .sort((a, b) => a.isoDate.localeCompare(b.isoDate))
-      .map(({ label, isoDate }) => ({ label, isoDate })),
+    lastBenchDate,
+    benchHistory: sortedBenchHistory,
+    upcomingBenchDates,
     lootSummary: {
       ...lootSummaryRow,
       player: cleanPlayerName(lootSummaryRow.player),
