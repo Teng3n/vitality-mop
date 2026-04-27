@@ -1,6 +1,27 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import PageHeader from "../components/PageHeader.astro";
+import RaidWindow from "../components/RaidWindow.astro";
+import calendar from "../data/calendar.json";
+
+const calendarData = calendar as unknown as {
+  raidDates: Array<{ label: string; isoDate: string }>;
+  summary: Array<{ label: string; values: Record<string, string> }>;
+  players: Array<{
+    name: string;
+    bis: number;
+    major: number;
+    minor: number;
+    total: number;
+    bonusRolls: number;
+    offspec: number;
+    mia: number;
+    out: number;
+    late: number;
+    bench: number;
+    schedule: Record<string, string>;
+  }>;
+};
 ---
 
 <Layout title="Vitality | MoP Classic Guild">
@@ -53,4 +74,11 @@ import PageHeader from "../components/PageHeader.astro";
       </div>
     </article>
   </section>
+
+  <RaidWindow
+    calendar={calendarData}
+    eyebrow="Raid Assignments"
+    title="Upcoming Raid Days"
+    description="The next Sunday and Monday raid cycles from the Calendar export."
+  />
 </Layout>

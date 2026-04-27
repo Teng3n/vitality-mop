@@ -72,6 +72,47 @@ function asNumber(value) {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
+const monthNumbers = new Map([
+  ["Jan", 1],
+  ["Feb", 2],
+  ["Mar", 3],
+  ["Apr", 4],
+  ["May", 5],
+  ["Jun", 6],
+  ["Jul", 7],
+  ["Aug", 8],
+  ["Sep", 9],
+  ["Oct", 10],
+  ["Nov", 11],
+  ["Dec", 12],
+]);
+
+function inferRaidDates(labels) {
+  const parsed = labels.map((label) => {
+    const [monthName, dayText] = label.split(" ");
+    return {
+      label,
+      month: monthNumbers.get(monthName) ?? 1,
+      day: Number(dayText),
+    };
+  });
+  const wrapsYear = parsed.some((date, index) => index > 0 && date.month < parsed[index - 1].month);
+  let year = wrapsYear ? new Date().getFullYear() - 1 : new Date().getFullYear();
+  let previousMonth = parsed[0]?.month ?? 1;
+
+  return parsed.map((date, index) => {
+    if (index > 0 && date.month < previousMonth) {
+      year += 1;
+    }
+    previousMonth = date.month;
+
+    return {
+      label: date.label,
+      isoDate: `${year}-${String(date.month).padStart(2, "0")}-${String(date.day).padStart(2, "0")}`,
+    };
+  });
+}
+
 function valuesByDate(row, dates, dateStartIndex) {
   return Object.fromEntries(
     dates.map((date, offset) => [date, cleanText(row[dateStartIndex + offset])]).filter(([, value]) => value),
@@ -90,6 +131,7 @@ if (!dateRow || playerHeaderRowIndex < 0) {
 const dateLabelIndex = dateRow.findIndex((value) => value === "Date");
 const dateStartIndex = dateRow.findIndex((value, index) => index > dateLabelIndex && cleanText(value));
 const dates = dateRow.slice(dateStartIndex).map(cleanText).filter(Boolean);
+const raidDates = inferRaidDates(dates);
 
 const summaryRowLabels = new Map([
   ["Progression", "Progression"],
@@ -154,6 +196,7 @@ const players = rows
 
 const calendar = {
   dates,
+  raidDates,
   summary,
   players,
 };
@@ -164,6 +207,8 @@ console.log(
   JSON.stringify(
     {
       dates: dates.length,
+      startDate: raidDates[0]?.isoDate,
+      endDate: raidDates.at(-1)?.isoDate,
       summaryRows: summary.length,
       players: players.length,
       statusCells: players.reduce((sum, player) => sum + Object.keys(player.schedule).length, 0),

@@ -83,6 +83,336 @@
     "May 17",
     "May 18"
   ],
+  "raidDates": [
+    {
+      "label": "Aug 03",
+      "isoDate": "2025-08-03"
+    },
+    {
+      "label": "Aug 04",
+      "isoDate": "2025-08-04"
+    },
+    {
+      "label": "Aug 10",
+      "isoDate": "2025-08-10"
+    },
+    {
+      "label": "Aug 11",
+      "isoDate": "2025-08-11"
+    },
+    {
+      "label": "Aug 17",
+      "isoDate": "2025-08-17"
+    },
+    {
+      "label": "Aug 18",
+      "isoDate": "2025-08-18"
+    },
+    {
+      "label": "Aug 24",
+      "isoDate": "2025-08-24"
+    },
+    {
+      "label": "Aug 25",
+      "isoDate": "2025-08-25"
+    },
+    {
+      "label": "Aug 31",
+      "isoDate": "2025-08-31"
+    },
+    {
+      "label": "Sep 01",
+      "isoDate": "2025-09-01"
+    },
+    {
+      "label": "Sep 07",
+      "isoDate": "2025-09-07"
+    },
+    {
+      "label": "Sep 08",
+      "isoDate": "2025-09-08"
+    },
+    {
+      "label": "Sep 14",
+      "isoDate": "2025-09-14"
+    },
+    {
+      "label": "Sep 15",
+      "isoDate": "2025-09-15"
+    },
+    {
+      "label": "Sep 21",
+      "isoDate": "2025-09-21"
+    },
+    {
+      "label": "Sep 22",
+      "isoDate": "2025-09-22"
+    },
+    {
+      "label": "Sep 28",
+      "isoDate": "2025-09-28"
+    },
+    {
+      "label": "Sep 29",
+      "isoDate": "2025-09-29"
+    },
+    {
+      "label": "Oct 05",
+      "isoDate": "2025-10-05"
+    },
+    {
+      "label": "Oct 06",
+      "isoDate": "2025-10-06"
+    },
+    {
+      "label": "Oct 12",
+      "isoDate": "2025-10-12"
+    },
+    {
+      "label": "Oct 13",
+      "isoDate": "2025-10-13"
+    },
+    {
+      "label": "Oct 19",
+      "isoDate": "2025-10-19"
+    },
+    {
+      "label": "Oct 20",
+      "isoDate": "2025-10-20"
+    },
+    {
+      "label": "Oct 26",
+      "isoDate": "2025-10-26"
+    },
+    {
+      "label": "Oct 27",
+      "isoDate": "2025-10-27"
+    },
+    {
+      "label": "Nov 02",
+      "isoDate": "2025-11-02"
+    },
+    {
+      "label": "Nov 03",
+      "isoDate": "2025-11-03"
+    },
+    {
+      "label": "Nov 09",
+      "isoDate": "2025-11-09"
+    },
+    {
+      "label": "Nov 10",
+      "isoDate": "2025-11-10"
+    },
+    {
+      "label": "Nov 16",
+      "isoDate": "2025-11-16"
+    },
+    {
+      "label": "Nov 17",
+      "isoDate": "2025-11-17"
+    },
+    {
+      "label": "Nov 23",
+      "isoDate": "2025-11-23"
+    },
+    {
+      "label": "Nov 24",
+      "isoDate": "2025-11-24"
+    },
+    {
+      "label": "Nov 30",
+      "isoDate": "2025-11-30"
+    },
+    {
+      "label": "Dec 01",
+      "isoDate": "2025-12-01"
+    },
+    {
+      "label": "Dec 07",
+      "isoDate": "2025-12-07"
+    },
+    {
+      "label": "Dec 08",
+      "isoDate": "2025-12-08"
+    },
+    {
+      "label": "Dec 14",
+      "isoDate": "2025-12-14"
+    },
+    {
+      "label": "Dec 15",
+      "isoDate": "2025-12-15"
+    },
+    {
+      "label": "Dec 21",
+      "isoDate": "2025-12-21"
+    },
+    {
+      "label": "Dec 22",
+      "isoDate": "2025-12-22"
+    },
+    {
+      "label": "Dec 28",
+      "isoDate": "2025-12-28"
+    },
+    {
+      "label": "Dec 29",
+      "isoDate": "2025-12-29"
+    },
+    {
+      "label": "Jan 04",
+      "isoDate": "2026-01-04"
+    },
+    {
+      "label": "Jan 05",
+      "isoDate": "2026-01-05"
+    },
+    {
+      "label": "Jan 11",
+      "isoDate": "2026-01-11"
+    },
+    {
+      "label": "Jan 12",
+      "isoDate": "2026-01-12"
+    },
+    {
+      "label": "Jan 18",
+      "isoDate": "2026-01-18"
+    },
+    {
+      "label": "Jan 19",
+      "isoDate": "2026-01-19"
+    },
+    {
+      "label": "Jan 25",
+      "isoDate": "2026-01-25"
+    },
+    {
+      "label": "Jan 26",
+      "isoDate": "2026-01-26"
+    },
+    {
+      "label": "Feb 01",
+      "isoDate": "2026-02-01"
+    },
+    {
+      "label": "Feb 02",
+      "isoDate": "2026-02-02"
+    },
+    {
+      "label": "Feb 08",
+      "isoDate": "2026-02-08"
+    },
+    {
+      "label": "Feb 09",
+      "isoDate": "2026-02-09"
+    },
+    {
+      "label": "Feb 15",
+      "isoDate": "2026-02-15"
+    },
+    {
+      "label": "Feb 16",
+      "isoDate": "2026-02-16"
+    },
+    {
+      "label": "Feb 22",
+      "isoDate": "2026-02-22"
+    },
+    {
+      "label": "Feb 23",
+      "isoDate": "2026-02-23"
+    },
+    {
+      "label": "Mar 08",
+      "isoDate": "2026-03-08"
+    },
+    {
+      "label": "Mar 09",
+      "isoDate": "2026-03-09"
+    },
+    {
+      "label": "Mar 15",
+      "isoDate": "2026-03-15"
+    },
+    {
+      "label": "Mar 16",
+      "isoDate": "2026-03-16"
+    },
+    {
+      "label": "Mar 22",
+      "isoDate": "2026-03-22"
+    },
+    {
+      "label": "Mar 23",
+      "isoDate": "2026-03-23"
+    },
+    {
+      "label": "Mar 29",
+      "isoDate": "2026-03-29"
+    },
+    {
+      "label": "Mar 30",
+      "isoDate": "2026-03-30"
+    },
+    {
+      "label": "Apr 05",
+      "isoDate": "2026-04-05"
+    },
+    {
+      "label": "Apr 06",
+      "isoDate": "2026-04-06"
+    },
+    {
+      "label": "Apr 12",
+      "isoDate": "2026-04-12"
+    },
+    {
+      "label": "Apr 13",
+      "isoDate": "2026-04-13"
+    },
+    {
+      "label": "Apr 19",
+      "isoDate": "2026-04-19"
+    },
+    {
+      "label": "Apr 20",
+      "isoDate": "2026-04-20"
+    },
+    {
+      "label": "Apr 26",
+      "isoDate": "2026-04-26"
+    },
+    {
+      "label": "Apr 27",
+      "isoDate": "2026-04-27"
+    },
+    {
+      "label": "May 03",
+      "isoDate": "2026-05-03"
+    },
+    {
+      "label": "May 04",
+      "isoDate": "2026-05-04"
+    },
+    {
+      "label": "May 10",
+      "isoDate": "2026-05-10"
+    },
+    {
+      "label": "May 11",
+      "isoDate": "2026-05-11"
+    },
+    {
+      "label": "May 17",
+      "isoDate": "2026-05-17"
+    },
+    {
+      "label": "May 18",
+      "isoDate": "2026-05-18"
+    }
+  ],
   "summary": [
     {
       "label": "Progression",

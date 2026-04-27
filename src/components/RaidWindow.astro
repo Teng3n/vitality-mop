@@ -1,0 +1,184 @@
+---
+export interface CalendarSummary {
+  label: string;
+  values: Record<string, string>;
+}
+
+export interface CalendarPlayer {
+  name: string;
+  bis: number;
+  major: number;
+  minor: number;
+  total: number;
+  bonusRolls: number;
+  offspec: number;
+  mia: number;
+  out: number;
+  late: number;
+  bench: number;
+  schedule: Record<string, string>;
+}
+
+export interface RaidDate {
+  label: string;
+  isoDate: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  calendar: {
+    raidDates: RaidDate[];
+    summary: CalendarSummary[];
+    players: CalendarPlayer[];
+  };
+}
+
+const {
+  eyebrow = "Raid Assignments",
+  title = "Upcoming Raid Window",
+  description = "Showing the next Sunday and Monday raid cycles from the Calendar export.",
+  calendar,
+} = Astro.props;
+const statusTypes = ["Bench", "Out", "MIA", "Late", "Trial"];
+const slugStatus = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+const statusClass = (value: string) => (value ? `calendar-status status-${slugStatus(value)}` : "calendar-empty");
+---
+
+<section class="panel raid-window-panel" data-raid-window>
+  <div class="section-heading inline">
+    <div>
+      <p class="eyebrow">{eyebrow}</p>
+      <h2>{title}</h2>
+      <p class="muted">{description}</p>
+    </div>
+    <div class="status-legend" aria-label="Calendar status legend">
+      {statusTypes.map((status) => <span class={`calendar-status status-${slugStatus(status)}`}>{status}</span>)}
+    </div>
+  </div>
+
+  <div class="raid-window-toolbar">
+    <span class="muted" data-raid-window-label>Upcoming raids</span>
+    <label class="check-field">
+      <input type="checkbox" data-show-all-calendar-rows />
+      <span>Show all roster rows</span>
+    </label>
+  </div>
+
+  <div class="calendar-shell calendar-window-shell">
+    <table class="calendar-table calendar-window-table">
+      <thead>
+        <tr>
+          <th class="calendar-player">Player / Summary</th>
+          {calendar.raidDates.map((date) => <th data-raid-date={date.isoDate}>{date.label}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {
+          calendar.summary.map((row) => (
+            <tr class="calendar-summary-row">
+              <th class="calendar-player">{row.label}</th>
+              {
+                calendar.raidDates.map((date) => (
+                  <td data-raid-date={date.isoDate} data-summary-cell>
+                    {row.values[date.label] ?? ""}
+                  </td>
+                ))
+              }
+            </tr>
+          ))
+        }
+        {
+          calendar.players.map((player) => (
+            <tr data-calendar-player-row>
+              <th class="calendar-player">{player.name}</th>
+              {
+                calendar.raidDates.map((date) => {
+                  const status = player.schedule[date.label] ?? "";
+                  return (
+                    <td
+                      class={statusClass(status)}
+                      data-raid-date={date.isoDate}
+                      data-calendar-status={status}
+                      title={status ? `${player.name}: ${status} on ${date.label}` : undefined}
+                    >
+                      {status}
+                    </td>
+                  );
+                })
+              }
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<script>
+  const dayMs = 24 * 60 * 60 * 1000;
+  const toLocalDate = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const parseIsoDate = (isoDate: string) => {
+    const [year, month, day] = isoDate.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-raid-window]").forEach((panel) => {
+    const showAllRows = panel.querySelector<HTMLInputElement>("[data-show-all-calendar-rows]");
+    const label = panel.querySelector<HTMLElement>("[data-raid-window-label]");
+    const datedCells = Array.from(panel.querySelectorAll<HTMLElement>("[data-raid-date]"));
+    const playerRows = Array.from(panel.querySelectorAll<HTMLTableRowElement>("[data-calendar-player-row]"));
+    const uniqueDates = [
+      ...new Map(
+        datedCells
+          .map((cell) => cell.dataset.raidDate)
+          .filter(Boolean)
+          .map((isoDate) => [isoDate, parseIsoDate(isoDate as string)]),
+      ).entries(),
+    ];
+    const today = toLocalDate(new Date());
+    let visibleDates = uniqueDates.filter(([, date]) => date >= today).slice(0, 12);
+
+    if (visibleDates.length === 0) {
+      visibleDates = uniqueDates.slice(-12);
+    }
+
+    const visibleDateSet = new Set(visibleDates.map(([isoDate]) => isoDate));
+
+    const formatRangeDate = (date: Date) =>
+      date.toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+      });
+
+    const updateRows = () => {
+      for (const cell of datedCells) {
+        cell.hidden = !visibleDateSet.has(cell.dataset.raidDate ?? "");
+      }
+
+      let visiblePlayerRows = 0;
+      const showAll = showAllRows?.checked ?? false;
+
+      for (const row of playerRows) {
+        const hasVisibleStatus = Array.from(row.querySelectorAll<HTMLElement>("[data-calendar-status]")).some(
+          (cell) => visibleDateSet.has(cell.dataset.raidDate ?? "") && Boolean(cell.dataset.calendarStatus),
+        );
+        row.hidden = !showAll && !hasVisibleStatus;
+        if (!row.hidden) {
+          visiblePlayerRows += 1;
+        }
+      }
+
+      if (label && visibleDates.length > 0) {
+        const first = visibleDates[0][1];
+        const last = visibleDates[visibleDates.length - 1][1];
+        const weeks = Math.max(1, Math.ceil(((last.getTime() - first.getTime()) / dayMs + 1) / 7));
+        label.textContent = `${visibleDates.length} raid nights, ${formatRangeDate(first)} - ${formatRangeDate(last)} (${visiblePlayerRows} roster rows shown, ${weeks} weeks)`;
+      }
+    };
+
+    showAllRows?.addEventListener("change", updateRows);
+    updateRows();
+  });
+</script>
