@@ -409,10 +409,6 @@ p {
   font-weight: 800;
 }
 
-.calendar-summary-list li.is-empty {
-  grid-column: 1 / -1;
-}
-
 [data-calendar-mode="snapshot"] .calendar-summary-list li {
   justify-content: center;
   text-align: center;

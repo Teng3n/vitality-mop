@@ -295,7 +295,7 @@ const showSummaryLists = mode === "snapshot";
 
         if (listNode) {
           if (playerMap.size === 0) {
-            listNode.innerHTML = '<li class="is-empty">None</li>';
+            listNode.replaceChildren();
           } else {
             listNode.innerHTML = Array.from(playerMap.entries())
               .map(([playerName, entry]) => {
