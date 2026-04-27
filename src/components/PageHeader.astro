@@ -10,6 +10,6 @@ const { eyebrow, title, description } = Astro.props;
 
 <section class="page-header">
   {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-  <h1>{title}</h1>
+  <h1 class="sr-only">{title}</h1>
   {description && <p>{description}</p>}
 </section>
