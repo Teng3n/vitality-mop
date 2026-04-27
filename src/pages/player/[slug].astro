@@ -28,6 +28,7 @@ const recentLootRows = profile.recentLoot.map(({ date, item, boss, instance, typ
   instance,
   type,
 }));
+const nextScheduledBench = profile.upcomingBenchDates[0]?.isoDate ?? "";
 ---
 
 <Layout title={`${profile.character} | Vitality`}>
@@ -161,7 +162,7 @@ const recentLootRows = profile.recentLoot.map(({ date, item, boss, instance, typ
       <ul class="clean-list profile-list">
         <li><span>Total Bench Count</span><strong>{profile.benchSummary?.totalBenchCount ?? 0}</strong></li>
         <li><span>Last Benched</span><strong>{profile.benchSummary?.lastBenched || "Not listed"}</strong></li>
-        <li><span>Notes / Upcoming</span><strong>{profile.benchSummary?.notes || "Not listed"}</strong></li>
+        <li><span>Scheduled</span><strong>{nextScheduledBench}</strong></li>
       </ul>
     </article>
   </section>
