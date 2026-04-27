@@ -9,7 +9,7 @@ const applicationUrl = "https://forms.gle/Ka2nMVkdp5wNCjZq8";
 const leaders = [
   { role: "Guild Master", name: "Tengen" },
   { role: "Officer", name: "DrChicken" },
-  { role: "Officer", name: "Karkant" },
+  { role: "Officer", name: "Karkan" },
 ];
 
 const expectations = [
@@ -18,7 +18,13 @@ const expectations = [
   "Maintain comprehensive knowledge of boss mechanics.",
   "Keep a positive attitude and be willing to accept constructive feedback.",
   "Participate in a rotating bench when needed.",
-  "Use required raid addons: DBM, WeakAuras, MRT, and RCLootCouncil.",
+];
+
+const addons = [
+  { name: "WeakAuras", url: "https://www.curseforge.com/wow/addons/weakauras-2" },
+  { name: "GTFO", url: "https://www.curseforge.com/wow/addons/gtfo" },
+  { name: "MRT", url: "https://www.curseforge.com/wow/addons/method-raid-tools" },
+  { name: "RCLootCouncil", url: "https://www.curseforge.com/wow/addons/rclootcouncil-classic" },
 ];
 ---
 
@@ -124,14 +130,26 @@ const expectations = [
   </section>
 
   <section class="content-grid two-column">
-    <article class="panel copy-panel">
-      <div class="section-heading">
-        <p class="eyebrow">Loot System</p>
-        <h2>Loot Council</h2>
-      </div>
-      <p class="info-note">Performance, attendance, and contribution-based Loot Council.</p>
-      <p class="info-note">Always considering exceptional players regardless of class or spec.</p>
-    </article>
+    <div class="stack">
+      <article class="panel copy-panel">
+        <div class="section-heading">
+          <p class="eyebrow">Loot System</p>
+          <h2>Loot Council</h2>
+        </div>
+        <p class="info-note">Performance, attendance, and contribution-based Loot Council.</p>
+        <p class="info-note">Always considering exceptional players regardless of class or spec.</p>
+      </article>
+
+      <article class="panel">
+        <div class="section-heading">
+          <p class="eyebrow">Required Add-ons</p>
+          <h2>Raid Tools</h2>
+        </div>
+        <ul class="clean-list addon-list">
+          {addons.map((addon) => <li><a href={addon.url}>{addon.name}</a></li>)}
+        </ul>
+      </article>
+    </div>
 
     <article class="panel">
       <div class="section-heading">

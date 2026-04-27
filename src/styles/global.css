@@ -175,7 +175,8 @@ main {
 
 .resources-panel {
   display: grid;
-  grid-template-rows: auto 1fr;
+  align-self: start;
+  grid-template-rows: auto auto;
 }
 
 .accent-panel {
@@ -294,9 +295,29 @@ p {
   text-transform: uppercase;
 }
 
+.addon-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.addon-list li {
+  padding: 0;
+}
+
+.addon-list a {
+  display: block;
+  padding: 12px;
+  color: var(--text);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.addon-list a:hover {
+  color: #d8bb73;
+}
+
 .resource-list {
   display: grid;
-  align-self: center;
+  align-self: start;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
@@ -980,6 +1001,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
   .dashboard-grid,
   .dashboard-grid.compact,
+  .addon-list,
   .card-grid,
   .next-raid-statuses,
   .two-column,

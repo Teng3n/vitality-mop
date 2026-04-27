@@ -33,6 +33,7 @@ interface Props {
   mode?: "snapshot" | "history";
   summaryStrategy?: "visible" | "next-raid-day" | "raid-week";
   windowSize?: number;
+  showSummaryCards?: boolean;
   calendar: {
     raidDates: RaidDate[];
     summary: CalendarSummary[];
@@ -47,6 +48,7 @@ const {
   mode = "snapshot",
   summaryStrategy = "visible",
   windowSize = 12,
+  showSummaryCards = true,
   calendar,
 } = Astro.props;
 const statusTypes = mode === "snapshot" ? ["Bench", "Out", "Late", "Trial"] : ["Bench", "Out", "MIA", "Late", "Trial"];
@@ -77,25 +79,27 @@ const showSummaryLists = mode === "snapshot";
     </div>
   </div>
 
-  <div class="calendar-summary-cards" aria-label="Calendar status totals">
-    {
-      summaryRows.map((row) => (
-        <article
-          class={`calendar-summary-card status-${slugStatus(row.label)}`}
-          data-summary-card
-          data-summary-status={row.label}
-          data-summary-values={JSON.stringify(row.values)}
-        >
-          <div class="calendar-summary-card-header">
-            <span>{row.label}</span>
-            <strong data-summary-total>0</strong>
-          </div>
-          {showSummaryLists && <ul class="calendar-summary-list" data-summary-list></ul>}
-          <small data-summary-detail>Visible dates</small>
-        </article>
-      ))
-    }
-  </div>
+  {
+    showSummaryCards && (
+      <div class="calendar-summary-cards" aria-label="Calendar status totals">
+        {summaryRows.map((row) => (
+          <article
+            class={`calendar-summary-card status-${slugStatus(row.label)}`}
+            data-summary-card
+            data-summary-status={row.label}
+            data-summary-values={JSON.stringify(row.values)}
+          >
+            <div class="calendar-summary-card-header">
+              <span>{row.label}</span>
+              <strong data-summary-total>0</strong>
+            </div>
+            {showSummaryLists && <ul class="calendar-summary-list" data-summary-list></ul>}
+            <small data-summary-detail>Visible dates</small>
+          </article>
+        ))}
+      </div>
+    )
+  }
 
   <div class="raid-window-toolbar">
     <span class="muted" data-raid-window-label>Upcoming raids</span>
