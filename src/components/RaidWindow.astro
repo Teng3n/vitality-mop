@@ -197,10 +197,23 @@ const showSummaryLists = mode === "snapshot";
       .filter((date) => date.isoDate)
       .map((date) => ({ ...date, date: parseIsoDate(date.isoDate) }));
     const today = toLocalDate(new Date());
+    const nextRaidDate = uniqueDates.find(({ date }) => date >= today) ?? uniqueDates[uniqueDates.length - 1];
     let visibleDates = uniqueDates;
 
     if (mode !== "history") {
-      visibleDates = uniqueDates.filter(({ date }) => date >= today).slice(0, windowSize);
+      const currentWeekStart = getWeekStart(today);
+      const currentWeekDates = uniqueDates.filter(
+        ({ date }) => getWeekStart(date).getTime() === currentWeekStart.getTime(),
+      );
+      const hasCurrentOrUpcomingRaidThisWeek = currentWeekDates.some(({ date }) => date >= today);
+      const windowStart =
+        hasCurrentOrUpcomingRaidThisWeek && (today.getDay() === 0 || today.getDay() === 1)
+          ? currentWeekStart
+          : nextRaidDate
+            ? getWeekStart(nextRaidDate.date)
+            : getWeekStart(uniqueDates[uniqueDates.length - 1]?.date ?? today);
+
+      visibleDates = uniqueDates.filter(({ date }) => date >= windowStart).slice(0, windowSize);
 
       if (visibleDates.length === 0) {
         visibleDates = uniqueDates.slice(-windowSize);
@@ -208,7 +221,6 @@ const showSummaryLists = mode === "snapshot";
     }
 
     const visibleDateSet = new Set(visibleDates.map(({ isoDate }) => isoDate));
-    const nextRaidDate = uniqueDates.find(({ date }) => date >= today) ?? uniqueDates[uniqueDates.length - 1];
     const getRaidWeekDates = () => {
       const currentWeekStart = getWeekStart(today);
       const currentWeekDates = uniqueDates.filter(
