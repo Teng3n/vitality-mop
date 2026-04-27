@@ -134,7 +134,6 @@ const dates = dateRow.slice(dateStartIndex).map(cleanText).filter(Boolean);
 const raidDates = inferRaidDates(dates);
 
 const summaryRowLabels = new Map([
-  ["Progression", "Progression"],
   ["MIA", "MIA"],
   ["Out", "Out"],
   ["Late", "Late"],

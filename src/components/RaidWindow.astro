@@ -28,6 +28,8 @@ interface Props {
   eyebrow?: string;
   title?: string;
   description?: string;
+  mode?: "snapshot" | "history";
+  windowSize?: number;
   calendar: {
     raidDates: RaidDate[];
     summary: CalendarSummary[];
@@ -39,14 +41,21 @@ const {
   eyebrow = "Raid Assignments",
   title = "Upcoming Raid Window",
   description = "Showing the next Sunday and Monday raid cycles from the Calendar export.",
+  mode = "snapshot",
+  windowSize = 12,
   calendar,
 } = Astro.props;
 const statusTypes = ["Bench", "Out", "MIA", "Late", "Trial"];
+const summaryTypes = ["MIA", "Out", "Late", "Bench"];
 const slugStatus = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 const statusClass = (value: string) => (value ? `calendar-status status-${slugStatus(value)}` : "calendar-empty");
+const summaryRows = summaryTypes
+  .map((label) => calendar.summary.find((row) => row.label === label))
+  .filter((row): row is CalendarSummary => Boolean(row));
+const showRosterToggle = mode === "snapshot";
 ---
 
-<section class="panel raid-window-panel" data-raid-window>
+<section class="panel raid-window-panel" data-raid-window data-calendar-mode={mode} data-window-size={windowSize}>
   <div class="section-heading inline">
     <div>
       <p class="eyebrow">{eyebrow}</p>
@@ -58,37 +67,39 @@ const statusClass = (value: string) => (value ? `calendar-status status-${slugSt
     </div>
   </div>
 
+  <div class="calendar-summary-cards" aria-label="Calendar status totals">
+    {
+      summaryRows.map((row) => (
+        <article class={`calendar-summary-card status-${slugStatus(row.label)}`} data-summary-card data-summary-values={JSON.stringify(row.values)}>
+          <span>{row.label}</span>
+          <strong data-summary-total>0</strong>
+          <small data-summary-detail>Visible dates</small>
+        </article>
+      ))
+    }
+  </div>
+
   <div class="raid-window-toolbar">
     <span class="muted" data-raid-window-label>Upcoming raids</span>
-    <label class="check-field">
-      <input type="checkbox" data-show-all-calendar-rows />
-      <span>Show all roster rows</span>
-    </label>
+    {
+      showRosterToggle && (
+        <label class="check-field">
+          <input type="checkbox" data-show-all-calendar-rows />
+          <span>Show all roster rows</span>
+        </label>
+      )
+    }
   </div>
 
   <div class="calendar-shell calendar-window-shell">
     <table class="calendar-table calendar-window-table">
       <thead>
         <tr>
-          <th class="calendar-player">Player / Summary</th>
-          {calendar.raidDates.map((date) => <th data-raid-date={date.isoDate}>{date.label}</th>)}
+          <th class="calendar-player">Player</th>
+          {calendar.raidDates.map((date) => <th data-raid-date={date.isoDate} data-raid-label={date.label}>{date.label}</th>)}
         </tr>
       </thead>
       <tbody>
-        {
-          calendar.summary.map((row) => (
-            <tr class="calendar-summary-row">
-              <th class="calendar-player">{row.label}</th>
-              {
-                calendar.raidDates.map((date) => (
-                  <td data-raid-date={date.isoDate} data-summary-cell>
-                    {row.values[date.label] ?? ""}
-                  </td>
-                ))
-              }
-            </tr>
-          ))
-        }
         {
           calendar.players.map((player) => (
             <tr data-calendar-player-row>
@@ -123,28 +134,39 @@ const statusClass = (value: string) => (value ? `calendar-status status-${slugSt
     const [year, month, day] = isoDate.split("-").map(Number);
     return new Date(year, month - 1, day);
   };
+  const asNumber = (value: unknown) => {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : 0;
+  };
 
   document.querySelectorAll<HTMLElement>("[data-raid-window]").forEach((panel) => {
+    const mode = panel.dataset.calendarMode ?? "snapshot";
+    const windowSize = Number(panel.dataset.windowSize ?? 12);
     const showAllRows = panel.querySelector<HTMLInputElement>("[data-show-all-calendar-rows]");
     const label = panel.querySelector<HTMLElement>("[data-raid-window-label]");
+    const dateHeaders = Array.from(panel.querySelectorAll<HTMLElement>("thead [data-raid-date]"));
     const datedCells = Array.from(panel.querySelectorAll<HTMLElement>("[data-raid-date]"));
     const playerRows = Array.from(panel.querySelectorAll<HTMLTableRowElement>("[data-calendar-player-row]"));
-    const uniqueDates = [
-      ...new Map(
-        datedCells
-          .map((cell) => cell.dataset.raidDate)
-          .filter(Boolean)
-          .map((isoDate) => [isoDate, parseIsoDate(isoDate as string)]),
-      ).entries(),
-    ];
+    const summaryCards = Array.from(panel.querySelectorAll<HTMLElement>("[data-summary-card]"));
+    const uniqueDates = dateHeaders
+      .map((header) => ({
+        isoDate: header.dataset.raidDate ?? "",
+        label: header.dataset.raidLabel ?? header.textContent?.trim() ?? "",
+      }))
+      .filter((date) => date.isoDate)
+      .map((date) => ({ ...date, date: parseIsoDate(date.isoDate) }));
     const today = toLocalDate(new Date());
-    let visibleDates = uniqueDates.filter(([, date]) => date >= today).slice(0, 12);
+    let visibleDates = uniqueDates;
 
-    if (visibleDates.length === 0) {
-      visibleDates = uniqueDates.slice(-12);
+    if (mode !== "history") {
+      visibleDates = uniqueDates.filter(({ date }) => date >= today).slice(0, windowSize);
+
+      if (visibleDates.length === 0) {
+        visibleDates = uniqueDates.slice(-windowSize);
+      }
     }
 
-    const visibleDateSet = new Set(visibleDates.map(([isoDate]) => isoDate));
+    const visibleDateSet = new Set(visibleDates.map(({ isoDate }) => isoDate));
 
     const formatRangeDate = (date: Date) =>
       date.toLocaleDateString(undefined, {
@@ -158,7 +180,7 @@ const statusClass = (value: string) => (value ? `calendar-status status-${slugSt
       }
 
       let visiblePlayerRows = 0;
-      const showAll = showAllRows?.checked ?? false;
+      const showAll = mode === "history" || (showAllRows?.checked ?? false);
 
       for (const row of playerRows) {
         const hasVisibleStatus = Array.from(row.querySelectorAll<HTMLElement>("[data-calendar-status]")).some(
@@ -170,11 +192,35 @@ const statusClass = (value: string) => (value ? `calendar-status status-${slugSt
         }
       }
 
+      for (const card of summaryCards) {
+        const values = JSON.parse(card.dataset.summaryValues ?? "{}") as Record<string, string>;
+        const total = visibleDates.reduce((sum, date) => sum + asNumber(values[date.label]), 0);
+        const activeDates = visibleDates.filter((date) => asNumber(values[date.label]) > 0).length;
+        const totalNode = card.querySelector<HTMLElement>("[data-summary-total]");
+        const detailNode = card.querySelector<HTMLElement>("[data-summary-detail]");
+
+        if (totalNode) {
+          totalNode.textContent = String(total);
+        }
+
+        if (detailNode) {
+          detailNode.textContent =
+            mode === "history"
+              ? `${activeDates} raid nights in history`
+              : `${activeDates} upcoming raid nights`;
+        }
+      }
+
       if (label && visibleDates.length > 0) {
-        const first = visibleDates[0][1];
-        const last = visibleDates[visibleDates.length - 1][1];
+        const first = visibleDates[0].date;
+        const last = visibleDates[visibleDates.length - 1].date;
         const weeks = Math.max(1, Math.ceil(((last.getTime() - first.getTime()) / dayMs + 1) / 7));
-        label.textContent = `${visibleDates.length} raid nights, ${formatRangeDate(first)} - ${formatRangeDate(last)} (${visiblePlayerRows} roster rows shown, ${weeks} weeks)`;
+        const range = `${formatRangeDate(first)} - ${formatRangeDate(last)}`;
+
+        label.textContent =
+          mode === "history"
+            ? `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows)`
+            : `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows shown, ${weeks} weeks)`;
       }
     };
 

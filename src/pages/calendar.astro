@@ -47,5 +47,11 @@ const benchTotal = calendarData.players.reduce((sum, player) => sum + player.ben
     <StatCard label="Bench marks" value={benchTotal} detail={`${statusTotal} total statuses`} />
   </section>
 
-  <RaidWindow calendar={calendarData} />
+  <RaidWindow
+    calendar={calendarData}
+    mode="history"
+    eyebrow="Raid Assignments"
+    title="Full Calendar History"
+    description="Scroll across every raid date from the Calendar export. Status totals are pulled out above the table so the player grid stays easier to scan."
+  />
 </Layout>
