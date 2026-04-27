@@ -1,6 +1,7 @@
 ---
 import { getPlayerClass, getPlayerClassColor } from "../lib/playerStyles";
 import { cleanPlayerName, getPlayerProfileHref } from "../lib/playerNames";
+import { activeRosterPlayers } from "../lib/guildData";
 
 interface RaidDate {
   label: string;
@@ -21,6 +22,7 @@ interface Props {
 }
 
 const { calendar, raidName = "Throne of Thunder" } = Astro.props;
+const activeRosterCount = activeRosterPlayers.length;
 const raidPayload = calendar.raidDates.map((date) => ({
   ...date,
   bench: calendar.players
@@ -30,6 +32,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
       className: getPlayerClass(player.name),
       color: getPlayerClassColor(player.name),
       href: getPlayerProfileHref(player.name),
+      activeRoster: Boolean(getPlayerClass(player.name)),
     })),
   out: calendar.players
     .filter((player) => player.schedule[date.label] === "Out")
@@ -38,6 +41,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
       className: getPlayerClass(player.name),
       color: getPlayerClassColor(player.name),
       href: getPlayerProfileHref(player.name),
+      activeRoster: Boolean(getPlayerClass(player.name)),
     })),
   late: calendar.players
     .filter((player) => player.schedule[date.label] === "Late")
@@ -46,17 +50,18 @@ const raidPayload = calendar.raidDates.map((date) => ({
       className: getPlayerClass(player.name),
       color: getPlayerClassColor(player.name),
       href: getPlayerProfileHref(player.name),
+      activeRoster: Boolean(getPlayerClass(player.name)),
     })),
 }));
 ---
 
-<section class="panel next-raid-card dashboard-raid-card" data-next-raid>
+<section class="panel next-raid-card dashboard-raid-card" data-next-raid data-active-roster-count={activeRosterCount}>
   <div class="next-raid-heading">
     <div>
-      <p class="eyebrow">Tonight / Next Raid</p>
-      <h2>Next Raid: <span data-next-raid-date>Upcoming raid</span></h2>
+      <p class="eyebrow">Raider Dashboard</p>
+      <h2>Weekly Raid Summary</h2>
     </div>
-    <span class="muted" data-raid-week-label>Raid week</span>
+    <span class="muted">Next raid: <span data-next-raid-date>Upcoming raid</span></span>
   </div>
 
   <div class="next-raid-grid">
@@ -66,12 +71,8 @@ const raidPayload = calendar.raidDates.map((date) => ({
         <dd>{raidName}</dd>
       </div>
       <div>
-        <dt>Start</dt>
-        <dd>8:00 PM PT</dd>
-      </div>
-      <div>
-        <dt>Invites</dt>
-        <dd>7:45 PM PT</dd>
+        <dt>Raiders</dt>
+        <dd><span data-week-raiders-count>{activeRosterCount}</span> Raiders</dd>
       </div>
     </dl>
 
@@ -131,7 +132,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
       return entities[character] ?? character;
     });
-  const playerListHtml = (players: Array<{ name: string; className?: string; color?: string; href?: string }>) =>
+  const playerListHtml = (players: Array<{ name: string; className?: string; color?: string; href?: string; activeRoster?: boolean }>) =>
     players
       .map((player) => {
         const color = player.color ? ` style="--player-color: ${escapeHtml(player.color)}"` : "";
@@ -140,8 +141,8 @@ const raidPayload = calendar.raidDates.map((date) => ({
         return `<li><a class="player-name player-link"${href}${color}${title}>${escapeHtml(player.name)}</a></li>`;
       })
       .join("");
-  const uniquePlayers = (players: Array<{ name: string; className?: string; color?: string; href?: string }>) => {
-    const byPlayer = new Map<string, { name: string; className?: string; color?: string; href?: string }>();
+  const uniquePlayers = (players: Array<{ name: string; className?: string; color?: string; href?: string; activeRoster?: boolean }>) => {
+    const byPlayer = new Map<string, { name: string; className?: string; color?: string; href?: string; activeRoster?: boolean }>();
 
     for (const player of players) {
       byPlayer.set(player.href || player.name.toLocaleLowerCase(), player);
@@ -153,7 +154,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
   document.querySelectorAll<HTMLElement>("[data-next-raid]").forEach((card) => {
     const dataNode = card.querySelector<HTMLScriptElement>("[data-next-raid-data]");
     const dateNode = card.querySelector<HTMLElement>("[data-next-raid-date]");
-    const weekLabel = card.querySelector<HTMLElement>("[data-raid-week-label]");
+    const raidersCount = card.querySelector<HTMLElement>("[data-week-raiders-count]");
     const benchNode = card.querySelector<HTMLElement>("[data-week-bench]");
     const outNode = card.querySelector<HTMLElement>("[data-week-out]");
     const lateNode = card.querySelector<HTMLElement>("[data-week-late]");
@@ -163,10 +164,11 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const raids = JSON.parse(dataNode?.textContent ?? "[]") as Array<{
       label: string;
       isoDate: string;
-      bench: Array<{ name: string; className?: string; color?: string; href?: string }>;
-      out: Array<{ name: string; className?: string; color?: string; href?: string }>;
-      late: Array<{ name: string; className?: string; color?: string; href?: string }>;
+      bench: Array<{ name: string; className?: string; color?: string; href?: string; activeRoster?: boolean }>;
+      out: Array<{ name: string; className?: string; color?: string; href?: string; activeRoster?: boolean }>;
+      late: Array<{ name: string; className?: string; color?: string; href?: string; activeRoster?: boolean }>;
     }>;
+    const activeRosterCount = Number(card.dataset.activeRosterCount ?? 0);
     const today = toLocalDate(new Date());
     const datedRaids = raids.map((raid) => ({ ...raid, date: parseIsoDate(raid.isoDate) }));
     const nextRaid = datedRaids.find((raid) => raid.date >= today) ?? datedRaids[datedRaids.length - 1];
@@ -186,19 +188,13 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const weekBench = uniquePlayers(weekRaids.flatMap((raid) => raid.bench));
     const weekOut = uniquePlayers(weekRaids.flatMap((raid) => raid.out));
     const weekLate = uniquePlayers(weekRaids.flatMap((raid) => raid.late));
+    const unavailable = uniquePlayers([...weekOut, ...weekLate]).filter((player) => player.activeRoster !== false);
     const raidDate = nextRaid.date;
     const weekday = new Intl.DateTimeFormat(undefined, { weekday: "long" }).format(raidDate);
     const month = new Intl.DateTimeFormat(undefined, { month: "short" }).format(raidDate);
 
     if (dateNode) {
       dateNode.textContent = `${weekday}, ${month} ${ordinal(raidDate.getDate())}`;
-    }
-
-    if (weekLabel) {
-      weekLabel.textContent =
-        weekRaids.length > 1
-          ? `${weekRaids[0].label} / ${weekRaids[weekRaids.length - 1].label}`
-          : weekRaids[0]?.label ?? nextRaid.label;
     }
 
     if (benchNode) {
@@ -223,6 +219,10 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
     if (lateCount) {
       lateCount.textContent = String(weekLate.length);
+    }
+
+    if (raidersCount) {
+      raidersCount.textContent = String(Math.max(activeRosterCount - unavailable.length, 0));
     }
   });
 </script>
