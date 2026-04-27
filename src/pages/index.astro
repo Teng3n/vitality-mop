@@ -27,6 +27,13 @@ const addons = [
   { name: "MRT", url: "https://www.curseforge.com/wow/addons/method-raid-tools" },
   { name: "RCLootCouncil", url: "https://www.curseforge.com/wow/addons/rclootcouncil-classic" },
 ];
+
+const recruitmentNeeds = [
+  { priority: "High Priority", detail: "Exceptional DPS with strong attendance and raid preparation." },
+  { priority: "Medium Priority", detail: "Flexible healers or players comfortable maintaining a useful off-spec." },
+  { priority: "Closed Roles", detail: "No permanently closed roles are listed right now." },
+  { priority: "Always Considered", detail: "Exceptional players are always considered regardless of class or spec." },
+];
 ---
 
 <Layout title="Vitality | MoP Classic Guild">
@@ -61,38 +68,41 @@ const addons = [
       </div>
     </article>
 
-    <article class="panel resources-panel">
-      <div class="section-heading">
-        <p class="eyebrow">Resources</p>
-        <h2>Quick Links</h2>
-      </div>
-      <div class="resource-list">
-        <a class="resource-link" href={discordUrl}>
-          <span>Discord</span>
-          <small>Community and raid voice</small>
-        </a>
-        <a class="resource-link" href={applicationUrl}>
-          <span>Apply Here</span>
-          <small>Guild application</small>
-        </a>
-        <a class="resource-link" href="/dashboard">
-          <span>Raider Dashboard</span>
-          <small>Next raid and calendar snapshot</small>
-        </a>
-        <a class="resource-link" href="/calendar">
-          <span>Raid Assignments</span>
-          <small>Full calendar history</small>
-        </a>
-        <span class="resource-link is-pending">
-          <span>Coming Soon</span>
-          <small>Placeholder resource</small>
-        </span>
-        <span class="resource-link is-pending">
-          <span>Guild Info</span>
-          <small>Placeholder resource</small>
-        </span>
-      </div>
-    </article>
+    <div class="stack homepage-side-stack">
+      <article class="panel resources-panel">
+        <div class="section-heading">
+          <p class="eyebrow">Resources</p>
+          <h2>Quick Links</h2>
+        </div>
+        <div class="resource-list compact">
+          <a class="resource-link" href={discordUrl}>
+            <span>Discord</span>
+            <small>Community and raid voice</small>
+          </a>
+          <a class="resource-link" href={applicationUrl}>
+            <span>Apply Here</span>
+            <small>Guild application</small>
+          </a>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="section-heading">
+          <p class="eyebrow">Raid Times</p>
+          <h2>Weekly Raid Nights</h2>
+        </div>
+        <ul class="schedule-list">
+          <li>
+            <span>Sunday</span>
+            <strong>8:00 PM - 11:00 PM PT</strong>
+          </li>
+          <li>
+            <span>Monday</span>
+            <strong>8:00 PM - 11:00 PM PT</strong>
+          </li>
+        </ul>
+      </article>
+    </div>
   </section>
 
   <section class="content-grid two-column">
@@ -122,18 +132,18 @@ const addons = [
 
     <article class="panel">
       <div class="section-heading">
-        <p class="eyebrow">Raid Times</p>
-        <h2>Weekly Raid Nights</h2>
+        <p class="eyebrow">Recruitment</p>
+        <h2>Current Recruitment Needs</h2>
       </div>
-      <ul class="schedule-list">
-        <li>
-          <span>Sunday</span>
-          <strong>8:00 PM - 11:00 PM PT</strong>
-        </li>
-        <li>
-          <span>Monday</span>
-          <strong>8:00 PM - 11:00 PM PT</strong>
-        </li>
+      <ul class="clean-list recruitment-list">
+        {
+          recruitmentNeeds.map((need) => (
+            <li>
+              <span>{need.priority}</span>
+              <strong>{need.detail}</strong>
+            </li>
+          ))
+        }
       </ul>
     </article>
   </section>

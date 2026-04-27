@@ -2,9 +2,16 @@
 import Layout from "../../layouts/Layout.astro";
 import DataTable from "../../components/DataTable.astro";
 import PageHeader from "../../components/PageHeader.astro";
-import lootHistory from "../../data/lootHistory.json";
+import { lootAwards } from "../../lib/guildData";
 
-const rows = [...lootHistory].sort((a, b) => b.date.localeCompare(a.date));
+const rows = lootAwards.map((award) => ({
+  date: award.date,
+  player: award.player,
+  item: award.item,
+  boss: award.boss,
+  instance: award.instance,
+  type: award.responseType,
+}));
 const columns = [
   { key: "date", label: "Date" },
   { key: "player", label: "Player" },

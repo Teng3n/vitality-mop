@@ -3,35 +3,26 @@ import Layout from "../layouts/Layout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import StatCard from "../components/StatCard.astro";
 import RaidWindow from "../components/RaidWindow.astro";
-import calendar from "../data/calendar.json";
+import {
+  calendarDataRaw,
+  getPlayersForStatusRange,
+  getStatusTotals,
+  getUpcomingRaidNights,
+  type CalendarStatus,
+  type StatusPlayer,
+} from "../lib/guildData";
+import { getPlayerClass, getPlayerNameStyle } from "../lib/playerStyles";
 
-interface CalendarSummary {
-  label: string;
-  values: Record<string, string>;
-}
-
-interface CalendarPlayer {
-  name: string;
-  bis: number;
-  major: number;
-  minor: number;
-  total: number;
-  bonusRolls: number;
-  offspec: number;
-  mia: number;
-  out: number;
-  late: number;
-  bench: number;
-  schedule: Record<string, string>;
-}
-
-const calendarData = calendar as unknown as {
-  raidDates: Array<{ label: string; isoDate: string }>;
-  summary: CalendarSummary[];
-  players: CalendarPlayer[];
-};
-const statusTotal = calendarData.players.reduce((sum, player) => sum + Object.keys(player.schedule).length, 0);
-const benchTotal = calendarData.players.reduce((sum, player) => sum + player.bench, 0);
+const upcomingRaidNights = getUpcomingRaidNights(4);
+const statusCards = (["MIA", "Out", "Late", "Bench"] as CalendarStatus[]).map((status) => ({
+  status,
+  total: getStatusTotals(upcomingRaidNights)[status],
+  players: getPlayersForStatusRange(upcomingRaidNights, status),
+}));
+const formatPlayerList = (players: StatusPlayer[]) =>
+  players.length > 0
+    ? players
+    : [];
 ---
 
 <Layout title="Raid Calendar | Vitality">
@@ -40,15 +31,116 @@ const benchTotal = calendarData.players.reduce((sum, player) => sum + player.ben
     title="Raid Calendar"
   />
 
-  <section class="dashboard-grid compact">
-    <StatCard label="Raid nights" value={calendarData.raidDates.length} detail="Calendar columns" />
-    <StatCard label="Players" value={calendarData.players.length} detail="Roster rows" />
-    <StatCard label="Bench marks" value={benchTotal} detail={`${statusTotal} total statuses`} />
+  <section class="panel">
+    <div class="section-heading inline">
+      <div>
+        <p class="eyebrow">Upcoming</p>
+        <h2>Upcoming Raid Nights</h2>
+      </div>
+      <div class="status-legend" aria-label="Calendar status legend">
+        <span class="calendar-status status-bench">Bench</span>
+        <span class="calendar-status status-out">Out</span>
+        <span class="calendar-status status-late">Late</span>
+        <span class="calendar-status status-mia">MIA</span>
+      </div>
+    </div>
+
+    <div class="raid-card-grid">
+      {
+        upcomingRaidNights.map((raid) => (
+          <article class="raid-date-card">
+            <div class="raid-date-card-header">
+              <div>
+                <p class="eyebrow">Date</p>
+                <h3>{raid.label}</h3>
+              </div>
+              <strong>{raid.availableCount}</strong>
+            </div>
+            <dl class="raid-date-meta">
+              <div>
+                <dt>Raid</dt>
+                <dd>{raid.raidName}</dd>
+              </div>
+              <div>
+                <dt>Available</dt>
+                <dd>{raid.availableCount}</dd>
+              </div>
+            </dl>
+            <div class="raid-date-statuses">
+              <div>
+                <span>Bench</span>
+                <ul>
+                  {formatPlayerList(raid.bench).map((player) => (
+                    <li>
+                      <a
+                        class="player-name"
+                        href={player.href}
+                        style={getPlayerNameStyle(player.name)}
+                        title={getPlayerClass(player.name)}
+                      >
+                        {player.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <span>Out</span>
+                <ul>
+                  {formatPlayerList(raid.out).map((player) => (
+                    <li>
+                      <a
+                        class="player-name"
+                        href={player.href}
+                        style={getPlayerNameStyle(player.name)}
+                        title={getPlayerClass(player.name)}
+                      >
+                        {player.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <span>Late</span>
+                <ul>
+                  {formatPlayerList(raid.late).map((player) => (
+                    <li>
+                      <a
+                        class="player-name"
+                        href={player.href}
+                        style={getPlayerNameStyle(player.name)}
+                        title={getPlayerClass(player.name)}
+                      >
+                        {player.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="dashboard-grid">
+    {
+      statusCards.map((card) => (
+        <StatCard
+          label={card.status}
+          value={card.total}
+          detail={`${card.players.length} unique player${card.players.length === 1 ? "" : "s"} in next 4 raids`}
+        />
+      ))
+    }
   </section>
 
   <RaidWindow
-    calendar={calendarData}
+    calendar={calendarDataRaw}
     mode="history"
+    showSummaryCards={false}
     eyebrow="Raid Assignments"
     title="Full Calendar History"
   />

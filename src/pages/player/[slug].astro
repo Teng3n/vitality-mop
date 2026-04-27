@@ -1,7 +1,7 @@
 ---
-import DataTable from "../../components/DataTable.astro";
 import Layout from "../../layouts/Layout.astro";
 import StatCard from "../../components/StatCard.astro";
+import { countsTowardMainSpecTotal } from "../../lib/guildData";
 import { getPlayerNameStyle } from "../../lib/playerStyles";
 import { getPlayerProfiles, type PlayerProfile } from "../../lib/playerProfiles";
 
@@ -14,20 +14,9 @@ export const getStaticPaths = () =>
 const { profile } = Astro.props as { profile: PlayerProfile };
 const classSpec = [profile.className, profile.spec].filter(Boolean).join(" / ") || "Class and spec not listed";
 const benchHistoryRows = profile.benchHistory.slice(0, 10);
-const recentLootColumns = [
-  { key: "date", label: "Date" },
-  { key: "item", label: "Item" },
-  { key: "boss", label: "Boss" },
-  { key: "instance", label: "Instance" },
-  { key: "type", label: "Type" },
-];
-const recentLootRows = profile.recentLoot.map(({ date, item, boss, instance, type }) => ({
-  date,
-  item,
-  boss,
-  instance,
-  type,
-}));
+const countedLootRows = profile.recentLoot.filter((row) => countsTowardMainSpecTotal(row.type)).slice(0, 12);
+const otherLootRows = profile.recentLoot.filter((row) => !countsTowardMainSpecTotal(row.type)).slice(0, 12);
+const recentLootRows = [...countedLootRows, ...otherLootRows];
 ---
 
 <Layout title={`${profile.character} | Vitality`}>
@@ -123,9 +112,9 @@ const recentLootRows = profile.recentLoot.map(({ date, item, boss, instance, typ
         {profile.notes.map((note) => <li>{note}</li>)}
       </ul>
       <div class="profile-actions">
-        <a class="resource-link" href={profile.warcraftLogsUrl} target="_blank" rel="noreferrer">
+        <a class="resource-link" href={profile.warcraftLogsDirectUrl ?? profile.warcraftLogsUrl} target="_blank" rel="noreferrer">
           <span>Warcraft Logs</span>
-          <small>Search this character</small>
+          <small>{profile.warcraftLogsDirectUrl ? "Open character profile" : "Search this character"}</small>
         </a>
       </div>
     </article>
@@ -139,7 +128,7 @@ const recentLootRows = profile.recentLoot.map(({ date, item, boss, instance, typ
       </div>
       <div class="profile-bench-count">
         <span>Total Bench Count</span>
-        <strong>{profile.benchSummary?.totalBenchCount ?? 0}</strong>
+        <strong>{profile.benchHistory.length + profile.upcomingBenchDates.length}</strong>
       </div>
     </div>
     {
@@ -159,10 +148,71 @@ const recentLootRows = profile.recentLoot.map(({ date, item, boss, instance, typ
   </section>
 
   <section class="panel">
-    <div class="section-heading">
-      <p class="eyebrow">Recent Loot</p>
-      <h2>Latest Awards</h2>
+    <div class="section-heading inline">
+      <div>
+        <p class="eyebrow">Recent Loot</p>
+        <h2>Latest Awards</h2>
+      </div>
+      {
+        otherLootRows.length > 0 && (
+          <label class="check-field">
+            <input type="checkbox" data-profile-loot-toggle />
+            <span>Show all loot</span>
+          </label>
+        )
+      }
     </div>
-    <DataTable columns={recentLootColumns} rows={recentLootRows} emptyLabel="No recent loot listed." />
+    <div class="table-shell">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Item</th>
+            <th>Boss</th>
+            <th>Instance</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            recentLootRows.length > 0 ? (
+              recentLootRows.map((row) => {
+                const isCounted = countsTowardMainSpecTotal(row.type);
+
+                return (
+                  <tr data-profile-loot-row data-counted-loot={String(isCounted)} hidden={!isCounted}>
+                    <td data-label="Date">{row.date}</td>
+                    <td data-label="Item">{row.item}</td>
+                    <td data-label="Boss">{row.boss}</td>
+                    <td data-label="Instance">{row.instance}</td>
+                    <td data-label="Type">{row.type}</td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colspan={5}>No recent loot listed.</td>
+              </tr>
+            )
+          }
+        </tbody>
+      </table>
+    </div>
   </section>
 </Layout>
+
+<script>
+  document.querySelectorAll<HTMLInputElement>("[data-profile-loot-toggle]").forEach((toggle) => {
+    const panel = toggle.closest(".panel");
+    const rows = Array.from(panel?.querySelectorAll<HTMLTableRowElement>("[data-profile-loot-row]") ?? []);
+
+    const updateRows = () => {
+      for (const row of rows) {
+        row.hidden = row.dataset.countedLoot !== "true" && !toggle.checked;
+      }
+    };
+
+    toggle.addEventListener("change", updateRows);
+    updateRows();
+  });
+</script>

@@ -187,6 +187,11 @@ main {
   grid-template-rows: auto 1fr;
 }
 
+.homepage-side-stack {
+  height: 100%;
+  grid-template-rows: auto 1fr;
+}
+
 .accent-panel {
   border-color: rgba(200, 155, 60, 0.4);
 }
@@ -330,6 +335,10 @@ p {
   gap: 10px;
 }
 
+.resource-list.compact {
+  align-self: start;
+}
+
 .resource-link {
   display: grid;
   gap: 3px;
@@ -362,6 +371,157 @@ p {
 
 .resource-link.is-pending {
   color: var(--muted);
+}
+
+.recruitment-list li {
+  display: grid;
+  gap: 6px;
+}
+
+.recruitment-list span {
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.recruitment-list strong {
+  color: var(--muted);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.raid-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.raid-date-card {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  border: 1px solid rgba(43, 58, 49, 0.7);
+  border-radius: 8px;
+  padding: 15px;
+  background: rgba(23, 33, 27, 0.7);
+}
+
+.raid-date-card-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.raid-date-card h3 {
+  margin: 4px 0 0;
+  font-size: 1.25rem;
+}
+
+.raid-date-card-header > strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  min-height: 24px;
+  border: 1px solid rgba(242, 240, 232, 0.16);
+  border-radius: 6px;
+  padding: 0 8px;
+  background: rgba(242, 240, 232, 0.08);
+  color: var(--text);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.raid-date-meta {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.raid-date-meta div {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  gap: 8px;
+}
+
+.raid-date-meta dt,
+.raid-date-statuses span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.raid-date-meta dd {
+  margin: 0;
+  font-weight: 800;
+}
+
+.raid-date-statuses {
+  display: grid;
+  gap: 10px;
+}
+
+.raid-date-statuses ul,
+.inline-player-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  min-height: 20px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.action-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.action-metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.action-metrics div {
+  display: grid;
+  gap: 6px;
+  border: 1px solid rgba(43, 58, 49, 0.7);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(23, 33, 27, 0.7);
+}
+
+.action-metrics span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.action-metrics strong {
+  font-size: 1.45rem;
+}
+
+.action-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.action-columns article {
+  min-width: 0;
+}
+
+.action-columns h3 {
+  margin: 0;
+  font-size: 0.96rem;
 }
 
 .next-raid-card {
@@ -1063,10 +1223,19 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .dashboard-grid,
   .dashboard-grid.compact,
   .card-grid,
+  .raid-card-grid,
   .next-raid-grid,
   .two-column,
   .resource-list {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .action-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .action-columns {
+    grid-template-columns: 1fr;
   }
 
   .next-raid-grid {
@@ -1094,6 +1263,8 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .dashboard-grid,
   .dashboard-grid.compact,
   .addon-list,
+  .action-metrics,
+  .raid-card-grid,
   .card-grid,
   .next-raid-statuses,
   .profile-overview,

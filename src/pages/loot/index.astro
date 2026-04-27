@@ -3,17 +3,11 @@ import Layout from "../../layouts/Layout.astro";
 import DataTable from "../../components/DataTable.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import StatCard from "../../components/StatCard.astro";
-import lootSummary from "../../data/lootSummary.json";
-import roster from "../../data/roster.json";
+import { lootSummaries } from "../../lib/guildData";
 
-const activeRoster = new Set(roster.map((row) => row.character.toLocaleLowerCase()));
-const rows = [...lootSummary]
-  .map((row) => ({
-    ...row,
-    activeRoster: activeRoster.has(row.player.toLocaleLowerCase()),
-  }))
-  .sort((a, b) => a.player.localeCompare(b.player, undefined, { sensitivity: "base" }));
-const activeRows = rows.filter((row) => row.activeRoster);
+const summaryRows = [...lootSummaries];
+const rows: Record<string, unknown>[] = summaryRows.map((row) => ({ ...row }));
+const activeRows = summaryRows.filter((row) => row.activeRoster);
 const activeLoot = activeRows.reduce((sum, row) => sum + row.total, 0);
 const columns = [
   { key: "player", label: "Player", sortable: true, sortType: "text" },

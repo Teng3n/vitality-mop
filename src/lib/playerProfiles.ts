@@ -77,6 +77,7 @@ export interface PlayerProfile {
   recentLoot: LootHistoryRow[];
   notes: string[];
   warcraftLogsUrl: string;
+  warcraftLogsDirectUrl?: string;
 }
 
 const rosterRows = roster as unknown as RosterMember[];
@@ -182,8 +183,7 @@ export const getPlayerProfile = (name: string): PlayerProfile => {
   };
   const recentLoot = lootHistoryRows
     .filter((row) => normalizePlayerName(row.player) === normalized)
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .slice(0, 8);
+    .sort((a, b) => b.date.localeCompare(a.date));
   const trialDates = statusDates.filter((date) => date.status === "Trial");
   const notes = [
     rosterMember ? "Active roster profile." : "Not currently listed on the active roster.",
@@ -207,7 +207,7 @@ export const getPlayerProfile = (name: string): PlayerProfile => {
     .filter((date) => date.isoDate < today)
     .sort((a, b) => b.isoDate.localeCompare(a.isoDate))[0];
   const upcomingBenchDates = allBenchDates
-    .filter((date) => date.isoDate > today)
+    .filter((date) => date.isoDate >= today)
     .sort((a, b) => a.isoDate.localeCompare(b.isoDate))
     .map(({ label, isoDate }) => ({ label, isoDate }));
 
@@ -223,6 +223,7 @@ export const getPlayerProfile = (name: string): PlayerProfile => {
     benchSummary,
     lastBenchDate,
     benchHistory: allBenchDates
+      .filter((date) => date.isoDate < today)
       .sort((a, b) => b.isoDate.localeCompare(a.isoDate))
       .map((date) => ({ ...date, status: "Bench" })),
     upcomingBenchDates,

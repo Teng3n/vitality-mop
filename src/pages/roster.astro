@@ -1,11 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import PageHeader from "../components/PageHeader.astro";
-import roster from "../data/roster.json";
+import StatCard from "../components/StatCard.astro";
+import { activeRosterPlayers } from "../lib/guildData";
 import { classColors, getPlayerNameStyle } from "../lib/playerStyles";
 import { cleanPlayerName, getPlayerProfileHref } from "../lib/playerNames";
 
-const members = [...roster].sort((a, b) => a.character.localeCompare(b.character, undefined, { sensitivity: "base" }));
+const members = [...activeRosterPlayers].sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
+const roleCount = (role: string) => members.filter((member) => member.role === role).length;
 
 const classColor = (className: string) => classColors[className] ?? "#f2f0e8";
 ---
@@ -15,6 +17,14 @@ const classColor = (className: string) => classColors[className] ?? "#f2f0e8";
     eyebrow="Roster"
     title="Raid Team"
   />
+
+  <section class="dashboard-grid">
+    <StatCard label="Roster Count" value={members.length} detail="Active raiders" />
+    <StatCard label="Tanks" value={roleCount("Tank")} detail="Protection and mitigation roles" />
+    <StatCard label="Healers" value={roleCount("Healer")} detail="Primary healing roster" />
+    <StatCard label="Melee DPS" value={roleCount("Melee DPS")} detail="Close-range damage" />
+    <StatCard label="Ranged DPS" value={roleCount("Ranged DPS")} detail="Caster and ranged damage" />
+  </section>
 
   <section class="panel">
     <div class="section-heading inline">
@@ -35,17 +45,17 @@ const classColor = (className: string) => classColors[className] ?? "#f2f0e8";
         <tbody>
           {
             members.map((member) => (
-              <tr style={`--class-color: ${classColor(member.class)}`}>
+              <tr style={`--class-color: ${classColor(member.className)}`}>
                 <td data-label="Character">
                   <a
                     class="player-name"
-                    href={getPlayerProfileHref(member.character)}
-                    style={getPlayerNameStyle(member.character)}
+                    href={getPlayerProfileHref(member.name)}
+                    style={getPlayerNameStyle(member.name)}
                   >
-                    {cleanPlayerName(member.character)}
+                    {cleanPlayerName(member.name)}
                   </a>
                 </td>
-                <td data-label="Class">{member.class}</td>
+                <td data-label="Class">{member.className}</td>
                 <td data-label="Spec">{member.spec}</td>
               </tr>
             ))

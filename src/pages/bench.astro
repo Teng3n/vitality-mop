@@ -2,14 +2,64 @@
 import Layout from "../layouts/Layout.astro";
 import DataTable from "../components/DataTable.astro";
 import PageHeader from "../components/PageHeader.astro";
-import bench from "../data/bench.json";
+import StatCard from "../components/StatCard.astro";
+import { benchSummaries, getTodayIso } from "../lib/guildData";
+import { getPlayerClass, getPlayerNameStyle } from "../lib/playerStyles";
+import { getPlayerProfileHref } from "../lib/playerNames";
 
-const rows = [...bench].sort((a, b) => b.totalBenchCount - a.totalBenchCount || a.player.localeCompare(b.player));
+const today = getTodayIso();
+const currentMonth = today.slice(0, 7);
+const rows = benchSummaries.map((summary) => ({
+  player: summary.player,
+  pastBenchCount: summary.pastBenchCount,
+  lastBenched: summary.lastBenched?.isoDate ?? "",
+  nextBench: summary.nextBench?.isoDate ?? "",
+  futureBenchDates: summary.futureBenchDates.map((date) => date.isoDate).join(", "),
+  totalScheduledBenchNights: summary.totalScheduledBenchNights,
+}));
+const averageBenchCount =
+  benchSummaries.length > 0
+    ? (benchSummaries.reduce((sum, summary) => sum + summary.pastBenchCount, 0) / benchSummaries.length).toFixed(1)
+    : "0";
+const benchThisMonth = benchSummaries.reduce(
+  (sum, summary) =>
+    sum +
+    [...summary.pastBenchDates, ...summary.futureBenchDates].filter((date) => date.isoDate.startsWith(currentMonth)).length,
+  0,
+);
+const allTimeBenchCount = benchSummaries.reduce((sum, summary) => sum + summary.pastBenchCount, 0);
+const futureBenchCount = benchSummaries.reduce((sum, summary) => sum + summary.futureBenchCount, 0);
+const mostBenched = [...benchSummaries]
+  .sort(
+    (a, b) =>
+      b.totalScheduledBenchNights - a.totalScheduledBenchNights ||
+      a.player.localeCompare(b.player, undefined, { sensitivity: "base" }),
+  )
+  .slice(0, 5);
+const leastRecentlyBenched = [...benchSummaries]
+  .sort((a, b) => {
+    if (!a.lastBenched && !b.lastBenched) {
+      return a.player.localeCompare(b.player, undefined, { sensitivity: "base" });
+    }
+
+    if (!a.lastBenched) {
+      return -1;
+    }
+
+    if (!b.lastBenched) {
+      return 1;
+    }
+
+    return a.lastBenched.isoDate.localeCompare(b.lastBenched.isoDate);
+  })
+  .slice(0, 5);
 const columns = [
   { key: "player", label: "Player" },
-  { key: "totalBenchCount", label: "Total Bench Count", align: "right" },
+  { key: "pastBenchCount", label: "Past Bench Count", align: "right" },
   { key: "lastBenched", label: "Last Benched" },
-  { key: "notes", label: "Notes / Upcoming" },
+  { key: "nextBench", label: "Next Bench" },
+  { key: "futureBenchDates", label: "Future Bench Dates" },
+  { key: "totalScheduledBenchNights", label: "Total Scheduled Bench Nights", align: "right" },
 ] satisfies Array<{ key: string; label: string; align?: "left" | "center" | "right" }>;
 ---
 
@@ -18,6 +68,67 @@ const columns = [
     eyebrow="Bench"
     title="Bench Rotation"
   />
+
+  <section class="panel">
+    <p class="info-note">Bench counts are based on scheduled bench marks in the raid calendar. Bench nights are not absences.</p>
+  </section>
+
+  <section class="dashboard-grid">
+    <StatCard label="Average Bench Count" value={averageBenchCount} detail="Past bench nights per raider" />
+    <StatCard label="Bench Count This Month" value={benchThisMonth} detail="Past and scheduled this month" />
+    <StatCard label="Bench Count All Time" value={allTimeBenchCount} detail="Past bench nights" />
+    <StatCard label="Future Scheduled" value={futureBenchCount} detail="Upcoming bench nights" />
+  </section>
+
+  <section class="content-grid two-column">
+    <article class="panel">
+      <div class="section-heading">
+        <p class="eyebrow">Fairness</p>
+        <h2>Most Benched Players</h2>
+      </div>
+      <ul class="clean-list profile-list">
+        {
+          mostBenched.map((summary) => (
+            <li>
+              <a
+                class="player-name"
+                href={getPlayerProfileHref(summary.player)}
+                style={getPlayerNameStyle(summary.player)}
+                title={getPlayerClass(summary.player)}
+              >
+                {summary.player}
+              </a>
+              <strong>{summary.totalScheduledBenchNights}</strong>
+            </li>
+          ))
+        }
+      </ul>
+    </article>
+
+    <article class="panel">
+      <div class="section-heading">
+        <p class="eyebrow">Fairness</p>
+        <h2>Least Recently Benched</h2>
+      </div>
+      <ul class="clean-list profile-list">
+        {
+          leastRecentlyBenched.map((summary) => (
+            <li>
+              <a
+                class="player-name"
+                href={getPlayerProfileHref(summary.player)}
+                style={getPlayerNameStyle(summary.player)}
+                title={getPlayerClass(summary.player)}
+              >
+                {summary.player}
+              </a>
+              <strong>{summary.lastBenched?.isoDate ?? "Never"}</strong>
+            </li>
+          ))
+        }
+      </ul>
+    </article>
+  </section>
 
   <section class="panel">
     <DataTable columns={columns} rows={rows} />
