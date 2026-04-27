@@ -655,15 +655,18 @@ p {
   align-content: stretch;
 }
 
-.available-raiders {
+.next-raid-list > .available-raiders {
   align-self: center;
   display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
   justify-items: center;
   gap: 2px;
+  width: 100%;
   text-align: center;
 }
 
-.available-raiders strong {
+.next-raid-list > .available-raiders strong {
   min-width: 0;
   min-height: 0;
   border: 0;
@@ -673,7 +676,7 @@ p {
   line-height: 1;
 }
 
-.available-raiders span {
+.next-raid-list > .available-raiders span {
   color: var(--muted);
   font-size: 0.8rem;
   font-weight: 900;
