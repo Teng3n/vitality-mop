@@ -54,12 +54,6 @@
     "notes": "Scheduled: 2026-05-10, 2026-05-11"
   },
   {
-    "player": "Kali",
-    "totalBenchCount": 2,
-    "lastBenched": "2026-05-11",
-    "notes": "Scheduled: 2026-05-10, 2026-05-11"
-  },
-  {
     "player": "Maverickdog",
     "totalBenchCount": 2,
     "lastBenched": "2026-05-04",
@@ -82,5 +76,11 @@
     "totalBenchCount": 2,
     "lastBenched": "2026-05-04",
     "notes": "Scheduled: 2026-05-03, 2026-05-04"
+  },
+  {
+    "player": "Kali",
+    "totalBenchCount": 1,
+    "lastBenched": "2026-05-11",
+    "notes": "Scheduled: 2026-05-11"
   }
 ]

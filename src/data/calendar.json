@@ -86,7 +86,7 @@
       "values": {
         "May 03": "3",
         "May 04": "2",
-        "May 10": "0",
+        "May 10": "1",
         "May 11": "0",
         "May 17": "1",
         "May 18": "1",
@@ -120,7 +120,7 @@
       "values": {
         "May 03": "5",
         "May 04": "5",
-        "May 10": "5",
+        "May 10": "4",
         "May 11": "5",
         "May 17": "4",
         "May 18": "4",
@@ -422,13 +422,13 @@
       "bonusRolls": 0,
       "offspec": 0,
       "mia": 0,
-      "out": 2,
+      "out": 3,
       "late": 0,
-      "bench": 2,
+      "bench": 1,
       "schedule": {
         "May 03": "Out",
         "May 04": "Out",
-        "May 10": "Bench",
+        "May 10": "Out",
         "May 11": "Bench"
       }
     },
