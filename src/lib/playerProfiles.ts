@@ -3,6 +3,7 @@ import calendar from "../data/calendar.json";
 import lootHistory from "../data/lootHistory.json";
 import lootSummary from "../data/lootSummary.json";
 import roster from "../data/roster.json";
+import { raidNights, type RaidNight, type StatusPlayer } from "./guildData";
 import { cleanPlayerName, getPlayerProfileHref, getPlayerSlug, normalizePlayerName } from "./playerNames";
 import { getWarcraftLogsCharacterUrl, getWarcraftLogsSearchUrl } from "./warcraftLogs";
 
@@ -142,6 +143,24 @@ const getBenchSummaryDates = (benchSummary?: BenchRow) => {
   return [...dates].map((isoDate) => ({ label: getDateLabel(isoDate), isoDate }));
 };
 
+const statusKeys = {
+  Bench: "bench",
+  Out: "out",
+  Late: "late",
+  MIA: "mia",
+} as const;
+
+type ProfileStatus = keyof typeof statusKeys;
+
+const getStatusDatesForPlayer = (slug: string, normalizedName: string, status: ProfileStatus) =>
+  raidNights
+    .filter((night: RaidNight) =>
+      night[statusKeys[status]].some(
+        (player: StatusPlayer) => player.slug === slug || normalizePlayerName(player.name) === normalizedName,
+      ),
+    )
+    .map((night) => ({ label: night.label, isoDate: night.isoDate, status }));
+
 const getUniquePlayerNames = () => {
   const names = new Map<string, string>();
   const add = (name: string) => {
@@ -169,22 +188,19 @@ export const getPlayerProfile = (name: string): PlayerProfile => {
   const lootSummaryRow = lootSummaryByName.get(normalized) ?? emptyLootSummary(cleanPlayerName(name));
   const benchSummary = benchByName.get(normalized);
   const today = todayIso();
-  const statusDates =
-    calendarPlayer?.schedule
-      ? calendarData.raidDates
-          .map((date) => ({
-            ...date,
-            status: calendarPlayer.schedule[date.label] ?? "",
-          }))
-          .filter((date) => date.status)
-      : [];
-  const benchHistory = statusDates.filter((date) => date.status === "Bench");
+  const displayName = cleanPlayerName(rosterMember?.character ?? calendarPlayer?.name ?? name);
+  const playerSlug = getPlayerSlug(displayName);
+  const normalizedDisplayName = normalizePlayerName(displayName);
+  const benchHistory = getStatusDatesForPlayer(playerSlug, normalizedDisplayName, "Bench");
+  const outDates = getStatusDatesForPlayer(playerSlug, normalizedDisplayName, "Out");
+  const lateDates = getStatusDatesForPlayer(playerSlug, normalizedDisplayName, "Late");
+  const miaDates = getStatusDatesForPlayer(playerSlug, normalizedDisplayName, "MIA");
   const attendance = {
     raidNights: calendarData.raidDates.length,
     bench: benchHistory.length,
-    out: statusDates.filter((date) => date.status === "Out").length,
-    late: statusDates.filter((date) => date.status === "Late").length,
-    mia: statusDates.filter((date) => date.status === "MIA").length,
+    out: outDates.length,
+    late: lateDates.length,
+    mia: miaDates.length,
   };
   const recentLoot = lootHistoryRows
     .filter((row) => normalizePlayerName(row.player) === normalized)
@@ -193,7 +209,6 @@ export const getPlayerProfile = (name: string): PlayerProfile => {
     rosterMember ? "Active roster profile." : "Not currently listed on the active roster.",
     "Officer/private notes are not exposed on the site.",
   ];
-  const displayName = cleanPlayerName(rosterMember?.character ?? calendarPlayer?.name ?? name);
   const realm = lootSummaryRow.realm || recentLoot.find((row) => row.realm)?.realm || "";
   const sortedBenchHistory = benchHistory.sort(
     (a, b) => parseIsoDate(b.isoDate).getTime() - parseIsoDate(a.isoDate).getTime(),
@@ -215,7 +230,7 @@ export const getPlayerProfile = (name: string): PlayerProfile => {
 
   return {
     character: displayName,
-    slug: getPlayerSlug(displayName),
+    slug: playerSlug,
     href: getPlayerProfileHref(displayName),
     className: rosterMember?.class,
     spec: rosterMember?.spec,
