@@ -32,7 +32,7 @@
   {
     "character": "Chonkars",
     "class": "Warrior",
-    "spec": "Arms",
+    "spec": "Arcane",
     "role": "Melee DPS"
   },
   {
@@ -92,8 +92,8 @@
   {
     "character": "Kubara",
     "class": "Shaman",
-    "spec": "Restoration",
-    "role": "Healer"
+    "spec": "Elemental",
+    "role": "Ranged DPS"
   },
   {
     "character": "Kuradelh",

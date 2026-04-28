@@ -1,81 +1,5 @@
 {
   "dates": [
-    "Aug 03",
-    "Aug 04",
-    "Aug 10",
-    "Aug 11",
-    "Aug 17",
-    "Aug 18",
-    "Aug 24",
-    "Aug 25",
-    "Aug 31",
-    "Sep 01",
-    "Sep 07",
-    "Sep 08",
-    "Sep 14",
-    "Sep 15",
-    "Sep 21",
-    "Sep 22",
-    "Sep 28",
-    "Sep 29",
-    "Oct 05",
-    "Oct 06",
-    "Oct 12",
-    "Oct 13",
-    "Oct 19",
-    "Oct 20",
-    "Oct 26",
-    "Oct 27",
-    "Nov 02",
-    "Nov 03",
-    "Nov 09",
-    "Nov 10",
-    "Nov 16",
-    "Nov 17",
-    "Nov 23",
-    "Nov 24",
-    "Nov 30",
-    "Dec 01",
-    "Dec 07",
-    "Dec 08",
-    "Dec 14",
-    "Dec 15",
-    "Dec 21",
-    "Dec 22",
-    "Dec 28",
-    "Dec 29",
-    "Jan 04",
-    "Jan 05",
-    "Jan 11",
-    "Jan 12",
-    "Jan 18",
-    "Jan 19",
-    "Jan 25",
-    "Jan 26",
-    "Feb 01",
-    "Feb 02",
-    "Feb 08",
-    "Feb 09",
-    "Feb 15",
-    "Feb 16",
-    "Feb 22",
-    "Feb 23",
-    "Mar 08",
-    "Mar 09",
-    "Mar 15",
-    "Mar 16",
-    "Mar 22",
-    "Mar 23",
-    "Mar 29",
-    "Mar 30",
-    "Apr 05",
-    "Apr 06",
-    "Apr 12",
-    "Apr 13",
-    "Apr 19",
-    "Apr 20",
-    "Apr 26",
-    "Apr 27",
     "May 03",
     "May 04",
     "May 10",
@@ -90,310 +14,6 @@
     "Jun 08"
   ],
   "raidDates": [
-    {
-      "label": "Aug 03",
-      "isoDate": "2025-08-03"
-    },
-    {
-      "label": "Aug 04",
-      "isoDate": "2025-08-04"
-    },
-    {
-      "label": "Aug 10",
-      "isoDate": "2025-08-10"
-    },
-    {
-      "label": "Aug 11",
-      "isoDate": "2025-08-11"
-    },
-    {
-      "label": "Aug 17",
-      "isoDate": "2025-08-17"
-    },
-    {
-      "label": "Aug 18",
-      "isoDate": "2025-08-18"
-    },
-    {
-      "label": "Aug 24",
-      "isoDate": "2025-08-24"
-    },
-    {
-      "label": "Aug 25",
-      "isoDate": "2025-08-25"
-    },
-    {
-      "label": "Aug 31",
-      "isoDate": "2025-08-31"
-    },
-    {
-      "label": "Sep 01",
-      "isoDate": "2025-09-01"
-    },
-    {
-      "label": "Sep 07",
-      "isoDate": "2025-09-07"
-    },
-    {
-      "label": "Sep 08",
-      "isoDate": "2025-09-08"
-    },
-    {
-      "label": "Sep 14",
-      "isoDate": "2025-09-14"
-    },
-    {
-      "label": "Sep 15",
-      "isoDate": "2025-09-15"
-    },
-    {
-      "label": "Sep 21",
-      "isoDate": "2025-09-21"
-    },
-    {
-      "label": "Sep 22",
-      "isoDate": "2025-09-22"
-    },
-    {
-      "label": "Sep 28",
-      "isoDate": "2025-09-28"
-    },
-    {
-      "label": "Sep 29",
-      "isoDate": "2025-09-29"
-    },
-    {
-      "label": "Oct 05",
-      "isoDate": "2025-10-05"
-    },
-    {
-      "label": "Oct 06",
-      "isoDate": "2025-10-06"
-    },
-    {
-      "label": "Oct 12",
-      "isoDate": "2025-10-12"
-    },
-    {
-      "label": "Oct 13",
-      "isoDate": "2025-10-13"
-    },
-    {
-      "label": "Oct 19",
-      "isoDate": "2025-10-19"
-    },
-    {
-      "label": "Oct 20",
-      "isoDate": "2025-10-20"
-    },
-    {
-      "label": "Oct 26",
-      "isoDate": "2025-10-26"
-    },
-    {
-      "label": "Oct 27",
-      "isoDate": "2025-10-27"
-    },
-    {
-      "label": "Nov 02",
-      "isoDate": "2025-11-02"
-    },
-    {
-      "label": "Nov 03",
-      "isoDate": "2025-11-03"
-    },
-    {
-      "label": "Nov 09",
-      "isoDate": "2025-11-09"
-    },
-    {
-      "label": "Nov 10",
-      "isoDate": "2025-11-10"
-    },
-    {
-      "label": "Nov 16",
-      "isoDate": "2025-11-16"
-    },
-    {
-      "label": "Nov 17",
-      "isoDate": "2025-11-17"
-    },
-    {
-      "label": "Nov 23",
-      "isoDate": "2025-11-23"
-    },
-    {
-      "label": "Nov 24",
-      "isoDate": "2025-11-24"
-    },
-    {
-      "label": "Nov 30",
-      "isoDate": "2025-11-30"
-    },
-    {
-      "label": "Dec 01",
-      "isoDate": "2025-12-01"
-    },
-    {
-      "label": "Dec 07",
-      "isoDate": "2025-12-07"
-    },
-    {
-      "label": "Dec 08",
-      "isoDate": "2025-12-08"
-    },
-    {
-      "label": "Dec 14",
-      "isoDate": "2025-12-14"
-    },
-    {
-      "label": "Dec 15",
-      "isoDate": "2025-12-15"
-    },
-    {
-      "label": "Dec 21",
-      "isoDate": "2025-12-21"
-    },
-    {
-      "label": "Dec 22",
-      "isoDate": "2025-12-22"
-    },
-    {
-      "label": "Dec 28",
-      "isoDate": "2025-12-28"
-    },
-    {
-      "label": "Dec 29",
-      "isoDate": "2025-12-29"
-    },
-    {
-      "label": "Jan 04",
-      "isoDate": "2026-01-04"
-    },
-    {
-      "label": "Jan 05",
-      "isoDate": "2026-01-05"
-    },
-    {
-      "label": "Jan 11",
-      "isoDate": "2026-01-11"
-    },
-    {
-      "label": "Jan 12",
-      "isoDate": "2026-01-12"
-    },
-    {
-      "label": "Jan 18",
-      "isoDate": "2026-01-18"
-    },
-    {
-      "label": "Jan 19",
-      "isoDate": "2026-01-19"
-    },
-    {
-      "label": "Jan 25",
-      "isoDate": "2026-01-25"
-    },
-    {
-      "label": "Jan 26",
-      "isoDate": "2026-01-26"
-    },
-    {
-      "label": "Feb 01",
-      "isoDate": "2026-02-01"
-    },
-    {
-      "label": "Feb 02",
-      "isoDate": "2026-02-02"
-    },
-    {
-      "label": "Feb 08",
-      "isoDate": "2026-02-08"
-    },
-    {
-      "label": "Feb 09",
-      "isoDate": "2026-02-09"
-    },
-    {
-      "label": "Feb 15",
-      "isoDate": "2026-02-15"
-    },
-    {
-      "label": "Feb 16",
-      "isoDate": "2026-02-16"
-    },
-    {
-      "label": "Feb 22",
-      "isoDate": "2026-02-22"
-    },
-    {
-      "label": "Feb 23",
-      "isoDate": "2026-02-23"
-    },
-    {
-      "label": "Mar 08",
-      "isoDate": "2026-03-08"
-    },
-    {
-      "label": "Mar 09",
-      "isoDate": "2026-03-09"
-    },
-    {
-      "label": "Mar 15",
-      "isoDate": "2026-03-15"
-    },
-    {
-      "label": "Mar 16",
-      "isoDate": "2026-03-16"
-    },
-    {
-      "label": "Mar 22",
-      "isoDate": "2026-03-22"
-    },
-    {
-      "label": "Mar 23",
-      "isoDate": "2026-03-23"
-    },
-    {
-      "label": "Mar 29",
-      "isoDate": "2026-03-29"
-    },
-    {
-      "label": "Mar 30",
-      "isoDate": "2026-03-30"
-    },
-    {
-      "label": "Apr 05",
-      "isoDate": "2026-04-05"
-    },
-    {
-      "label": "Apr 06",
-      "isoDate": "2026-04-06"
-    },
-    {
-      "label": "Apr 12",
-      "isoDate": "2026-04-12"
-    },
-    {
-      "label": "Apr 13",
-      "isoDate": "2026-04-13"
-    },
-    {
-      "label": "Apr 19",
-      "isoDate": "2026-04-19"
-    },
-    {
-      "label": "Apr 20",
-      "isoDate": "2026-04-20"
-    },
-    {
-      "label": "Apr 26",
-      "isoDate": "2026-04-26"
-    },
-    {
-      "label": "Apr 27",
-      "isoDate": "2026-04-27"
-    },
     {
       "label": "May 03",
       "isoDate": "2026-05-03"
@@ -447,82 +67,6 @@
     {
       "label": "MIA",
       "values": {
-        "Aug 03": "0",
-        "Aug 04": "0",
-        "Aug 10": "0",
-        "Aug 11": "0",
-        "Aug 17": "0",
-        "Aug 18": "0",
-        "Aug 24": "0",
-        "Aug 25": "0",
-        "Aug 31": "0",
-        "Sep 01": "0",
-        "Sep 07": "0",
-        "Sep 08": "0",
-        "Sep 14": "0",
-        "Sep 15": "0",
-        "Sep 21": "0",
-        "Sep 22": "0",
-        "Sep 28": "0",
-        "Sep 29": "0",
-        "Oct 05": "0",
-        "Oct 06": "0",
-        "Oct 12": "0",
-        "Oct 13": "0",
-        "Oct 19": "0",
-        "Oct 20": "0",
-        "Oct 26": "0",
-        "Oct 27": "0",
-        "Nov 02": "0",
-        "Nov 03": "0",
-        "Nov 09": "0",
-        "Nov 10": "0",
-        "Nov 16": "0",
-        "Nov 17": "0",
-        "Nov 23": "0",
-        "Nov 24": "0",
-        "Nov 30": "1",
-        "Dec 01": "1",
-        "Dec 07": "0",
-        "Dec 08": "0",
-        "Dec 14": "0",
-        "Dec 15": "0",
-        "Dec 21": "0",
-        "Dec 22": "0",
-        "Dec 28": "0",
-        "Dec 29": "0",
-        "Jan 04": "0",
-        "Jan 05": "0",
-        "Jan 11": "0",
-        "Jan 12": "0",
-        "Jan 18": "0",
-        "Jan 19": "0",
-        "Jan 25": "0",
-        "Jan 26": "0",
-        "Feb 01": "0",
-        "Feb 02": "0",
-        "Feb 08": "0",
-        "Feb 09": "0",
-        "Feb 15": "0",
-        "Feb 16": "0",
-        "Feb 22": "0",
-        "Feb 23": "0",
-        "Mar 08": "0",
-        "Mar 09": "0",
-        "Mar 15": "0",
-        "Mar 16": "0",
-        "Mar 22": "1",
-        "Mar 23": "0",
-        "Mar 29": "0",
-        "Mar 30": "0",
-        "Apr 05": "0",
-        "Apr 06": "0",
-        "Apr 12": "0",
-        "Apr 13": "0",
-        "Apr 19": "0",
-        "Apr 20": "0",
-        "Apr 26": "2",
-        "Apr 27": "2",
         "May 03": "0",
         "May 04": "0",
         "May 10": "0",
@@ -540,84 +84,8 @@
     {
       "label": "Out",
       "values": {
-        "Aug 03": "1",
-        "Aug 04": "0",
-        "Aug 10": "0",
-        "Aug 11": "0",
-        "Aug 17": "0",
-        "Aug 18": "0",
-        "Aug 24": "0",
-        "Aug 25": "0",
-        "Aug 31": "0",
-        "Sep 01": "0",
-        "Sep 07": "0",
-        "Sep 08": "0",
-        "Sep 14": "0",
-        "Sep 15": "0",
-        "Sep 21": "0",
-        "Sep 22": "0",
-        "Sep 28": "0",
-        "Sep 29": "0",
-        "Oct 05": "0",
-        "Oct 06": "0",
-        "Oct 12": "0",
-        "Oct 13": "0",
-        "Oct 19": "1",
-        "Oct 20": "1",
-        "Oct 26": "0",
-        "Oct 27": "0",
-        "Nov 02": "0",
-        "Nov 03": "0",
-        "Nov 09": "0",
-        "Nov 10": "0",
-        "Nov 16": "0",
-        "Nov 17": "0",
-        "Nov 23": "0",
-        "Nov 24": "0",
-        "Nov 30": "1",
-        "Dec 01": "1",
-        "Dec 07": "0",
-        "Dec 08": "0",
-        "Dec 14": "0",
-        "Dec 15": "0",
-        "Dec 21": "0",
-        "Dec 22": "0",
-        "Dec 28": "0",
-        "Dec 29": "0",
-        "Jan 04": "0",
-        "Jan 05": "0",
-        "Jan 11": "0",
-        "Jan 12": "0",
-        "Jan 18": "0",
-        "Jan 19": "0",
-        "Jan 25": "0",
-        "Jan 26": "0",
-        "Feb 01": "1",
-        "Feb 02": "0",
-        "Feb 08": "0",
-        "Feb 09": "0",
-        "Feb 15": "0",
-        "Feb 16": "0",
-        "Feb 22": "0",
-        "Feb 23": "0",
-        "Mar 08": "0",
-        "Mar 09": "0",
-        "Mar 15": "0",
-        "Mar 16": "0",
-        "Mar 22": "1",
-        "Mar 23": "1",
-        "Mar 29": "4",
-        "Mar 30": "1",
-        "Apr 05": "2",
-        "Apr 06": "2",
-        "Apr 12": "2",
-        "Apr 13": "1",
-        "Apr 19": "4",
-        "Apr 20": "4",
-        "Apr 26": "2",
-        "Apr 27": "2",
-        "May 03": "2",
-        "May 04": "1",
+        "May 03": "3",
+        "May 04": "2",
         "May 10": "0",
         "May 11": "0",
         "May 17": "1",
@@ -633,83 +101,7 @@
     {
       "label": "Late",
       "values": {
-        "Aug 03": "0",
-        "Aug 04": "0",
-        "Aug 10": "0",
-        "Aug 11": "0",
-        "Aug 17": "0",
-        "Aug 18": "0",
-        "Aug 24": "0",
-        "Aug 25": "0",
-        "Aug 31": "0",
-        "Sep 01": "0",
-        "Sep 07": "0",
-        "Sep 08": "0",
-        "Sep 14": "0",
-        "Sep 15": "0",
-        "Sep 21": "0",
-        "Sep 22": "0",
-        "Sep 28": "0",
-        "Sep 29": "0",
-        "Oct 05": "0",
-        "Oct 06": "0",
-        "Oct 12": "0",
-        "Oct 13": "0",
-        "Oct 19": "0",
-        "Oct 20": "0",
-        "Oct 26": "0",
-        "Oct 27": "0",
-        "Nov 02": "0",
-        "Nov 03": "0",
-        "Nov 09": "0",
-        "Nov 10": "0",
-        "Nov 16": "0",
-        "Nov 17": "0",
-        "Nov 23": "0",
-        "Nov 24": "0",
-        "Nov 30": "1",
-        "Dec 01": "1",
-        "Dec 07": "0",
-        "Dec 08": "0",
-        "Dec 14": "0",
-        "Dec 15": "0",
-        "Dec 21": "0",
-        "Dec 22": "0",
-        "Dec 28": "0",
-        "Dec 29": "0",
-        "Jan 04": "0",
-        "Jan 05": "0",
-        "Jan 11": "0",
-        "Jan 12": "0",
-        "Jan 18": "0",
-        "Jan 19": "0",
-        "Jan 25": "0",
-        "Jan 26": "0",
-        "Feb 01": "0",
-        "Feb 02": "0",
-        "Feb 08": "0",
-        "Feb 09": "0",
-        "Feb 15": "0",
-        "Feb 16": "0",
-        "Feb 22": "0",
-        "Feb 23": "0",
-        "Mar 08": "0",
-        "Mar 09": "0",
-        "Mar 15": "0",
-        "Mar 16": "0",
-        "Mar 22": "1",
-        "Mar 23": "0",
-        "Mar 29": "0",
-        "Mar 30": "0",
-        "Apr 05": "0",
-        "Apr 06": "0",
-        "Apr 12": "0",
-        "Apr 13": "0",
-        "Apr 19": "0",
-        "Apr 20": "0",
-        "Apr 26": "0",
-        "Apr 27": "0",
-        "May 03": "1",
+        "May 03": "0",
         "May 04": "0",
         "May 10": "0",
         "May 11": "0",
@@ -726,82 +118,6 @@
     {
       "label": "Bench",
       "values": {
-        "Aug 03": "1",
-        "Aug 04": "0",
-        "Aug 10": "0",
-        "Aug 11": "0",
-        "Aug 17": "0",
-        "Aug 18": "0",
-        "Aug 24": "0",
-        "Aug 25": "0",
-        "Aug 31": "0",
-        "Sep 01": "0",
-        "Sep 07": "0",
-        "Sep 08": "0",
-        "Sep 14": "0",
-        "Sep 15": "0",
-        "Sep 21": "0",
-        "Sep 22": "0",
-        "Sep 28": "0",
-        "Sep 29": "0",
-        "Oct 05": "0",
-        "Oct 06": "0",
-        "Oct 12": "0",
-        "Oct 13": "0",
-        "Oct 19": "0",
-        "Oct 20": "0",
-        "Oct 26": "0",
-        "Oct 27": "0",
-        "Nov 02": "0",
-        "Nov 03": "0",
-        "Nov 09": "0",
-        "Nov 10": "0",
-        "Nov 16": "0",
-        "Nov 17": "0",
-        "Nov 23": "0",
-        "Nov 24": "0",
-        "Nov 30": "1",
-        "Dec 01": "1",
-        "Dec 07": "0",
-        "Dec 08": "0",
-        "Dec 14": "0",
-        "Dec 15": "0",
-        "Dec 21": "0",
-        "Dec 22": "0",
-        "Dec 28": "0",
-        "Dec 29": "0",
-        "Jan 04": "0",
-        "Jan 05": "0",
-        "Jan 11": "0",
-        "Jan 12": "0",
-        "Jan 18": "0",
-        "Jan 19": "0",
-        "Jan 25": "0",
-        "Jan 26": "0",
-        "Feb 01": "4",
-        "Feb 02": "0",
-        "Feb 08": "0",
-        "Feb 09": "0",
-        "Feb 15": "0",
-        "Feb 16": "0",
-        "Feb 22": "0",
-        "Feb 23": "0",
-        "Mar 08": "0",
-        "Mar 09": "0",
-        "Mar 15": "0",
-        "Mar 16": "0",
-        "Mar 22": "1",
-        "Mar 23": "2",
-        "Mar 29": "0",
-        "Mar 30": "0",
-        "Apr 05": "0",
-        "Apr 06": "0",
-        "Apr 12": "3",
-        "Apr 13": "3",
-        "Apr 19": "2",
-        "Apr 20": "2",
-        "Apr 26": "1",
-        "Apr 27": "1",
         "May 03": "5",
         "May 04": "5",
         "May 10": "5",
@@ -817,86 +133,44 @@
       }
     },
     {
+      "label": "Trial",
+      "values": {
+        "May 03": "0",
+        "May 04": "0",
+        "May 10": "0",
+        "May 11": "0",
+        "May 17": "0",
+        "May 18": "0",
+        "May 24": "0",
+        "May 25": "0",
+        "May 31": "0",
+        "Jun 01": "0",
+        "Jun 07": "0",
+        "Jun 08": "0"
+      }
+    },
+    {
+      "label": "Unknown",
+      "values": {
+        "May 03": "0",
+        "May 04": "0",
+        "May 10": "0",
+        "May 11": "0",
+        "May 17": "0",
+        "May 18": "0",
+        "May 24": "0",
+        "May 25": "0",
+        "May 31": "0",
+        "Jun 01": "0",
+        "Jun 07": "0",
+        "Jun 08": "0"
+      }
+    },
+    {
       "label": "Available",
       "values": {
-        "Aug 03": "28",
-        "Aug 04": "29",
-        "Aug 10": "30",
-        "Aug 11": "30",
-        "Aug 17": "29",
-        "Aug 18": "29",
-        "Aug 24": "29",
-        "Aug 25": "29",
-        "Aug 31": "30",
-        "Sep 01": "30",
-        "Sep 07": "30",
-        "Sep 08": "29",
-        "Sep 14": "29",
-        "Sep 15": "29",
-        "Sep 21": "28",
-        "Sep 22": "28",
-        "Sep 28": "29",
-        "Sep 29": "30",
-        "Oct 05": "30",
-        "Oct 06": "30",
-        "Oct 12": "30",
-        "Oct 13": "30",
-        "Oct 19": "29",
-        "Oct 20": "30",
-        "Oct 26": "30",
-        "Oct 27": "30",
-        "Nov 02": "30",
-        "Nov 03": "30",
-        "Nov 09": "30",
-        "Nov 10": "30",
-        "Nov 16": "27",
-        "Nov 17": "28",
-        "Nov 23": "27",
-        "Nov 24": "29",
-        "Nov 30": "29",
-        "Dec 01": "29",
-        "Dec 07": "30",
-        "Dec 08": "30",
-        "Dec 14": "29",
-        "Dec 15": "29",
-        "Dec 21": "28",
-        "Dec 22": "28",
-        "Dec 28": "29",
-        "Dec 29": "29",
-        "Jan 04": "28",
-        "Jan 05": "28",
-        "Jan 11": "29",
-        "Jan 12": "29",
-        "Jan 18": "27",
-        "Jan 19": "28",
-        "Jan 25": "26",
-        "Jan 26": "26",
-        "Feb 01": "25",
-        "Feb 02": "26",
-        "Feb 08": "29",
-        "Feb 09": "29",
-        "Feb 15": "28",
-        "Feb 16": "28",
-        "Feb 22": "26",
-        "Feb 23": "26",
-        "Mar 08": "25",
-        "Mar 09": "26",
-        "Mar 15": "28",
-        "Mar 16": "28",
-        "Mar 22": "26",
-        "Mar 23": "27",
-        "Mar 29": "26",
-        "Mar 30": "29",
-        "Apr 05": "28",
-        "Apr 06": "28",
-        "Apr 12": "25",
-        "Apr 13": "26",
-        "Apr 19": "24",
-        "Apr 20": "24",
-        "Apr 26": "25",
-        "Apr 27": "25",
         "May 03": "22",
-        "May 04": "24",
+        "May 04": "23",
         "May 10": "25",
         "May 11": "25",
         "May 17": "25",
@@ -923,11 +197,8 @@
       "mia": 0,
       "out": 0,
       "late": 0,
-      "bench": 2,
-      "schedule": {
-        "Feb 01": "Bench",
-        "Feb 02": "Bench"
-      }
+      "bench": 0,
+      "schedule": {}
     },
     {
       "rank": 2,
@@ -938,19 +209,11 @@
       "total": 0,
       "bonusRolls": 0,
       "offspec": 0,
-      "mia": 1,
-      "out": 6,
+      "mia": 0,
+      "out": 2,
       "late": 0,
-      "bench": 5,
+      "bench": 2,
       "schedule": {
-        "Aug 03": "Bench",
-        "Sep 14": "Out",
-        "Sep 15": "Out",
-        "Sep 21": "Out",
-        "Sep 22": "Out",
-        "Feb 01": "Bench",
-        "Feb 02": "Bench",
-        "Mar 22": "MIA",
         "May 10": "Bench",
         "May 11": "Bench",
         "May 17": "Out",
@@ -966,20 +229,11 @@
       "total": 0,
       "bonusRolls": 0,
       "offspec": 0,
-      "mia": 2,
-      "out": 2,
+      "mia": 0,
+      "out": 0,
       "late": 0,
-      "bench": 4,
-      "schedule": {
-        "Jan 04": "Bench",
-        "Jan 05": "Bench",
-        "Jan 25": "Bench",
-        "Jan 26": "Bench",
-        "Mar 08": "Out",
-        "Mar 09": "Out",
-        "Apr 26": "MIA",
-        "Apr 27": "MIA"
-      }
+      "bench": 0,
+      "schedule": {}
     },
     {
       "rank": 4,
@@ -991,15 +245,10 @@
       "bonusRolls": 0,
       "offspec": 0,
       "mia": 0,
-      "out": 4,
+      "out": 0,
       "late": 0,
       "bench": 0,
-      "schedule": {
-        "Nov 16": "Out",
-        "Nov 17": "Out",
-        "Nov 23": "Out",
-        "Nov 24": "Out"
-      }
+      "schedule": {}
     },
     {
       "rank": 5,
@@ -1011,19 +260,34 @@
       "bonusRolls": 0,
       "offspec": 0,
       "mia": 0,
-      "out": 1,
-      "late": 1,
-      "bench": 3,
+      "out": 0,
+      "late": 0,
+      "bench": 2,
       "schedule": {
-        "Oct 19": "Out",
-        "Feb 23": "Bench",
-        "May 03": "Late",
         "May 10": "Bench",
         "May 11": "Bench"
       }
     },
     {
       "rank": 6,
+      "name": "Chonkars",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 2,
+      "schedule": {
+        "May 17": "Bench",
+        "May 18": "Bench"
+      }
+    },
+    {
+      "rank": 7,
       "name": "Deéz",
       "bis": 0,
       "major": 0,
@@ -1032,20 +296,10 @@
       "bonusRolls": 0,
       "offspec": 0,
       "mia": 0,
-      "out": 3,
+      "out": 2,
       "late": 0,
-      "bench": 7,
+      "bench": 2,
       "schedule": {
-        "Jan 18": "Trial",
-        "Jan 19": "Trial",
-        "Jan 25": "Out",
-        "Jan 26": "Bench",
-        "Feb 01": "Trial",
-        "Feb 02": "Trial",
-        "Mar 08": "Bench",
-        "Mar 09": "Bench",
-        "Apr 12": "Bench",
-        "Apr 13": "Bench",
         "May 03": "Out",
         "May 04": "Out",
         "May 17": "Bench",
@@ -1053,7 +307,7 @@
       }
     },
     {
-      "rank": 7,
+      "rank": 8,
       "name": "Drchicken",
       "bis": 0,
       "major": 0,
@@ -1062,22 +316,13 @@
       "bonusRolls": 0,
       "offspec": 0,
       "mia": 0,
-      "out": 8,
+      "out": 0,
       "late": 0,
       "bench": 0,
-      "schedule": {
-        "Mar 29": "Out",
-        "Mar 30": "Out",
-        "Apr 05": "Out",
-        "Apr 06": "Out",
-        "Apr 12": "Out",
-        "Apr 13": "Out",
-        "Apr 19": "Out",
-        "Apr 20": "Out"
-      }
+      "schedule": {}
     },
     {
-      "rank": 8,
+      "rank": 9,
       "name": "Fae",
       "bis": 0,
       "major": 0,
@@ -1096,7 +341,7 @@
       }
     },
     {
-      "rank": 9,
+      "rank": 10,
       "name": "Foggy",
       "bis": 0,
       "major": 0,
@@ -1105,423 +350,16 @@
       "bonusRolls": 0,
       "offspec": 0,
       "mia": 0,
-      "out": 4,
-      "late": 0,
-      "bench": 4,
-      "schedule": {
-        "Mar 08": "Bench",
-        "Mar 09": "Bench",
-        "Apr 19": "Out",
-        "Apr 20": "Out",
-        "Apr 26": "Out",
-        "Apr 27": "Out",
-        "May 03": "Bench",
-        "May 04": "Bench"
-      }
-    },
-    {
-      "rank": 10,
-      "name": "June",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 3,
+      "out": 0,
       "late": 0,
       "bench": 2,
       "schedule": {
-        "Aug 03": "Out",
-        "Aug 04": "Out",
-        "Feb 22": "Out",
-        "May 10": "Bench",
-        "May 11": "Bench"
+        "May 03": "Bench",
+        "May 04": "Bench"
       }
     },
     {
       "rank": 11,
-      "name": "Kali",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 9,
-      "late": 0,
-      "bench": 3,
-      "schedule": {
-        "Sep 08": "Out",
-        "Jan 18": "Out",
-        "Feb 01": "Out",
-        "Mar 15": "Out",
-        "Mar 16": "Bench",
-        "Mar 23": "Out",
-        "Mar 29": "Out",
-        "Apr 05": "Out",
-        "Apr 06": "Out",
-        "Apr 12": "Out",
-        "May 10": "Bench",
-        "May 11": "Bench"
-      }
-    },
-    {
-      "rank": 12,
-      "name": "Karkan",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 0,
-      "late": 0,
-      "bench": 0,
-      "schedule": {}
-    },
-    {
-      "rank": 13,
-      "name": "Kubara",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 0,
-      "late": 0,
-      "bench": 2,
-      "schedule": {
-        "Feb 01": "Bench",
-        "Feb 02": "Bench"
-      }
-    },
-    {
-      "rank": 14,
-      "name": "Kuradelh",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 2,
-      "late": 0,
-      "bench": 2,
-      "schedule": {
-        "Feb 15": "Bench",
-        "Feb 16": "Bench",
-        "Apr 19": "Out",
-        "Apr 20": "Out"
-      }
-    },
-    {
-      "rank": 15,
-      "name": "Lexou",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 3,
-      "late": 0,
-      "bench": 0,
-      "schedule": {
-        "Nov 16": "Out",
-        "Nov 23": "Out",
-        "Mar 29": "Out"
-      }
-    },
-    {
-      "rank": 16,
-      "name": "Marz",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 5,
-      "late": 1,
-      "bench": 4,
-      "schedule": {
-        "Aug 17": "Out",
-        "Aug 18": "Out",
-        "Nov 23": "Out",
-        "Jan 25": "Bench",
-        "Jan 26": "Bench",
-        "Feb 22": "Out",
-        "Mar 08": "Out",
-        "Mar 22": "Late",
-        "Apr 19": "Bench",
-        "Apr 20": "Bench"
-      }
-    },
-    {
-      "rank": 17,
-      "name": "Maverickdog",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 1,
-      "late": 0,
-      "bench": 3,
-      "schedule": {
-        "Feb 23": "Bench",
-        "Mar 29": "Out",
-        "May 03": "Bench",
-        "May 04": "Bench"
-      }
-    },
-    {
-      "rank": 18,
-      "name": "Nagafish",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 2,
-      "out": 0,
-      "late": 0,
-      "bench": 4,
-      "schedule": {
-        "Jan 18": "Trial",
-        "Jan 19": "Trial",
-        "Jan 25": "Trial",
-        "Jan 26": "Trial",
-        "Feb 08": "Bench",
-        "Feb 09": "Bench",
-        "Mar 22": "Bench",
-        "Mar 23": "Bench",
-        "Apr 26": "MIA",
-        "Apr 27": "MIA"
-      }
-    },
-    {
-      "rank": 19,
-      "name": "Noctuahati",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 0,
-      "late": 0,
-      "bench": 6,
-      "schedule": {
-        "Jan 25": "Trial",
-        "Jan 26": "Trial",
-        "Feb 01": "Trial",
-        "Feb 02": "Trial",
-        "Feb 15": "Bench",
-        "Feb 16": "Bench",
-        "Apr 12": "Bench",
-        "Apr 13": "Bench",
-        "May 17": "Bench",
-        "May 18": "Bench"
-      }
-    },
-    {
-      "rank": 20,
-      "name": "Noxw",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 2,
-      "late": 0,
-      "bench": 2,
-      "schedule": {
-        "Feb 22": "Out",
-        "Feb 23": "Out",
-        "May 03": "Bench",
-        "May 04": "Bench"
-      }
-    },
-    {
-      "rank": 21,
-      "name": "Oswaldmosley",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 2,
-      "late": 0,
-      "bench": 0,
-      "schedule": {
-        "Sep 21": "Out",
-        "Sep 22": "Out"
-      }
-    },
-    {
-      "rank": 22,
-      "name": "Runicbeard",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 10,
-      "late": 0,
-      "bench": 5,
-      "schedule": {
-        "Sep 28": "Out",
-        "Nov 17": "Out",
-        "Dec 14": "Bench",
-        "Dec 15": "Bench",
-        "Dec 21": "Out",
-        "Dec 22": "Out",
-        "Dec 28": "Out",
-        "Dec 29": "Out",
-        "Jan 04": "Out",
-        "Jan 05": "Out",
-        "Feb 22": "Out",
-        "Mar 22": "Out",
-        "Mar 23": "Bench",
-        "Apr 19": "Bench",
-        "Apr 20": "Bench"
-      }
-    },
-    {
-      "rank": 23,
-      "name": "Shrynx",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 5,
-      "late": 0,
-      "bench": 5,
-      "schedule": {
-        "Aug 24": "Out",
-        "Aug 25": "Out",
-        "Nov 16": "Out",
-        "Jan 18": "Bench",
-        "Jan 19": "Bench",
-        "Feb 23": "Bench",
-        "Apr 12": "Bench",
-        "Apr 13": "Bench",
-        "Apr 26": "Out",
-        "Apr 27": "Out"
-      }
-    },
-    {
-      "rank": 24,
-      "name": "Teehee",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 6,
-      "late": 2,
-      "bench": 2,
-      "schedule": {
-        "Nov 30": "Late",
-        "Dec 01": "Late",
-        "Jan 11": "Out",
-        "Jan 12": "Out",
-        "Jan 18": "Out",
-        "Jan 19": "Out",
-        "Jan 25": "Out",
-        "Jan 26": "Out",
-        "Apr 26": "Bench",
-        "Apr 27": "Bench"
-      }
-    },
-    {
-      "rank": 25,
-      "name": "Tengen",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 0,
-      "late": 0,
-      "bench": 0,
-      "schedule": {}
-    },
-    {
-      "rank": 26,
-      "name": "Volkswórgen",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 2,
-      "late": 0,
-      "bench": 2,
-      "schedule": {
-        "Mar 08": "Trial",
-        "Mar 09": "Trial",
-        "Apr 19": "Out",
-        "Apr 20": "Out",
-        "May 03": "Bench",
-        "May 04": "Bench"
-      }
-    },
-    {
-      "rank": 27,
-      "name": "Yellock",
-      "bis": 0,
-      "major": 0,
-      "minor": 0,
-      "total": 0,
-      "bonusRolls": 0,
-      "offspec": 0,
-      "mia": 0,
-      "out": 2,
-      "late": 0,
-      "bench": 6,
-      "schedule": {
-        "Dec 21": "Bench",
-        "Dec 22": "Bench",
-        "Feb 01": "Bench",
-        "Feb 02": "Bench",
-        "Mar 08": "Out",
-        "Mar 09": "Out",
-        "Mar 15": "Bench",
-        "Mar 16": "Bench"
-      }
-    },
-    {
-      "rank": 28,
       "name": "Imincolombia",
       "bis": 0,
       "major": 0,
@@ -1539,8 +377,172 @@
       }
     },
     {
-      "rank": 29,
-      "name": "Chonkars",
+      "rank": 12,
+      "name": "June",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 2,
+      "schedule": {
+        "May 10": "Bench",
+        "May 11": "Bench"
+      }
+    },
+    {
+      "rank": 13,
+      "name": "Kaiysz",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 2,
+      "schedule": {
+        "May 10": "Bench",
+        "May 11": "Bench"
+      }
+    },
+    {
+      "rank": 14,
+      "name": "Kali",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 2,
+      "late": 0,
+      "bench": 2,
+      "schedule": {
+        "May 03": "Out",
+        "May 04": "Out",
+        "May 10": "Bench",
+        "May 11": "Bench"
+      }
+    },
+    {
+      "rank": 15,
+      "name": "Karkan",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 0,
+      "schedule": {}
+    },
+    {
+      "rank": 16,
+      "name": "Kubara",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 0,
+      "schedule": {}
+    },
+    {
+      "rank": 17,
+      "name": "Kuradelh",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 0,
+      "schedule": {}
+    },
+    {
+      "rank": 18,
+      "name": "Lexou",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 0,
+      "schedule": {}
+    },
+    {
+      "rank": 19,
+      "name": "Marz",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 0,
+      "schedule": {}
+    },
+    {
+      "rank": 20,
+      "name": "Maverickdog",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 2,
+      "schedule": {
+        "May 03": "Bench",
+        "May 04": "Bench"
+      }
+    },
+    {
+      "rank": 21,
+      "name": "Nagafish",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 0,
+      "schedule": {}
+    },
+    {
+      "rank": 22,
+      "name": "Noctuahati",
       "bis": 0,
       "major": 0,
       "minor": 0,
@@ -1557,8 +559,8 @@
       }
     },
     {
-      "rank": 30,
-      "name": "Kaiysz",
+      "rank": 23,
+      "name": "Noxw",
       "bis": 0,
       "major": 0,
       "minor": 0,
@@ -1570,9 +572,117 @@
       "late": 0,
       "bench": 2,
       "schedule": {
-        "May 10": "Bench",
-        "May 11": "Bench"
+        "May 03": "Bench",
+        "May 04": "Bench"
       }
+    },
+    {
+      "rank": 24,
+      "name": "Oswaldmosley",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 0,
+      "schedule": {}
+    },
+    {
+      "rank": 25,
+      "name": "Runicbeard",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 0,
+      "schedule": {}
+    },
+    {
+      "rank": 26,
+      "name": "Shrynx",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 0,
+      "schedule": {}
+    },
+    {
+      "rank": 27,
+      "name": "Teehee",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 0,
+      "schedule": {}
+    },
+    {
+      "rank": 28,
+      "name": "Tengen",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 0,
+      "schedule": {}
+    },
+    {
+      "rank": 29,
+      "name": "Volkswórgen",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 2,
+      "schedule": {
+        "May 03": "Bench",
+        "May 04": "Bench"
+      }
+    },
+    {
+      "rank": 30,
+      "name": "Yellock",
+      "bis": 0,
+      "major": 0,
+      "minor": 0,
+      "total": 0,
+      "bonusRolls": 0,
+      "offspec": 0,
+      "mia": 0,
+      "out": 0,
+      "late": 0,
+      "bench": 0,
+      "schedule": {}
     }
   ]
 }

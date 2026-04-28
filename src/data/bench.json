@@ -1,146 +1,86 @@
 [
   {
-    "player": "Deéz",
-    "totalBenchCount": 7,
-    "lastBenched": "2026-04-13",
-    "notes": "Scheduled: 2026-05-17, 2026-05-18"
-  },
-  {
-    "player": "Noctuahati",
-    "totalBenchCount": 6,
-    "lastBenched": "2026-04-13",
-    "notes": "Scheduled: 2026-05-17, 2026-05-18"
-  },
-  {
-    "player": "Yellock",
-    "totalBenchCount": 6,
-    "lastBenched": "2026-03-16",
-    "notes": "No upcoming bench date listed"
-  },
-  {
     "player": "Aurumai",
-    "totalBenchCount": 5,
-    "lastBenched": "2026-02-02",
+    "totalBenchCount": 2,
+    "lastBenched": "2026-05-11",
     "notes": "Scheduled: 2026-05-10, 2026-05-11"
-  },
-  {
-    "player": "Runicbeard",
-    "totalBenchCount": 5,
-    "lastBenched": "2026-04-20",
-    "notes": "No upcoming bench date listed"
-  },
-  {
-    "player": "Shrynx",
-    "totalBenchCount": 5,
-    "lastBenched": "2026-04-13",
-    "notes": "No upcoming bench date listed"
-  },
-  {
-    "player": "Bannedpex",
-    "totalBenchCount": 4,
-    "lastBenched": "2026-01-26",
-    "notes": "No upcoming bench date listed"
-  },
-  {
-    "player": "Foggy",
-    "totalBenchCount": 4,
-    "lastBenched": "2026-03-09",
-    "notes": "Scheduled: 2026-05-03, 2026-05-04"
-  },
-  {
-    "player": "Marz",
-    "totalBenchCount": 4,
-    "lastBenched": "2026-04-20",
-    "notes": "No upcoming bench date listed"
-  },
-  {
-    "player": "Nagafish",
-    "totalBenchCount": 4,
-    "lastBenched": "2026-03-23",
-    "notes": "No upcoming bench date listed"
   },
   {
     "player": "Cardinalcrzy",
-    "totalBenchCount": 3,
-    "lastBenched": "2026-02-23",
-    "notes": "Scheduled: 2026-05-10, 2026-05-11"
-  },
-  {
-    "player": "Kali",
-    "totalBenchCount": 3,
-    "lastBenched": "2026-03-16",
-    "notes": "Scheduled: 2026-05-10, 2026-05-11"
-  },
-  {
-    "player": "Maverickdog",
-    "totalBenchCount": 3,
-    "lastBenched": "2026-02-23",
-    "notes": "Scheduled: 2026-05-03, 2026-05-04"
-  },
-  {
-    "player": "Arrowqt",
     "totalBenchCount": 2,
-    "lastBenched": "2026-02-02",
-    "notes": "No upcoming bench date listed"
+    "lastBenched": "2026-05-11",
+    "notes": "Scheduled: 2026-05-10, 2026-05-11"
   },
   {
     "player": "Chonkars",
     "totalBenchCount": 2,
-    "lastBenched": "",
+    "lastBenched": "2026-05-18",
+    "notes": "Scheduled: 2026-05-17, 2026-05-18"
+  },
+  {
+    "player": "Deéz",
+    "totalBenchCount": 2,
+    "lastBenched": "2026-05-18",
     "notes": "Scheduled: 2026-05-17, 2026-05-18"
   },
   {
     "player": "Fae",
     "totalBenchCount": 2,
-    "lastBenched": "",
+    "lastBenched": "2026-05-18",
     "notes": "Scheduled: 2026-05-17, 2026-05-18"
+  },
+  {
+    "player": "Foggy",
+    "totalBenchCount": 2,
+    "lastBenched": "2026-05-04",
+    "notes": "Scheduled: 2026-05-03, 2026-05-04"
   },
   {
     "player": "Imincolombia",
     "totalBenchCount": 2,
-    "lastBenched": "",
+    "lastBenched": "2026-05-04",
     "notes": "Scheduled: 2026-05-03, 2026-05-04"
   },
   {
     "player": "June",
     "totalBenchCount": 2,
-    "lastBenched": "",
+    "lastBenched": "2026-05-11",
     "notes": "Scheduled: 2026-05-10, 2026-05-11"
   },
   {
     "player": "Kaiysz",
     "totalBenchCount": 2,
-    "lastBenched": "",
+    "lastBenched": "2026-05-11",
     "notes": "Scheduled: 2026-05-10, 2026-05-11"
   },
   {
-    "player": "Kubara",
+    "player": "Kali",
     "totalBenchCount": 2,
-    "lastBenched": "2026-02-02",
-    "notes": "No upcoming bench date listed"
+    "lastBenched": "2026-05-11",
+    "notes": "Scheduled: 2026-05-10, 2026-05-11"
   },
   {
-    "player": "Kuradelh",
+    "player": "Maverickdog",
     "totalBenchCount": 2,
-    "lastBenched": "2026-02-16",
-    "notes": "No upcoming bench date listed"
+    "lastBenched": "2026-05-04",
+    "notes": "Scheduled: 2026-05-03, 2026-05-04"
+  },
+  {
+    "player": "Noctuahati",
+    "totalBenchCount": 2,
+    "lastBenched": "2026-05-18",
+    "notes": "Scheduled: 2026-05-17, 2026-05-18"
   },
   {
     "player": "Noxw",
     "totalBenchCount": 2,
-    "lastBenched": "",
+    "lastBenched": "2026-05-04",
     "notes": "Scheduled: 2026-05-03, 2026-05-04"
-  },
-  {
-    "player": "Teehee",
-    "totalBenchCount": 2,
-    "lastBenched": "2026-04-26",
-    "notes": "Scheduled: 2026-04-27"
   },
   {
     "player": "Volkswórgen",
     "totalBenchCount": 2,
-    "lastBenched": "",
+    "lastBenched": "2026-05-04",
     "notes": "Scheduled: 2026-05-03, 2026-05-04"
   }
 ]
