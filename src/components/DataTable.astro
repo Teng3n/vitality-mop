@@ -18,6 +18,7 @@ interface Props {
   initialSortKey?: string;
   initialSortDirection?: "ascending" | "descending";
   tableClass?: string;
+  cellTitle?: boolean;
 }
 
 const {
@@ -28,6 +29,7 @@ const {
   initialSortKey,
   initialSortDirection = "ascending",
   tableClass = "",
+  cellTitle = false,
 } = Astro.props;
 const isSortable = columns.some((column) => column.sortable);
 
@@ -92,6 +94,7 @@ const getPlayerValue = (value: unknown) => cleanPlayerName(formatValue(value));
                   class={`is-${column.align ?? "left"}`}
                   data-label={column.label}
                   data-sort-value={formatValue(row[column.key])}
+                  title={cellTitle && formatValue(row[column.key]) !== "-" ? formatValue(row[column.key]) : undefined}
                 >
                   {isPlayerNameColumn(column.key) && formatValue(row[column.key]) !== "-" ? (
                     <a

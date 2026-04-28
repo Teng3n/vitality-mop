@@ -436,19 +436,24 @@ p {
 }
 
 .raid-week-days {
+  --raid-week-divider-top: 48px;
+  --raid-week-divider-height: 190px;
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 30px;
+  min-height: calc(var(--raid-week-divider-top) + var(--raid-week-divider-height) + 12px);
 }
 
 .raid-week-days::before {
   content: "";
   position: absolute;
-  top: 48px;
+  top: var(--raid-week-divider-top);
   left: 50%;
   width: 1px;
-  height: 190px;
+  height: var(--raid-week-divider-height);
   background: rgba(200, 155, 60, 0.34);
+  pointer-events: none;
   transform: translateX(-50%);
 }
 
@@ -459,8 +464,8 @@ p {
 }
 
 .raid-week-day + .raid-week-day {
-  margin-left: 15px;
-  padding-left: 15px;
+  margin-left: 0;
+  padding-left: 0;
 }
 
 .raid-date-card-header {
@@ -983,6 +988,50 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   border-left: 3px solid rgba(200, 155, 60, 0.72);
 }
 
+.loot-history-table {
+  min-width: 1080px;
+  table-layout: fixed;
+}
+
+.loot-history-table th,
+.loot-history-table td {
+  overflow: hidden;
+  padding: 9px 12px;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.loot-history-table th:nth-child(1),
+.loot-history-table td:nth-child(1) {
+  width: 112px;
+}
+
+.loot-history-table th:nth-child(2),
+.loot-history-table td:nth-child(2) {
+  width: 148px;
+}
+
+.loot-history-table th:nth-child(3),
+.loot-history-table td:nth-child(3) {
+  width: 300px;
+}
+
+.loot-history-table th:nth-child(4),
+.loot-history-table td:nth-child(4) {
+  width: 190px;
+}
+
+.loot-history-table th:nth-child(5),
+.loot-history-table td:nth-child(5) {
+  width: 220px;
+}
+
+.loot-history-table th:nth-child(6),
+.loot-history-table td:nth-child(6) {
+  width: 150px;
+}
+
 .calendar-shell {
   width: 100%;
   max-width: 100%;
@@ -1420,6 +1469,8 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
   .raid-week-days {
     grid-template-columns: 1fr;
+    column-gap: 0;
+    min-height: 0;
   }
 
   .raid-week-days::before {

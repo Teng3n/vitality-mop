@@ -52,8 +52,15 @@ const {
   showSummaryCards = true,
   calendar,
 } = Astro.props;
-const statusTypes = mode === "snapshot" ? ["Bench", "Out", "Late"] : ["Bench", "Out", "MIA", "Late"];
-const summaryTypes = mode === "snapshot" ? ["Out", "Late", "Bench"] : ["MIA", "Out", "Late", "Bench"];
+const statusTypes = ["Bench", "Out", "Late", "MIA", "Trial"];
+const summaryTypes = ["Out", "Late", "Bench", "MIA", "Trial"];
+const statusDescriptions: Record<string, string> = {
+  Bench: "Player is assigned bench for the day.",
+  Out: "Player has posted out for the day.",
+  Late: "Player has posted late for the day.",
+  MIA: "Player was missing from raid with no post out.",
+  Trial: "Player was on trial for the raid.",
+};
 const slugStatus = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 const statusClass = (value: string) => (value ? `calendar-status status-${slugStatus(value)}` : "calendar-empty");
 const isWeekBoundary = (isoDate: string, index: number) => {
@@ -84,7 +91,17 @@ const showSummaryLists = mode === "snapshot";
       {description && <p class="muted">{description}</p>}
     </div>
     <div class="status-legend" aria-label="Calendar status legend">
-      {statusTypes.map((status) => <span class={`calendar-status status-${slugStatus(status)}`}>{status}</span>)}
+      {
+        statusTypes.map((status) => (
+          <span
+            class={`calendar-status status-${slugStatus(status)}`}
+            title={statusDescriptions[status]}
+            aria-label={`${status}: ${statusDescriptions[status]}`}
+          >
+            {status}
+          </span>
+        ))
+      }
     </div>
   </div>
 
@@ -97,6 +114,8 @@ const showSummaryLists = mode === "snapshot";
             data-summary-card
             data-summary-status={row.label}
             data-summary-values={JSON.stringify(row.values)}
+            title={statusDescriptions[row.label]}
+            aria-label={`${row.label}: ${statusDescriptions[row.label]}`}
           >
             <div class="calendar-summary-card-header">
               <span>{row.label}</span>
