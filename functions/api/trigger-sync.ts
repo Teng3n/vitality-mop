@@ -13,6 +13,7 @@ const GITHUB_DISPATCH_URL =
   "https://api.github.com/repos/Teng3n/vitality-mop/actions/workflows/sync-data.yml/dispatches";
 const WORKFLOW_REF = "feature/guild-site-mvp";
 const COOLDOWN_MS = 60_000;
+const SYNC_ERROR_MESSAGE = "Unable to trigger sync workflow.";
 
 let lastTriggerAt = 0;
 
@@ -65,17 +66,34 @@ const isValidPassword = async (password: string, env: Env) => {
   return expectedPassword ? timingSafeEqual(password, expectedPassword) : false;
 };
 
+const logGitHubDispatchFailure = (status: number, body: string) => {
+  console.error("[trigger-sync] GitHub workflow dispatch failed.", {
+    status,
+    body,
+  });
+
+  if (status === 401 || status === 403) {
+    console.error("[trigger-sync] GitHub dispatch failure is likely a token permission issue.");
+  }
+
+  if (status === 404) {
+    console.error("[trigger-sync] GitHub dispatch failure is likely a repo, workflow filename, or branch/ref issue.");
+  }
+};
+
 export const onRequest = async ({ request, env }: PagesContext) => {
   if (request.method !== "POST") {
     return jsonResponse({ ok: false, message: "Method not allowed." }, 405, { Allow: "POST" });
   }
 
   if (!env.GITHUB_ACTIONS_DISPATCH_TOKEN) {
-    return jsonResponse({ ok: false, message: "Sync trigger is not configured." }, 500);
+    console.error("[trigger-sync] GITHUB_ACTIONS_DISPATCH_TOKEN is not configured.");
+    return jsonResponse({ ok: false, message: SYNC_ERROR_MESSAGE }, 500);
   }
 
   if (!env.SYNC_TRIGGER_PASSWORD && !env.SYNC_TRIGGER_PASSWORD_HASH) {
-    return jsonResponse({ ok: false, message: "Sync trigger is not configured." }, 500);
+    console.error("[trigger-sync] No sync trigger password or password hash is configured.");
+    return jsonResponse({ ok: false, message: SYNC_ERROR_MESSAGE }, 500);
   }
 
   const body = await safeParseJson(request);
@@ -85,7 +103,7 @@ export const onRequest = async ({ request, env }: PagesContext) => {
       : "";
 
   if (!password || !(await isValidPassword(password, env))) {
-    return jsonResponse({ ok: false, message: "Unauthorized." }, 401);
+    return jsonResponse({ ok: false, message: "Invalid password." }, 401);
   }
 
   const now = Date.now();
@@ -94,22 +112,37 @@ export const onRequest = async ({ request, env }: PagesContext) => {
     return jsonResponse({ ok: false, message: "Sync was triggered recently. Try again shortly." }, 429);
   }
 
-  lastTriggerAt = now;
+  let githubResponse: Response;
 
-  const githubResponse = await fetch(GITHUB_DISPATCH_URL, {
-    method: "POST",
-    headers: {
-      Accept: "application/vnd.github+json",
-      Authorization: `Bearer ${env.GITHUB_ACTIONS_DISPATCH_TOKEN}`,
-      "Content-Type": "application/json",
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
-    body: JSON.stringify({ ref: WORKFLOW_REF }),
+  try {
+    githubResponse = await fetch(GITHUB_DISPATCH_URL, {
+      method: "POST",
+      headers: {
+        Accept: "application/vnd.github+json",
+        Authorization: `Bearer ${env.GITHUB_ACTIONS_DISPATCH_TOKEN}`,
+        "Content-Type": "application/json",
+        "User-Agent": "vitality-mop-pages-function",
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+      body: JSON.stringify({ ref: WORKFLOW_REF }),
+    });
+  } catch (error) {
+    console.error("[trigger-sync] GitHub workflow dispatch request failed before a response was received.", {
+      message: error instanceof Error ? error.message : "Unknown fetch error",
+    });
+    return jsonResponse({ ok: false, message: SYNC_ERROR_MESSAGE }, 502);
+  }
+
+  console.info("[trigger-sync] GitHub workflow dispatch response status.", {
+    status: githubResponse.status,
   });
 
   if (githubResponse.status !== 204) {
-    return jsonResponse({ ok: false, message: "Unable to trigger sync workflow." }, 502);
+    logGitHubDispatchFailure(githubResponse.status, await githubResponse.text());
+    return jsonResponse({ ok: false, message: SYNC_ERROR_MESSAGE }, 502);
   }
+
+  lastTriggerAt = Date.now();
 
   return jsonResponse({ ok: true, message: "Sync workflow triggered." });
 };
