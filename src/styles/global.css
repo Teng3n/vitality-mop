@@ -444,12 +444,12 @@ p {
 .raid-week-days::before {
   content: "";
   position: absolute;
-  top: 50%;
+  top: 48px;
   left: 50%;
   width: 1px;
   height: 190px;
   background: rgba(200, 155, 60, 0.34);
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
 }
 
 .raid-week-day {
