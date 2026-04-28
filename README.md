@@ -16,6 +16,14 @@ Optional checks:
 npm run check
 ```
 
+Optional local data sync:
+
+```bash
+cp .env.example .env.local
+# Fill in GOOGLE_SHEET_ID, GOOGLE_SERVICE_ACCOUNT_JSON, and sheet ranges if needed.
+npm run sync:data
+```
+
 ## GitHub Workflow
 
 ```bash
@@ -41,7 +49,7 @@ This MVP uses Astro static output and does not require Cloudflare Workers, Pages
 
 ## Data Updates
 
-Current data is sample-only and lives in:
+Current public site data lives in:
 
 - `src/data/roster.json`
 - `src/data/calendar.json`
@@ -49,7 +57,88 @@ Current data is sample-only and lives in:
 - `src/data/lootHistory.json`
 - `src/data/bench.json`
 
-Future update path:
+## Automated data sync
+
+The site is still static. Runtime visitors never fetch Google Sheets directly, and the Google Sheet does not need to be public. Instead, GitHub Actions authenticates to the private sheet with a Google service account, regenerates the JSON files in `src/data`, commits only real JSON changes, and Cloudflare Pages redeploys from that GitHub commit.
+
+Pipeline:
+
+```text
+Private Google Sheet -> Google Sheets API -> scripts/sync-google-sheets.ts -> src/data/*.json -> GitHub commit -> Cloudflare Pages deploy
+```
+
+Required GitHub Actions secrets:
+
+- `GOOGLE_SHEET_ID`
+- `GOOGLE_SERVICE_ACCOUNT_JSON`
+
+The service account JSON must stay in GitHub Secrets or a private local `.env.local` file. Do not commit the service account file or paste it into frontend code. Share the Google Sheet directly with the service account email as Viewer.
+
+Optional GitHub Actions variables for non-sensitive sheet ranges:
+
+- `ROSTER_RANGE`, default `Roster!A:Z`
+- `CALENDAR_RANGE`, default `Calendar!A:ZZ`
+- `LOOT_RANGE`, default `History!A:Z`
+
+Optional local-only variable:
+
+- `CALENDAR_START_YEAR` is only needed for a first sync when calendar headers do not include years and there is no existing `src/data/calendar.json` to preserve year mappings.
+
+Example `.env.local` shape:
+
+```bash
+GOOGLE_SHEET_ID=your-private-sheet-id
+GOOGLE_SERVICE_ACCOUNT_JSON={"type":"service_account","project_id":"...","private_key":"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n","client_email":"..."}
+ROSTER_RANGE=Roster!A:Z
+CALENDAR_RANGE=Calendar!A:ZZ
+LOOT_RANGE=History!A:Z
+```
+
+Run locally:
+
+```bash
+npm run sync:data
+```
+
+Build after syncing:
+
+```bash
+npm run build:with-data
+```
+
+The workflow lives at `.github/workflows/sync-data.yml`. It runs every 6 hours via UTC cron and can also be triggered manually from GitHub:
+
+1. Open the repository on GitHub.
+2. Go to **Actions**.
+3. Select **Sync guild data**.
+4. Click **Run workflow**.
+
+The workflow intentionally avoids unnecessary Cloudflare builds:
+
+- It runs `npm run sync:data`.
+- It checks `git diff --quiet -- src/data/*.json`.
+- If there are no generated JSON changes, it prints `No data changes detected.` and exits successfully.
+- If there are changes, it stages and commits only `src/data/*.json`.
+- It never writes generated timestamps such as `lastSyncedAt`, `generatedAt`, or `updatedAt` into committed JSON.
+
+Generated files:
+
+- `src/data/roster.json`
+- `src/data/calendar.json`
+- `src/data/lootHistory.json`
+- `src/data/lootSummary.json`
+- `src/data/bench.json`
+
+Troubleshooting:
+
+- Missing `GOOGLE_SHEET_ID` or `GOOGLE_SERVICE_ACCOUNT_JSON`: add the required repository secret in GitHub.
+- Inaccessible sheet: confirm the sheet is shared with the service account email as Viewer.
+- Wrong range: set `ROSTER_RANGE`, `CALENDAR_RANGE`, or `LOOT_RANGE` to the correct tab and columns.
+- Invalid service account JSON: store the full JSON as one GitHub secret; escaped private-key newlines are supported.
+- Missing sheet columns: check the Action logs for the required column names reported by the sync script.
+- No changes detected: this is expected when the sheet data has not changed.
+
+Manual fallback path:
 
 1. Export Google Sheet tabs to CSV or XLSX.
 2. Convert the public fields to JSON.

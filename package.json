@@ -6,14 +6,20 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "build:with-data": "npm run sync:data && npm run build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "sync:data": "tsx scripts/sync-google-sheets.ts"
   },
   "dependencies": {
     "astro": "^6.1.8"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.0",
+    "@types/node": "^25.6.0",
+    "dotenv": "^17.4.2",
+    "googleapis": "^171.4.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.0"
   }
 }

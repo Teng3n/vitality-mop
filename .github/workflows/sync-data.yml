@@ -1,0 +1,64 @@
+name: Sync guild data
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-guild-data
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync data from Google Sheets
+        run: npm run sync:data
+        env:
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          ROSTER_RANGE: ${{ vars.ROSTER_RANGE }}
+          CALENDAR_RANGE: ${{ vars.CALENDAR_RANGE }}
+          LOOT_RANGE: ${{ vars.LOOT_RANGE }}
+          CALENDAR_START_YEAR: ${{ vars.CALENDAR_START_YEAR }}
+
+      - name: Check generated data changes
+        id: changes
+        shell: bash
+        run: |
+          if git diff --quiet -- src/data/*.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No data changes detected."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git diff --stat -- src/data/*.json
+          fi
+
+      - name: Commit generated data
+        if: steps.changes.outputs.changed == 'true'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/*.json
+          git commit -m "chore(data): sync guild data from Google Sheets"
+          git push
