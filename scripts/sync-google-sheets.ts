@@ -108,7 +108,6 @@ const env = Object.fromEntries(requiredEnv.map((key) => [key, cleanText(process.
   string
 >;
 const ranges = {
-  roster: cleanText(process.env.ROSTER_RANGE) || "Roster!A:Z",
   calendar: cleanText(process.env.CALENDAR_RANGE) || "Calendar!A:ZZ",
   loot: cleanText(process.env.LOOT_RANGE) || "History!A:Z",
 };
@@ -119,11 +118,12 @@ for (const key of requiredEnv) {
   }
 }
 
-const rosterColumns: ColumnSpec[] = [
-  { key: "character", aliases: ["character", "name", "player"], required: true },
+const calendarRosterColumns: ColumnSpec[] = [
+  { key: "rank", aliases: ["rank", "number", "no"], required: false },
+  { key: "name", aliases: ["name", "player", "character"], required: true },
   { key: "class", aliases: ["class"], required: true },
   { key: "spec", aliases: ["spec", "specialization"], required: true },
-  { key: "role", aliases: ["role"], required: true },
+  { key: "role", aliases: ["role"], required: false },
 ];
 
 const lootColumns: ColumnSpec[] = [
@@ -134,21 +134,6 @@ const lootColumns: ColumnSpec[] = [
   { key: "instance", aliases: ["instance", "raid"], required: true },
   { key: "boss", aliases: ["boss", "encounter"], required: true },
   { key: "time", aliases: ["time", "timestamp"], required: false },
-];
-
-const calendarPlayerColumns: ColumnSpec[] = [
-  { key: "rank", aliases: ["rank"], required: false },
-  { key: "name", aliases: ["name", "player", "character"], required: true },
-  { key: "bis", aliases: ["bis", "bestinslot"], required: false },
-  { key: "major", aliases: ["major", "majorupgrade"], required: false },
-  { key: "minor", aliases: ["minor", "minorupgrade"], required: false },
-  { key: "total", aliases: ["total"], required: false },
-  { key: "bonusRolls", aliases: ["bonusrolls", "bonusroll", "bonusloot"], required: false },
-  { key: "offspec", aliases: ["offspec", "offspecloot", "offspecawards"], required: false },
-  { key: "mia", aliases: ["mia"], required: false },
-  { key: "out", aliases: ["out"], required: false },
-  { key: "late", aliases: ["late"], required: false },
-  { key: "bench", aliases: ["bench", "benched"], required: false },
 ];
 
 const monthNumbers = new Map([
@@ -193,6 +178,45 @@ const statusAliases = new Map([
   ["unknown", "Unknown"],
 ]);
 
+const tankSpecs = new Set(["deathknight:blood", "druid:guardian", "monk:brewmaster", "paladin:protection", "warrior:protection"]);
+const healerSpecs = new Set([
+  "druid:restoration",
+  "monk:mistweaver",
+  "paladin:holy",
+  "priest:discipline",
+  "priest:holy",
+  "shaman:restoration",
+]);
+const meleeSpecs = new Set([
+  "deathknight:frost",
+  "deathknight:unholy",
+  "druid:feral",
+  "monk:windwalker",
+  "paladin:retribution",
+  "rogue:assassination",
+  "rogue:combat",
+  "rogue:subtlety",
+  "shaman:enhancement",
+  "warrior:arms",
+  "warrior:fury",
+]);
+const rangedSpecs = new Set([
+  "druid:balance",
+  "hunter:beastmastery",
+  "hunter:marksmanship",
+  "hunter:survival",
+  "mage:arcane",
+  "mage:fire",
+  "mage:frost",
+  "priest:shadow",
+  "shaman:elemental",
+  "warlock:affliction",
+  "warlock:demonology",
+  "warlock:destruction",
+]);
+const rangedClassFallbacks = new Set(["hunter", "mage", "warlock"]);
+const meleeClassFallbacks = new Set(["deathknight", "rogue", "warrior"]);
+
 function cleanText(value: unknown) {
   return String(value ?? "").trim();
 }
@@ -204,6 +228,45 @@ function normalizeColumn(value: unknown) {
 function asNumber(value: unknown) {
   const parsed = Number(cleanText(value));
   return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function normalizeRoleKey(value: string) {
+  return normalizeColumn(value).replace(/^deathknight$/, "deathknight");
+}
+
+function deriveRole(className: string, spec: string, playerName: string) {
+  const roleKey = `${normalizeRoleKey(className)}:${normalizeRoleKey(spec)}`;
+
+  if (tankSpecs.has(roleKey)) {
+    return "Tank";
+  }
+
+  if (healerSpecs.has(roleKey)) {
+    return "Healer";
+  }
+
+  if (meleeSpecs.has(roleKey)) {
+    return "Melee DPS";
+  }
+
+  if (rangedSpecs.has(roleKey)) {
+    return "Ranged DPS";
+  }
+
+  const classKey = normalizeRoleKey(className);
+
+  if (rangedClassFallbacks.has(classKey)) {
+    warn(`Calendar player "${playerName}" has unmapped spec "${spec}" for class "${className}"; defaulting role to Ranged DPS.`);
+    return "Ranged DPS";
+  }
+
+  if (meleeClassFallbacks.has(classKey)) {
+    warn(`Calendar player "${playerName}" has unmapped spec "${spec}" for class "${className}"; defaulting role to Melee DPS.`);
+    return "Melee DPS";
+  }
+
+  warn(`Calendar player "${playerName}" has unmapped class/spec "${className} ${spec}"; defaulting role to Ranged DPS.`);
+  return "Ranged DPS";
 }
 
 function warn(message: string) {
@@ -324,63 +387,42 @@ async function fetchSheetRows(
   }
 }
 
-function validateRoster(roster: RosterRow[]) {
-  const bySlug = new Map<string, string>();
+function findCalendarHeaderRow(rows: SheetRow[]) {
+  for (let index = 0; index < rows.length; index += 1) {
+    const row = rows[index] ?? [];
+    const indexes = buildColumnIndexes(row, calendarRosterColumns);
+    const rankIndex = row.findIndex((value) => cleanText(value) === "#");
 
-  for (const row of roster) {
-    const slug = getPlayerSlug(row.character);
-
-    if (!row.character) {
-      errors.push("Roster row is missing a player name.");
+    if (rankIndex >= 0) {
+      indexes.rank = rankIndex;
     }
 
-    if (bySlug.has(slug)) {
-      errors.push(`Duplicate active roster player slug "${slug}" for "${bySlug.get(slug)}" and "${row.character}".`);
-    }
+    const missing = calendarRosterColumns.filter((spec) => spec.required && indexes[spec.key] === undefined);
 
-    bySlug.set(slug, row.character);
+    if (missing.length === 0) {
+      return { index, indexes, row };
+    }
   }
+
+  errors.push("Calendar sheet missing required roster columns: Name, Class, Spec");
+  return { index: -1, indexes: {} as ColumnIndexes, row: [] as SheetRow };
 }
 
-function parseRoster(rows: SheetRow[]) {
-  const header = findHeaderRow(rows, rosterColumns, "Roster");
-  failIfErrors();
+function getCalendarDateColumns(headers: SheetRow, indexes: ColumnIndexes) {
+  const staticIndexes = Object.values(indexes).filter((index): index is number => typeof index === "number");
+  const firstDateIndex = Math.max(...staticIndexes) + 1;
+  const dateColumns = headers
+    .map((label, index) => ({ index, label: cleanText(label), parsedDate: parseRaidDateLabel(label) }))
+    .filter((column) => column.index >= firstDateIndex && column.label && column.parsedDate);
 
-  const roster = rows
-    .slice(header.index + 1)
-    .map((row, rowOffset): RosterRow | null => {
-      const character = cleanPlayerName(getCell(row, header.indexes.character));
+  if (dateColumns.length === 0) {
+    errors.push(
+      "Calendar sheet has no valid raid date columns. Add date headers after Name/Class/Spec like May 03, May 04, or 2026-05-03.",
+    );
+    failIfErrors();
+  }
 
-      if (!character && row.every((value) => !cleanText(value))) {
-        return null;
-      }
-
-      if (!character) {
-        errors.push(`Roster row ${header.index + rowOffset + 2} is missing a character name.`);
-        return null;
-      }
-
-      const className = getCell(row, header.indexes.class);
-      const spec = getCell(row, header.indexes.spec);
-      const role = getCell(row, header.indexes.role);
-
-      if (!className || !spec || !role) {
-        errors.push(`Roster row for "${character}" is missing class, spec, or role.`);
-      }
-
-      return {
-        character,
-        class: className,
-        spec,
-        role,
-      };
-    })
-    .filter((row): row is RosterRow => Boolean(row));
-
-  validateRoster(roster);
-  failIfErrors();
-
-  return sortByName(roster, (row) => row.character);
+  return dateColumns.map(({ index, label }) => ({ index, label }));
 }
 
 function parseExplicitIsoDate(label: string) {
@@ -490,14 +532,6 @@ function inferRaidDates(labels: string[], existingRaidDates: RaidDate[] = []) {
   });
 }
 
-function valuesByDate(row: SheetRow, dates: string[], dateStartIndex: number) {
-  return Object.fromEntries(
-    dates
-      .map((date, offset) => [date, cleanText(row[dateStartIndex + offset])] as const)
-      .filter(([, value]) => value),
-  );
-}
-
 function normalizeStatus(value: string, context: string) {
   const text = cleanText(value);
 
@@ -520,135 +554,101 @@ function normalizeStatus(value: string, context: string) {
   return status;
 }
 
-function normalizeSummaryLabel(value: string) {
-  const status = statusAliases.get(normalizeColumn(value));
-  return status === "Unknown" ? undefined : status;
+function countStatus(schedule: Record<string, string>, status: string) {
+  return Object.values(schedule).filter((value) => value === status).length;
 }
 
-function getSummaryLabelColumn(rows: SheetRow[], dateStartIndex: number) {
-  const counts = new Map<number, number>();
+function buildCalendarSummary(players: CalendarPlayer[], dates: string[]) {
+  const statusLabels = ["MIA", "Out", "Late", "Bench", "Trial", "Unknown"];
 
-  for (const row of rows) {
-    for (let index = 0; index < dateStartIndex; index += 1) {
-      const label = normalizeSummaryLabel(row[index] ?? "");
-
-      if (label && label !== "Available") {
-        counts.set(index, (counts.get(index) ?? 0) + 1);
-      }
-    }
-  }
-
-  return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
+  return [
+    ...statusLabels.map((label) => ({
+      label,
+      values: Object.fromEntries(
+        dates.map((date) => [date, String(players.filter((player) => player.schedule[date] === label).length)]),
+      ),
+    })),
+    {
+      label: "Available",
+      values: Object.fromEntries(
+        dates.map((date) => [date, String(players.filter((player) => !player.schedule[date]).length)]),
+      ),
+    },
+  ];
 }
 
-function parseCalendar(rows: SheetRow[], roster: RosterRow[], existingRaidDates: RaidDate[] = []) {
-  const dateRow = rows.find((row) => row.some((value) => normalizeColumn(value) === "date"));
-
-  if (!dateRow) {
-    errors.push("Calendar sheet is missing a row with a Date label.");
-    failIfErrors();
-    throw new Error("Calendar sheet is missing a row with a Date label.");
-  }
-
-  const dateLabelIndex = dateRow.findIndex((value) => normalizeColumn(value) === "date");
-  const dateStartIndex = dateRow.findIndex((value, index) => index > dateLabelIndex && cleanText(value));
-
-  if (dateStartIndex < 0) {
-    errors.push("Calendar sheet has a Date row but no raid date columns.");
-    failIfErrors();
-  }
-
-  const dates = dateRow.slice(dateStartIndex).map(cleanText).filter(Boolean);
-  const raidDates = inferRaidDates(dates, existingRaidDates);
-  const header = findHeaderRow(rows, calendarPlayerColumns, "Calendar");
+function parseCalendar(rows: SheetRow[], existingRaidDates: RaidDate[] = []) {
+  const header = findCalendarHeaderRow(rows);
   failIfErrors();
 
-  const rosterSlugs = new Set(roster.map((row) => getPlayerSlug(row.character)));
-  const summarySourceRows = rows.slice(0, header.index);
-  const summaryLabelColumn = getSummaryLabelColumn(summarySourceRows, dateStartIndex);
-  const seenSummaryLabels = new Set<string>();
-  const summary: CalendarSummary[] = [];
+  const dateColumns = getCalendarDateColumns(header.row, header.indexes);
+  const dates = dateColumns.map((column) => column.label);
+  const raidDates = inferRaidDates(dates, existingRaidDates);
+  const seenSlugs = new Map<string, string>();
+  const roster: RosterRow[] = [];
+  const players: CalendarPlayer[] = [];
 
-  for (const row of summarySourceRows) {
-    const label =
-      summaryLabelColumn === undefined
-        ? row.slice(0, dateStartIndex).map(normalizeSummaryLabel).find(Boolean)
-        : normalizeSummaryLabel(row[summaryLabelColumn] ?? "");
+  rows.slice(header.index + 1).forEach((row, rowOffset) => {
+    const rowNumber = header.index + rowOffset + 2;
+    const name = cleanPlayerName(getCell(row, header.indexes.name));
 
-    if (!label || seenSummaryLabels.has(label)) {
-      continue;
+    if (!name && row.every((value) => !cleanText(value))) {
+      return;
     }
 
-    seenSummaryLabels.add(label);
-    summary.push({
-      label,
-      values: valuesByDate(row, dates, dateStartIndex),
-    });
-  }
-
-  if (!seenSummaryLabels.has("Available")) {
-    const availableRow = summarySourceRows.find((row) => {
-      const hasDateValues = row.slice(dateStartIndex, dateStartIndex + dates.length).some((value) => cleanText(value));
-      const label = summaryLabelColumn === undefined ? "" : cleanText(row[summaryLabelColumn]);
-
-      return hasDateValues && !label && !row.slice(0, dateStartIndex).map(normalizeSummaryLabel).find(Boolean);
-    });
-
-    if (availableRow) {
-      summary.push({
-        label: "Available",
-        values: valuesByDate(availableRow, dates, dateStartIndex),
-      });
+    if (!name) {
+      warn(`Calendar row ${rowNumber} is missing a player name and was skipped.`);
+      return;
     }
-  }
 
-  const players = rows
-    .slice(header.index + 1)
-    .map((row, rowOffset): CalendarPlayer | null => {
-      const name = cleanPlayerName(getCell(row, header.indexes.name));
+    const slug = getPlayerSlug(name);
 
-      if (!name && row.every((value) => !cleanText(value))) {
-        return null;
-      }
+    if (seenSlugs.has(slug)) {
+      warn(`Duplicate Calendar player "${name}" maps to the same slug as "${seenSlugs.get(slug)}" and was skipped.`);
+      return;
+    }
 
-      if (!name) {
-        warn(`Calendar row ${header.index + rowOffset + 2} is missing a player name and was skipped.`);
-        return null;
-      }
+    const className = getCell(row, header.indexes.class);
+    const spec = getCell(row, header.indexes.spec);
 
-      const slug = getPlayerSlug(name);
+    if (!className || !spec) {
+      errors.push(`Calendar row ${rowNumber} for "${name}" is missing class or spec.`);
+      return;
+    }
 
-      if (!rosterSlugs.has(slug)) {
-        warn(`Calendar player "${name}" does not map to a current roster slug.`);
-      }
+    const role = getCell(row, header.indexes.role) || deriveRole(className, spec, name);
+    const schedule = Object.fromEntries(
+      dateColumns
+        .map((column) => {
+          const status = normalizeStatus(row[column.index] ?? "", `${name} ${column.label}`);
+          return [column.label, status] as const;
+        })
+        .filter(([, status]) => status),
+    );
 
-      const schedule = Object.fromEntries(
-        dates
-          .map((date, offset) => {
-            const status = normalizeStatus(row[dateStartIndex + offset] ?? "", `${name} ${date}`);
-            return [date, status] as const;
-          })
-          .filter(([, status]) => status),
-      );
-
-      return {
-        rank: asNumber(getCell(row, header.indexes.rank)) || rowOffset + 1,
-        name,
-        bis: asNumber(getCell(row, header.indexes.bis)),
-        major: asNumber(getCell(row, header.indexes.major)),
-        minor: asNumber(getCell(row, header.indexes.minor)),
-        total: asNumber(getCell(row, header.indexes.total)),
-        bonusRolls: asNumber(getCell(row, header.indexes.bonusRolls)),
-        offspec: asNumber(getCell(row, header.indexes.offspec)),
-        mia: asNumber(getCell(row, header.indexes.mia)),
-        out: asNumber(getCell(row, header.indexes.out)),
-        late: asNumber(getCell(row, header.indexes.late)),
-        bench: asNumber(getCell(row, header.indexes.bench)),
-        schedule,
-      };
-    })
-    .filter((row): row is CalendarPlayer => Boolean(row))
-    .sort((a, b) => a.rank - b.rank || a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
+    seenSlugs.set(slug, name);
+    roster.push({
+      character: name,
+      class: className,
+      spec,
+      role,
+    });
+    players.push({
+      rank: asNumber(getCell(row, header.indexes.rank)) || rowOffset + 1,
+      name,
+      bis: 0,
+      major: 0,
+      minor: 0,
+      total: 0,
+      bonusRolls: 0,
+      offspec: 0,
+      mia: countStatus(schedule, "MIA"),
+      out: countStatus(schedule, "Out"),
+      late: countStatus(schedule, "Late"),
+      bench: countStatus(schedule, "Bench"),
+      schedule,
+    });
+  });
 
   if (players.length === 0) {
     errors.push("Calendar sheet produced no player rows.");
@@ -656,11 +656,18 @@ function parseCalendar(rows: SheetRow[], roster: RosterRow[], existingRaidDates:
 
   failIfErrors();
 
+  const sortedPlayers = players.sort(
+    (a, b) => a.rank - b.rank || a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
+  );
+
   return {
-    dates,
-    raidDates,
-    summary,
-    players,
+    roster: sortByName(roster, (row) => row.character),
+    calendar: {
+      dates,
+      raidDates,
+      summary: buildCalendarSummary(sortedPlayers, dates),
+      players: sortedPlayers,
+    },
   };
 }
 
@@ -880,14 +887,12 @@ async function main() {
   failIfErrors();
 
   const sheets = await createSheetsClient();
-  const [rosterRows, calendarRows, lootRows] = await Promise.all([
-    fetchSheetRows(sheets, env.GOOGLE_SHEET_ID, ranges.roster, "Roster"),
+  const [calendarRows, lootRows] = await Promise.all([
     fetchSheetRows(sheets, env.GOOGLE_SHEET_ID, ranges.calendar, "Calendar"),
     fetchSheetRows(sheets, env.GOOGLE_SHEET_ID, ranges.loot, "Loot"),
   ]);
   const existingRaidDates = await readExistingRaidDates();
-  const roster = parseRoster(rosterRows);
-  const calendar = parseCalendar(calendarRows, roster, existingRaidDates);
+  const { roster, calendar } = parseCalendar(calendarRows, existingRaidDates);
   const loot = parseLoot(lootRows, roster);
   const bench = buildBench(calendar);
   const generatedFiles = [
@@ -914,11 +919,11 @@ async function main() {
 
   console.log("");
   console.log("Data sync complete");
-  console.log(`Roster players: ${roster.length}`);
-  console.log(`Calendar raid dates: ${calendar.raidDates.length}`);
-  console.log(`Calendar statuses: ${calendarStatuses}`);
-  console.log(`Loot awards: ${loot.history.length}`);
-  console.log(`Bench marks: ${benchMarks}`);
+  console.log(`Roster players imported from Calendar: ${roster.length}`);
+  console.log(`Raid date columns imported: ${calendar.raidDates.length}`);
+  console.log(`Calendar statuses imported: ${calendarStatuses}`);
+  console.log(`Loot awards imported: ${loot.history.length}`);
+  console.log(`Bench marks imported: ${benchMarks}`);
   console.log(`Warnings: ${warnings.size}`);
   console.log(`Files changed: ${changedFiles.length}`);
 

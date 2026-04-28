@@ -20,7 +20,7 @@ Optional local data sync:
 
 ```bash
 cp .env.example .env.local
-# Fill in GOOGLE_SHEET_ID, GOOGLE_SERVICE_ACCOUNT_JSON, and sheet ranges if needed.
+# Fill in GOOGLE_SHEET_ID, GOOGLE_SERVICE_ACCOUNT_JSON, and CALENDAR_START_YEAR.
 npm run sync:data
 ```
 
@@ -59,12 +59,12 @@ Current public site data lives in:
 
 ## Automated data sync
 
-The site is still static. Runtime visitors never fetch Google Sheets directly, and the Google Sheet does not need to be public. Instead, GitHub Actions authenticates to the private sheet with a Google service account, regenerates the JSON files in `src/data`, commits only real JSON changes, and Cloudflare Pages redeploys from that GitHub commit.
+The site is still static. Runtime visitors never fetch Google Sheets directly, and the Google Sheet does not need to be public. Instead, GitHub Actions authenticates to the private sheet with a Google service account, reads the Calendar and History tabs, regenerates the JSON files in `src/data`, commits only real JSON changes, and Cloudflare Pages redeploys from that GitHub commit.
 
 Pipeline:
 
 ```text
-Private Google Sheet -> Google Sheets API -> scripts/sync-google-sheets.ts -> src/data/*.json -> GitHub commit -> Cloudflare Pages deploy
+Private Google Sheet Calendar + History tabs -> Google Sheets API -> scripts/sync-google-sheets.ts -> src/data/*.json -> GitHub commit -> Cloudflare Pages deploy
 ```
 
 Required GitHub Actions secrets:
@@ -76,22 +76,34 @@ The service account JSON must stay in GitHub Secrets or a private local `.env.lo
 
 Optional GitHub Actions variables for non-sensitive sheet ranges:
 
-- `ROSTER_RANGE`, default `Roster!A:Z`
 - `CALENDAR_RANGE`, default `Calendar!A:ZZ`
 - `LOOT_RANGE`, default `History!A:Z`
+- `CALENDAR_START_YEAR`, default none in GitHub Actions. Set this when Calendar date headers omit years.
 
-Optional local-only variable:
+Calendar is the roster source of truth. Anyone listed as a player row in the Calendar range is treated as active roster and is used to generate `src/data/roster.json`, `src/data/calendar.json`, and `src/data/bench.json`.
 
-- `CALENDAR_START_YEAR` is only needed for a first sync when calendar headers do not include years and there is no existing `src/data/calendar.json` to preserve year mappings.
+Expected Calendar columns:
+
+- `#` is optional.
+- `Name`, `Player`, or `Character` is required.
+- `Class` is required.
+- `Spec` or `Specialization` is required.
+- `Role` is optional. If missing, role is derived from Class + Spec.
+- Raid date columns come after the roster columns, usually with `CALENDAR_RANGE=Calendar!A:ZZ`.
+- Date headers can be `May 03`, `May 04`, `Jun 01`, `2026-05-03`, or `May 03, 2026`.
+- If date headers do not include years and no existing calendar JSON can preserve the year mapping, set `CALENDAR_START_YEAR`, for example `2026`.
+- Raid date cells may be blank or contain `Bench`, `Out`, `Late`, `MIA`, or `Trial`.
+
+Loot still comes from `LOOT_RANGE`, usually `History!A:Z`. Historical loot recipients who are not on the current Calendar roster are kept in loot history and summary, with a sync warning.
 
 Example `.env.local` shape:
 
 ```bash
 GOOGLE_SHEET_ID=your-private-sheet-id
 GOOGLE_SERVICE_ACCOUNT_JSON={"type":"service_account","project_id":"...","private_key":"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n","client_email":"..."}
-ROSTER_RANGE=Roster!A:Z
 CALENDAR_RANGE=Calendar!A:ZZ
 LOOT_RANGE=History!A:Z
+CALENDAR_START_YEAR=2026
 ```
 
 Run locally:
@@ -133,9 +145,10 @@ Troubleshooting:
 
 - Missing `GOOGLE_SHEET_ID` or `GOOGLE_SERVICE_ACCOUNT_JSON`: add the required repository secret in GitHub.
 - Inaccessible sheet: confirm the sheet is shared with the service account email as Viewer.
-- Wrong range: set `ROSTER_RANGE`, `CALENDAR_RANGE`, or `LOOT_RANGE` to the correct tab and columns.
+- Wrong range: set `CALENDAR_RANGE` or `LOOT_RANGE` to the correct tab and columns.
 - Invalid service account JSON: store the full JSON as one GitHub secret; escaped private-key newlines are supported.
-- Missing sheet columns: check the Action logs for the required column names reported by the sync script.
+- Missing Calendar columns: the Calendar range must include Name, Class, Spec, and at least one valid raid date column.
+- Missing loot columns: check the Action logs for the required History column names reported by the sync script.
 - No changes detected: this is expected when the sheet data has not changed.
 
 Manual fallback path:

@@ -36,7 +36,6 @@ jobs:
         env:
           GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-          ROSTER_RANGE: ${{ vars.ROSTER_RANGE }}
           CALENDAR_RANGE: ${{ vars.CALENDAR_RANGE }}
           LOOT_RANGE: ${{ vars.LOOT_RANGE }}
           CALENDAR_START_YEAR: ${{ vars.CALENDAR_START_YEAR }}
