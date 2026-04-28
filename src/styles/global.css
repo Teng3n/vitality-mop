@@ -436,8 +436,20 @@ p {
 }
 
 .raid-week-days {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.raid-week-days::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: 190px;
+  background: rgba(200, 155, 60, 0.34);
+  transform: translate(-50%, -50%);
 }
 
 .raid-week-day {
@@ -448,7 +460,6 @@ p {
 
 .raid-week-day + .raid-week-day {
   margin-left: 15px;
-  border-left: 1px solid rgba(200, 155, 60, 0.34);
   padding-left: 15px;
 }
 
@@ -1411,11 +1422,14 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
     grid-template-columns: 1fr;
   }
 
+  .raid-week-days::before {
+    display: none;
+  }
+
   .raid-week-day + .raid-week-day {
     margin-top: 16px;
     margin-left: 0;
     border-top: 1px solid rgba(200, 155, 60, 0.34);
-    border-left: 0;
     padding-top: 16px;
     padding-left: 0;
   }
