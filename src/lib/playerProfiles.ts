@@ -4,6 +4,7 @@ import lootHistory from "../data/lootHistory.json";
 import lootSummary from "../data/lootSummary.json";
 import roster from "../data/roster.json";
 import { cleanPlayerName, getPlayerProfileHref, getPlayerSlug, normalizePlayerName } from "./playerNames";
+import { getWarcraftLogsCharacterUrl, getWarcraftLogsSearchUrl } from "./warcraftLogs";
 
 interface RosterMember {
   character: string;
@@ -14,6 +15,8 @@ interface RosterMember {
 
 interface LootSummaryRow {
   player: string;
+  realm?: string;
+  characterRealm?: string;
   bis: number;
   major: number;
   minor: number;
@@ -25,6 +28,8 @@ interface LootSummaryRow {
 interface LootHistoryRow {
   date: string;
   player: string;
+  realm?: string;
+  characterRealm?: string;
   item: string;
   boss: string;
   instance: string;
@@ -67,7 +72,6 @@ export interface PlayerProfile {
     out: number;
     late: number;
     mia: number;
-    trial: number;
   };
   benchSummary?: BenchRow;
   lastBenchDate?: { label: string; isoDate: string };
@@ -96,6 +100,8 @@ const calendarByName = byNormalizedName(calendarData.players, (row) => row.name)
 
 const emptyLootSummary = (player: string): LootSummaryRow => ({
   player,
+  realm: "",
+  characterRealm: player,
   bis: 0,
   major: 0,
   minor: 0,
@@ -179,20 +185,16 @@ export const getPlayerProfile = (name: string): PlayerProfile => {
     out: statusDates.filter((date) => date.status === "Out").length,
     late: statusDates.filter((date) => date.status === "Late").length,
     mia: statusDates.filter((date) => date.status === "MIA").length,
-    trial: statusDates.filter((date) => date.status === "Trial").length,
   };
   const recentLoot = lootHistoryRows
     .filter((row) => normalizePlayerName(row.player) === normalized)
     .sort((a, b) => b.date.localeCompare(a.date));
-  const trialDates = statusDates.filter((date) => date.status === "Trial");
   const notes = [
     rosterMember ? "Active roster profile." : "Not currently listed on the active roster.",
-    trialDates.length > 0
-      ? `Trial status appears on ${trialDates.length} raid night${trialDates.length === 1 ? "" : "s"}.`
-      : "No public trial status recorded.",
     "Officer/private notes are not exposed on the site.",
   ];
   const displayName = cleanPlayerName(rosterMember?.character ?? calendarPlayer?.name ?? name);
+  const realm = lootSummaryRow.realm || recentLoot.find((row) => row.realm)?.realm || "";
   const sortedBenchHistory = benchHistory.sort(
     (a, b) => parseIsoDate(b.isoDate).getTime() - parseIsoDate(a.isoDate).getTime(),
   );
@@ -233,7 +235,8 @@ export const getPlayerProfile = (name: string): PlayerProfile => {
     },
     recentLoot: recentLoot.map((row) => ({ ...row, player: cleanPlayerName(row.player) })),
     notes,
-    warcraftLogsUrl: `https://classic.warcraftlogs.com/search/?term=${encodeURIComponent(displayName)}`,
+    warcraftLogsUrl: getWarcraftLogsSearchUrl(displayName),
+    warcraftLogsDirectUrl: realm ? getWarcraftLogsCharacterUrl(displayName, realm) : undefined,
   };
 };
 
