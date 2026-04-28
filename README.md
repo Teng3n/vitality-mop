@@ -43,9 +43,9 @@ Connect Cloudflare Pages to the GitHub repository and use these build settings:
 - Build command: `npm run build`
 - Output directory: `dist`
 - Node version: current LTS
-- Environment variables: none required for MVP
+- Environment variables: none required for the static pages. The optional footer Sync Data button requires the Cloudflare Pages Function variables documented below.
 
-This MVP uses Astro static output and does not require Cloudflare Workers, Pages Functions, D1, KV, R2, auth, secrets, or live Google Sheets access.
+The public pages use Astro static output and do not require Cloudflare Workers, D1, KV, R2, auth, or live browser-side Google Sheets access. The manual Sync Data trigger is implemented as a Cloudflare Pages Function so GitHub credentials stay server-side.
 
 ## Data Updates
 
@@ -118,7 +118,7 @@ Build after syncing:
 npm run build:with-data
 ```
 
-The workflow lives at `.github/workflows/sync-data.yml`. It runs every 6 hours via UTC cron and can also be triggered manually from GitHub:
+The workflow lives at `.github/workflows/sync-data.yml`. It runs every 15 minutes via UTC cron and can also be triggered manually from GitHub:
 
 1. Open the repository on GitHub.
 2. Go to **Actions**.
@@ -132,6 +132,26 @@ The workflow intentionally avoids unnecessary Cloudflare builds:
 - If there are no generated JSON changes, it prints `No data changes detected.` and exits successfully.
 - If there are changes, it stages and commits only `src/data/*.json`.
 - It never writes generated timestamps such as `lastSyncedAt`, `generatedAt`, or `updatedAt` into committed JSON.
+
+## Manual Sync Data button
+
+The footer includes a small `Sync Data` button that calls the Cloudflare Pages Function at `/api/trigger-sync`. The Function verifies a password server-side and then triggers the GitHub Actions workflow dispatch for `.github/workflows/sync-data.yml` on `feature/guild-site-mvp`.
+
+Cloudflare Pages environment variables:
+
+- `GITHUB_ACTIONS_DISPATCH_TOKEN`: a fine-grained GitHub token for `Teng3n/vitality-mop` with Actions read/write permission.
+- `SYNC_TRIGGER_PASSWORD_HASH`: preferred. SHA-256 hex hash of the password users type into the prompt.
+- `SYNC_TRIGGER_PASSWORD`: plain password fallback if a hash is not configured. Keep it server-side only and migrate to `SYNC_TRIGGER_PASSWORD_HASH` when practical.
+
+Do not put the token or password in frontend code. Do not commit them to the repo. Store them in Cloudflare Pages under the environment used by the deployed site, usually Production and Preview if both are needed.
+
+Example hash generation:
+
+```bash
+node -e "crypto=require('node:crypto'); console.log(crypto.createHash('sha256').update(process.argv[1]).digest('hex'))" "replace-with-your-password"
+```
+
+The Function has a best-effort 60-second cooldown per running Cloudflare isolate. It returns `401` for invalid passwords and does not call GitHub unless authentication passes.
 
 Generated files:
 
@@ -194,7 +214,9 @@ src/
   layouts/          Site layout and navigation
   pages/            Static route pages
   styles/           Global CSS
+functions/
+  api/trigger-sync.ts  Cloudflare Pages Function for manual data sync
 public/             Static assets and Cloudflare Pages headers
 ```
 
-Pages Functions can be added later with a top-level `functions/` directory if the site needs dynamic behavior.
+The only dynamic endpoint is the manual Sync Data trigger in `functions/api/trigger-sync.ts`.
