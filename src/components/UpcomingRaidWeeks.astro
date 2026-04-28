@@ -1,0 +1,197 @@
+---
+import {
+  getRaidNight,
+  getTodayIso,
+  parseIsoDate,
+  raidDates,
+  type RaidNight,
+  type StatusPlayer,
+} from "../lib/guildData";
+import { getPlayerClass, getPlayerNameStyle } from "../lib/playerStyles";
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  startOffset?: number;
+  weekCount?: number;
+}
+
+type RaidDateEntry = (typeof raidDates)[number];
+
+const {
+  eyebrow = "Upcoming",
+  title = "Upcoming Raid Nights",
+  startOffset = 0,
+  weekCount = 2,
+} = Astro.props;
+const toIsoDate = (date: Date) =>
+  new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString().slice(0, 10);
+const getWeekStartIso = (isoDate: string) => {
+  const date = parseIsoDate(isoDate);
+  date.setDate(date.getDate() - date.getDay());
+
+  return toIsoDate(date);
+};
+const raidWeeksByStart = new Map<string, RaidDateEntry[]>();
+
+for (const date of raidDates) {
+  const weekStart = getWeekStartIso(date.isoDate);
+  const weekDates = raidWeeksByStart.get(weekStart) ?? [];
+  weekDates.push(date);
+  raidWeeksByStart.set(weekStart, weekDates);
+}
+
+const raidWeeks = Array.from(raidWeeksByStart.entries())
+  .map(([weekStart, dates]) => ({
+    weekStart,
+    raids: dates
+      .sort((a, b) => a.isoDate.localeCompare(b.isoDate))
+      .slice(0, 2)
+      .map((date) => getRaidNight(date)),
+  }))
+  .filter((week): week is { weekStart: string; raids: [RaidNight, RaidNight] } => week.raids.length === 2);
+const initialTodayIso = getTodayIso();
+const initialUpcomingWeekIndex = raidWeeks.findIndex((week) => week.raids.some((raid) => raid.isoDate >= initialTodayIso));
+const initialBaseIndex = initialUpcomingWeekIndex >= 0 ? initialUpcomingWeekIndex : Math.max(raidWeeks.length - weekCount, 0);
+const initialStartIndex = Math.min(initialBaseIndex + startOffset, Math.max(raidWeeks.length - weekCount, 0));
+const formatPlayerList = (players: StatusPlayer[]) => (players.length > 0 ? players : []);
+---
+
+<section
+  class="panel"
+  data-upcoming-raid-weeks
+  data-week-start-offset={startOffset}
+  data-week-count={weekCount}
+>
+  <div class="section-heading inline">
+    <div>
+      <p class="eyebrow">{eyebrow}</p>
+      <h2>{title}</h2>
+    </div>
+    <div class="status-legend" aria-label="Calendar status legend">
+      <span class="calendar-status status-bench">Bench</span>
+      <span class="calendar-status status-out">Out</span>
+      <span class="calendar-status status-late">Late</span>
+    </div>
+  </div>
+
+  <div class="raid-week-grid">
+    {
+      raidWeeks.map((week, index) => (
+        <article
+          class="raid-week-card"
+          data-raid-week-card
+          data-week-start={week.weekStart}
+          data-raid-dates={week.raids.map((raid) => raid.isoDate).join(",")}
+          hidden={index < initialStartIndex || index >= initialStartIndex + weekCount}
+        >
+          <div class="raid-week-days">
+            {
+              week.raids.map((raid) => (
+                <section class="raid-week-day">
+                  <div class="raid-date-card-header">
+                    <div>
+                      <p class="eyebrow">Date</p>
+                      <h3>{raid.label}</h3>
+                    </div>
+                    <strong>{raid.availableCount}</strong>
+                  </div>
+                  <dl class="raid-date-meta">
+                    <div>
+                      <dt>Raid</dt>
+                      <dd>{raid.raidName}</dd>
+                    </div>
+                    <div>
+                      <dt>Available</dt>
+                      <dd>{raid.availableCount}</dd>
+                    </div>
+                  </dl>
+                  <div class="raid-date-statuses">
+                    <div>
+                      <span>Bench</span>
+                      <ul>
+                        {formatPlayerList(raid.bench).map((player) => (
+                          <li>
+                            <a
+                              class="player-name"
+                              href={player.href}
+                              style={getPlayerNameStyle(player.name)}
+                              title={getPlayerClass(player.name)}
+                            >
+                              {player.name}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <span>Out</span>
+                      <ul>
+                        {formatPlayerList(raid.out).map((player) => (
+                          <li>
+                            <a
+                              class="player-name"
+                              href={player.href}
+                              style={getPlayerNameStyle(player.name)}
+                              title={getPlayerClass(player.name)}
+                            >
+                              {player.name}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <span>Late</span>
+                      <ul>
+                        {formatPlayerList(raid.late).map((player) => (
+                          <li>
+                            <a
+                              class="player-name"
+                              href={player.href}
+                              style={getPlayerNameStyle(player.name)}
+                              title={getPlayerClass(player.name)}
+                            >
+                              {player.name}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </section>
+              ))
+            }
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  const toLocalDate = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const parseIsoDate = (isoDate: string) => {
+    const [year, month, day] = isoDate.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  };
+  const today = toLocalDate(new Date());
+
+  document.querySelectorAll<HTMLElement>("[data-upcoming-raid-weeks]").forEach((panel) => {
+    const cards = Array.from(panel.querySelectorAll<HTMLElement>("[data-raid-week-card]"));
+    const startOffset = Number(panel.dataset.weekStartOffset ?? 0);
+    const weekCount = Number(panel.dataset.weekCount ?? 2);
+    const firstUpcomingWeekIndex = cards.findIndex((card) =>
+      (card.dataset.raidDates ?? "")
+        .split(",")
+        .filter(Boolean)
+        .some((isoDate) => parseIsoDate(isoDate) >= today),
+    );
+    const baseIndex = firstUpcomingWeekIndex >= 0 ? firstUpcomingWeekIndex : Math.max(cards.length - weekCount, 0);
+    const startIndex = Math.min(baseIndex + startOffset, Math.max(cards.length - weekCount, 0));
+
+    cards.forEach((card, index) => {
+      card.hidden = index < startIndex || index >= startIndex + weekCount;
+    });
+  });
+</script>

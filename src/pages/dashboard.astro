@@ -2,7 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import NextRaidCard from "../components/NextRaidCard.astro";
 import PageHeader from "../components/PageHeader.astro";
-import RaidWindow from "../components/RaidWindow.astro";
+import UpcomingRaidWeeks from "../components/UpcomingRaidWeeks.astro";
 import calendar from "../data/calendar.json";
 
 const calendarData = calendar as unknown as {
@@ -33,11 +33,7 @@ const calendarData = calendar as unknown as {
 
   <NextRaidCard calendar={calendarData} />
 
-  <RaidWindow
-    calendar={calendarData}
-    summaryStrategy="raid-week"
-    showSummaryCards={false}
-    eyebrow="Current Calendar Snapshot"
-    title="Upcoming Raid Weeks"
-  />
+  <UpcomingRaidWeeks eyebrow="Next Two Weeks" title="Upcoming Raid Nights" startOffset={1} />
+
+  <UpcomingRaidWeeks eyebrow="Looking Ahead" title="Upcoming Raid Nights" startOffset={3} />
 </Layout>
