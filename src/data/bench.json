@@ -108,12 +108,6 @@
     "notes": "Scheduled: 2026-05-10, 2026-05-11"
   },
   {
-    "player": "Kali",
-    "totalBenchCount": 2,
-    "lastBenched": "2026-05-11",
-    "notes": "Scheduled: 2026-03-16, 2026-05-11"
-  },
-  {
     "player": "Kubara",
     "totalBenchCount": 2,
     "lastBenched": "2026-02-02",
@@ -142,6 +136,12 @@
     "totalBenchCount": 2,
     "lastBenched": "2026-05-04",
     "notes": "Scheduled: 2026-05-03, 2026-05-04"
+  },
+  {
+    "player": "Kali",
+    "totalBenchCount": 1,
+    "lastBenched": "2026-03-16",
+    "notes": "Scheduled: 2026-03-16"
   },
   {
     "player": "Tengen",
