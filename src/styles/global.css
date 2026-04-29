@@ -1438,24 +1438,20 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   margin-bottom: 0;
 }
 
-.bench-window-panel {
-  display: grid;
-  gap: 16px;
-}
-
-.bench-window-heading {
-  margin-bottom: 0;
+.bench-search-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
 }
 
 .bench-search-field {
   width: min(100%, 280px);
 }
 
-.bench-window-list {
-  gap: 8px 14px;
-}
-
 .bench-search-empty {
+  flex: 1 1 280px;
+  margin: 0;
   border: 1px solid rgba(216, 108, 92, 0.22);
   border-radius: 8px;
   padding: 12px;
@@ -1491,24 +1487,6 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   text-transform: uppercase;
 }
 
-.bench-exception-list {
-  display: grid;
-  gap: 10px;
-}
-
-.bench-exception-row {
-  display: grid;
-  grid-template-columns: minmax(150px, 0.34fr) minmax(0, 1fr);
-  gap: 10px;
-  align-items: baseline;
-}
-
-.bench-exception-row > span {
-  color: var(--muted);
-  font-size: 0.88rem;
-  font-weight: 800;
-}
-
 .bench-player-list {
   gap: 8px 14px;
 }
@@ -1523,7 +1501,6 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 }
 
 .bench-player-list .is-search-match a,
-.bench-window-list .is-search-match a,
 .bench-week-card .is-search-match a {
   border-radius: 6px;
   padding: 2px 4px;
@@ -1677,10 +1654,6 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .profile-overview,
   .two-column,
   .resource-list {
-    grid-template-columns: 1fr;
-  }
-
-  .bench-exception-row {
     grid-template-columns: 1fr;
   }
 

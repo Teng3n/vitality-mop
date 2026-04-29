@@ -5,15 +5,10 @@ import StatCard from "../components/StatCard.astro";
 import { getTodayIso, parseIsoDate, raidNights, type RaidNight, type StatusPlayer } from "../lib/guildData";
 import { getPlayerNameStyle } from "../lib/playerStyles";
 
+const BENCH_WINDOW_WEEKS = 8;
 const getWeekStart = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
 const toIsoDate = (date: Date) =>
   `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-const formatRaidDate = (isoDate: string) =>
-  parseIsoDate(isoDate).toLocaleDateString(undefined, {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-  });
 const formatShortDate = (isoDate: string) =>
   parseIsoDate(isoDate).toLocaleDateString(undefined, {
     month: "short",
@@ -35,6 +30,7 @@ const formatWeekDateRange = (nights: RaidNight[]) => {
 };
 const sortPlayers = (players: StatusPlayer[]) =>
   [...players].sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
+const formatPlayerDetail = (count: number) => `${count} ${count === 1 ? "player" : "players"}`;
 const getUniquePlayers = (nights: RaidNight[]) => {
   const playersBySlug = new Map<string, StatusPlayer>();
 
@@ -59,7 +55,7 @@ for (const night of futureRaidNights) {
     weekKeys.push(weekKey);
   }
 
-  if (weekKeys.length === 6) {
+  if (weekKeys.length === BENCH_WINDOW_WEEKS) {
     break;
   }
 }
@@ -67,82 +63,68 @@ for (const night of futureRaidNights) {
 const benchWeeks = weekKeys.map((weekKey) => {
   const nights = futureRaidNights.filter((night) => toIsoDate(getWeekStart(parseIsoDate(night.isoDate))) === weekKey);
   const uniqueBenchPlayers = getUniquePlayers(nights);
-  const benchCounts = new Map<string, number>();
-
-  for (const night of nights) {
-    for (const player of night.bench) {
-      benchCounts.set(player.slug, (benchCounts.get(player.slug) ?? 0) + 1);
-    }
-  }
-
-  const exceptionNights = nights
-    .map((night) => ({
-      ...night,
-      exceptionPlayers: sortPlayers(night.bench.filter((player) => (benchCounts.get(player.slug) ?? 0) < nights.length)),
-    }))
-    .filter((night) => night.exceptionPlayers.length > 0);
 
   return {
     weekKey,
     label: formatWeekDateRange(nights),
     nights,
     uniqueBenchPlayers,
-    exceptionNights,
     searchNames: getSearchNames(uniqueBenchPlayers),
   };
 });
-const raidNightCount = benchWeeks.reduce((sum, week) => sum + week.nights.length, 0);
-const uniqueWindowPlayers = sortPlayers(getUniquePlayers(benchWeeks.flatMap((week) => week.nights)));
 const firstRaidNight = benchWeeks[0]?.nights[0];
 const lastWeekWithNights = [...benchWeeks].reverse().find((week) => week.nights.length > 0);
 const lastRaidNight = lastWeekWithNights?.nights[lastWeekWithNights.nights.length - 1];
 const windowDateRange = firstRaidNight && lastRaidNight
   ? `${formatShortDate(firstRaidNight.isoDate)} - ${formatShortDate(lastRaidNight.isoDate)}`
   : "No raid dates";
+const nextBenchWeek = benchWeeks.find((week) => week.uniqueBenchPlayers.length > 0);
+const heaviestWeek = benchWeeks.reduce<(typeof benchWeeks)[number] | undefined>(
+  (best, week) => {
+    if (week.uniqueBenchPlayers.length === 0) {
+      return best;
+    }
+
+    if (!best || week.uniqueBenchPlayers.length > best.uniqueBenchPlayers.length) {
+      return week;
+    }
+
+    return best;
+  },
+  undefined,
+);
+const openWeekCount = benchWeeks.filter((week) => week.uniqueBenchPlayers.length === 0).length;
 ---
 
 <Layout title="Bench | Vitality">
   <PageHeader
-    eyebrow="Next 6 Weeks Bench Schedule"
-    title="Next 6 Weeks Bench Schedule"
+    eyebrow="Next 8 Weeks Bench Schedule"
+    title="Next 8 Weeks Bench Schedule"
   />
 
   <section class="dashboard-grid compact">
-    <StatCard label="Date Range" value={windowDateRange} detail="next 6 weeks" />
-    <StatCard label="Raid Nights" value={raidNightCount} detail="scheduled raid days" />
-    <StatCard label="Unique Benched" value={uniqueWindowPlayers.length} detail="players in window" />
+    <StatCard label="Date Range" value={windowDateRange} detail="next 8 weeks" />
+    <StatCard
+      label="Next Bench"
+      value={nextBenchWeek?.label ?? "None"}
+      detail={nextBenchWeek ? formatPlayerDetail(nextBenchWeek.uniqueBenchPlayers.length) : "no bench scheduled"}
+    />
+    <StatCard
+      label="Heaviest Week"
+      value={heaviestWeek?.label ?? "None"}
+      detail={heaviestWeek ? `${heaviestWeek.uniqueBenchPlayers.length} benched` : "no bench scheduled"}
+    />
+    <StatCard label="Open Weeks" value={openWeekCount} detail="no bench scheduled" />
   </section>
 
-  <section class="panel bench-window-panel">
-    <div class="section-heading inline bench-window-heading">
-      <div>
-        <p class="eyebrow">Bench Window</p>
-        <h2>Benched in this window</h2>
-      </div>
-      <label class="field bench-search-field">
-        <span>Find player</span>
-        <input type="search" placeholder="Find player..." data-bench-search />
-      </label>
-    </div>
-
-    {
-      uniqueWindowPlayers.length > 0 ? (
-        <ul class="inline-player-list bench-player-list bench-window-list" data-bench-window-list>
-          {uniqueWindowPlayers.map((player) => (
-            <li data-bench-summary-player data-bench-player-name={player.name}>
-              <a class="player-name" href={player.href} style={getPlayerNameStyle(player.name)}>
-                {player.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p class="info-note">No bench assignments in the next 6 weeks.</p>
-      )
-    }
+  <section class="panel bench-search-panel">
+    <label class="field bench-search-field">
+      <span>Find player</span>
+      <input type="search" placeholder="Find player..." data-bench-search />
+    </label>
 
     <p class="info-note bench-search-empty" data-bench-search-empty hidden>
-      No bench assignments found for this player in the next 6 weeks.
+      No bench assignments found for this player in the next 8 weeks.
     </p>
   </section>
 
@@ -178,28 +160,6 @@ const windowDateRange = firstRaidNight && lastRaidNight
                 <p class="info-note">No bench scheduled.</p>
               )}
             </section>
-
-            {week.exceptionNights.length > 0 ? (
-              <section class="bench-week-section compact">
-                <h3>Day-specific exceptions</h3>
-                <div class="bench-exception-list">
-                  {week.exceptionNights.map((night) => (
-                    <div class="bench-exception-row">
-                      <span>{formatRaidDate(night.isoDate)}</span>
-                      <ul class="inline-player-list bench-player-list">
-                        {night.exceptionPlayers.map((player) => (
-                          <li data-bench-player-name={player.name}>
-                            <a class="player-name" href={player.href} style={getPlayerNameStyle(player.name)}>
-                              {player.name}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            ) : null}
           </article>
         ))}
       </section>
@@ -223,7 +183,6 @@ const windowDateRange = firstRaidNight && lastRaidNight
 
   const benchSearchInput = document.querySelector<HTMLInputElement>("[data-bench-search]");
   const benchWeeks = Array.from(document.querySelectorAll<HTMLElement>("[data-bench-week]"));
-  const benchSummaryPlayers = Array.from(document.querySelectorAll<HTMLElement>("[data-bench-summary-player]"));
   const benchSearchEmpty = document.querySelector<HTMLElement>("[data-bench-search-empty]");
 
   const updateBenchSearch = () => {
@@ -243,12 +202,6 @@ const windowDateRange = firstRaidNight && lastRaidNight
         const playerMatches = query && normalizeBenchSearch(player.dataset.benchPlayerName ?? "").includes(query);
         player.classList.toggle("is-search-match", Boolean(playerMatches));
       }
-    }
-
-    for (const player of benchSummaryPlayers) {
-      const playerMatches = !query || normalizeBenchSearch(player.dataset.benchPlayerName ?? "").includes(query);
-      player.hidden = !playerMatches;
-      player.classList.toggle("is-search-match", Boolean(query && playerMatches));
     }
 
     if (benchSearchEmpty) {
