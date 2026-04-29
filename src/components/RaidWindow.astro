@@ -35,6 +35,7 @@ interface Props {
   summaryStrategy?: "visible" | "next-raid-day" | "raid-week";
   windowSize?: number;
   showSummaryCards?: boolean;
+  showDateRangeControls?: boolean;
   calendar: {
     raidDates: RaidDate[];
     summary: CalendarSummary[];
@@ -50,6 +51,7 @@ const {
   summaryStrategy = "visible",
   windowSize = 12,
   showSummaryCards = true,
+  showDateRangeControls = false,
   calendar,
 } = Astro.props;
 const statusTypes = ["Bench", "Out", "Late", "MIA", "Trial"];
@@ -130,12 +132,36 @@ const showSummaryLists = mode === "snapshot";
   }
 
   {
+    showDateRangeControls && (
+      <form class="calendar-filter" data-calendar-filter>
+        <label class="field calendar-filter-field">
+          <span>Start date</span>
+          <input type="date" data-calendar-start />
+        </label>
+        <label class="field calendar-filter-field">
+          <span>End date</span>
+          <input type="date" data-calendar-end />
+        </label>
+        <div class="calendar-filter-actions">
+          <button class="filter-button" type="submit">Apply</button>
+          <button class="filter-button is-subtle" type="button" data-calendar-reset>
+            Reset to next 6 weeks
+          </button>
+        </div>
+        <span class="muted calendar-filter-detail" data-calendar-filter-detail></span>
+      </form>
+    )
+  }
+
+  {
     mode === "history" && (
       <div class="raid-window-toolbar">
         <span class="muted" data-raid-window-label>Upcoming raids</span>
       </div>
     )
   }
+
+  <p class="info-note calendar-window-empty" data-calendar-empty hidden>No raid days in selected date range.</p>
 
   <div class="calendar-shell calendar-window-shell">
     <table class="calendar-table calendar-window-table">
@@ -227,6 +253,13 @@ const showSummaryLists = mode === "snapshot";
     const windowSize = Number(panel.dataset.windowSize ?? 12);
     const titleNode = panel.querySelector<HTMLElement>("[data-raid-window-title]");
     const label = panel.querySelector<HTMLElement>("[data-raid-window-label]");
+    const filterForm = panel.querySelector<HTMLFormElement>("[data-calendar-filter]");
+    const startInput = panel.querySelector<HTMLInputElement>("[data-calendar-start]");
+    const endInput = panel.querySelector<HTMLInputElement>("[data-calendar-end]");
+    const resetButton = panel.querySelector<HTMLButtonElement>("[data-calendar-reset]");
+    const filterDetail = panel.querySelector<HTMLElement>("[data-calendar-filter-detail]");
+    const emptyState = panel.querySelector<HTMLElement>("[data-calendar-empty]");
+    const tableShell = panel.querySelector<HTMLElement>(".calendar-window-shell");
     const dateHeaders = Array.from(panel.querySelectorAll<HTMLElement>("thead [data-raid-date]"));
     const datedCells = Array.from(panel.querySelectorAll<HTMLElement>("[data-raid-date]"));
     const playerRows = Array.from(panel.querySelectorAll<HTMLTableRowElement>("[data-calendar-player-row]"));
@@ -240,9 +273,11 @@ const showSummaryLists = mode === "snapshot";
       .map((date) => ({ ...date, date: parseIsoDate(date.isoDate) }));
     const today = toLocalDate(new Date());
     const nextRaidDate = uniqueDates.find(({ date }) => date >= today) ?? uniqueDates[uniqueDates.length - 1];
-    let visibleDates = uniqueDates;
+    const getDefaultVisibleDates = () => {
+      if (mode === "history") {
+        return uniqueDates;
+      }
 
-    if (mode !== "history") {
       const currentWeekStart = getWeekStart(today);
       const currentWeekDates = uniqueDates.filter(
         ({ date }) => getWeekStart(date).getTime() === currentWeekStart.getTime(),
@@ -255,15 +290,16 @@ const showSummaryLists = mode === "snapshot";
             ? getWeekStart(nextRaidDate.date)
             : getWeekStart(uniqueDates[uniqueDates.length - 1]?.date ?? today);
 
-      visibleDates = uniqueDates.filter(({ date }) => date >= windowStart).slice(0, windowSize);
+      const defaultDates = uniqueDates.filter(({ date }) => date >= windowStart).slice(0, windowSize);
 
-      if (visibleDates.length === 0) {
-        visibleDates = uniqueDates.slice(-windowSize);
+      if (defaultDates.length === 0) {
+        return uniqueDates.slice(-windowSize);
       }
-    }
 
-    const visibleDateSet = new Set(visibleDates.map(({ isoDate }) => isoDate));
-    const firstVisibleDate = visibleDates[0]?.isoDate ?? "";
+      return defaultDates;
+    };
+
+    let visibleDates = getDefaultVisibleDates();
     const getRaidWeekDates = () => {
       const currentWeekStart = getWeekStart(today);
       const currentWeekDates = uniqueDates.filter(
@@ -279,13 +315,6 @@ const showSummaryLists = mode === "snapshot";
 
       return uniqueDates.filter(({ date }) => getWeekStart(date).getTime() === targetWeekStart.getTime()).slice(0, 2);
     };
-    const summaryDates =
-      summaryStrategy === "raid-week"
-        ? getRaidWeekDates()
-        : summaryStrategy === "next-raid-day" && nextRaidDate
-          ? [nextRaidDate]
-          : visibleDates;
-    const summaryDateSet = new Set(summaryDates.map(({ isoDate }) => isoDate));
 
     const formatRangeDate = (date: Date) =>
       date.toLocaleDateString(undefined, {
@@ -308,7 +337,21 @@ const showSummaryLists = mode === "snapshot";
 
       return `${month} ${day}${suffix}`;
     };
-    const formatSummaryRange = () => {
+    const formatInputRange = (dates: typeof uniqueDates) => {
+      if (!startInput || !endInput) {
+        return;
+      }
+
+      startInput.value = dates[0]?.isoDate ?? "";
+      endInput.value = dates[dates.length - 1]?.isoDate ?? "";
+    };
+    const getSummaryDates = () =>
+      summaryStrategy === "raid-week"
+        ? getRaidWeekDates()
+        : summaryStrategy === "next-raid-day" && nextRaidDate
+          ? [nextRaidDate]
+          : visibleDates;
+    const formatSummaryRange = (summaryDates: typeof uniqueDates) => {
       if (summaryDates.length === 0) {
         return "No raid dates";
       }
@@ -319,8 +362,51 @@ const showSummaryLists = mode === "snapshot";
 
       return `${summaryDates[0].label} - ${summaryDates[summaryDates.length - 1].label}`;
     };
+    const formatFilterDetail = () => {
+      if (!filterDetail) {
+        return;
+      }
+
+      if (visibleDates.length === 0) {
+        const start = startInput?.value || "beginning";
+        const end = endInput?.value || "end";
+        filterDetail.textContent = `No raid days from ${start} through ${end}`;
+        return;
+      }
+
+      const first = visibleDates[0].date;
+      const last = visibleDates[visibleDates.length - 1].date;
+      filterDetail.textContent = `Showing ${visibleDates.length} raid nights, ${formatRangeDate(first)} - ${formatRangeDate(last)}`;
+    };
+    const applyCustomRange = () => {
+      const startValue = startInput?.value ?? "";
+      const endValue = endInput?.value ?? "";
+
+      visibleDates = uniqueDates.filter(
+        ({ isoDate }) => (!startValue || isoDate >= startValue) && (!endValue || isoDate <= endValue),
+      );
+      updateRows();
+    };
+    const resetDefaultRange = () => {
+      visibleDates = getDefaultVisibleDates();
+      formatInputRange(visibleDates);
+      updateRows();
+    };
 
     const updateRows = () => {
+      const visibleDateSet = new Set(visibleDates.map(({ isoDate }) => isoDate));
+      const firstVisibleDate = visibleDates[0]?.isoDate ?? "";
+      const summaryDates = getSummaryDates();
+      const summaryDateSet = new Set(summaryDates.map(({ isoDate }) => isoDate));
+
+      if (tableShell) {
+        tableShell.hidden = visibleDates.length === 0;
+      }
+
+      if (emptyState) {
+        emptyState.hidden = visibleDates.length > 0;
+      }
+
       for (const cell of datedCells) {
         const raidDate = cell.dataset.raidDate ?? "";
         cell.hidden = !visibleDateSet.has(raidDate);
@@ -375,7 +461,7 @@ const showSummaryLists = mode === "snapshot";
             mode === "history"
               ? `${activeDates} raid nights in history`
               : summaryStrategy === "raid-week"
-                ? formatSummaryRange()
+                ? formatSummaryRange(summaryDates)
               : summaryStrategy === "next-raid-day"
                 ? `${summaryDates[0]?.label ?? "Next raid"} only`
               : `${activeDates} upcoming raid nights`;
@@ -412,9 +498,22 @@ const showSummaryLists = mode === "snapshot";
           const range = `${formatRangeDate(first)} - ${formatRangeDate(last)}`;
           label.textContent = `${visibleDates.length} raid nights, ${range} (${visiblePlayerRows} roster rows)`;
         }
+      } else if (titleNode && mode !== "history") {
+        titleNode.textContent = "No raid days in selected range";
       }
+
+      formatFilterDetail();
     };
 
+    if (filterForm) {
+      formatInputRange(visibleDates);
+      filterForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        applyCustomRange();
+      });
+    }
+
+    resetButton?.addEventListener("click", resetDefaultRange);
     updateRows();
   });
 </script>

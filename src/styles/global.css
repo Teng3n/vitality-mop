@@ -874,6 +874,68 @@ p {
   margin-bottom: 14px;
 }
 
+.calendar-filter {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.85fr) minmax(150px, 0.85fr) auto minmax(180px, 1fr);
+  align-items: end;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.calendar-filter-field {
+  width: 100%;
+}
+
+.calendar-filter-field span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.calendar-filter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-button {
+  min-height: 42px;
+  border: 1px solid rgba(43, 58, 49, 0.9);
+  border-radius: 6px;
+  padding: 0 12px;
+  background: rgba(23, 33, 27, 0.86);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.filter-button:hover,
+.filter-button:focus-visible {
+  border-color: rgba(200, 155, 60, 0.66);
+  color: #d8bb73;
+}
+
+.filter-button.is-subtle {
+  color: var(--muted);
+}
+
+.calendar-filter-detail {
+  align-self: center;
+  min-width: 0;
+  font-size: 0.88rem;
+}
+
+.calendar-window-empty {
+  border: 1px solid rgba(43, 58, 49, 0.7);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(23, 33, 27, 0.7);
+}
+
 .stack {
   display: grid;
   gap: 18px;
@@ -1351,6 +1413,67 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   margin: 0 auto;
 }
 
+.bench-week-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.bench-week-card {
+  display: grid;
+  gap: 16px;
+}
+
+.bench-raid-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.bench-raid-day {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  min-width: 0;
+  border: 1px solid rgba(43, 58, 49, 0.7);
+  border-radius: 8px;
+  padding: 14px;
+  background: rgba(23, 33, 27, 0.7);
+}
+
+.bench-raid-day-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bench-raid-day h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.bench-raid-day-header span {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.bench-player-list {
+  gap: 8px 14px;
+}
+
+.bench-player-list a {
+  text-decoration: none;
+}
+
+.bench-player-list a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .site-footer {
   display: flex;
   align-items: center;
@@ -1445,6 +1568,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .dashboard-grid,
   .dashboard-grid.compact,
   .card-grid,
+  .calendar-filter,
   .raid-card-grid,
   .raid-week-grid,
   .next-raid-grid,
@@ -1487,6 +1611,8 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .dashboard-grid.compact,
   .addon-list,
   .action-metrics,
+  .bench-raid-list,
+  .calendar-filter,
   .raid-card-grid,
   .raid-week-grid,
   .card-grid,

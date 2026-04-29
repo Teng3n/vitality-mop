@@ -1,6 +1,50 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import PageHeader from "../components/PageHeader.astro";
+import StatCard from "../components/StatCard.astro";
+import { getTodayIso, parseIsoDate, raidNights } from "../lib/guildData";
+import { getPlayerNameStyle } from "../lib/playerStyles";
+
+const getWeekStart = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
+const toIsoDate = (date: Date) =>
+  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+const formatWeekLabel = (isoDate: string) =>
+  `Week of ${parseIsoDate(isoDate).toLocaleDateString(undefined, { month: "long", day: "numeric" })}`;
+const formatRaidDate = (isoDate: string) =>
+  parseIsoDate(isoDate).toLocaleDateString(undefined, {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
+
+const todayIso = getTodayIso();
+const futureRaidNights = raidNights.filter((night) => night.isoDate >= todayIso);
+const weekKeys: string[] = [];
+
+for (const night of futureRaidNights) {
+  const weekKey = toIsoDate(getWeekStart(parseIsoDate(night.isoDate)));
+
+  if (!weekKeys.includes(weekKey)) {
+    weekKeys.push(weekKey);
+  }
+
+  if (weekKeys.length === 6) {
+    break;
+  }
+}
+
+const benchWeeks = weekKeys.map((weekKey) => {
+  const nights = futureRaidNights.filter((night) => toIsoDate(getWeekStart(parseIsoDate(night.isoDate))) === weekKey);
+
+  return {
+    weekKey,
+    label: formatWeekLabel(weekKey),
+    nights,
+    totalBench: nights.reduce((sum, night) => sum + night.bench.length, 0),
+  };
+});
+const raidNightCount = benchWeeks.reduce((sum, week) => sum + week.nights.length, 0);
+const totalBenchAssignments = benchWeeks.reduce((sum, week) => sum + week.totalBench, 0);
 ---
 
 <Layout title="Bench | Vitality">
@@ -9,11 +53,58 @@ import PageHeader from "../components/PageHeader.astro";
     title="Bench Rotation"
   />
 
-  <section class="panel bench-placeholder">
-    <p class="eyebrow">Bench Rotation</p>
-    <h2>Bench page under review</h2>
-    <p class="info-note">
-      Bench tracking data is still preserved in the project, but this page is temporarily parked while the rotation view is revised.
-    </p>
+  <section class="dashboard-grid compact">
+    <StatCard label="Window" value={benchWeeks.length} detail="weeks shown" />
+    <StatCard label="Raid Nights" value={raidNightCount} detail="scheduled raid days" />
+    <StatCard label="Bench Assignments" value={totalBenchAssignments} detail="next 6 weeks" />
   </section>
+
+  {
+    benchWeeks.length > 0 ? (
+      <section class="bench-week-stack">
+        {benchWeeks.map((week) => (
+          <article class="panel bench-week-card">
+            <div class="section-heading inline">
+              <div>
+                <p class="eyebrow">{week.label}</p>
+                <h2>{week.nights.length} raid night{week.nights.length === 1 ? "" : "s"}</h2>
+              </div>
+              <span class="status-pill">{week.totalBench} bench</span>
+            </div>
+
+            <div class="bench-raid-list">
+              {week.nights.map((night) => (
+                <section class="bench-raid-day">
+                  <div class="bench-raid-day-header">
+                    <h3>{formatRaidDate(night.isoDate)}</h3>
+                    <span>{night.bench.length} benched</span>
+                  </div>
+
+                  {night.bench.length > 0 ? (
+                    <ul class="inline-player-list bench-player-list">
+                      {night.bench.map((player) => (
+                        <li>
+                          <a class="player-name" href={player.href} style={getPlayerNameStyle(player.name)}>
+                            {player.name}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p class="info-note">None</p>
+                  )}
+                </section>
+              ))}
+            </div>
+          </article>
+        ))}
+      </section>
+    ) : (
+      <section class="panel bench-placeholder">
+        <p class="eyebrow">Bench Rotation</p>
+        <h2>No upcoming bench schedule</h2>
+        <p class="info-note">No future raid nights are currently listed in the calendar data.</p>
+      </section>
+    )
+  }
 </Layout>
