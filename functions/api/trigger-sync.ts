@@ -142,7 +142,11 @@ export const onRequest = async ({ request, env }: PagesContext) => {
     return jsonResponse({ ok: false, message: SYNC_ERROR_MESSAGE }, 502);
   }
 
+  console.info("[trigger-sync] GitHub workflow dispatch returned 204.");
+
   lastTriggerAt = Date.now();
+
+  console.info("[trigger-sync] Returning successful sync trigger response.");
 
   return jsonResponse({ ok: true, message: "Sync workflow triggered." });
 };

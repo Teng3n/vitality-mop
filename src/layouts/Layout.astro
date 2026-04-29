@@ -65,19 +65,29 @@ const isActive = (href: string) => {
     <script>
       const syncButton = document.querySelector<HTMLButtonElement>("[data-sync-trigger]");
       const syncStatus = document.querySelector<HTMLElement>("[data-sync-trigger-status]");
+      let syncRequestInFlight = false;
 
       syncButton?.addEventListener("click", async () => {
-        const password = window.prompt("Enter sync password");
-
-        if (!password) {
+        if (syncRequestInFlight) {
           return;
         }
 
+        syncRequestInFlight = true;
         syncButton.disabled = true;
+
+        const password = window.prompt("Enter sync password");
+
+        if (!password) {
+          syncRequestInFlight = false;
+          syncButton.disabled = false;
+          return;
+        }
+
         syncButton.textContent = "Syncing...";
 
         if (syncStatus) {
           syncStatus.textContent = "";
+          syncStatus.dataset.state = "";
         }
 
         try {
@@ -88,13 +98,25 @@ const isActive = (href: string) => {
             },
             body: JSON.stringify({ password }),
           });
-          const result = (await response.json().catch(() => undefined)) as { message?: string } | undefined;
-          const message =
-            result?.message ?? (response.ok ? "Sync workflow triggered." : "Unable to trigger sync workflow.");
+          const responseText = await response.text();
+          let result: { ok?: boolean; message?: string } | undefined;
+
+          if (responseText) {
+            try {
+              result = JSON.parse(responseText) as { ok?: boolean; message?: string };
+            } catch {
+              result = undefined;
+            }
+          }
+
+          const isSuccess = response.ok && result?.ok === true;
+          const message = isSuccess
+            ? (result?.message ?? "Sync workflow triggered.")
+            : (result?.message ?? "Unable to trigger sync workflow.");
 
           if (syncStatus) {
             syncStatus.textContent = message;
-            syncStatus.dataset.state = response.ok ? "success" : "error";
+            syncStatus.dataset.state = isSuccess ? "success" : "error";
           }
         } catch {
           if (syncStatus) {
@@ -102,6 +124,7 @@ const isActive = (href: string) => {
             syncStatus.dataset.state = "error";
           }
         } finally {
+          syncRequestInFlight = false;
           syncButton.disabled = false;
           syncButton.textContent = "Sync Data";
         }
