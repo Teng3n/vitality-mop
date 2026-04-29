@@ -2,10 +2,11 @@
 import Layout from "../layouts/Layout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import StatCard from "../components/StatCard.astro";
-import { BENCH_SUGGESTION_WINDOW_WEEKS, getBenchSuggestionText } from "../lib/benchSuggestions";
+import { getBenchSuggestionText } from "../lib/benchSuggestions";
 import { getTodayIso, parseIsoDate, raidNights, type RaidNight, type StatusPlayer } from "../lib/guildData";
 import { getPlayerNameStyle } from "../lib/playerStyles";
 
+const BENCH_PAGE_WINDOW_WEEKS = 8;
 const getWeekStart = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
 const toIsoDate = (date: Date) =>
   `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
@@ -55,7 +56,7 @@ for (const night of futureRaidNights) {
     weekKeys.push(weekKey);
   }
 
-  if (weekKeys.length === BENCH_SUGGESTION_WINDOW_WEEKS) {
+  if (weekKeys.length === BENCH_PAGE_WINDOW_WEEKS) {
     break;
   }
 }

@@ -10,9 +10,10 @@ import {
   type StatusPlayer,
 } from "./guildData";
 
-export const BENCH_SUGGESTION_WINDOW_WEEKS = 8;
+const DEFAULT_BENCH_SUGGESTION_WINDOW_WEEKS = 8;
 const TARGET_RAID_SIZE = 25;
 const RECENT_BENCH_DAYS = 21;
+const RECENT_UNAVAILABLE_WEEK_LOOKBACK = 2;
 
 interface BenchRules {
   neverBenchPlayers: string[];
@@ -21,10 +22,13 @@ interface BenchRules {
   minimumAvailableByClass: Record<string, number>;
   requireAtLeastOneAvailablePerClass: boolean;
   minimumAvailablePerClass?: number;
+  planningWindowWeeks?: number;
   scoring: {
     lowBenchCountWeight: number;
     notRecentlyBenchedWeight: number;
     backToBackBenchPenalty: number;
+    recentlyUnavailablePenalty?: number;
+    adjacentUnavailablePenalty?: number;
   };
   source: "sheet" | "fallback";
 }
@@ -48,6 +52,10 @@ export interface BenchSuggestionWeek {
 }
 
 const benchRules = benchRulesJson as unknown as BenchRules;
+export const BENCH_SUGGESTION_WINDOW_WEEKS =
+  benchRules.planningWindowWeeks && benchRules.planningWindowWeeks >= 1
+    ? Math.floor(benchRules.planningWindowWeeks)
+    : DEFAULT_BENCH_SUGGESTION_WINDOW_WEEKS;
 const benchSummaryBySlug = new Map(benchSummaries.map((summary) => [summary.playerSlug, summary]));
 const activeRosterBySlug = new Map(activeRosterPlayers.map((player) => [player.slug, player]));
 const maxBenchCount = Math.max(0, ...benchSummaries.map((summary) => summary.totalScheduledBenchNights));
@@ -128,6 +136,37 @@ const getAdjacentWeekKeys = (weekKey: string) => {
 
   return [toIsoDate(previousWeek), toIsoDate(nextWeek)];
 };
+
+const hasUnavailableStatus = (night: RaidNight, playerSlug: string) =>
+  [...night.out, ...night.late, ...night.mia].some((player) => player.slug === playerSlug);
+
+const getWeekKeysBefore = (weekKey: string, count: number) => {
+  const keys: string[] = [];
+  const weekStart = parseIsoDate(weekKey);
+
+  for (let index = 1; index <= count; index += 1) {
+    const previousWeek = new Date(weekStart);
+    previousWeek.setDate(previousWeek.getDate() - 7 * index);
+    keys.push(toIsoDate(previousWeek));
+  }
+
+  return keys;
+};
+
+const hasUnavailableInWeek = (playerSlug: string, weekKey: string) =>
+  raidNights.some(
+    (night) =>
+      toIsoDate(getWeekStart(parseIsoDate(night.isoDate))) === weekKey &&
+      hasUnavailableStatus(night, playerSlug),
+  );
+
+const wasRecentlyUnavailable = (playerSlug: string, weekKey: string) =>
+  getWeekKeysBefore(weekKey, RECENT_UNAVAILABLE_WEEK_LOOKBACK).some((previousWeekKey) =>
+    hasUnavailableInWeek(playerSlug, previousWeekKey),
+  );
+
+const hasAdjacentUnavailable = (playerSlug: string, weekKey: string) =>
+  getAdjacentWeekKeys(weekKey).some((adjacentWeekKey) => hasUnavailableInWeek(playerSlug, adjacentWeekKey));
 
 const wasBenchedRecently = (playerSlug: string, weekKey: string) => {
   const summary = benchSummaryBySlug.get(playerSlug);
@@ -254,6 +293,16 @@ const scoreCandidate = (player: Player, weekKey: string): BenchCandidate => {
     score += benchRules.scoring.backToBackBenchPenalty;
   }
 
+  if (benchRules.scoring.recentlyUnavailablePenalty && wasRecentlyUnavailable(player.slug, weekKey)) {
+    score += benchRules.scoring.recentlyUnavailablePenalty;
+    reasons.push("penalized for recent Out/Late/MIA");
+  }
+
+  if (benchRules.scoring.adjacentUnavailablePenalty && hasAdjacentUnavailable(player.slug, weekKey)) {
+    score += benchRules.scoring.adjacentUnavailablePenalty;
+    reasons.push("penalized for adjacent Out/Late/MIA");
+  }
+
   return { player, score, reasons };
 };
 
@@ -322,9 +371,17 @@ export const getBenchSuggestionWeeks = (todayIso = getTodayIso()): BenchSuggesti
 
         suggestedBenchPlayers.push(getStatusPlayer(candidate.player));
         suggestedBenchSlugs.add(candidate.player.slug);
+        const positiveReasons = candidate.reasons.filter((reason) => !reason.startsWith("penalized"));
+        const penaltyReasons = candidate.reasons.filter((reason) => reason.startsWith("penalized"));
+        const selectedReasons = positiveReasons.length > 0 ? positiveReasons : penaltyReasons;
+
         notes.push(
-          `${candidate.player.name} selected${candidate.reasons.length > 0 ? ` for ${formatRuleList(candidate.reasons.slice(0, 2))}` : ""}.`,
+          `${candidate.player.name} selected${selectedReasons.length > 0 ? ` for ${formatRuleList(selectedReasons.slice(0, 2))}` : ""}.`,
         );
+
+        for (const penaltyReason of penaltyReasons) {
+          notes.push(`${candidate.player.name} ${penaltyReason}.`);
+        }
       }
 
       if (suggestedBenchPlayers.length < additionalBenchNeeded) {

@@ -90,10 +90,13 @@ interface BenchRulesData {
   minimumAvailableByClass: Record<string, number>;
   requireAtLeastOneAvailablePerClass: boolean;
   minimumAvailablePerClass: number;
+  planningWindowWeeks: number;
   scoring: {
     lowBenchCountWeight: number;
     notRecentlyBenchedWeight: number;
     backToBackBenchPenalty: number;
+    recentlyUnavailablePenalty: number;
+    adjacentUnavailablePenalty: number;
   };
   source: "sheet" | "fallback";
 }
@@ -213,10 +216,13 @@ const statusAliases = new Map([
 ]);
 
 const enabledValues = new Set(["true", "yes", "y", "1"]);
+const defaultPlanningWindowWeeks = 8;
 const defaultScoring = {
   lowBenchCountWeight: 10,
   notRecentlyBenchedWeight: 6,
   backToBackBenchPenalty: -8,
+  recentlyUnavailablePenalty: -5,
+  adjacentUnavailablePenalty: -10,
 };
 const fallbackHardRules = {
   neverBenchPlayers: ["tengen", "karkan"],
@@ -234,6 +240,7 @@ const fallbackHardRules = {
 };
 const fallbackBenchRules: BenchRulesData = {
   ...fallbackHardRules,
+  planningWindowWeeks: defaultPlanningWindowWeeks,
   scoring: defaultScoring,
   source: "fallback",
 };
@@ -845,10 +852,13 @@ function normalizeBenchRules(rules: BenchRulesData): BenchRulesData {
     minimumAvailableByClass: sortedObjectByKey(rules.minimumAvailableByClass),
     requireAtLeastOneAvailablePerClass: rules.requireAtLeastOneAvailablePerClass,
     minimumAvailablePerClass: rules.minimumAvailablePerClass,
+    planningWindowWeeks: rules.planningWindowWeeks,
     scoring: {
       lowBenchCountWeight: rules.scoring.lowBenchCountWeight,
       notRecentlyBenchedWeight: rules.scoring.notRecentlyBenchedWeight,
       backToBackBenchPenalty: rules.scoring.backToBackBenchPenalty,
+      recentlyUnavailablePenalty: rules.scoring.recentlyUnavailablePenalty,
+      adjacentUnavailablePenalty: rules.scoring.adjacentUnavailablePenalty,
     },
     source: rules.source,
   };
@@ -882,6 +892,8 @@ function parseBenchRules(rows: SheetRow[] | null): BenchRuleParseResult {
     minimumAvailablePerClass: 1,
   };
   const scoring = { ...defaultScoring };
+  let planningWindowWeeks = defaultPlanningWindowWeeks;
+  let hasPlanningWindowRule = false;
   let importedRuleCount = 0;
   let hardRuleCount = 0;
 
@@ -984,6 +996,40 @@ function parseBenchRules(rows: SheetRow[] | null): BenchRuleParseResult {
         importedRuleCount += 1;
         return;
 
+      case "PLANNING_WINDOW_WEEKS":
+        if (hasPlanningWindowRule) {
+          warn(`Bench Rules row ${rowNumber}: duplicate PLANNING_WINDOW_WEEKS ignored; using the first valid value.`);
+          return;
+        }
+
+        if (minAvailable === undefined || minAvailable < 1) {
+          warn(`Bench Rules row ${rowNumber}: PLANNING_WINDOW_WEEKS requires Min Available of 1 or greater; using default ${defaultPlanningWindowWeeks}.`);
+          return;
+        }
+
+        planningWindowWeeks = Math.floor(minAvailable);
+        hasPlanningWindowRule = true;
+        importedRuleCount += 1;
+        return;
+
+      case "PENALTY_RECENTLY_UNAVAILABLE":
+        if (rawWeight && weight === undefined) {
+          warn(`Bench Rules row ${rowNumber}: PENALTY_RECENTLY_UNAVAILABLE has an invalid Weight; using default ${defaultScoring.recentlyUnavailablePenalty}.`);
+        }
+
+        scoring.recentlyUnavailablePenalty = weight ?? defaultScoring.recentlyUnavailablePenalty;
+        importedRuleCount += 1;
+        return;
+
+      case "PENALTY_ADJACENT_UNAVAILABLE":
+        if (rawWeight && weight === undefined) {
+          warn(`Bench Rules row ${rowNumber}: PENALTY_ADJACENT_UNAVAILABLE has an invalid Weight; using default ${defaultScoring.adjacentUnavailablePenalty}.`);
+        }
+
+        scoring.adjacentUnavailablePenalty = weight ?? defaultScoring.adjacentUnavailablePenalty;
+        importedRuleCount += 1;
+        return;
+
       default:
         warn(`Bench Rules row ${rowNumber}: unknown rule type "${getCell(row, header.indexes.ruleType)}" was skipped.`);
     }
@@ -997,6 +1043,7 @@ function parseBenchRules(rows: SheetRow[] | null): BenchRuleParseResult {
   return {
     rules: normalizeBenchRules({
       ...hardRules,
+      planningWindowWeeks,
       scoring,
       source: "sheet",
     }),

@@ -121,12 +121,17 @@ Supported hard rule types:
 - `MIN_AVAILABLE_ROLE`: requires `Role` and `Min Available`.
 - `MIN_AVAILABLE_CLASS`: requires `Class` and `Min Available`.
 - `REQUIRE_ONE_PER_CLASS`: keeps at least one available player per represented class. `Min Available` can override the default of `1`.
+- `PLANNING_WINDOW_WEEKS`: controls how many upcoming raid week/date ranges the Bench Suggestion output includes. Put the number in `Min Available`. The default is `8`.
 
 Supported scoring rule types:
 
 - `WEIGHT_LOW_BENCH_COUNT`, default weight `10`.
 - `WEIGHT_NOT_RECENTLY_BENCHED`, default weight `6`.
 - `PENALTY_BACK_TO_BACK_BENCH`, default weight `-8`.
+- `PENALTY_RECENTLY_UNAVAILABLE`, default weight `-5`.
+- `PENALTY_ADJACENT_UNAVAILABLE`, default weight `-10`.
+
+Unavailable penalties are soft scoring penalties. They make a player less likely to be suggested when better valid candidates exist, but they do not override hard constraints. Players marked Out, Late, or MIA in the target week are still hard-excluded from new bench suggestions.
 
 Example Bench Rules rows:
 
@@ -137,7 +142,10 @@ TRUE    | AVOID_BENCH_TOGETHER   | Drchicken | Cardinalcrzy|              |     
 TRUE    | MIN_AVAILABLE_ROLE     |           |             |              | Healer | 5             |        |
 TRUE    | MIN_AVAILABLE_CLASS    |           |             | Death Knight |        | 2             |        |
 TRUE    | REQUIRE_ONE_PER_CLASS  |           |             |              |        | 1             |        |
+TRUE    | PLANNING_WINDOW_WEEKS  |           |             |              |        | 4             |        | Generate next 4 weeks
 TRUE    | WEIGHT_LOW_BENCH_COUNT |           |             |              |        |               | 10     |
+TRUE    | PENALTY_RECENTLY_UNAVAILABLE |     |             |              |        |               | -5     | Avoid recent Out/Late/MIA
+TRUE    | PENALTY_ADJACENT_UNAVAILABLE |     |             |              |        |               | -10    | Avoid adjacent Out/Late/MIA
 ```
 
 Fallback hard rules if the tab is missing or has no valid enabled hard rules:
@@ -159,7 +167,10 @@ Built-in Bench Suggestion behavior:
 - Existing Bench marks count toward the dynamically required bench count.
 - The tool fills gaps only when existing Bench marks are below the required count.
 - If existing Bench marks exceed the required count, the tool warns and does not remove anyone.
-- The planner only includes future raid weeks in the next 8-week Bench window.
+- The planner only includes future raid weeks in the configured Bench Suggestion planning window, default `8`.
+- `PLANNING_WINDOW_WEEKS` can shorten or lengthen the suggestion output without changing the visible Bench page schedule.
+- `PENALTY_RECENTLY_UNAVAILABLE` looks back across the recent raid weeks in calendar data, currently the previous 2 raid weeks.
+- `PENALTY_ADJACENT_UNAVAILABLE` checks the immediately previous and immediately next raid week/date range.
 - If all raid dates in a week are in the past, that week is skipped.
 
 Example `.env.local` shape:

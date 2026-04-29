@@ -19,10 +19,13 @@
   },
   "requireAtLeastOneAvailablePerClass": true,
   "minimumAvailablePerClass": 1,
+  "planningWindowWeeks": 8,
   "scoring": {
     "lowBenchCountWeight": 10,
     "notRecentlyBenchedWeight": 10,
-    "backToBackBenchPenalty": -25
+    "backToBackBenchPenalty": -25,
+    "recentlyUnavailablePenalty": -5,
+    "adjacentUnavailablePenalty": -10
   },
   "source": "sheet"
 }
