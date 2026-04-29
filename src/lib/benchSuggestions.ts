@@ -37,6 +37,14 @@ interface BenchCandidate {
   player: Player;
   score: number;
   reasons: string[];
+  suggestedCount: number;
+  totalBenchCount: number;
+  daysSinceBench: number;
+}
+
+interface PlanningState {
+  suggestedWeekKeysBySlug: Map<string, Set<string>>;
+  suggestedCountBySlug: Map<string, number>;
 }
 
 export interface BenchSuggestionWeek {
@@ -127,6 +135,24 @@ const getPlayerBenchWeekKeys = (playerSlug: string) =>
       .map((night) => toIsoDate(getWeekStart(parseIsoDate(night.isoDate)))),
   );
 
+const createPlanningState = (): PlanningState => ({
+  suggestedWeekKeysBySlug: new Map(),
+  suggestedCountBySlug: new Map(),
+});
+
+const addSuggestedBenchToPlanningState = (planningState: PlanningState, playerSlug: string, weekKey: string) => {
+  const weekKeys = planningState.suggestedWeekKeysBySlug.get(playerSlug) ?? new Set<string>();
+  weekKeys.add(weekKey);
+  planningState.suggestedWeekKeysBySlug.set(playerSlug, weekKeys);
+  planningState.suggestedCountBySlug.set(playerSlug, (planningState.suggestedCountBySlug.get(playerSlug) ?? 0) + 1);
+};
+
+const getSuggestedBenchWeekKeys = (playerSlug: string, planningState: PlanningState) =>
+  planningState.suggestedWeekKeysBySlug.get(playerSlug) ?? new Set<string>();
+
+const getCombinedBenchWeekKeys = (playerSlug: string, planningState: PlanningState) =>
+  new Set([...getPlayerBenchWeekKeys(playerSlug), ...getSuggestedBenchWeekKeys(playerSlug, planningState)]);
+
 const getAdjacentWeekKeys = (weekKey: string) => {
   const weekStart = parseIsoDate(weekKey);
   const previousWeek = new Date(weekStart);
@@ -168,23 +194,38 @@ const wasRecentlyUnavailable = (playerSlug: string, weekKey: string) =>
 const hasAdjacentUnavailable = (playerSlug: string, weekKey: string) =>
   getAdjacentWeekKeys(weekKey).some((adjacentWeekKey) => hasUnavailableInWeek(playerSlug, adjacentWeekKey));
 
-const wasBenchedRecently = (playerSlug: string, weekKey: string) => {
-  const summary = benchSummaryBySlug.get(playerSlug);
+const getLastBenchWeekKey = (playerSlug: string, weekKey: string, planningState: PlanningState) => {
+  const currentWeekTime = parseIsoDate(weekKey).getTime();
+  const previousBenchWeekKeys = [...getCombinedBenchWeekKeys(playerSlug, planningState)].filter(
+    (benchWeekKey) => parseIsoDate(benchWeekKey).getTime() < currentWeekTime,
+  );
 
-  if (!summary?.lastBenched) {
-    return false;
-  }
-
-  const currentWeek = parseIsoDate(weekKey).getTime();
-  const lastBench = parseIsoDate(summary.lastBenched.isoDate).getTime();
-  const daysSinceLastBench = (currentWeek - lastBench) / (1000 * 60 * 60 * 24);
-
-  return daysSinceLastBench >= 0 && daysSinceLastBench < RECENT_BENCH_DAYS;
+  return previousBenchWeekKeys.sort((a, b) => b.localeCompare(a))[0] ?? "";
 };
 
-const hasAdjacentBench = (playerSlug: string, weekKey: string) => {
-  const playerBenchWeeks = getPlayerBenchWeekKeys(playerSlug);
+const getDaysSinceBench = (playerSlug: string, weekKey: string, planningState: PlanningState) => {
+  const lastBenchWeekKey = getLastBenchWeekKey(playerSlug, weekKey, planningState);
+
+  if (!lastBenchWeekKey) {
+    return Number.POSITIVE_INFINITY;
+  }
+
+  return (parseIsoDate(weekKey).getTime() - parseIsoDate(lastBenchWeekKey).getTime()) / (1000 * 60 * 60 * 24);
+};
+
+const wasBenchedRecently = (playerSlug: string, weekKey: string, planningState: PlanningState) => {
+  const daysSinceBench = getDaysSinceBench(playerSlug, weekKey, planningState);
+  return Number.isFinite(daysSinceBench) && daysSinceBench >= 0 && daysSinceBench < RECENT_BENCH_DAYS;
+};
+
+const hasAdjacentBench = (playerSlug: string, weekKey: string, planningState: PlanningState) => {
+  const playerBenchWeeks = getCombinedBenchWeekKeys(playerSlug, planningState);
   return getAdjacentWeekKeys(weekKey).some((adjacentWeekKey) => playerBenchWeeks.has(adjacentWeekKey));
+};
+
+const hasAdjacentSuggestedBench = (playerSlug: string, weekKey: string, planningState: PlanningState) => {
+  const playerSuggestedWeeks = getSuggestedBenchWeekKeys(playerSlug, planningState);
+  return getAdjacentWeekKeys(weekKey).some((adjacentWeekKey) => playerSuggestedWeeks.has(adjacentWeekKey));
 };
 
 const getAvailableCounts = (unavailableSlugs: Set<string>, benchSlugs: Set<string>) => {
@@ -265,17 +306,60 @@ const passesHardRules = (player: Player, unavailableSlugs: Set<string>, benchSlu
   nextBenchSlugs.add(player.slug);
 
   for (const [firstPlayer, secondPlayer] of benchRules.avoidBenchingTogether) {
-    if (nextBenchSlugs.has(firstPlayer) && nextBenchSlugs.has(secondPlayer)) {
+    const alreadyViolated = benchSlugs.has(firstPlayer) && benchSlugs.has(secondPlayer);
+    const wouldViolate = nextBenchSlugs.has(firstPlayer) && nextBenchSlugs.has(secondPlayer);
+
+    if (wouldViolate && !alreadyViolated) {
       return false;
     }
   }
 
-  return getConstraintWarnings(nextBenchSlugs, unavailableSlugs).length === 0;
+  const currentCounts = getAvailableCounts(unavailableSlugs, benchSlugs);
+  const nextCounts = getAvailableCounts(unavailableSlugs, nextBenchSlugs);
+
+  for (const [role, minimum] of Object.entries(benchRules.minimumAvailableByRole)) {
+    const roleKey = normalizeKey(role);
+    const currentAvailable = currentCounts.byRole.get(roleKey) ?? 0;
+    const nextAvailable = nextCounts.byRole.get(roleKey) ?? 0;
+
+    if (nextAvailable < minimum && nextAvailable < currentAvailable) {
+      return false;
+    }
+  }
+
+  for (const [className, minimum] of Object.entries(benchRules.minimumAvailableByClass)) {
+    const classKey = normalizeKey(className);
+    const currentAvailable = currentCounts.byClass.get(classKey) ?? 0;
+    const nextAvailable = nextCounts.byClass.get(classKey) ?? 0;
+
+    if (nextAvailable < minimum && nextAvailable < currentAvailable) {
+      return false;
+    }
+  }
+
+  if (benchRules.requireAtLeastOneAvailablePerClass) {
+    const minimum = benchRules.minimumAvailablePerClass ?? 1;
+    const rosterClasses = [...new Set(activeRosterPlayers.map((rosterPlayer) => rosterPlayer.className))];
+
+    for (const className of rosterClasses) {
+      const classKey = normalizeKey(className);
+      const currentAvailable = currentCounts.byClass.get(classKey) ?? 0;
+      const nextAvailable = nextCounts.byClass.get(classKey) ?? 0;
+
+      if (nextAvailable < minimum && nextAvailable < currentAvailable) {
+        return false;
+      }
+    }
+  }
+
+  return true;
 };
 
-const scoreCandidate = (player: Player, weekKey: string): BenchCandidate => {
+const scoreCandidate = (player: Player, weekKey: string, planningState: PlanningState): BenchCandidate => {
   const summary = benchSummaryBySlug.get(player.slug);
-  const totalBenchCount = summary?.totalScheduledBenchNights ?? 0;
+  const suggestedCount = planningState.suggestedCountBySlug.get(player.slug) ?? 0;
+  const totalBenchCount = (summary?.totalScheduledBenchNights ?? 0) + suggestedCount;
+  const daysSinceBench = getDaysSinceBench(player.slug, weekKey, planningState);
   const reasons: string[] = [];
   let score = 0;
 
@@ -284,13 +368,22 @@ const scoreCandidate = (player: Player, weekKey: string): BenchCandidate => {
     reasons.push(`lower bench count (${totalBenchCount})`);
   }
 
-  if (benchRules.scoring.notRecentlyBenchedWeight && !wasBenchedRecently(player.slug, weekKey)) {
-    score += summary?.lastBenched ? benchRules.scoring.notRecentlyBenchedWeight : benchRules.scoring.notRecentlyBenchedWeight * 2;
-    reasons.push(summary?.lastBenched ? "not recently benched" : "no recent bench history");
+  if (suggestedCount === 0) {
+    reasons.push("not suggested in this planning run");
   }
 
-  if (benchRules.scoring.backToBackBenchPenalty && hasAdjacentBench(player.slug, weekKey)) {
+  if (benchRules.scoring.notRecentlyBenchedWeight && !wasBenchedRecently(player.slug, weekKey, planningState)) {
+    score += Number.isFinite(daysSinceBench) ? benchRules.scoring.notRecentlyBenchedWeight : benchRules.scoring.notRecentlyBenchedWeight * 2;
+    reasons.push(Number.isFinite(daysSinceBench) ? "not recently benched" : "no recent bench history");
+  }
+
+  if (benchRules.scoring.backToBackBenchPenalty && hasAdjacentBench(player.slug, weekKey, planningState)) {
     score += benchRules.scoring.backToBackBenchPenalty;
+    reasons.push(
+      hasAdjacentSuggestedBench(player.slug, weekKey, planningState)
+        ? "penalized because they were suggested in an adjacent week"
+        : "penalized for adjacent bench",
+    );
   }
 
   if (benchRules.scoring.recentlyUnavailablePenalty && wasRecentlyUnavailable(player.slug, weekKey)) {
@@ -303,7 +396,23 @@ const scoreCandidate = (player: Player, weekKey: string): BenchCandidate => {
     reasons.push("penalized for adjacent Out/Late/MIA");
   }
 
-  return { player, score, reasons };
+  return { player, score, reasons, suggestedCount, totalBenchCount, daysSinceBench };
+};
+
+const compareDaysSinceBench = (a: BenchCandidate, b: BenchCandidate) => {
+  if (a.daysSinceBench === b.daysSinceBench) {
+    return 0;
+  }
+
+  if (!Number.isFinite(a.daysSinceBench)) {
+    return -1;
+  }
+
+  if (!Number.isFinite(b.daysSinceBench)) {
+    return 1;
+  }
+
+  return b.daysSinceBench - a.daysSinceBench;
 };
 
 const getStatusPlayer = (player: Player): StatusPlayer => ({
@@ -315,8 +424,10 @@ const getStatusPlayer = (player: Player): StatusPlayer => ({
 
 export const getBenchSuggestionWeeks = (todayIso = getTodayIso()): BenchSuggestionWeek[] => {
   const weeks = getFutureRaidWeeks(todayIso);
+  const planningState = createPlanningState();
+  const suggestionWeeks: BenchSuggestionWeek[] = [];
 
-  return weeks.map(({ weekKey, nights }) => {
+  for (const { weekKey, nights } of weeks) {
     const unavailablePlayers = getUniquePlayers(nights.map((night) => [...night.out, ...night.late, ...night.mia]));
     const existingBenchPlayers = getUniquePlayers(nights.map((night) => night.bench));
     const unavailableSlugs = new Set(unavailablePlayers.map((player) => player.slug));
@@ -350,11 +461,13 @@ export const getBenchSuggestionWeeks = (todayIso = getTodayIso()): BenchSuggesti
 
     if (additionalBenchNeeded > 0) {
       const candidates = activeRosterPlayers
-        .filter((player) => passesHardRules(player, unavailableSlugs, new Set([...existingBenchSlugs, ...suggestedBenchSlugs])))
-        .map((player) => scoreCandidate(player, weekKey))
+        .map((player) => scoreCandidate(player, weekKey, planningState))
         .sort(
           (a, b) =>
             b.score - a.score ||
+            a.suggestedCount - b.suggestedCount ||
+            a.totalBenchCount - b.totalBenchCount ||
+            compareDaysSinceBench(a, b) ||
             a.player.name.localeCompare(b.player.name, undefined, { sensitivity: "base" }),
         );
 
@@ -405,7 +518,11 @@ export const getBenchSuggestionWeeks = (todayIso = getTodayIso()): BenchSuggesti
       notes.unshift("Existing bench assignments respected.");
     }
 
-    return {
+    for (const player of suggestedBenchPlayers) {
+      addSuggestedBenchToPlanningState(planningState, player.slug, weekKey);
+    }
+
+    suggestionWeeks.push({
       label: formatWeekDateRange(nights),
       rosterSize: activeRosterSize,
       unavailablePlayers,
@@ -415,8 +532,10 @@ export const getBenchSuggestionWeeks = (todayIso = getTodayIso()): BenchSuggesti
       status,
       notes,
       warnings: [...new Set(warnings)],
-    };
-  });
+    });
+  }
+
+  return suggestionWeeks;
 };
 
 export const getBenchSuggestionText = (todayIso = getTodayIso()) => {
@@ -451,5 +570,6 @@ export const getBenchSuggestionText = (todayIso = getTodayIso()) => {
   }
 
   lines.push(`Rules source: ${benchRules.source}`);
+  lines.push(`Planning window weeks: ${BENCH_SUGGESTION_WINDOW_WEEKS}`);
   return lines.join("\n").trim();
 };
