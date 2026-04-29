@@ -1,7 +1,14 @@
-interface Env {
+import {
+  hasOfficerPasswordConfig,
+  hasValidOfficerSession,
+  isValidOfficerPassword,
+  jsonResponse,
+  safeParseJson,
+  type OfficerAuthEnv,
+} from "../_shared/officer-auth";
+
+interface Env extends OfficerAuthEnv {
   GITHUB_ACTIONS_DISPATCH_TOKEN?: string;
-  SYNC_TRIGGER_PASSWORD?: string;
-  SYNC_TRIGGER_PASSWORD_HASH?: string;
 }
 
 interface PagesContext {
@@ -16,55 +23,6 @@ const COOLDOWN_MS = 60_000;
 const SYNC_ERROR_MESSAGE = "Unable to trigger sync workflow.";
 
 let lastTriggerAt = 0;
-
-const encoder = new TextEncoder();
-
-const jsonResponse = (body: Record<string, unknown>, status = 200, headers: HeadersInit = {}) =>
-  new Response(JSON.stringify(body), {
-    status,
-    headers: {
-      "Content-Type": "application/json",
-      "Cache-Control": "no-store",
-      ...headers,
-    },
-  });
-
-const safeParseJson = async (request: Request) => {
-  try {
-    return (await request.json()) as unknown;
-  } catch {
-    return undefined;
-  }
-};
-
-const timingSafeEqual = (actual: string, expected: string) => {
-  const actualBytes = encoder.encode(actual);
-  const expectedBytes = encoder.encode(expected);
-  let diff = actualBytes.length ^ expectedBytes.length;
-  const length = Math.max(actualBytes.length, expectedBytes.length);
-
-  for (let index = 0; index < length; index += 1) {
-    diff |= (actualBytes[index] ?? 0) ^ (expectedBytes[index] ?? 0);
-  }
-
-  return diff === 0;
-};
-
-const sha256Hex = async (value: string) => {
-  const digest = await crypto.subtle.digest("SHA-256", encoder.encode(value));
-  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
-};
-
-const isValidPassword = async (password: string, env: Env) => {
-  const expectedHash = env.SYNC_TRIGGER_PASSWORD_HASH?.trim().toLowerCase();
-
-  if (expectedHash) {
-    return timingSafeEqual(await sha256Hex(password), expectedHash);
-  }
-
-  const expectedPassword = env.SYNC_TRIGGER_PASSWORD;
-  return expectedPassword ? timingSafeEqual(password, expectedPassword) : false;
-};
 
 const logGitHubDispatchFailure = (status: number, body: string) => {
   console.error("[trigger-sync] GitHub workflow dispatch failed.", {
@@ -91,7 +49,7 @@ export const onRequest = async ({ request, env }: PagesContext) => {
     return jsonResponse({ ok: false, message: SYNC_ERROR_MESSAGE }, 500);
   }
 
-  if (!env.SYNC_TRIGGER_PASSWORD && !env.SYNC_TRIGGER_PASSWORD_HASH) {
+  if (!hasOfficerPasswordConfig(env)) {
     console.error("[trigger-sync] No sync trigger password or password hash is configured.");
     return jsonResponse({ ok: false, message: SYNC_ERROR_MESSAGE }, 500);
   }
@@ -102,7 +60,10 @@ export const onRequest = async ({ request, env }: PagesContext) => {
       ? body.password
       : "";
 
-  if (!password || !(await isValidPassword(password, env))) {
+  const hasValidPassword = password ? await isValidOfficerPassword(password, env as OfficerAuthEnv) : false;
+  const hasValidSession = hasValidPassword ? false : await hasValidOfficerSession(request, env as OfficerAuthEnv);
+
+  if (!hasValidPassword && !hasValidSession) {
     return jsonResponse({ ok: false, message: "Invalid password." }, 401);
   }
 

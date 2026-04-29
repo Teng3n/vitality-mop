@@ -1,0 +1,133 @@
+---
+import OfficerGate from "../../components/OfficerGate.astro";
+import OfficerSubnav from "../../components/OfficerSubnav.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import SyncDataControl from "../../components/SyncDataControl.astro";
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Officer Tools | Vitality">
+  <PageHeader
+    eyebrow="Officer Tools"
+    title="Officer Tools"
+  />
+
+  <OfficerGate>
+    <OfficerSubnav />
+
+    <section class="officer-tools-panel-group" data-bench-suggestion-tool>
+      <div class="officer-tools-grid">
+        <article class="panel officer-tool-card">
+          <div class="section-heading">
+            <p class="eyebrow">Sync Guild Data</p>
+            <h2>Sync Guild Data</h2>
+            <p class="info-note">
+              Pull the latest Google Sheet data through GitHub Actions. If the sheet data changed,
+              Cloudflare will redeploy after the data commit.
+            </p>
+          </div>
+
+          <div class="officer-tool-actions">
+            <SyncDataControl />
+          </div>
+        </article>
+
+        <article class="panel officer-tool-card">
+          <div class="section-heading">
+            <p class="eyebrow">Bench Suggestions</p>
+            <h2>Bench Suggestions</h2>
+            <p class="info-note">
+              Generate a draft bench plan using the current roster, calendar statuses, and Bench Rules.
+              Review before copying into the Google Sheet.
+            </p>
+          </div>
+
+          <div class="officer-tool-actions">
+            <button class="filter-button is-subtle" type="button" data-bench-suggestion-generate>
+              Generate Bench Suggestions
+            </button>
+          </div>
+        </article>
+      </div>
+
+      <section class="panel bench-suggestion-output-panel" data-bench-suggestion-output hidden>
+        <div class="section-heading inline bench-suggestion-heading">
+          <div>
+            <p class="eyebrow">Suggested Bench Plan</p>
+            <h2>Suggested Bench Plan</h2>
+          </div>
+          <button class="filter-button is-subtle" type="button" data-bench-suggestion-copy>
+            Copy
+          </button>
+        </div>
+
+        <div class="bench-suggestion-output">
+          <pre data-bench-suggestion-text></pre>
+        </div>
+        <p class="info-note bench-suggestion-status" data-bench-suggestion-status aria-live="polite"></p>
+      </section>
+    </section>
+  </OfficerGate>
+</Layout>
+
+<script>
+  const benchSuggestionTool = document.querySelector<HTMLElement>("[data-bench-suggestion-tool]");
+  const benchSuggestionGenerate = benchSuggestionTool?.querySelector<HTMLButtonElement>("[data-bench-suggestion-generate]");
+  const benchSuggestionCopy = benchSuggestionTool?.querySelector<HTMLButtonElement>("[data-bench-suggestion-copy]");
+  const benchSuggestionOutput = benchSuggestionTool?.querySelector<HTMLElement>("[data-bench-suggestion-output]");
+  const benchSuggestionText = benchSuggestionTool?.querySelector<HTMLElement>("[data-bench-suggestion-text]");
+  const benchSuggestionStatus = benchSuggestionTool?.querySelector<HTMLElement>("[data-bench-suggestion-status]");
+
+  let generatedSuggestionText = "";
+
+  benchSuggestionGenerate?.addEventListener("click", async () => {
+    if (!benchSuggestionOutput || !benchSuggestionText) {
+      return;
+    }
+
+    benchSuggestionGenerate.disabled = true;
+    benchSuggestionGenerate.textContent = generatedSuggestionText ? "Showing Bench Suggestions" : "Generating...";
+
+    if (benchSuggestionStatus) {
+      benchSuggestionStatus.textContent = "";
+    }
+
+    try {
+      if (!generatedSuggestionText) {
+        const { getBenchSuggestionText } = await import("../../lib/benchSuggestions");
+        generatedSuggestionText = getBenchSuggestionText();
+      }
+
+      benchSuggestionText.textContent = generatedSuggestionText;
+      benchSuggestionOutput.hidden = false;
+      benchSuggestionGenerate.textContent = "Regenerate Bench Suggestions";
+    } catch {
+      if (benchSuggestionStatus) {
+        benchSuggestionStatus.textContent = "Unable to generate bench suggestions.";
+      }
+      benchSuggestionGenerate.textContent = "Generate Bench Suggestions";
+    } finally {
+      benchSuggestionGenerate.disabled = false;
+    }
+  });
+
+  benchSuggestionCopy?.addEventListener("click", async () => {
+    const suggestionText = benchSuggestionText?.textContent?.trim() ?? "";
+
+    if (!suggestionText) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(suggestionText);
+
+      if (benchSuggestionStatus) {
+        benchSuggestionStatus.textContent = "Bench suggestions copied.";
+      }
+    } catch {
+      if (benchSuggestionStatus) {
+        benchSuggestionStatus.textContent = "Unable to copy automatically.";
+      }
+    }
+  });
+</script>

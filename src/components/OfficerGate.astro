@@ -1,0 +1,121 @@
+<section class="panel officer-gate" data-officer-gate>
+  <div class="section-heading">
+    <p class="eyebrow">Officer Access</p>
+    <h2>Enter officer password</h2>
+    <p class="info-note">Officer tools are hidden until access is verified for this browser session.</p>
+  </div>
+
+  <form class="officer-gate-form" data-officer-gate-form>
+    <label class="field">
+      <span>Password</span>
+      <input type="password" name="password" autocomplete="current-password" required />
+    </label>
+    <button class="filter-button is-subtle" type="submit">Unlock</button>
+  </form>
+
+  <p class="info-note officer-gate-status" data-officer-gate-status aria-live="polite"></p>
+</section>
+
+<div class="officer-gated-content" data-officer-gated-content hidden>
+  <slot />
+</div>
+
+<script>
+  const OFFICER_UNLOCKED_KEY = "vitalityOfficerUnlocked";
+  const officerGate = document.querySelector<HTMLElement>("[data-officer-gate]");
+  const officerContent = document.querySelector<HTMLElement>("[data-officer-gated-content]");
+  const officerGateForm = document.querySelector<HTMLFormElement>("[data-officer-gate-form]");
+  const officerGateStatus = document.querySelector<HTMLElement>("[data-officer-gate-status]");
+
+  const getOfficerWindow = () => window as Window & { __vitalityOfficerPassword?: string };
+
+  const showOfficerContent = () => {
+    if (officerGate) {
+      officerGate.hidden = true;
+    }
+
+    if (officerContent) {
+      officerContent.hidden = false;
+    }
+  };
+
+  try {
+    if (sessionStorage.getItem(OFFICER_UNLOCKED_KEY) === "true") {
+      showOfficerContent();
+    }
+  } catch {
+    // Session storage can be unavailable in strict browser modes. The form remains usable.
+  }
+
+  officerGateForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const submitButton = officerGateForm.querySelector<HTMLButtonElement>("button[type='submit']");
+    const formData = new FormData(officerGateForm);
+    const password = String(formData.get("password") ?? "");
+
+    if (!password) {
+      return;
+    }
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Unlocking...";
+    }
+
+    if (officerGateStatus) {
+      officerGateStatus.textContent = "";
+      officerGateStatus.dataset.state = "";
+    }
+
+    try {
+      const response = await fetch("/api/officer-auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password }),
+      });
+      const responseText = await response.text();
+      let result: { ok?: boolean; message?: string } | undefined;
+
+      if (responseText) {
+        try {
+          result = JSON.parse(responseText) as { ok?: boolean; message?: string };
+        } catch {
+          result = undefined;
+        }
+      }
+
+      if (!response.ok || result?.ok !== true) {
+        if (officerGateStatus) {
+          officerGateStatus.textContent = result?.message ?? "Unable to verify officer access.";
+          officerGateStatus.dataset.state = "error";
+        }
+        return;
+      }
+
+      getOfficerWindow().__vitalityOfficerPassword = password;
+      window.dispatchEvent(new CustomEvent("vitality:officer-authenticated", { detail: { password } }));
+
+      try {
+        sessionStorage.setItem(OFFICER_UNLOCKED_KEY, "true");
+      } catch {
+        // The HttpOnly session cookie still handles server-side officer auth.
+      }
+
+      officerGateForm.reset();
+      showOfficerContent();
+    } catch {
+      if (officerGateStatus) {
+        officerGateStatus.textContent = "Unable to verify officer access.";
+        officerGateStatus.dataset.state = "error";
+      }
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Unlock";
+      }
+    }
+  });
+</script>

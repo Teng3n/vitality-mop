@@ -1,30 +1,24 @@
 ---
-import BenchSuggestionTool from "../components/BenchSuggestionTool.astro";
 import PageHeader from "../components/PageHeader.astro";
-import SyncDataControl from "../components/SyncDataControl.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Officer Tools | Vitality">
+<Layout title="Officer Tools Moved | Vitality">
   <PageHeader
     eyebrow="Officer Tools"
     title="Officer Tools"
   />
 
-  <section class="content-grid two-column officer-tools-grid">
-    <article class="panel officer-tool-card">
-      <div class="section-heading">
-        <p class="eyebrow">Sync Guild Data</p>
-        <h2>Sync Guild Data</h2>
-        <p class="info-note">
-          Pull the latest Google Sheet data through GitHub Actions. If the sheet data changed,
-          Cloudflare will redeploy after the data commit.
-        </p>
-      </div>
-
-      <SyncDataControl />
-    </article>
-
-    <BenchSuggestionTool />
+  <section class="panel officer-transition-panel">
+    <div class="section-heading">
+      <p class="eyebrow">Moved</p>
+      <h2>Officer tools moved</h2>
+      <p class="info-note">The officer tools now live in the dedicated Officer section.</p>
+    </div>
+    <a class="filter-button is-subtle officer-transition-link" href="/officer/tools">Open Officer Tools</a>
   </section>
 </Layout>
+
+<script is:inline>
+  window.location.replace("/officer/tools");
+</script>

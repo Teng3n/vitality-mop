@@ -1,0 +1,18 @@
+---
+const items = [
+  { href: "/officer/tools", label: "Tools" },
+  { href: "/officer/roster", label: "Roster" },
+];
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<nav class="officer-subnav" aria-label="Officer navigation">
+  <span>Officer</span>
+  {
+    items.map((item) => (
+      <a href={item.href} aria-current={pathname === item.href ? "page" : undefined}>
+        {item.label}
+      </a>
+    ))
+  }
+</nav>

@@ -1,0 +1,150 @@
+---
+import DataTable from "../../components/DataTable.astro";
+import OfficerGate from "../../components/OfficerGate.astro";
+import OfficerSubnav from "../../components/OfficerSubnav.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import StatCard from "../../components/StatCard.astro";
+import Layout from "../../layouts/Layout.astro";
+import { activeRosterPlayers, raidNights } from "../../lib/guildData";
+
+const countBySlug = new Map(
+  activeRosterPlayers.map((player) => [
+    player.slug,
+    {
+      player: player.name,
+      class: player.className,
+      spec: player.spec,
+      role: player.role,
+      bench: 0,
+      out: 0,
+      late: 0,
+      mia: 0,
+    },
+  ]),
+);
+
+const incrementCount = (playerSlug: string, key: "bench" | "out" | "late" | "mia") => {
+  const row = countBySlug.get(playerSlug);
+
+  if (row) {
+    row[key] += 1;
+  }
+};
+
+for (const night of raidNights) {
+  for (const player of night.bench) {
+    incrementCount(player.slug, "bench");
+  }
+
+  for (const player of night.out) {
+    incrementCount(player.slug, "out");
+  }
+
+  for (const player of night.late) {
+    incrementCount(player.slug, "late");
+  }
+
+  for (const player of night.mia) {
+    incrementCount(player.slug, "mia");
+  }
+}
+
+const rows = [...countBySlug.values()].sort((a, b) => a.player.localeCompare(b.player, undefined, { sensitivity: "base" }));
+const totals = rows.reduce(
+  (summary, row) => ({
+    bench: summary.bench + row.bench,
+    out: summary.out + row.out,
+    late: summary.late + row.late,
+    mia: summary.mia + row.mia,
+  }),
+  { bench: 0, out: 0, late: 0, mia: 0 },
+);
+const columns = [
+  { key: "player", label: "Player", sortable: true, sortType: "text" },
+  { key: "class", label: "Class", sortable: true, sortType: "text" },
+  { key: "spec", label: "Spec", sortable: true, sortType: "text" },
+  { key: "role", label: "Role", sortable: true, sortType: "text" },
+  { key: "bench", label: "Bench", align: "right", sortable: true, sortType: "number" },
+  { key: "out", label: "Out", align: "right", sortable: true, sortType: "number" },
+  { key: "late", label: "Late", align: "right", sortable: true, sortType: "number" },
+  { key: "mia", label: "MIA", align: "right", sortable: true, sortType: "number" },
+] satisfies Array<{ key: string; label: string; align?: "left" | "center" | "right"; sortable?: boolean; sortType?: "text" | "number" }>;
+---
+
+<Layout title="Officer Roster | Vitality">
+  <PageHeader
+    eyebrow="Officer Roster"
+    title="Officer Roster"
+    description="Officer-facing roster status counts from the raid calendar."
+  />
+
+  <OfficerGate>
+    <OfficerSubnav />
+
+    <section class="panel officer-note-panel">
+      <p class="info-note">Counts are based on current roster players and calendar status marks.</p>
+    </section>
+
+    <section class="dashboard-grid roster-summary-grid">
+      <StatCard label="Roster Count" value={rows.length} />
+      <StatCard label="Total Bench" value={totals.bench} />
+      <StatCard label="Total Out" value={totals.out} />
+      <StatCard label="Total Late" value={totals.late} />
+      <StatCard label="Total MIA" value={totals.mia} />
+    </section>
+
+    <section class="panel">
+      <div class="toolbar officer-roster-toolbar">
+        <label class="field officer-roster-search">
+          <span>Find player</span>
+          <input type="search" placeholder="Find player..." data-officer-roster-search />
+        </label>
+        <span class="muted" data-officer-roster-count>{rows.length} players</span>
+      </div>
+
+      <DataTable
+        columns={columns}
+        rows={rows}
+        initialSortKey="player"
+        initialSortDirection="ascending"
+        tableClass="officer-roster-table"
+      />
+
+      <p class="info-note officer-roster-empty" data-officer-roster-empty hidden>
+        No roster players match this search.
+      </p>
+    </section>
+  </OfficerGate>
+</Layout>
+
+<script>
+  const officerRosterSearch = document.querySelector<HTMLInputElement>("[data-officer-roster-search]");
+  const officerRosterCount = document.querySelector<HTMLElement>("[data-officer-roster-count]");
+  const officerRosterEmpty = document.querySelector<HTMLElement>("[data-officer-roster-empty]");
+  const officerRosterRows = Array.from(document.querySelectorAll<HTMLTableRowElement>(".officer-roster-table tbody tr"));
+
+  const updateOfficerRosterSearch = () => {
+    const query = (officerRosterSearch?.value ?? "").toLocaleLowerCase().trim();
+    let visibleCount = 0;
+
+    for (const row of officerRosterRows) {
+      const rowMatches = !query || (row.dataset.search ?? "").includes(query);
+      row.hidden = !rowMatches;
+
+      if (rowMatches) {
+        visibleCount += 1;
+      }
+    }
+
+    if (officerRosterCount) {
+      officerRosterCount.textContent = `${visibleCount} ${visibleCount === 1 ? "player" : "players"}`;
+    }
+
+    if (officerRosterEmpty) {
+      officerRosterEmpty.hidden = visibleCount > 0;
+    }
+  };
+
+  officerRosterSearch?.addEventListener("input", updateOfficerRosterSearch);
+  updateOfficerRosterSearch();
+</script>

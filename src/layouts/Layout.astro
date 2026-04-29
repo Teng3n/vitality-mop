@@ -14,12 +14,13 @@ const navItems = [
   { href: "/calendar", label: "Calendar" },
   { href: "/loot", label: "Loot Summary" },
   { href: "/loot/history", label: "Loot History" },
-  { href: "/officer-tools", label: "Officer Tools" },
+  { href: "/officer/tools", label: "Officer", matchPrefix: "/officer" },
 ];
 
-const isActive = (href: string) => {
+const isActive = (item: (typeof navItems)[number]) => {
   const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
-  return pathname === href;
+  const matchPrefix = "matchPrefix" in item ? item.matchPrefix : "";
+  return pathname === item.href || (typeof matchPrefix === "string" && matchPrefix.length > 0 && pathname.startsWith(matchPrefix));
 };
 ---
 
@@ -42,7 +43,7 @@ const isActive = (href: string) => {
         <nav>
           {
             navItems.map((item) => (
-              <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>
+              <a href={item.href} aria-current={isActive(item) ? "page" : undefined}>
                 {item.label}
               </a>
             ))
