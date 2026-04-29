@@ -1415,12 +1415,12 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
 .bench-week-stack {
   display: grid;
-  gap: 18px;
+  gap: 14px;
 }
 
 .bench-week-card {
   display: grid;
-  gap: 18px;
+  gap: 12px;
 }
 
 .bench-week-card.is-empty {
@@ -1432,6 +1432,10 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 .bench-week-card.is-empty .status-pill {
   border-color: rgba(174, 184, 173, 0.26);
   color: var(--muted);
+}
+
+.bench-week-card > .section-heading {
+  margin-bottom: 0;
 }
 
 .bench-window-panel {
@@ -1468,6 +1472,11 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   background: rgba(23, 33, 27, 0.7);
 }
 
+.bench-week-section.compact {
+  gap: 8px;
+  padding: 12px;
+}
+
 .bench-week-card.is-empty .bench-week-section {
   border-color: rgba(43, 58, 49, 0.48);
   background: rgba(23, 33, 27, 0.42);
@@ -1480,25 +1489,6 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-}
-
-.bench-raid-night-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.bench-raid-night-list li {
-  border: 1px solid rgba(43, 58, 49, 0.7);
-  border-radius: 6px;
-  padding: 7px 9px;
-  background: rgba(17, 23, 20, 0.64);
-  color: var(--text);
-  font-size: 0.9rem;
-  font-weight: 800;
 }
 
 .bench-exception-list {

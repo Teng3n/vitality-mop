@@ -8,8 +8,6 @@ import { getPlayerNameStyle } from "../lib/playerStyles";
 const getWeekStart = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
 const toIsoDate = (date: Date) =>
   `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-const formatWeekLabel = (isoDate: string) =>
-  `Week of ${parseIsoDate(isoDate).toLocaleDateString(undefined, { month: "long", day: "numeric" })}`;
 const formatRaidDate = (isoDate: string) =>
   parseIsoDate(isoDate).toLocaleDateString(undefined, {
     weekday: "long",
@@ -21,6 +19,20 @@ const formatShortDate = (isoDate: string) =>
     month: "short",
     day: "numeric",
   });
+const formatWeekDateRange = (nights: RaidNight[]) => {
+  const firstNight = nights[0];
+  const lastNight = nights[nights.length - 1];
+
+  if (!firstNight || !lastNight) {
+    return "No raid dates";
+  }
+
+  if (firstNight.isoDate === lastNight.isoDate) {
+    return formatShortDate(firstNight.isoDate);
+  }
+
+  return `${formatShortDate(firstNight.isoDate)} - ${formatShortDate(lastNight.isoDate)}`;
+};
 const sortPlayers = (players: StatusPlayer[]) =>
   [...players].sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
 const getUniquePlayers = (nights: RaidNight[]) => {
@@ -72,7 +84,7 @@ const benchWeeks = weekKeys.map((weekKey) => {
 
   return {
     weekKey,
-    label: formatWeekLabel(weekKey),
+    label: formatWeekDateRange(nights),
     nights,
     uniqueBenchPlayers,
     exceptionNights,
@@ -145,14 +157,13 @@ const windowDateRange = firstRaidNight && lastRaidNight
           >
             <div class="section-heading inline">
               <div>
-                <p class="eyebrow">{week.label}</p>
-                <h2>Weekly bench</h2>
+                <h2>{week.label}</h2>
               </div>
               <span class="status-pill">{week.uniqueBenchPlayers.length} benched</span>
             </div>
 
-            <section class="bench-week-section">
-              <h3>Benched this week</h3>
+            <section class="bench-week-section compact">
+              {week.uniqueBenchPlayers.length > 0 && <h3>Benched</h3>}
               {week.uniqueBenchPlayers.length > 0 ? (
                 <ul class="inline-player-list bench-player-list">
                   {week.uniqueBenchPlayers.map((player) => (
@@ -168,18 +179,9 @@ const windowDateRange = firstRaidNight && lastRaidNight
               )}
             </section>
 
-            <section class="bench-week-section">
-              <h3>Raid nights</h3>
-              <ul class="bench-raid-night-list">
-                {week.nights.map((night) => (
-                  <li>{formatRaidDate(night.isoDate)}</li>
-                ))}
-              </ul>
-            </section>
-
-            <section class="bench-week-section">
-              <h3>Day-specific exceptions</h3>
-              {week.exceptionNights.length > 0 ? (
+            {week.exceptionNights.length > 0 ? (
+              <section class="bench-week-section compact">
+                <h3>Day-specific exceptions</h3>
                 <div class="bench-exception-list">
                   {week.exceptionNights.map((night) => (
                     <div class="bench-exception-row">
@@ -196,10 +198,8 @@ const windowDateRange = firstRaidNight && lastRaidNight
                     </div>
                   ))}
                 </div>
-              ) : (
-                <p class="info-note">None</p>
-              )}
-            </section>
+              </section>
+            ) : null}
           </article>
         ))}
       </section>
