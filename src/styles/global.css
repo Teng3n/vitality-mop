@@ -209,6 +209,37 @@ main {
   border-color: rgba(200, 155, 60, 0.4);
 }
 
+.officer-tools-grid {
+  align-items: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.officer-tool-card {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+}
+
+.officer-tool-card .section-heading {
+  margin-bottom: 0;
+}
+
+.officer-tool-card .sync-trigger {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.officer-tool-card .sync-trigger-button {
+  min-height: 42px;
+  padding: 0 12px;
+}
+
+.officer-tool-card .sync-trigger-status {
+  max-width: 100%;
+  text-align: left;
+  white-space: normal;
+}
+
 .stat-card {
   display: grid;
   gap: 8px;

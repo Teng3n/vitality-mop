@@ -2,7 +2,6 @@
 import Layout from "../layouts/Layout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import StatCard from "../components/StatCard.astro";
-import { getBenchSuggestionText } from "../lib/benchSuggestions";
 import { getTodayIso, parseIsoDate, raidNights, type RaidNight, type StatusPlayer } from "../lib/guildData";
 import { getPlayerNameStyle } from "../lib/playerStyles";
 
@@ -95,7 +94,6 @@ const heaviestWeek = benchWeeks.reduce<(typeof benchWeeks)[number] | undefined>(
   undefined,
 );
 const openWeekCount = benchWeeks.filter((week) => week.uniqueBenchPlayers.length === 0).length;
-const benchSuggestionText = getBenchSuggestionText(todayIso);
 ---
 
 <Layout title="Bench | Vitality">
@@ -128,28 +126,6 @@ const benchSuggestionText = getBenchSuggestionText(todayIso);
     <p class="info-note bench-search-empty" data-bench-search-empty hidden>
       No bench assignments found for this player in the next 8 weeks.
     </p>
-  </section>
-
-  <section class="panel bench-suggestion-tool">
-    <div class="section-heading inline bench-suggestion-heading">
-      <div>
-        <p class="eyebrow">Officer Tools</p>
-        <h2>Bench Suggestions</h2>
-      </div>
-      <div class="bench-suggestion-actions">
-        <button class="filter-button is-subtle" type="button" data-bench-suggestion-toggle>
-          Generate Bench Suggestions
-        </button>
-        <button class="filter-button is-subtle" type="button" data-bench-suggestion-copy hidden>
-          Copy
-        </button>
-      </div>
-    </div>
-
-    <div class="bench-suggestion-output" data-bench-suggestion-output hidden>
-      <pre>{benchSuggestionText}</pre>
-    </div>
-    <p class="info-note bench-suggestion-status" data-bench-suggestion-status aria-live="polite"></p>
   </section>
 
   {
@@ -208,10 +184,6 @@ const benchSuggestionText = getBenchSuggestionText(todayIso);
   const benchSearchInput = document.querySelector<HTMLInputElement>("[data-bench-search]");
   const benchWeeks = Array.from(document.querySelectorAll<HTMLElement>("[data-bench-week]"));
   const benchSearchEmpty = document.querySelector<HTMLElement>("[data-bench-search-empty]");
-  const benchSuggestionToggle = document.querySelector<HTMLButtonElement>("[data-bench-suggestion-toggle]");
-  const benchSuggestionCopy = document.querySelector<HTMLButtonElement>("[data-bench-suggestion-copy]");
-  const benchSuggestionOutput = document.querySelector<HTMLElement>("[data-bench-suggestion-output]");
-  const benchSuggestionStatus = document.querySelector<HTMLElement>("[data-bench-suggestion-status]");
 
   const updateBenchSearch = () => {
     const query = normalizeBenchSearch(benchSearchInput?.value ?? "");
@@ -239,39 +211,4 @@ const benchSuggestionText = getBenchSuggestionText(todayIso);
 
   benchSearchInput?.addEventListener("input", updateBenchSearch);
   updateBenchSearch();
-
-  benchSuggestionToggle?.addEventListener("click", () => {
-    if (!benchSuggestionOutput || !benchSuggestionCopy) {
-      return;
-    }
-
-    const isHidden = benchSuggestionOutput.hidden;
-    benchSuggestionOutput.hidden = !isHidden;
-    benchSuggestionCopy.hidden = !isHidden;
-    benchSuggestionToggle.textContent = isHidden ? "Hide Bench Suggestions" : "Generate Bench Suggestions";
-
-    if (benchSuggestionStatus) {
-      benchSuggestionStatus.textContent = "";
-    }
-  });
-
-  benchSuggestionCopy?.addEventListener("click", async () => {
-    const suggestionText = benchSuggestionOutput?.textContent?.trim() ?? "";
-
-    if (!suggestionText) {
-      return;
-    }
-
-    try {
-      await navigator.clipboard.writeText(suggestionText);
-
-      if (benchSuggestionStatus) {
-        benchSuggestionStatus.textContent = "Bench suggestions copied.";
-      }
-    } catch {
-      if (benchSuggestionStatus) {
-        benchSuggestionStatus.textContent = "Unable to copy automatically.";
-      }
-    }
-  });
 </script>

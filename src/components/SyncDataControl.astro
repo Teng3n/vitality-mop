@@ -1,0 +1,77 @@
+<div class="sync-trigger" data-sync-control>
+  <button class="sync-trigger-button" type="button" data-sync-trigger>Sync Data</button>
+  <span class="sync-trigger-status" data-sync-trigger-status aria-live="polite"></span>
+</div>
+
+<script>
+  const syncControls = Array.from(document.querySelectorAll<HTMLElement>("[data-sync-control]"));
+
+  for (const syncControl of syncControls) {
+    const syncButton = syncControl.querySelector<HTMLButtonElement>("[data-sync-trigger]");
+    const syncStatus = syncControl.querySelector<HTMLElement>("[data-sync-trigger-status]");
+    let syncRequestInFlight = false;
+
+    syncButton?.addEventListener("click", async () => {
+      if (syncRequestInFlight) {
+        return;
+      }
+
+      syncRequestInFlight = true;
+      syncButton.disabled = true;
+
+      const password = window.prompt("Enter sync password");
+
+      if (!password) {
+        syncRequestInFlight = false;
+        syncButton.disabled = false;
+        return;
+      }
+
+      syncButton.textContent = "Syncing...";
+
+      if (syncStatus) {
+        syncStatus.textContent = "";
+        syncStatus.dataset.state = "";
+      }
+
+      try {
+        const response = await fetch("/api/trigger-sync", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ password }),
+        });
+        const responseText = await response.text();
+        let result: { ok?: boolean; message?: string } | undefined;
+
+        if (responseText) {
+          try {
+            result = JSON.parse(responseText) as { ok?: boolean; message?: string };
+          } catch {
+            result = undefined;
+          }
+        }
+
+        const isSuccess = response.ok && result?.ok === true;
+        const message = isSuccess
+          ? (result?.message ?? "Sync workflow triggered.")
+          : (result?.message ?? "Unable to trigger sync workflow.");
+
+        if (syncStatus) {
+          syncStatus.textContent = message;
+          syncStatus.dataset.state = isSuccess ? "success" : "error";
+        }
+      } catch {
+        if (syncStatus) {
+          syncStatus.textContent = "Unable to trigger sync workflow.";
+          syncStatus.dataset.state = "error";
+        }
+      } finally {
+        syncRequestInFlight = false;
+        syncButton.disabled = false;
+        syncButton.textContent = "Sync Data";
+      }
+    });
+  }
+</script>
