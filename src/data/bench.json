@@ -1,27 +1,15 @@
 [
   {
-    "player": "Deéz",
-    "totalBenchCount": 7,
-    "lastBenched": "2026-05-18",
-    "notes": "Scheduled: 2026-01-26, 2026-03-08, 2026-03-09, 2026-04-12, 2026-04-13, 2026-05-17, 2026-05-18"
-  },
-  {
-    "player": "Noctuahati",
-    "totalBenchCount": 6,
-    "lastBenched": "2026-05-18",
-    "notes": "Scheduled: 2026-02-15, 2026-02-16, 2026-04-12, 2026-04-13, 2026-05-17, 2026-05-18"
-  },
-  {
     "player": "Yellock",
     "totalBenchCount": 6,
     "lastBenched": "2026-03-16",
     "notes": "Scheduled: 2025-12-21, 2025-12-22, 2026-02-01, 2026-02-02, 2026-03-15, 2026-03-16"
   },
   {
-    "player": "Aurumai",
+    "player": "Deéz",
     "totalBenchCount": 5,
-    "lastBenched": "2026-05-11",
-    "notes": "Scheduled: 2025-08-03, 2026-02-01, 2026-02-02, 2026-05-10, 2026-05-11"
+    "lastBenched": "2026-04-13",
+    "notes": "Scheduled: 2026-01-26, 2026-03-08, 2026-03-09, 2026-04-12, 2026-04-13"
   },
   {
     "player": "Runicbeard",
@@ -54,6 +42,18 @@
     "notes": "Scheduled: 2026-02-08, 2026-02-09, 2026-03-22, 2026-03-23"
   },
   {
+    "player": "Noctuahati",
+    "totalBenchCount": 4,
+    "lastBenched": "2026-04-13",
+    "notes": "Scheduled: 2026-02-15, 2026-02-16, 2026-04-12, 2026-04-13"
+  },
+  {
+    "player": "Aurumai",
+    "totalBenchCount": 3,
+    "lastBenched": "2026-02-02",
+    "notes": "Scheduled: 2025-08-03, 2026-02-01, 2026-02-02"
+  },
+  {
     "player": "Cardinalcrzy",
     "totalBenchCount": 3,
     "lastBenched": "2026-05-04",
@@ -72,40 +72,10 @@
     "notes": "Scheduled: 2026-02-01, 2026-02-02"
   },
   {
-    "player": "Chonkars",
-    "totalBenchCount": 2,
-    "lastBenched": "2026-05-18",
-    "notes": "Scheduled: 2026-05-17, 2026-05-18"
-  },
-  {
-    "player": "Fae",
-    "totalBenchCount": 2,
-    "lastBenched": "2026-05-18",
-    "notes": "Scheduled: 2026-05-17, 2026-05-18"
-  },
-  {
     "player": "Foggy",
     "totalBenchCount": 2,
     "lastBenched": "2026-03-09",
     "notes": "Scheduled: 2026-03-08, 2026-03-09"
-  },
-  {
-    "player": "Imincolombia",
-    "totalBenchCount": 2,
-    "lastBenched": "2026-05-11",
-    "notes": "Scheduled: 2026-05-10, 2026-05-11"
-  },
-  {
-    "player": "June",
-    "totalBenchCount": 2,
-    "lastBenched": "2026-05-11",
-    "notes": "Scheduled: 2026-05-10, 2026-05-11"
-  },
-  {
-    "player": "Kaiysz",
-    "totalBenchCount": 2,
-    "lastBenched": "2026-05-11",
-    "notes": "Scheduled: 2026-05-10, 2026-05-11"
   },
   {
     "player": "Kubara",
