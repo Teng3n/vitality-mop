@@ -2,7 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import StatCard from "../components/StatCard.astro";
-import { getTodayIso, parseIsoDate, raidNights } from "../lib/guildData";
+import { getTodayIso, parseIsoDate, raidNights, type RaidNight, type StatusPlayer } from "../lib/guildData";
 import { getPlayerNameStyle } from "../lib/playerStyles";
 
 const getWeekStart = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
@@ -16,6 +16,25 @@ const formatRaidDate = (isoDate: string) =>
     month: "long",
     day: "numeric",
   });
+const formatShortDate = (isoDate: string) =>
+  parseIsoDate(isoDate).toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+  });
+const sortPlayers = (players: StatusPlayer[]) =>
+  [...players].sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
+const getUniquePlayers = (nights: RaidNight[]) => {
+  const playersBySlug = new Map<string, StatusPlayer>();
+
+  for (const night of nights) {
+    for (const player of night.bench) {
+      playersBySlug.set(player.slug, player);
+    }
+  }
+
+  return sortPlayers([...playersBySlug.values()]);
+};
+const getSearchNames = (players: StatusPlayer[]) => players.map((player) => player.name.toLocaleLowerCase()).join(" ");
 
 const todayIso = getTodayIso();
 const futureRaidNights = raidNights.filter((night) => night.isoDate >= todayIso);
@@ -35,76 +54,208 @@ for (const night of futureRaidNights) {
 
 const benchWeeks = weekKeys.map((weekKey) => {
   const nights = futureRaidNights.filter((night) => toIsoDate(getWeekStart(parseIsoDate(night.isoDate))) === weekKey);
+  const uniqueBenchPlayers = getUniquePlayers(nights);
+  const benchCounts = new Map<string, number>();
+
+  for (const night of nights) {
+    for (const player of night.bench) {
+      benchCounts.set(player.slug, (benchCounts.get(player.slug) ?? 0) + 1);
+    }
+  }
+
+  const exceptionNights = nights
+    .map((night) => ({
+      ...night,
+      exceptionPlayers: sortPlayers(night.bench.filter((player) => (benchCounts.get(player.slug) ?? 0) < nights.length)),
+    }))
+    .filter((night) => night.exceptionPlayers.length > 0);
 
   return {
     weekKey,
     label: formatWeekLabel(weekKey),
     nights,
-    totalBench: nights.reduce((sum, night) => sum + night.bench.length, 0),
+    uniqueBenchPlayers,
+    exceptionNights,
+    searchNames: getSearchNames(uniqueBenchPlayers),
   };
 });
 const raidNightCount = benchWeeks.reduce((sum, week) => sum + week.nights.length, 0);
-const totalBenchAssignments = benchWeeks.reduce((sum, week) => sum + week.totalBench, 0);
+const uniqueWindowPlayers = sortPlayers(getUniquePlayers(benchWeeks.flatMap((week) => week.nights)));
+const firstRaidNight = benchWeeks[0]?.nights[0];
+const lastWeekWithNights = [...benchWeeks].reverse().find((week) => week.nights.length > 0);
+const lastRaidNight = lastWeekWithNights?.nights[lastWeekWithNights.nights.length - 1];
+const windowDateRange = firstRaidNight && lastRaidNight
+  ? `${formatShortDate(firstRaidNight.isoDate)} - ${formatShortDate(lastRaidNight.isoDate)}`
+  : "No raid dates";
 ---
 
 <Layout title="Bench | Vitality">
   <PageHeader
-    eyebrow="Bench"
-    title="Bench Rotation"
+    eyebrow="Next 6 Weeks Bench Schedule"
+    title="Next 6 Weeks Bench Schedule"
   />
 
   <section class="dashboard-grid compact">
-    <StatCard label="Window" value={benchWeeks.length} detail="weeks shown" />
+    <StatCard label="Date Range" value={windowDateRange} detail="next 6 weeks" />
     <StatCard label="Raid Nights" value={raidNightCount} detail="scheduled raid days" />
-    <StatCard label="Bench Assignments" value={totalBenchAssignments} detail="next 6 weeks" />
+    <StatCard label="Unique Benched" value={uniqueWindowPlayers.length} detail="players in window" />
+  </section>
+
+  <section class="panel bench-window-panel">
+    <div class="section-heading inline bench-window-heading">
+      <div>
+        <p class="eyebrow">Bench Window</p>
+        <h2>Benched in this window</h2>
+      </div>
+      <label class="field bench-search-field">
+        <span>Find player</span>
+        <input type="search" placeholder="Find player..." data-bench-search />
+      </label>
+    </div>
+
+    {
+      uniqueWindowPlayers.length > 0 ? (
+        <ul class="inline-player-list bench-player-list bench-window-list" data-bench-window-list>
+          {uniqueWindowPlayers.map((player) => (
+            <li data-bench-summary-player data-bench-player-name={player.name}>
+              <a class="player-name" href={player.href} style={getPlayerNameStyle(player.name)}>
+                {player.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="info-note">No bench assignments in the next 6 weeks.</p>
+      )
+    }
+
+    <p class="info-note bench-search-empty" data-bench-search-empty hidden>
+      No bench assignments found for this player in the next 6 weeks.
+    </p>
   </section>
 
   {
     benchWeeks.length > 0 ? (
-      <section class="bench-week-stack">
+      <section class="bench-week-stack" data-bench-week-stack>
         {benchWeeks.map((week) => (
-          <article class="panel bench-week-card">
+          <article
+            class={`panel bench-week-card${week.uniqueBenchPlayers.length === 0 ? " is-empty" : ""}`}
+            data-bench-week
+            data-bench-search-names={week.searchNames}
+          >
             <div class="section-heading inline">
               <div>
                 <p class="eyebrow">{week.label}</p>
-                <h2>{week.nights.length} raid night{week.nights.length === 1 ? "" : "s"}</h2>
+                <h2>Weekly bench</h2>
               </div>
-              <span class="status-pill">{week.totalBench} bench</span>
+              <span class="status-pill">{week.uniqueBenchPlayers.length} benched</span>
             </div>
 
-            <div class="bench-raid-list">
-              {week.nights.map((night) => (
-                <section class="bench-raid-day">
-                  <div class="bench-raid-day-header">
-                    <h3>{formatRaidDate(night.isoDate)}</h3>
-                    <span>{night.bench.length} benched</span>
-                  </div>
+            <section class="bench-week-section">
+              <h3>Benched this week</h3>
+              {week.uniqueBenchPlayers.length > 0 ? (
+                <ul class="inline-player-list bench-player-list">
+                  {week.uniqueBenchPlayers.map((player) => (
+                    <li data-bench-player-name={player.name}>
+                      <a class="player-name" href={player.href} style={getPlayerNameStyle(player.name)}>
+                        {player.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p class="info-note">No bench scheduled.</p>
+              )}
+            </section>
 
-                  {night.bench.length > 0 ? (
-                    <ul class="inline-player-list bench-player-list">
-                      {night.bench.map((player) => (
-                        <li>
-                          <a class="player-name" href={player.href} style={getPlayerNameStyle(player.name)}>
-                            {player.name}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p class="info-note">None</p>
-                  )}
-                </section>
-              ))}
-            </div>
+            <section class="bench-week-section">
+              <h3>Raid nights</h3>
+              <ul class="bench-raid-night-list">
+                {week.nights.map((night) => (
+                  <li>{formatRaidDate(night.isoDate)}</li>
+                ))}
+              </ul>
+            </section>
+
+            <section class="bench-week-section">
+              <h3>Day-specific exceptions</h3>
+              {week.exceptionNights.length > 0 ? (
+                <div class="bench-exception-list">
+                  {week.exceptionNights.map((night) => (
+                    <div class="bench-exception-row">
+                      <span>{formatRaidDate(night.isoDate)}</span>
+                      <ul class="inline-player-list bench-player-list">
+                        {night.exceptionPlayers.map((player) => (
+                          <li data-bench-player-name={player.name}>
+                            <a class="player-name" href={player.href} style={getPlayerNameStyle(player.name)}>
+                              {player.name}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p class="info-note">None</p>
+              )}
+            </section>
           </article>
         ))}
       </section>
     ) : (
       <section class="panel bench-placeholder">
-        <p class="eyebrow">Bench Rotation</p>
+        <p class="eyebrow">Bench Schedule</p>
         <h2>No upcoming bench schedule</h2>
         <p class="info-note">No future raid nights are currently listed in the calendar data.</p>
       </section>
     )
   }
 </Layout>
+
+<script>
+  const normalizeBenchSearch = (value: string) =>
+    value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLocaleLowerCase()
+      .trim();
+
+  const benchSearchInput = document.querySelector<HTMLInputElement>("[data-bench-search]");
+  const benchWeeks = Array.from(document.querySelectorAll<HTMLElement>("[data-bench-week]"));
+  const benchSummaryPlayers = Array.from(document.querySelectorAll<HTMLElement>("[data-bench-summary-player]"));
+  const benchSearchEmpty = document.querySelector<HTMLElement>("[data-bench-search-empty]");
+
+  const updateBenchSearch = () => {
+    const query = normalizeBenchSearch(benchSearchInput?.value ?? "");
+    let visibleWeeks = 0;
+
+    for (const week of benchWeeks) {
+      const weekNames = normalizeBenchSearch(week.dataset.benchSearchNames ?? "");
+      const weekMatches = !query || weekNames.includes(query);
+      week.hidden = !weekMatches;
+
+      if (weekMatches) {
+        visibleWeeks += 1;
+      }
+
+      for (const player of Array.from(week.querySelectorAll<HTMLElement>("[data-bench-player-name]"))) {
+        const playerMatches = query && normalizeBenchSearch(player.dataset.benchPlayerName ?? "").includes(query);
+        player.classList.toggle("is-search-match", Boolean(playerMatches));
+      }
+    }
+
+    for (const player of benchSummaryPlayers) {
+      const playerMatches = !query || normalizeBenchSearch(player.dataset.benchPlayerName ?? "").includes(query);
+      player.hidden = !playerMatches;
+      player.classList.toggle("is-search-match", Boolean(query && playerMatches));
+    }
+
+    if (benchSearchEmpty) {
+      benchSearchEmpty.hidden = !query || visibleWeeks > 0;
+    }
+  };
+
+  benchSearchInput?.addEventListener("input", updateBenchSearch);
+  updateBenchSearch();
+</script>
