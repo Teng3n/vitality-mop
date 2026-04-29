@@ -21,8 +21,8 @@
   "minimumAvailablePerClass": 1,
   "scoring": {
     "lowBenchCountWeight": 10,
-    "notRecentlyBenchedWeight": 6,
-    "backToBackBenchPenalty": -8
+    "notRecentlyBenchedWeight": 10,
+    "backToBackBenchPenalty": -25
   },
-  "source": "fallback"
+  "source": "sheet"
 }
