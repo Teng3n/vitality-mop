@@ -92,8 +92,8 @@
   {
     "character": "Kubara",
     "class": "Shaman",
-    "spec": "Elemental",
-    "role": "Ranged DPS"
+    "spec": "Restoration",
+    "role": "Healer"
   },
   {
     "character": "Kuradelh",
@@ -104,8 +104,8 @@
   {
     "character": "Lexou",
     "class": "Shaman",
-    "spec": "Enhancement",
-    "role": "Melee DPS"
+    "spec": "Elemental",
+    "role": "Ranged DPS"
   },
   {
     "character": "Marz",

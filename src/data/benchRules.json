@@ -19,7 +19,7 @@
   },
   "requireAtLeastOneAvailablePerClass": true,
   "minimumAvailablePerClass": 1,
-  "planningWindowWeeks": 8,
+  "planningWindowWeeks": 4,
   "scoring": {
     "lowBenchCountWeight": 10,
     "notRecentlyBenchedWeight": 10,
