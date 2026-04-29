@@ -1458,6 +1458,42 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   background: rgba(216, 108, 92, 0.08);
 }
 
+.bench-suggestion-tool {
+  display: grid;
+  gap: 12px;
+}
+
+.bench-suggestion-heading {
+  margin-bottom: 0;
+}
+
+.bench-suggestion-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.bench-suggestion-output {
+  border: 1px solid rgba(43, 58, 49, 0.74);
+  border-radius: 8px;
+  background: rgba(17, 23, 20, 0.7);
+  overflow: auto;
+}
+
+.bench-suggestion-output pre {
+  margin: 0;
+  padding: 14px;
+  color: var(--text);
+  font: 0.88rem/1.5 "Cascadia Mono", "SFMono-Regular", Consolas, monospace;
+  white-space: pre-wrap;
+}
+
+.bench-suggestion-status {
+  min-height: 1.2em;
+  margin: 0;
+}
+
 .bench-week-section {
   display: grid;
   gap: 10px;

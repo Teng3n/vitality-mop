@@ -56,15 +56,16 @@ Current public site data lives in:
 - `src/data/lootSummary.json`
 - `src/data/lootHistory.json`
 - `src/data/bench.json`
+- `src/data/benchRules.json`
 
 ## Automated data sync
 
-The site is still static. Runtime visitors never fetch Google Sheets directly, and the Google Sheet does not need to be public. Instead, GitHub Actions authenticates to the private sheet with a Google service account, reads the Calendar and History tabs, regenerates the JSON files in `src/data`, commits only real JSON changes, and Cloudflare Pages redeploys from that GitHub commit.
+The site is still static. Runtime visitors never fetch Google Sheets directly, and the Google Sheet does not need to be public. Instead, GitHub Actions authenticates to the private sheet with a Google service account, reads the Calendar, History, and optional Bench Rules tabs, regenerates the JSON files in `src/data`, commits only real JSON changes, and Cloudflare Pages redeploys from that GitHub commit.
 
 Pipeline:
 
 ```text
-Private Google Sheet Calendar + History tabs -> Google Sheets API -> scripts/sync-google-sheets.ts -> src/data/*.json -> GitHub commit -> Cloudflare Pages deploy
+Private Google Sheet Calendar + History + Bench Rules tabs -> Google Sheets API -> scripts/sync-google-sheets.ts -> src/data/*.json -> GitHub commit -> Cloudflare Pages deploy
 ```
 
 Required GitHub Actions secrets:
@@ -78,6 +79,7 @@ Optional GitHub Actions variables for non-sensitive sheet ranges:
 
 - `CALENDAR_RANGE`, default `Calendar!A:ZZ`
 - `LOOT_RANGE`, default `History!A:Z`
+- `BENCH_RULES_RANGE`, default `Bench Rules!A:I`
 - `CALENDAR_START_YEAR`, default none in GitHub Actions. Set this when Calendar date headers omit years.
 
 Calendar is the roster source of truth. Anyone listed as a player row in the Calendar range is treated as active roster and is used to generate `src/data/roster.json`, `src/data/calendar.json`, and `src/data/bench.json`.
@@ -96,6 +98,70 @@ Expected Calendar columns:
 
 Loot still comes from `LOOT_RANGE`, usually `History!A:Z`. Historical loot recipients who are not on the current Calendar roster are kept in loot history and summary, with a sync warning.
 
+Bench suggestion rules can come from the optional `Bench Rules` tab, usually `BENCH_RULES_RANGE=Bench Rules!A:I`. The sync script quotes sheet names with spaces before calling the Google Sheets API. If the tab or range is missing, the sync warns and writes fallback rules to `src/data/benchRules.json` so the site still builds.
+
+Expected Bench Rules columns:
+
+- `Enabled`
+- `Rule Type`
+- `Player 1`
+- `Player 2`
+- `Class`
+- `Role`
+- `Min Available`
+- `Weight`
+- `Notes`
+
+Enabled accepts `TRUE`, `true`, `yes`, `y`, or `1`. Disabled and blank rows are ignored. Column matching is case-insensitive and tolerant of extra spaces.
+
+Supported hard rule types:
+
+- `NEVER_BENCH_PLAYER`: requires `Player 1`.
+- `AVOID_BENCH_TOGETHER`: requires `Player 1` and `Player 2`.
+- `MIN_AVAILABLE_ROLE`: requires `Role` and `Min Available`.
+- `MIN_AVAILABLE_CLASS`: requires `Class` and `Min Available`.
+- `REQUIRE_ONE_PER_CLASS`: keeps at least one available player per represented class. `Min Available` can override the default of `1`.
+
+Supported scoring rule types:
+
+- `WEIGHT_LOW_BENCH_COUNT`, default weight `10`.
+- `WEIGHT_NOT_RECENTLY_BENCHED`, default weight `6`.
+- `PENALTY_BACK_TO_BACK_BENCH`, default weight `-8`.
+
+Example Bench Rules rows:
+
+```text
+Enabled | Rule Type              | Player 1  | Player 2    | Class        | Role   | Min Available | Weight | Notes
+TRUE    | NEVER_BENCH_PLAYER     | Tengen    |             |              |        |               |        | Raid lead
+TRUE    | AVOID_BENCH_TOGETHER   | Drchicken | Cardinalcrzy|              |        |               |        | Avoid pairing
+TRUE    | MIN_AVAILABLE_ROLE     |           |             |              | Healer | 5             |        |
+TRUE    | MIN_AVAILABLE_CLASS    |           |             | Death Knight |        | 2             |        |
+TRUE    | REQUIRE_ONE_PER_CLASS  |           |             |              |        | 1             |        |
+TRUE    | WEIGHT_LOW_BENCH_COUNT |           |             |              |        |               | 10     |
+```
+
+Fallback hard rules if the tab is missing or has no valid enabled hard rules:
+
+- Never bench `Tengen` or `Karkan`.
+- Avoid benching `Drchicken` and `Cardinalcrzy` together.
+- Keep at least 5 healers available.
+- Keep at least 2 Death Knights, 2 Warriors, and 2 Paladins available.
+- Keep at least 1 available player per represented class.
+
+The Bench Suggestion tool is read-only. It does not write bench assignments to Google Sheets, does not call GitHub, and does not call Cloudflare Functions. It uses synced JSON to draft recommendations that officers can review and manually copy into the Calendar sheet.
+
+Built-in Bench Suggestion behavior:
+
+- Target raid size is 25 players.
+- Active roster comes from Calendar rows.
+- Out, Late, or MIA on either raid night makes the player unavailable for that week.
+- Existing future Bench marks are preserved as the official current plan.
+- Existing Bench marks count toward the dynamically required bench count.
+- The tool fills gaps only when existing Bench marks are below the required count.
+- If existing Bench marks exceed the required count, the tool warns and does not remove anyone.
+- The planner only includes future raid weeks in the next 8-week Bench window.
+- If all raid dates in a week are in the past, that week is skipped.
+
 Example `.env.local` shape:
 
 ```bash
@@ -103,6 +169,7 @@ GOOGLE_SHEET_ID=your-private-sheet-id
 GOOGLE_SERVICE_ACCOUNT_JSON={"type":"service_account","project_id":"...","private_key":"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n","client_email":"..."}
 CALENDAR_RANGE=Calendar!A:ZZ
 LOOT_RANGE=History!A:Z
+BENCH_RULES_RANGE=Bench Rules!A:I
 CALENDAR_START_YEAR=2026
 ```
 
@@ -160,12 +227,15 @@ Generated files:
 - `src/data/lootHistory.json`
 - `src/data/lootSummary.json`
 - `src/data/bench.json`
+- `src/data/benchRules.json`
 
 Troubleshooting:
 
 - Missing `GOOGLE_SHEET_ID` or `GOOGLE_SERVICE_ACCOUNT_JSON`: add the required repository secret in GitHub.
 - Inaccessible sheet: confirm the sheet is shared with the service account email as Viewer.
 - Wrong range: set `CALENDAR_RANGE` or `LOOT_RANGE` to the correct tab and columns.
+- Missing Bench Rules tab: this is allowed. The sync uses fallback bench rules and logs a warning.
+- Invalid Bench Rules row: the row is skipped with a warning. The sync does not fail because of a malformed optional rule row.
 - Invalid service account JSON: store the full JSON as one GitHub secret; escaped private-key newlines are supported.
 - Missing Calendar columns: the Calendar range must include Name, Class, Spec, and at least one valid raid date column.
 - Missing loot columns: check the Action logs for the required History column names reported by the sync script.

@@ -1,0 +1,28 @@
+{
+  "neverBenchPlayers": [
+    "karkan",
+    "tengen"
+  ],
+  "avoidBenchingTogether": [
+    [
+      "cardinalcrzy",
+      "drchicken"
+    ]
+  ],
+  "minimumAvailableByRole": {
+    "Healer": 5
+  },
+  "minimumAvailableByClass": {
+    "Death Knight": 2,
+    "Paladin": 2,
+    "Warrior": 2
+  },
+  "requireAtLeastOneAvailablePerClass": true,
+  "minimumAvailablePerClass": 1,
+  "scoring": {
+    "lowBenchCountWeight": 10,
+    "notRecentlyBenchedWeight": 6,
+    "backToBackBenchPenalty": -8
+  },
+  "source": "fallback"
+}

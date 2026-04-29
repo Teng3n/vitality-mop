@@ -83,6 +83,27 @@ interface BenchRow {
   notes: string;
 }
 
+interface BenchRulesData {
+  neverBenchPlayers: string[];
+  avoidBenchingTogether: [string, string][];
+  minimumAvailableByRole: Record<string, number>;
+  minimumAvailableByClass: Record<string, number>;
+  requireAtLeastOneAvailablePerClass: boolean;
+  minimumAvailablePerClass: number;
+  scoring: {
+    lowBenchCountWeight: number;
+    notRecentlyBenchedWeight: number;
+    backToBackBenchPenalty: number;
+  };
+  source: "sheet" | "fallback";
+}
+
+type BenchRuleParseResult = {
+  rules: BenchRulesData;
+  importedRuleCount: number;
+  source: "sheet" | "fallback";
+};
+
 type PlayerInfo = {
   player: string;
   realm: string;
@@ -110,6 +131,7 @@ const env = Object.fromEntries(requiredEnv.map((key) => [key, cleanText(process.
 const ranges = {
   calendar: cleanText(process.env.CALENDAR_RANGE) || "Calendar!A:ZZ",
   loot: cleanText(process.env.LOOT_RANGE) || "History!A:Z",
+  benchRules: cleanText(process.env.BENCH_RULES_RANGE) || "Bench Rules!A:I",
 };
 
 for (const key of requiredEnv) {
@@ -134,6 +156,18 @@ const lootColumns: ColumnSpec[] = [
   { key: "instance", aliases: ["instance", "raid"], required: true },
   { key: "boss", aliases: ["boss", "encounter"], required: true },
   { key: "time", aliases: ["time", "timestamp"], required: false },
+];
+
+const benchRuleColumns: ColumnSpec[] = [
+  { key: "enabled", aliases: ["enabled"], required: true },
+  { key: "ruleType", aliases: ["rule type", "ruletype", "type"], required: true },
+  { key: "player1", aliases: ["player 1", "player1", "player one"], required: false },
+  { key: "player2", aliases: ["player 2", "player2", "player two"], required: false },
+  { key: "class", aliases: ["class"], required: false },
+  { key: "role", aliases: ["role"], required: false },
+  { key: "minAvailable", aliases: ["min available", "minavailable", "minimum available"], required: false },
+  { key: "weight", aliases: ["weight"], required: false },
+  { key: "notes", aliases: ["notes"], required: false },
 ];
 
 const monthNumbers = new Map([
@@ -176,6 +210,53 @@ const statusAliases = new Map([
   ["available", "Available"],
   ["avail", "Available"],
   ["unknown", "Unknown"],
+]);
+
+const enabledValues = new Set(["true", "yes", "y", "1"]);
+const defaultScoring = {
+  lowBenchCountWeight: 10,
+  notRecentlyBenchedWeight: 6,
+  backToBackBenchPenalty: -8,
+};
+const fallbackHardRules = {
+  neverBenchPlayers: ["tengen", "karkan"],
+  avoidBenchingTogether: [["drchicken", "cardinalcrzy"]] as [string, string][],
+  minimumAvailableByRole: {
+    Healer: 5,
+  },
+  minimumAvailableByClass: {
+    "Death Knight": 2,
+    Warrior: 2,
+    Paladin: 2,
+  },
+  requireAtLeastOneAvailablePerClass: true,
+  minimumAvailablePerClass: 1,
+};
+const fallbackBenchRules: BenchRulesData = {
+  ...fallbackHardRules,
+  scoring: defaultScoring,
+  source: "fallback",
+};
+const classNamesByKey = new Map([
+  ["deathknight", "Death Knight"],
+  ["druid", "Druid"],
+  ["hunter", "Hunter"],
+  ["mage", "Mage"],
+  ["monk", "Monk"],
+  ["paladin", "Paladin"],
+  ["priest", "Priest"],
+  ["rogue", "Rogue"],
+  ["shaman", "Shaman"],
+  ["warlock", "Warlock"],
+  ["warrior", "Warrior"],
+]);
+const roleNamesByKey = new Map([
+  ["tank", "Tank"],
+  ["healer", "Healer"],
+  ["meleedps", "Melee DPS"],
+  ["melee", "Melee DPS"],
+  ["rangeddps", "Ranged DPS"],
+  ["ranged", "Ranged DPS"],
 ]);
 
 const tankSpecs = new Set(["deathknight:blood", "druid:guardian", "monk:brewmaster", "paladin:protection", "warrior:protection"]);
@@ -230,8 +311,50 @@ function asNumber(value: unknown) {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
+function asOptionalNumber(value: unknown) {
+  const text = cleanText(value);
+
+  if (!text) {
+    return undefined;
+  }
+
+  const parsed = Number(text);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
 function normalizeRoleKey(value: string) {
   return normalizeColumn(value).replace(/^deathknight$/, "deathknight");
+}
+
+function normalizeClassName(value: string) {
+  const text = cleanText(value);
+  return classNamesByKey.get(normalizeColumn(text)) ?? text;
+}
+
+function normalizeRoleName(value: string) {
+  const text = cleanText(value);
+  return roleNamesByKey.get(normalizeColumn(text)) ?? text;
+}
+
+function normalizeRuleType(value: string) {
+  return cleanText(value).toUpperCase().replace(/[^A-Z0-9]+/g, "_").replace(/(^_|_$)/g, "");
+}
+
+function normalizeA1Range(range: string) {
+  const bangIndex = range.indexOf("!");
+
+  if (bangIndex < 0) {
+    return range;
+  }
+
+  const sheetName = range.slice(0, bangIndex);
+  const cells = range.slice(bangIndex + 1);
+
+  if (!sheetName.includes(" ") || sheetName.startsWith("'")) {
+    return range;
+  }
+
+  return `'${sheetName.replaceAll("'", "''")}'!${cells}`;
 }
 
 function deriveRole(className: string, spec: string, playerName: string) {
@@ -372,7 +495,7 @@ async function fetchSheetRows(
   try {
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range,
+      range: normalizeA1Range(range),
       valueRenderOption: "FORMATTED_VALUE",
       dateTimeRenderOption: "FORMATTED_STRING",
     });
@@ -384,6 +507,20 @@ async function fetchSheetRows(
     throw new Error(
       `${label} range could not be read.${codeText} Confirm the spreadsheet is shared with the service account and the configured range exists.`,
     );
+  }
+}
+
+async function fetchOptionalSheetRows(
+  sheets: ReturnType<typeof google.sheets>,
+  spreadsheetId: string,
+  range: string,
+  label: string,
+) {
+  try {
+    return await fetchSheetRows(sheets, spreadsheetId, range, label);
+  } catch (error: unknown) {
+    warn(`${label} range could not be read; using fallback bench rules. ${error instanceof Error ? error.message : String(error)}`);
+    return null;
   }
 }
 
@@ -671,6 +808,203 @@ function parseCalendar(rows: SheetRow[], existingRaidDates: RaidDate[] = []) {
   };
 }
 
+function findOptionalHeaderRow(rows: SheetRow[], specs: ColumnSpec[], label: string) {
+  for (let index = 0; index < rows.length; index += 1) {
+    const row = rows[index] ?? [];
+    const indexes = buildColumnIndexes(row, specs);
+    const missing = specs.filter((spec) => spec.required && indexes[spec.key] === undefined);
+
+    if (missing.length === 0) {
+      return { index, indexes };
+    }
+  }
+
+  warn(`${label} sheet missing required columns for enabled rules and rule type; using fallback bench rules.`);
+  return null;
+}
+
+function isEnabledRule(value: string) {
+  return enabledValues.has(normalizeColumn(value));
+}
+
+function sortedObjectByKey(values: Record<string, number>) {
+  return Object.fromEntries(Object.entries(values).sort(([a], [b]) => a.localeCompare(b)));
+}
+
+function sortRulePairs(pairs: [string, string][]) {
+  return pairs
+    .map((pair) => [...pair].sort((a, b) => a.localeCompare(b)) as [string, string])
+    .sort((a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]));
+}
+
+function normalizeBenchRules(rules: BenchRulesData): BenchRulesData {
+  return {
+    neverBenchPlayers: [...new Set(rules.neverBenchPlayers)].sort((a, b) => a.localeCompare(b)),
+    avoidBenchingTogether: sortRulePairs(rules.avoidBenchingTogether),
+    minimumAvailableByRole: sortedObjectByKey(rules.minimumAvailableByRole),
+    minimumAvailableByClass: sortedObjectByKey(rules.minimumAvailableByClass),
+    requireAtLeastOneAvailablePerClass: rules.requireAtLeastOneAvailablePerClass,
+    minimumAvailablePerClass: rules.minimumAvailablePerClass,
+    scoring: {
+      lowBenchCountWeight: rules.scoring.lowBenchCountWeight,
+      notRecentlyBenchedWeight: rules.scoring.notRecentlyBenchedWeight,
+      backToBackBenchPenalty: rules.scoring.backToBackBenchPenalty,
+    },
+    source: rules.source,
+  };
+}
+
+function getFallbackBenchRules(): BenchRuleParseResult {
+  return {
+    rules: normalizeBenchRules(fallbackBenchRules),
+    importedRuleCount: 0,
+    source: "fallback",
+  };
+}
+
+function parseBenchRules(rows: SheetRow[] | null): BenchRuleParseResult {
+  if (!rows) {
+    return getFallbackBenchRules();
+  }
+
+  const header = findOptionalHeaderRow(rows, benchRuleColumns, "Bench Rules");
+
+  if (!header) {
+    return getFallbackBenchRules();
+  }
+
+  const hardRules = {
+    neverBenchPlayers: [] as string[],
+    avoidBenchingTogether: [] as [string, string][],
+    minimumAvailableByRole: {} as Record<string, number>,
+    minimumAvailableByClass: {} as Record<string, number>,
+    requireAtLeastOneAvailablePerClass: false,
+    minimumAvailablePerClass: 1,
+  };
+  const scoring = { ...defaultScoring };
+  let importedRuleCount = 0;
+  let hardRuleCount = 0;
+
+  rows.slice(header.index + 1).forEach((row, rowOffset) => {
+    const rowNumber = header.index + rowOffset + 2;
+    const enabled = getCell(row, header.indexes.enabled);
+
+    if (!isEnabledRule(enabled)) {
+      return;
+    }
+
+    const ruleType = normalizeRuleType(getCell(row, header.indexes.ruleType));
+    const player1 = cleanPlayerName(getCell(row, header.indexes.player1));
+    const player2 = cleanPlayerName(getCell(row, header.indexes.player2));
+    const className = normalizeClassName(getCell(row, header.indexes.class));
+    const role = normalizeRoleName(getCell(row, header.indexes.role));
+    const minAvailable = asOptionalNumber(getCell(row, header.indexes.minAvailable));
+    const rawWeight = getCell(row, header.indexes.weight);
+    const weight = asOptionalNumber(rawWeight);
+
+    switch (ruleType) {
+      case "NEVER_BENCH_PLAYER":
+        if (!player1) {
+          warn(`Bench Rules row ${rowNumber}: NEVER_BENCH_PLAYER requires Player 1 and was skipped.`);
+          return;
+        }
+
+        hardRules.neverBenchPlayers.push(getPlayerSlug(player1));
+        hardRuleCount += 1;
+        importedRuleCount += 1;
+        return;
+
+      case "AVOID_BENCH_TOGETHER":
+        if (!player1 || !player2) {
+          warn(`Bench Rules row ${rowNumber}: AVOID_BENCH_TOGETHER requires Player 1 and Player 2 and was skipped.`);
+          return;
+        }
+
+        hardRules.avoidBenchingTogether.push([getPlayerSlug(player1), getPlayerSlug(player2)]);
+        hardRuleCount += 1;
+        importedRuleCount += 1;
+        return;
+
+      case "MIN_AVAILABLE_ROLE":
+        if (!role || minAvailable === undefined) {
+          warn(`Bench Rules row ${rowNumber}: MIN_AVAILABLE_ROLE requires Role and Min Available and was skipped.`);
+          return;
+        }
+
+        hardRules.minimumAvailableByRole[role] = minAvailable;
+        hardRuleCount += 1;
+        importedRuleCount += 1;
+        return;
+
+      case "MIN_AVAILABLE_CLASS":
+        if (!className || minAvailable === undefined) {
+          warn(`Bench Rules row ${rowNumber}: MIN_AVAILABLE_CLASS requires Class and Min Available and was skipped.`);
+          return;
+        }
+
+        hardRules.minimumAvailableByClass[className] = minAvailable;
+        hardRuleCount += 1;
+        importedRuleCount += 1;
+        return;
+
+      case "REQUIRE_ONE_PER_CLASS":
+        hardRules.requireAtLeastOneAvailablePerClass = true;
+        hardRules.minimumAvailablePerClass = minAvailable ?? 1;
+        hardRuleCount += 1;
+        importedRuleCount += 1;
+        return;
+
+      case "WEIGHT_LOW_BENCH_COUNT":
+        if (rawWeight && weight === undefined) {
+          warn(`Bench Rules row ${rowNumber}: WEIGHT_LOW_BENCH_COUNT has an invalid Weight and was skipped.`);
+          return;
+        }
+
+        scoring.lowBenchCountWeight = weight ?? defaultScoring.lowBenchCountWeight;
+        importedRuleCount += 1;
+        return;
+
+      case "WEIGHT_NOT_RECENTLY_BENCHED":
+        if (rawWeight && weight === undefined) {
+          warn(`Bench Rules row ${rowNumber}: WEIGHT_NOT_RECENTLY_BENCHED has an invalid Weight and was skipped.`);
+          return;
+        }
+
+        scoring.notRecentlyBenchedWeight = weight ?? defaultScoring.notRecentlyBenchedWeight;
+        importedRuleCount += 1;
+        return;
+
+      case "PENALTY_BACK_TO_BACK_BENCH":
+        if (rawWeight && weight === undefined) {
+          warn(`Bench Rules row ${rowNumber}: PENALTY_BACK_TO_BACK_BENCH has an invalid Weight and was skipped.`);
+          return;
+        }
+
+        scoring.backToBackBenchPenalty = weight ?? defaultScoring.backToBackBenchPenalty;
+        importedRuleCount += 1;
+        return;
+
+      default:
+        warn(`Bench Rules row ${rowNumber}: unknown rule type "${getCell(row, header.indexes.ruleType)}" was skipped.`);
+    }
+  });
+
+  if (hardRuleCount === 0) {
+    warn("Bench Rules tab has no enabled valid hard rules; using fallback hard bench rules.");
+    Object.assign(hardRules, fallbackHardRules);
+  }
+
+  return {
+    rules: normalizeBenchRules({
+      ...hardRules,
+      scoring,
+      source: "sheet",
+    }),
+    importedRuleCount,
+    source: "sheet",
+  };
+}
+
 function parsePlayer(value: string): PlayerInfo {
   const characterRealm = cleanText(value);
   const match = /^(.+)-([^-]+)$/.exec(characterRealm);
@@ -887,10 +1221,14 @@ async function main() {
   failIfErrors();
 
   const sheets = await createSheetsClient();
-  const [calendarRows, lootRows] = await Promise.all([
+  const warningsBeforeBenchRules = warnings.size;
+  const [calendarRows, lootRows, benchRulesRows] = await Promise.all([
     fetchSheetRows(sheets, env.GOOGLE_SHEET_ID, ranges.calendar, "Calendar"),
     fetchSheetRows(sheets, env.GOOGLE_SHEET_ID, ranges.loot, "Loot"),
+    fetchOptionalSheetRows(sheets, env.GOOGLE_SHEET_ID, ranges.benchRules, "Bench Rules"),
   ]);
+  const benchRules = parseBenchRules(benchRulesRows);
+  const benchRuleWarnings = warnings.size - warningsBeforeBenchRules;
   const existingRaidDates = await readExistingRaidDates();
   const { roster, calendar } = parseCalendar(calendarRows, existingRaidDates);
   const loot = parseLoot(lootRows, roster);
@@ -901,6 +1239,7 @@ async function main() {
     { path: "src/data/lootHistory.json", data: loot.history },
     { path: "src/data/lootSummary.json", data: loot.lootSummary },
     { path: "src/data/bench.json", data: bench },
+    { path: "src/data/benchRules.json", data: benchRules.rules },
   ];
   const changedFiles: string[] = [];
 
@@ -924,6 +1263,9 @@ async function main() {
   console.log(`Calendar statuses imported: ${calendarStatuses}`);
   console.log(`Loot awards imported: ${loot.history.length}`);
   console.log(`Bench marks imported: ${benchMarks}`);
+  console.log(`Bench rules source: ${benchRules.source}`);
+  console.log(`Bench rules imported: ${benchRules.importedRuleCount}`);
+  console.log(`Bench rule warnings: ${benchRuleWarnings}`);
   console.log(`Warnings: ${warnings.size}`);
   console.log(`Files changed: ${changedFiles.length}`);
 
