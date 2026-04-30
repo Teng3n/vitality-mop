@@ -939,11 +939,30 @@ p {
   color: #ee9a8e;
 }
 
+.readiness-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.readiness-column {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  min-width: 0;
+}
+
+.readiness-column-label {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .readiness-checks {
-  align-content: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 16px;
+  display: grid;
+  gap: 7px;
   margin: 0;
   padding: 0;
   color: var(--muted);
@@ -952,7 +971,6 @@ p {
 }
 
 .readiness-checks li {
-  flex: 0 1 auto;
   position: relative;
   min-width: 0;
   padding-left: 14px;
@@ -974,12 +992,19 @@ p {
 }
 
 .readiness-checks li.is-warning {
-  flex: 1 1 240px;
   color: var(--text);
 }
 
 .readiness-checks li.is-warning::before {
   background: #ee9a8e;
+}
+
+.readiness-checks li.is-empty {
+  color: var(--muted);
+}
+
+.readiness-checks li.is-empty::before {
+  background: rgba(242, 240, 232, 0.22);
 }
 
 .status-legend {
@@ -1972,6 +1997,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .raid-week-grid,
   .card-grid,
   .readiness-panel,
+  .readiness-columns,
   .readiness-checks,
   .next-raid-statuses,
   .next-raid-statuses.is-week,

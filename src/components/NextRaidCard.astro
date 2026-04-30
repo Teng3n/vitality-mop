@@ -73,7 +73,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     <div class="next-raid-statuses is-week">
       <article class="next-raid-list next-raid-list-count">
         <div>
-          <span>Raid Ready</span>
+          <span>Available</span>
         </div>
         <div class="available-raiders">
           <strong data-week-raiders-count>{activeRosterCount}</strong>
@@ -109,7 +109,16 @@ const raidPayload = calendar.raidDates.map((date) => ({
         <strong data-readiness-status>Ready</strong>
         <small data-readiness-detail>25 raid-ready players.</small>
       </div>
-      <ul class="readiness-checks" data-readiness-checks></ul>
+      <div class="readiness-columns">
+        <div class="readiness-column">
+          <span class="readiness-column-label">Passing Checks</span>
+          <ul class="readiness-checks" data-readiness-passing></ul>
+        </div>
+        <div class="readiness-column">
+          <span class="readiness-column-label">Needs Review</span>
+          <ul class="readiness-checks" data-readiness-warnings></ul>
+        </div>
+      </div>
     </section>
   </div>
 
@@ -241,6 +250,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const unavailableSlugs = new Set(unavailablePlayers.map((player) => player.slug));
     const benchSlugs = new Set(bench.map((player) => player.slug));
     const unavailableOrBenchSlugs = new Set([...unavailableSlugs, ...benchSlugs]);
+    const availableCount = activeRoster.length - unavailableSlugs.size;
     const raidReadyCount = activeRoster.filter((player) => !unavailableOrBenchSlugs.has(player.slug)).length;
     const requiredBenchCount = Math.max(0, activeRoster.length - unavailableSlugs.size - 25);
     const checks: string[] = [];
@@ -319,6 +329,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     return {
       status,
       detail,
+      availableCount,
       raidReadyCount,
       checks: [...new Set(checks)],
       warnings: [...new Set(warnings)],
@@ -340,7 +351,8 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const readinessPanel = card.querySelector<HTMLElement>("[data-readiness-panel]");
     const readinessStatus = card.querySelector<HTMLElement>("[data-readiness-status]");
     const readinessDetail = card.querySelector<HTMLElement>("[data-readiness-detail]");
-    const readinessChecks = card.querySelector<HTMLElement>("[data-readiness-checks]");
+    const readinessPassing = card.querySelector<HTMLElement>("[data-readiness-passing]");
+    const readinessWarnings = card.querySelector<HTMLElement>("[data-readiness-warnings]");
     const raids = JSON.parse(dataNode?.textContent ?? "[]") as Array<{
       label: string;
       isoDate: string;
@@ -412,7 +424,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     }
 
     if (raidersCount) {
-      raidersCount.textContent = String(Math.max(readiness.raidReadyCount, 0));
+      raidersCount.textContent = String(Math.max(readiness.availableCount, 0));
     }
 
     if (readinessStatus) {
@@ -427,11 +439,18 @@ const raidPayload = calendar.raidDates.map((date) => ({
       readinessPanel.dataset.status = readiness.status.toLocaleLowerCase().replace(/[^a-z0-9]+/g, "-");
     }
 
-    if (readinessChecks) {
-      const items = [...readiness.warnings, ...readiness.checks].slice(0, 7);
-      readinessChecks.innerHTML = items
-        .map((item, index) => `<li class="${index < readiness.warnings.length ? "is-warning" : "is-ok"}">${escapeHtml(item)}</li>`)
-        .join("");
+    if (readinessPassing) {
+      const checks = readiness.checks.slice(0, 5);
+      readinessPassing.innerHTML = checks.length > 0
+        ? checks.map((item) => `<li class="is-ok">${escapeHtml(item)}</li>`).join("")
+        : `<li class="is-empty">${readiness.warnings.length > 0 ? "No passing checks." : "No rule checks configured."}</li>`;
+    }
+
+    if (readinessWarnings) {
+      const warnings = readiness.warnings.slice(0, 5);
+      readinessWarnings.innerHTML = warnings.length > 0
+        ? warnings.map((item) => `<li class="is-warning">${escapeHtml(item)}</li>`).join("")
+        : `<li class="is-empty">No issues flagged.</li>`;
     }
   });
 </script>
