@@ -18,6 +18,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 html {
   min-width: 320px;
   background: var(--bg);
@@ -246,13 +250,21 @@ main {
   background: rgba(200, 155, 60, 0.1);
 }
 
-.officer-gate {
+.officer-gate-shell {
   display: grid;
-  gap: 16px;
-  max-width: 520px;
+  place-items: center;
+  min-height: min(620px, calc(100vh - 120px));
+  padding: 32px 0;
 }
 
-.officer-gate .section-heading {
+.officer-gate-modal {
+  display: grid;
+  gap: 16px;
+  width: min(100%, 460px);
+  padding: 26px;
+}
+
+.officer-gate-modal .section-heading {
   margin-bottom: 0;
 }
 
@@ -262,11 +274,12 @@ main {
 }
 
 .officer-gate-form .filter-button {
-  justify-self: start;
+  width: 100%;
 }
 
 .officer-gate-status {
   min-height: 1.2em;
+  text-align: center;
 }
 
 .officer-gate-status[data-state="error"] {

@@ -1,19 +1,21 @@
-<section class="panel officer-gate" data-officer-gate>
-  <div class="section-heading">
-    <p class="eyebrow">Officer Access</p>
-    <h2>Enter officer password</h2>
-    <p class="info-note">Officer tools are hidden until access is verified for this browser session.</p>
+<section class="officer-gate-shell" data-officer-gate>
+  <div class="panel officer-gate-modal" role="dialog" aria-modal="true" aria-labelledby="officer-access-title">
+    <div class="section-heading">
+      <p class="eyebrow">Officer Access</p>
+      <h2 id="officer-access-title">Officer Access</h2>
+      <p class="info-note">Enter the officer password to continue.</p>
+    </div>
+
+    <form class="officer-gate-form" data-officer-gate-form>
+      <label class="field">
+        <span>Password</span>
+        <input type="password" name="password" autocomplete="current-password" required autofocus />
+      </label>
+      <button class="filter-button is-subtle" type="submit">Unlock</button>
+    </form>
+
+    <p class="info-note officer-gate-status" data-officer-gate-status aria-live="polite"></p>
   </div>
-
-  <form class="officer-gate-form" data-officer-gate-form>
-    <label class="field">
-      <span>Password</span>
-      <input type="password" name="password" autocomplete="current-password" required />
-    </label>
-    <button class="filter-button is-subtle" type="submit">Unlock</button>
-  </form>
-
-  <p class="info-note officer-gate-status" data-officer-gate-status aria-live="polite"></p>
 </section>
 
 <div class="officer-gated-content" data-officer-gated-content hidden aria-live="polite">
@@ -21,7 +23,8 @@
 </div>
 
 <script>
-  const OFFICER_UNLOCKED_KEY = "vitalityOfficerUnlocked";
+  const OFFICER_UNLOCKED_KEY = "officerUnlocked";
+  const LEGACY_OFFICER_UNLOCKED_KEY = "vitalityOfficerUnlocked";
   const officerGate = document.querySelector<HTMLElement>("[data-officer-gate]");
   const officerContent = document.querySelector<HTMLElement>("[data-officer-gated-content]");
   const officerGateForm = document.querySelector<HTMLFormElement>("[data-officer-gate-form]");
@@ -39,13 +42,57 @@
     window.dispatchEvent(new CustomEvent("vitality:officer-unlocked"));
   };
 
-  try {
-    if (sessionStorage.getItem(OFFICER_UNLOCKED_KEY) === "true") {
-      showOfficerContent();
+  const hasStoredOfficerUnlock = () => {
+    try {
+      return (
+        sessionStorage.getItem(OFFICER_UNLOCKED_KEY) === "true" ||
+        sessionStorage.getItem(LEGACY_OFFICER_UNLOCKED_KEY) === "true"
+      );
+    } catch {
+      return false;
     }
-  } catch {
-    // Session storage can be unavailable in strict browser modes. The form remains usable.
-  }
+  };
+
+  const rememberOfficerUnlock = () => {
+    try {
+      sessionStorage.setItem(OFFICER_UNLOCKED_KEY, "true");
+      sessionStorage.removeItem(LEGACY_OFFICER_UNLOCKED_KEY);
+    } catch {
+      // The HttpOnly session cookie still handles server-side officer auth.
+    }
+  };
+
+  const forgetOfficerUnlock = () => {
+    try {
+      sessionStorage.removeItem(OFFICER_UNLOCKED_KEY);
+      sessionStorage.removeItem(LEGACY_OFFICER_UNLOCKED_KEY);
+    } catch {
+      // Nothing else to do. The form remains usable.
+    }
+  };
+
+  const verifyStoredOfficerUnlock = async () => {
+    if (!hasStoredOfficerUnlock()) {
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/officer-auth", { method: "GET" });
+      const result = (await response.json()) as { ok?: boolean };
+
+      if (response.ok && result.ok === true) {
+        rememberOfficerUnlock();
+        showOfficerContent();
+        return;
+      }
+    } catch {
+      // Fall through to showing the modal.
+    }
+
+    forgetOfficerUnlock();
+  };
+
+  void verifyStoredOfficerUnlock();
 
   officerGateForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -95,12 +142,7 @@
         return;
       }
 
-      try {
-        sessionStorage.setItem(OFFICER_UNLOCKED_KEY, "true");
-      } catch {
-        // The HttpOnly session cookie still handles server-side officer auth.
-      }
-
+      rememberOfficerUnlock();
       officerGateForm.reset();
       showOfficerContent();
     } catch {

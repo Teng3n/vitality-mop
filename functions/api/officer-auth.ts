@@ -1,5 +1,6 @@
 import {
   createOfficerSessionCookie,
+  hasValidOfficerSession,
   hasOfficerPasswordConfig,
   isValidOfficerPassword,
   jsonResponse,
@@ -15,8 +16,17 @@ interface PagesContext {
 const AUTH_ERROR_MESSAGE = "Unable to verify officer access.";
 
 export const onRequest = async ({ request, env }: PagesContext) => {
+  if (request.method === "GET") {
+    if (!hasOfficerPasswordConfig(env)) {
+      console.error("[officer-auth] No officer password or password hash is configured.");
+      return jsonResponse({ ok: false, message: AUTH_ERROR_MESSAGE }, 500);
+    }
+
+    return jsonResponse({ ok: await hasValidOfficerSession(request, env) });
+  }
+
   if (request.method !== "POST") {
-    return jsonResponse({ ok: false, message: "Method not allowed." }, 405, { Allow: "POST" });
+    return jsonResponse({ ok: false, message: "Method not allowed." }, 405, { Allow: "GET, POST" });
   }
 
   if (!hasOfficerPasswordConfig(env)) {
