@@ -130,6 +130,8 @@ const raidPayload = calendar.raidDates.map((date) => ({
 </section>
 
 <script>
+  import { getRaidBuffCoverage } from "../lib/raidBuffs";
+
   type DashboardPlayer = {
     slug: string;
     name: string;
@@ -232,73 +234,6 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const roleKey = normalizeKey(role);
     const label = roleKey === "healer" ? "Healer" : role;
     return formatMinimumCheck(label, available, minimum);
-  };
-  const hasClass = (player: DashboardPlayer, ...classNames: string[]) =>
-    classNames.some((className) => normalizeKey(player.className ?? "") === normalizeKey(className));
-  const hasSpec = (player: DashboardPlayer, ...specs: string[]) =>
-    Boolean(player.spec) && specs.some((spec) => normalizeKey(player.spec ?? "") === normalizeKey(spec));
-  const raidBuffs = [
-    {
-      name: "5% Stats",
-      isProvidedBy: (player: DashboardPlayer) => hasClass(player, "Druid", "Monk", "Paladin"),
-    },
-    {
-      name: "10% Stamina",
-      isProvidedBy: (player: DashboardPlayer) => hasClass(player, "Priest", "Warlock", "Warrior"),
-    },
-    {
-      name: "10% Attack Power",
-      isProvidedBy: (player: DashboardPlayer) => hasClass(player, "Death Knight", "Hunter", "Warrior"),
-    },
-    {
-      name: "10% Spell Power",
-      isProvidedBy: (player: DashboardPlayer) => hasClass(player, "Mage", "Shaman", "Warlock"),
-    },
-    {
-      name: "10% Attack Speed",
-      isProvidedBy: (player: DashboardPlayer) =>
-        hasClass(player, "Rogue") ||
-        (hasClass(player, "Death Knight") && hasSpec(player, "Frost", "Unholy")) ||
-        (hasClass(player, "Shaman") && hasSpec(player, "Enhancement")),
-    },
-    {
-      name: "5% Spell Haste",
-      isProvidedBy: (player: DashboardPlayer) =>
-        hasClass(player, "Shaman") ||
-        (hasClass(player, "Druid") && hasSpec(player, "Balance")) ||
-        (hasClass(player, "Priest") && hasSpec(player, "Shadow")),
-    },
-    {
-      name: "5% Crit",
-      isProvidedBy: (player: DashboardPlayer) =>
-        hasClass(player, "Mage") ||
-        (hasClass(player, "Druid") && hasSpec(player, "Feral", "Guardian")) ||
-        (hasClass(player, "Monk") && hasSpec(player, "Windwalker")),
-    },
-    {
-      name: "Mastery",
-      isProvidedBy: (player: DashboardPlayer) => hasClass(player, "Paladin", "Shaman"),
-    },
-  ];
-  const getRaidBuffCoverage = (raidReadyPlayers: DashboardPlayer[]) => {
-    const missing: string[] = [];
-    const detail: string[] = [];
-
-    for (const buff of raidBuffs) {
-      const providers = raidReadyPlayers.filter((player) => buff.isProvidedBy(player)).map((player) => player.name);
-
-      if (providers.length > 0) {
-        detail.push(`${buff.name}: covered by ${providers.join(", ")}`);
-      } else {
-        missing.push(buff.name);
-        detail.push(`${buff.name}: missing`);
-      }
-    }
-
-    return {
-      missing,
-      detail: detail.join("\n"),
-    };
   };
   const uniqueReadinessItems = (items: ReadinessItem[]) => {
     const byText = new Map<string, ReadinessItem>();

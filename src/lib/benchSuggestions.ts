@@ -9,6 +9,7 @@ import {
   type RaidNight,
   type StatusPlayer,
 } from "./guildData";
+import { getRaidBuffCoverage } from "./raidBuffs";
 
 const DEFAULT_BENCH_SUGGESTION_WINDOW_WEEKS = 8;
 const TARGET_RAID_SIZE = 25;
@@ -257,6 +258,22 @@ const getAvailableCounts = (unavailableSlugs: Set<string>, benchSlugs: Set<strin
   return { byRole, byClass };
 };
 
+const getRaidReadyPlayers = (unavailableSlugs: Set<string>, benchSlugs: Set<string>) =>
+  activeRosterPlayers.filter((player) => !unavailableSlugs.has(player.slug) && !benchSlugs.has(player.slug));
+
+const getMissingRaidBuffs = (unavailableSlugs: Set<string>, benchSlugs: Set<string>) =>
+  getRaidBuffCoverage(getRaidReadyPlayers(unavailableSlugs, benchSlugs)).missing;
+
+const getNewMissingRaidBuffs = (
+  unavailableSlugs: Set<string>,
+  currentBenchSlugs: Set<string>,
+  projectedBenchSlugs: Set<string>,
+) => {
+  const currentMissing = new Set(getMissingRaidBuffs(unavailableSlugs, currentBenchSlugs));
+
+  return getMissingRaidBuffs(unavailableSlugs, projectedBenchSlugs).filter((buff) => !currentMissing.has(buff));
+};
+
 const getConstraintWarnings = (benchSlugs: Set<string>, unavailableSlugs: Set<string>) => {
   const warnings: string[] = [];
 
@@ -374,6 +391,13 @@ const passesHardRules = (player: Player, unavailableSlugs: Set<string>, benchSlu
   }
 
   return true;
+};
+
+const getRaidBuffCandidateViolations = (player: Player, unavailableSlugs: Set<string>, benchSlugs: Set<string>) => {
+  const nextBenchSlugs = new Set(benchSlugs);
+  nextBenchSlugs.add(player.slug);
+
+  return getNewMissingRaidBuffs(unavailableSlugs, benchSlugs, nextBenchSlugs);
 };
 
 const scoreCandidate = (player: Player, weekKey: string, planningState: PlanningState): BenchCandidate => {
@@ -499,9 +523,17 @@ export const getBenchSuggestionWeeks = (todayIso = getTodayIso()): BenchSuggesti
 
     warnings.push(...getConstraintWarnings(existingBenchSlugs, unavailableSlugs));
 
+    const existingMissingRaidBuffs = getMissingRaidBuffs(unavailableSlugs, existingBenchSlugs);
+
+    if (existingMissingRaidBuffs.length > 0) {
+      warnings.push(`Existing plan is missing raid buffs: ${existingMissingRaidBuffs.join(", ")}. Review manually.`);
+    }
+
     if (additionalBenchNeeded > 0) {
       const selectedCandidates: BenchCandidate[] = [];
       let skippedHardRuleCount = 0;
+      let skippedRaidBuffCount = 0;
+      const skippedRaidBuffs = new Set<string>();
       const candidates = activeRosterPlayers
         .map((player) => scoreCandidate(player, weekKey, planningState))
         .sort(
@@ -525,12 +557,27 @@ export const getBenchSuggestionWeeks = (todayIso = getTodayIso()): BenchSuggesti
           continue;
         }
 
+        const missingBuffs = getRaidBuffCandidateViolations(candidate.player, unavailableSlugs, currentBenchSlugs);
+
+        if (missingBuffs.length > 0) {
+          skippedRaidBuffCount += 1;
+          missingBuffs.forEach((buff) => skippedRaidBuffs.add(buff));
+          continue;
+        }
+
         suggestedBenchPlayers.push(getStatusPlayer(candidate.player));
         suggestedBenchSlugs.add(candidate.player.slug);
         selectedCandidates.push(candidate);
       }
 
       if (suggestedBenchPlayers.length < additionalBenchNeeded) {
+        if (skippedRaidBuffCount > 0) {
+          warnings.push(
+            `Could only suggest ${suggestedBenchPlayers.length} of ${additionalBenchNeeded} needed bench players without losing required raid buffs.`,
+          );
+          warnings.push(`Skipped candidates who would remove raid buff coverage: ${[...skippedRaidBuffs].join(", ")}.`);
+        }
+
         warnings.push(
           "Could not suggest a full bench list for this week because too many players are unavailable or constraints would be violated.",
         );
@@ -563,6 +610,12 @@ export const getBenchSuggestionWeeks = (todayIso = getTodayIso()): BenchSuggesti
 
         if (penalizedSelectedCandidates.length > 0 && skippedHardRuleCount > 0) {
           notes.push("Some higher-ranked candidates were skipped due to healer/class minimum or other hard rules.");
+        }
+
+        if (skippedRaidBuffCount > 0) {
+          notes.push("Some candidates were skipped because benching them would remove raid buff coverage.");
+        } else if (existingMissingRaidBuffs.length === 0) {
+          notes.push("Raid buffs preserved.");
         }
       }
     }
