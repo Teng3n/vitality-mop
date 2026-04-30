@@ -36,8 +36,6 @@ import Layout from "../../layouts/Layout.astro";
     rows?: OfficerRosterRow[];
   }
 
-  type SortDirection = "ascending" | "descending";
-
   const rosterRoot = document.querySelector<HTMLElement>("[data-officer-roster-root]");
   let rosterRendered = false;
 
@@ -67,60 +65,6 @@ import Layout from "../../layouts/Layout.astro";
     }
   };
 
-  const compareText = (a: string, b: string) => a.localeCompare(b, undefined, { sensitivity: "base" });
-
-  const getCellValue = (row: HTMLTableRowElement, index: number) => row.cells[index]?.dataset.sortValue ?? "";
-
-  const sortRows = (table: HTMLTableElement, columnIndex: number, sortType: string, direction: SortDirection) => {
-    const tbody = table.tBodies[0];
-    const rows = Array.from(tbody.rows);
-    const multiplier = direction === "ascending" ? 1 : -1;
-
-    rows.sort((a, b) => {
-      const aValue = getCellValue(a, columnIndex);
-      const bValue = getCellValue(b, columnIndex);
-
-      if (sortType === "number") {
-        const numericDiff = (Number(aValue) || 0) - (Number(bValue) || 0);
-        if (numericDiff !== 0) {
-          return numericDiff * multiplier;
-        }
-
-        return compareText(getCellValue(a, 0), getCellValue(b, 0));
-      }
-
-      return compareText(aValue, bValue) * multiplier;
-    });
-
-    tbody.append(...rows);
-  };
-
-  const bindRosterTable = () => {
-    rosterRoot?.querySelectorAll<HTMLTableElement>("[data-sortable-table]").forEach((table) => {
-      const headers = Array.from(table.tHead?.rows[0]?.cells ?? []);
-
-      headers.forEach((header, columnIndex) => {
-        const button = header.querySelector<HTMLButtonElement>("[data-sort-key]");
-
-        button?.addEventListener("click", () => {
-          const currentSort = header.getAttribute("aria-sort");
-          const direction: SortDirection =
-            currentSort === "ascending"
-              ? "descending"
-              : currentSort === "descending"
-                ? "ascending"
-                : button.dataset.sortType === "number"
-                  ? "descending"
-                  : "ascending";
-
-          headers.forEach((item) => item.removeAttribute("aria-sort"));
-          header.setAttribute("aria-sort", direction);
-          sortRows(table, columnIndex, button.dataset.sortType ?? "text", direction);
-        });
-      });
-    });
-  };
-
   const renderRoster = (data: OfficerRosterResponse) => {
     if (!rosterRoot || !data.totals || !data.rows) {
       return;
@@ -130,18 +74,18 @@ import Layout from "../../layouts/Layout.astro";
       .map(
         (row) => `
           <tr style="--class-color: ${escapeHtml(row.classColor)}">
-            <td class="is-left" data-label="Player" data-sort-value="${escapeHtml(row.player)}">
+            <td data-label="Player">
               <a class="player-name" href="${escapeHtml(row.href)}" style="--player-color: ${escapeHtml(row.classColor)}" title="${escapeHtml(row.class)}">
                 ${escapeHtml(row.player)}
               </a>
             </td>
-            <td class="is-left" data-label="Class" data-sort-value="${escapeHtml(row.class)}">${escapeHtml(row.class)}</td>
-            <td class="is-left" data-label="Spec" data-sort-value="${escapeHtml(row.spec)}">${escapeHtml(row.spec)}</td>
-            <td class="is-left" data-label="Role" data-sort-value="${escapeHtml(row.role)}">${escapeHtml(row.role)}</td>
-            <td class="is-right" data-label="Bench" data-sort-value="${row.bench}">${row.bench}</td>
-            <td class="is-right" data-label="Out" data-sort-value="${row.out}">${row.out}</td>
-            <td class="is-right" data-label="Late" data-sort-value="${row.late}">${row.late}</td>
-            <td class="is-right" data-label="MIA" data-sort-value="${row.mia}">${row.mia}</td>
+            <td data-label="Class">${escapeHtml(row.class)}</td>
+            <td data-label="Spec">${escapeHtml(row.spec)}</td>
+            <td data-label="Role">${escapeHtml(row.role)}</td>
+            <td class="is-right" data-label="Bench">${row.bench}</td>
+            <td class="is-right" data-label="Out">${row.out}</td>
+            <td class="is-right" data-label="Late">${row.late}</td>
+            <td class="is-right" data-label="MIA">${row.mia}</td>
           </tr>
         `,
       )
@@ -149,8 +93,8 @@ import Layout from "../../layouts/Layout.astro";
 
     rosterRoot.innerHTML = `
       <section class="page-header">
-        <p class="eyebrow">Officer</p>
-        <h1 class="sr-only">Officer Roster</h1>
+        <p class="eyebrow">Roster</p>
+        <h1 class="sr-only">Raid Team</h1>
       </section>
 
       <section class="dashboard-grid roster-summary-grid">
@@ -161,7 +105,7 @@ import Layout from "../../layouts/Layout.astro";
         <article class="stat-card"><span>Total MIA</span><strong>${data.totals.mia}</strong></article>
       </section>
 
-      <section class="panel officer-roster-panel">
+      <section class="panel">
         <div class="section-heading inline">
           <div>
             <p class="eyebrow">Officer Roster</p>
@@ -171,17 +115,17 @@ import Layout from "../../layouts/Layout.astro";
         </div>
 
         <div class="table-shell">
-          <table class="data-table roster-table officer-roster-table" data-sortable-table="true" data-initial-sort-key="player" data-initial-sort-direction="ascending">
+          <table class="data-table roster-table officer-roster-table">
             <thead>
               <tr>
-                <th class="is-left" aria-sort="ascending" data-sort-type="text"><button class="sort-button" type="button" data-sort-key="player" data-sort-type="text"><span>Player</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
-                <th class="is-left" data-sort-type="text"><button class="sort-button" type="button" data-sort-key="class" data-sort-type="text"><span>Class</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
-                <th class="is-left" data-sort-type="text"><button class="sort-button" type="button" data-sort-key="spec" data-sort-type="text"><span>Spec</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
-                <th class="is-left" data-sort-type="text"><button class="sort-button" type="button" data-sort-key="role" data-sort-type="text"><span>Role</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
-                <th class="is-right" data-sort-type="number"><button class="sort-button" type="button" data-sort-key="bench" data-sort-type="number"><span>Bench</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
-                <th class="is-right" data-sort-type="number"><button class="sort-button" type="button" data-sort-key="out" data-sort-type="number"><span>Out</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
-                <th class="is-right" data-sort-type="number"><button class="sort-button" type="button" data-sort-key="late" data-sort-type="number"><span>Late</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
-                <th class="is-right" data-sort-type="number"><button class="sort-button" type="button" data-sort-key="mia" data-sort-type="number"><span>MIA</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
+                <th>Player</th>
+                <th>Class</th>
+                <th>Spec</th>
+                <th>Role</th>
+                <th class="is-right">Bench</th>
+                <th class="is-right">Out</th>
+                <th class="is-right">Late</th>
+                <th class="is-right">MIA</th>
               </tr>
             </thead>
             <tbody>${rows}</tbody>
@@ -189,8 +133,6 @@ import Layout from "../../layouts/Layout.astro";
         </div>
       </section>
     `;
-
-    bindRosterTable();
   };
 
   const loadOfficerRoster = async () => {

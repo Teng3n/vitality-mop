@@ -1189,15 +1189,6 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   background: rgba(111, 207, 151, 0.06);
 }
 
-.officer-roster-panel .section-heading {
-  margin-bottom: 18px;
-}
-
-.officer-roster-panel .info-note {
-  max-width: 720px;
-  margin: 4px 0 0;
-}
-
 .roster-table.officer-roster-table {
   min-width: 860px;
 }
