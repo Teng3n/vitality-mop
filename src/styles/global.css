@@ -217,10 +217,10 @@ main {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   border: 1px solid rgba(43, 58, 49, 0.72);
   border-radius: 8px;
-  padding: 8px;
+  padding: 6px;
   background: rgba(17, 23, 20, 0.62);
 }
 
@@ -236,7 +236,7 @@ main {
 .officer-subnav a {
   border: 1px solid transparent;
   border-radius: 6px;
-  padding: 7px 10px;
+  padding: 6px 10px;
   color: var(--muted);
   font-size: 0.86rem;
   font-weight: 800;
@@ -297,15 +297,16 @@ main {
 }
 
 .officer-tools-grid {
-  align-items: start;
+  align-items: stretch;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .officer-tool-card {
   display: grid;
-  align-content: start;
-  gap: 16px;
-  min-height: 230px;
+  grid-template-rows: auto 1fr;
+  gap: 14px;
+  min-height: 178px;
+  padding: 18px;
 }
 
 .officer-tool-card .section-heading {
@@ -351,18 +352,6 @@ main {
   padding: 16px;
 }
 
-.officer-roster-toolbar {
-  margin-bottom: 14px;
-}
-
-.officer-roster-search {
-  width: min(100%, 280px);
-}
-
-.officer-roster-empty {
-  margin-top: 14px;
-}
-
 .stat-card {
   display: grid;
   gap: 8px;
@@ -386,6 +375,19 @@ main {
 
 .stat-card:hover {
   border-color: rgba(200, 155, 60, 0.68);
+}
+
+.officer-roster-summary {
+  gap: 12px;
+}
+
+.officer-roster-summary .stat-card {
+  min-height: 92px;
+  padding: 14px;
+}
+
+.officer-roster-summary .stat-card strong {
+  font-size: 1.55rem;
 }
 
 .section-heading {
@@ -1193,6 +1195,37 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
 .data-table tbody tr:hover {
   background: rgba(111, 207, 151, 0.06);
+}
+
+.officer-roster-table {
+  min-width: 760px;
+  table-layout: fixed;
+}
+
+.officer-roster-table th,
+.officer-roster-table td {
+  padding: 9px 10px;
+  vertical-align: middle;
+}
+
+.officer-roster-table th:nth-child(1),
+.officer-roster-table td:nth-child(1) {
+  width: 180px;
+}
+
+.officer-roster-table th:nth-child(2),
+.officer-roster-table td:nth-child(2),
+.officer-roster-table th:nth-child(3),
+.officer-roster-table td:nth-child(3),
+.officer-roster-table th:nth-child(4),
+.officer-roster-table td:nth-child(4) {
+  width: 128px;
+}
+
+.officer-roster-table th:nth-child(n + 5),
+.officer-roster-table td:nth-child(n + 5) {
+  width: 74px;
+  font-variant-numeric: tabular-nums;
 }
 
 .loot-summary-table tbody tr[data-active-roster="false"] {

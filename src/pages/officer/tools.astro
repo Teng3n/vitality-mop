@@ -52,8 +52,7 @@ import Layout from "../../layouts/Layout.astro";
               <p class="eyebrow">Sync Guild Data</p>
               <h2>Sync Guild Data</h2>
               <p class="info-note">
-                Pull the latest Google Sheet data through GitHub Actions. If the sheet data changed,
-                Cloudflare will redeploy after the data commit.
+                Pull the latest Google Sheet data through GitHub Actions. Cloudflare redeploys only when data changes.
               </p>
             </div>
 
@@ -70,8 +69,7 @@ import Layout from "../../layouts/Layout.astro";
               <p class="eyebrow">Bench Suggestions</p>
               <h2>Bench Suggestions</h2>
               <p class="info-note">
-                Generate a draft bench plan using the current roster, calendar statuses, and Bench Rules.
-                Review before copying into the Google Sheet.
+                Generate a draft bench plan from the current roster, calendar statuses, and Bench Rules.
               </p>
             </div>
 
@@ -218,4 +216,11 @@ import Layout from "../../layouts/Layout.astro";
   };
 
   window.addEventListener("vitality:officer-unlocked", renderOfficerTools);
+  window.addEventListener("vitality:officer-locked", () => {
+    toolsRendered = false;
+
+    if (toolsRoot) {
+      toolsRoot.innerHTML = "";
+    }
+  });
 </script>

@@ -96,33 +96,6 @@ import Layout from "../../layouts/Layout.astro";
   };
 
   const bindRosterTable = () => {
-    const officerRosterSearch = rosterRoot?.querySelector<HTMLInputElement>("[data-officer-roster-search]");
-    const officerRosterCount = rosterRoot?.querySelector<HTMLElement>("[data-officer-roster-count]");
-    const officerRosterEmpty = rosterRoot?.querySelector<HTMLElement>("[data-officer-roster-empty]");
-    const officerRosterRows = Array.from(rosterRoot?.querySelectorAll<HTMLTableRowElement>(".officer-roster-table tbody tr") ?? []);
-
-    const updateOfficerRosterSearch = () => {
-      const query = (officerRosterSearch?.value ?? "").toLocaleLowerCase().trim();
-      let visibleCount = 0;
-
-      for (const row of officerRosterRows) {
-        const rowMatches = !query || (row.dataset.search ?? "").includes(query);
-        row.hidden = !rowMatches;
-
-        if (rowMatches) {
-          visibleCount += 1;
-        }
-      }
-
-      if (officerRosterCount) {
-        officerRosterCount.textContent = `${visibleCount} ${visibleCount === 1 ? "player" : "players"}`;
-      }
-
-      if (officerRosterEmpty) {
-        officerRosterEmpty.hidden = visibleCount > 0;
-      }
-    };
-
     rosterRoot?.querySelectorAll<HTMLTableElement>("[data-sortable-table]").forEach((table) => {
       const headers = Array.from(table.tHead?.rows[0]?.cells ?? []);
 
@@ -146,9 +119,6 @@ import Layout from "../../layouts/Layout.astro";
         });
       });
     });
-
-    officerRosterSearch?.addEventListener("input", updateOfficerRosterSearch);
-    updateOfficerRosterSearch();
   };
 
   const renderRoster = (data: OfficerRosterResponse) => {
@@ -159,7 +129,7 @@ import Layout from "../../layouts/Layout.astro";
     const rows = data.rows
       .map(
         (row) => `
-          <tr data-search="${escapeHtml(`${row.player} ${row.class} ${row.spec} ${row.role} ${row.bench} ${row.out} ${row.late} ${row.mia}`.toLocaleLowerCase())}">
+          <tr>
             <td class="is-left" data-label="Player" data-sort-value="${escapeHtml(row.player)}">
               <a class="player-name" href="${escapeHtml(row.href)}" style="--player-color: ${escapeHtml(row.classColor)}" title="${escapeHtml(row.class)}">
                 ${escapeHtml(row.player)}
@@ -194,7 +164,7 @@ import Layout from "../../layouts/Layout.astro";
         <p class="info-note">Counts are based on current roster players and calendar status marks.</p>
       </section>
 
-      <section class="dashboard-grid roster-summary-grid">
+      <section class="dashboard-grid roster-summary-grid officer-roster-summary">
         <article class="stat-card"><span>Roster Count</span><strong>${data.totals.roster}</strong></article>
         <article class="stat-card"><span>Total Bench</span><strong>${data.totals.bench}</strong></article>
         <article class="stat-card"><span>Total Out</span><strong>${data.totals.out}</strong></article>
@@ -203,14 +173,6 @@ import Layout from "../../layouts/Layout.astro";
       </section>
 
       <section class="panel">
-        <div class="toolbar officer-roster-toolbar">
-          <label class="field officer-roster-search">
-            <span>Find player</span>
-            <input type="search" placeholder="Find player..." data-officer-roster-search />
-          </label>
-          <span class="muted" data-officer-roster-count>${data.rows.length} players</span>
-        </div>
-
         <div class="table-shell">
           <table class="data-table officer-roster-table" data-sortable-table="true" data-initial-sort-key="player" data-initial-sort-direction="ascending">
             <thead>
@@ -228,8 +190,6 @@ import Layout from "../../layouts/Layout.astro";
             <tbody>${rows}</tbody>
           </table>
         </div>
-
-        <p class="info-note officer-roster-empty" data-officer-roster-empty hidden>No roster players match this search.</p>
       </section>
     `;
 
@@ -259,4 +219,11 @@ import Layout from "../../layouts/Layout.astro";
   };
 
   window.addEventListener("vitality:officer-unlocked", loadOfficerRoster);
+  window.addEventListener("vitality:officer-locked", () => {
+    rosterRendered = false;
+
+    if (rosterRoot) {
+      rosterRoot.innerHTML = "";
+    }
+  });
 </script>
