@@ -891,8 +891,8 @@ p {
 }
 
 .next-raid-list[data-status="short"] {
-  border-color: rgba(238, 154, 142, 0.5);
-  background: rgba(72, 32, 29, 0.3);
+  border-color: rgba(238, 154, 142, 0.46);
+  background: rgba(23, 33, 27, 0.7);
 }
 
 .next-raid-list[data-status="short"] > .available-raiders strong {
@@ -954,6 +954,10 @@ p {
   gap: 14px;
 }
 
+.readiness-columns[data-layout="warnings-only"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .readiness-column {
   display: grid;
   align-content: start;
@@ -961,9 +965,41 @@ p {
   min-width: 0;
 }
 
+.readiness-column-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
 .readiness-column-label {
   color: var(--muted);
   font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.readiness-column-head strong {
+  color: var(--gold);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.readiness-warning-groups {
+  display: grid;
+  gap: 10px;
+}
+
+.readiness-warning-group {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.readiness-group-label {
+  color: var(--muted);
+  font-size: 0.7rem;
   font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: uppercase;

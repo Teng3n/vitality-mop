@@ -111,14 +111,17 @@ const raidPayload = calendar.raidDates.map((date) => ({
         <strong data-readiness-status>Ready</strong>
         <small data-readiness-detail>25 raid-ready players.</small>
       </div>
-      <div class="readiness-columns">
-        <div class="readiness-column">
+      <div class="readiness-columns" data-readiness-columns>
+        <div class="readiness-column" data-readiness-passing-column>
           <span class="readiness-column-label">Passing</span>
           <ul class="readiness-checks" data-readiness-passing></ul>
         </div>
-        <div class="readiness-column">
-          <span class="readiness-column-label">Warnings</span>
-          <ul class="readiness-checks" data-readiness-warnings></ul>
+        <div class="readiness-column" data-readiness-warnings-column>
+          <div class="readiness-column-head">
+            <span class="readiness-column-label">Warnings</span>
+            <strong data-readiness-warning-count>0 issues</strong>
+          </div>
+          <div class="readiness-warning-groups" data-readiness-warnings></div>
         </div>
       </div>
     </section>
@@ -145,6 +148,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
   type ReadinessItem = {
     text: string;
     detail?: string;
+    group?: string;
   };
   type BenchRules = {
     neverBenchPlayers?: string[];
@@ -187,9 +191,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
   const pluralizeLabel = (label: string) => (label.endsWith("s") ? label : `${label}s`);
   const formatMinimumCheck = (label: string, available: number, minimum: number) =>
     `${pluralizeLabel(label)}: ${available} / ${minimum}`;
-  const formatMinimumWarning = (label: string, available: number, minimum: number) =>
-    `${pluralizeLabel(label)} below minimum: ${available} / ${minimum}`;
-  const makeItem = (text: string, detail?: string): ReadinessItem => ({ text, detail });
+  const makeItem = (text: string, detail?: string, group?: string): ReadinessItem => ({ text, detail, group });
   const playerListHtml = (players: DashboardPlayer[]) =>
     players
       .map((player) => {
@@ -257,6 +259,39 @@ const raidPayload = calendar.raidDates.map((date) => ({
           })
           .join("")
       : `<li class="is-empty">${escapeHtml(emptyText)}</li>`;
+  const renderWarningGroups = (items: ReadinessItem[]) => {
+    if (items.length === 0) {
+      return `<div class="readiness-warning-group"><ul class="readiness-checks"><li class="is-empty">No issues flagged.</li></ul></div>`;
+    }
+
+    const groups = new Map<string, ReadinessItem[]>();
+
+    for (const item of items) {
+      const group = item.group ?? "Other";
+      groups.set(group, [...(groups.get(group) ?? []), item]);
+    }
+
+    const groupOrder = ["Raid Size", "Comp Minimums", "Raid Buffs", "Roster Status", "Bench Rules", "Other"];
+    const sortedGroups = [...groups.entries()].sort(([first], [second]) => {
+      const firstIndex = groupOrder.includes(first) ? groupOrder.indexOf(first) : groupOrder.indexOf("Other");
+      const secondIndex = groupOrder.includes(second) ? groupOrder.indexOf(second) : groupOrder.indexOf("Other");
+
+      return firstIndex - secondIndex || first.localeCompare(second, undefined, { sensitivity: "base" });
+    });
+
+    return sortedGroups
+      .map(
+        ([group, groupItems]) => `
+          <div class="readiness-warning-group">
+            <span class="readiness-group-label">${escapeHtml(group)}</span>
+            <ul class="readiness-checks">
+              ${renderReadinessItems(groupItems, "is-warning", "")}
+            </ul>
+          </div>
+        `,
+      )
+      .join("");
+  };
   const getReadiness = ({
     activeRoster,
     rules,
@@ -285,33 +320,21 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const availableCount = activeRoster.length - unavailableSlugs.size;
     const raidReadyPlayers = activeRoster.filter((player) => !unavailableOrBenchSlugs.has(player.slug));
     const raidReadyCount = raidReadyPlayers.length;
-    const requiredBenchCount = Math.max(0, activeRoster.length - unavailableSlugs.size - 25);
     const checks: ReadinessItem[] = [];
     const warnings: ReadinessItem[] = [];
     const counts = getAvailableCounts(activeRoster, unavailableSlugs, benchSlugs);
     const buffCoverage = getRaidBuffCoverage(raidReadyPlayers);
 
     if (raidReadyCount < 25) {
-      warnings.push(makeItem(`Raid short: ${raidReadyCount} / 25`));
-    }
-
-    if (benchSlugs.size > requiredBenchCount) {
-      const excessBench = benchSlugs.size - requiredBenchCount;
-      warnings.push(
-        makeItem(
-          requiredBenchCount === 0
-            ? `${plural(excessBench, "benched player")} may be needed in raid`
-            : `Bench exceeds needed count by ${excessBench}`,
-        ),
-      );
+      warnings.push(makeItem(`${raidReadyCount} / 25 raid-ready`, undefined, "Raid Size"));
     }
 
     if (mia.length > 0) {
-      warnings.push(makeItem(`MIA this week: ${mia.map((player) => player.name).join(", ")}.`));
+      warnings.push(makeItem(`MIA: ${mia.map((player) => player.name).join(", ")}`, undefined, "Roster Status"));
     }
 
     if (buffCoverage.missing.length > 0) {
-      warnings.push(makeItem(`Raid Buffs: Missing ${buffCoverage.missing.join(", ")}`, buffCoverage.detail));
+      warnings.push(makeItem(`Missing: ${buffCoverage.missing.join(", ")}`, buffCoverage.detail, "Raid Buffs"));
     } else {
       checks.push(makeItem("Raid Buffs: All covered", buffCoverage.detail));
     }
@@ -319,7 +342,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     for (const playerSlug of rules.neverBenchPlayers ?? []) {
       if (benchSlugs.has(playerSlug)) {
         const playerName = activeRoster.find((player) => player.slug === playerSlug)?.name ?? playerSlug;
-        warnings.push(makeItem(`Never-bench violation: ${playerName}`));
+        warnings.push(makeItem(`Never-bench violation: ${playerName}`, undefined, "Bench Rules"));
       }
     }
 
@@ -327,7 +350,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
       if (benchSlugs.has(firstPlayer) && benchSlugs.has(secondPlayer)) {
         const firstName = activeRoster.find((player) => player.slug === firstPlayer)?.name ?? firstPlayer;
         const secondName = activeRoster.find((player) => player.slug === secondPlayer)?.name ?? secondPlayer;
-        warnings.push(makeItem(`Avoid-together violation: ${firstName} + ${secondName}`));
+        warnings.push(makeItem(`Avoid-together violation: ${firstName} + ${secondName}`, undefined, "Bench Rules"));
       }
     }
 
@@ -336,7 +359,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
       if (available < minimum) {
         const roleLabel = normalizeKey(role) === "healer" ? "Healer" : role;
-        warnings.push(makeItem(formatMinimumWarning(roleLabel, available, minimum)));
+        warnings.push(makeItem(formatMinimumCheck(roleLabel, available, minimum), undefined, "Comp Minimums"));
       } else {
         checks.push(makeItem(formatRoleMinimum(role, available, minimum)));
       }
@@ -346,7 +369,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
       const available = counts.byClass.get(normalizeKey(className)) ?? 0;
 
       if (available < minimum) {
-        warnings.push(makeItem(formatMinimumWarning(className, available, minimum)));
+        warnings.push(makeItem(formatMinimumCheck(className, available, minimum), undefined, "Comp Minimums"));
       } else {
         checks.push(makeItem(formatMinimumCheck(className, available, minimum)));
       }
@@ -386,6 +409,9 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const readinessPanel = card.querySelector<HTMLElement>("[data-readiness-panel]");
     const readinessStatus = card.querySelector<HTMLElement>("[data-readiness-status]");
     const readinessDetail = card.querySelector<HTMLElement>("[data-readiness-detail]");
+    const readinessColumns = card.querySelector<HTMLElement>("[data-readiness-columns]");
+    const readinessPassingColumn = card.querySelector<HTMLElement>("[data-readiness-passing-column]");
+    const readinessWarningCount = card.querySelector<HTMLElement>("[data-readiness-warning-count]");
     const readinessPassing = card.querySelector<HTMLElement>("[data-readiness-passing]");
     const readinessWarnings = card.querySelector<HTMLElement>("[data-readiness-warnings]");
     const raids = JSON.parse(dataNode?.textContent ?? "[]") as Array<{
@@ -484,16 +510,21 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
     if (readinessPassing) {
       const checks = readiness.checks;
-      readinessPassing.innerHTML = renderReadinessItems(
-        checks,
-        "is-ok",
-        readiness.warnings.length > 0 ? "No passing checks." : "No rule checks configured.",
-      );
+      readinessPassing.innerHTML = renderReadinessItems(checks, "is-ok", "No rule checks configured.");
+
+      if (readinessPassingColumn && readinessColumns) {
+        readinessPassingColumn.hidden = checks.length === 0;
+        readinessColumns.dataset.layout = checks.length === 0 ? "warnings-only" : "split";
+      }
+    }
+
+    if (readinessWarningCount) {
+      readinessWarningCount.textContent = plural(readiness.warnings.length, "issue");
     }
 
     if (readinessWarnings) {
       const warnings = readiness.warnings;
-      readinessWarnings.innerHTML = renderReadinessItems(warnings, "is-warning", "No issues flagged.");
+      readinessWarnings.innerHTML = renderWarningGroups(warnings);
     }
   });
 </script>
