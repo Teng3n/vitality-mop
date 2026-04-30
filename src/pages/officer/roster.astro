@@ -129,7 +129,7 @@ import Layout from "../../layouts/Layout.astro";
     const rows = data.rows
       .map(
         (row) => `
-          <tr>
+          <tr style="--class-color: ${escapeHtml(row.classColor)}">
             <td class="is-left" data-label="Player" data-sort-value="${escapeHtml(row.player)}">
               <a class="player-name" href="${escapeHtml(row.href)}" style="--player-color: ${escapeHtml(row.classColor)}" title="${escapeHtml(row.class)}">
                 ${escapeHtml(row.player)}
@@ -149,9 +149,8 @@ import Layout from "../../layouts/Layout.astro";
 
     rosterRoot.innerHTML = `
       <section class="page-header officer-client-heading">
-        <p class="eyebrow">Officer Roster</p>
-        <h1 class="sr-only">Officer Roster</h1>
-        <p>Officer-facing roster status counts from the raid calendar.</p>
+        <p class="eyebrow">Officer</p>
+        <h1>Officer Roster</h1>
       </section>
 
       <nav class="officer-subnav" aria-label="Officer navigation">
@@ -160,11 +159,7 @@ import Layout from "../../layouts/Layout.astro";
         <a href="/officer/roster" aria-current="page">Roster</a>
       </nav>
 
-      <section class="panel officer-note-panel">
-        <p class="info-note">Counts are based on current roster players and calendar status marks.</p>
-      </section>
-
-      <section class="dashboard-grid roster-summary-grid officer-roster-summary">
+      <section class="dashboard-grid roster-summary-grid">
         <article class="stat-card"><span>Roster Count</span><strong>${data.totals.roster}</strong></article>
         <article class="stat-card"><span>Total Bench</span><strong>${data.totals.bench}</strong></article>
         <article class="stat-card"><span>Total Out</span><strong>${data.totals.out}</strong></article>
@@ -172,9 +167,17 @@ import Layout from "../../layouts/Layout.astro";
         <article class="stat-card"><span>Total MIA</span><strong>${data.totals.mia}</strong></article>
       </section>
 
-      <section class="panel">
+      <section class="panel officer-roster-panel">
+        <div class="section-heading inline">
+          <div>
+            <p class="eyebrow">Officer Roster</p>
+            <h2>${data.totals.roster} Current Raiders</h2>
+            <p class="info-note">Counts are based on current roster players and calendar status marks.</p>
+          </div>
+        </div>
+
         <div class="table-shell">
-          <table class="data-table officer-roster-table" data-sortable-table="true" data-initial-sort-key="player" data-initial-sort-direction="ascending">
+          <table class="data-table roster-table officer-roster-table" data-sortable-table="true" data-initial-sort-key="player" data-initial-sort-direction="ascending">
             <thead>
               <tr>
                 <th class="is-left" aria-sort="ascending" data-sort-type="text"><button class="sort-button" type="button" data-sort-key="player" data-sort-type="text"><span>Player</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
