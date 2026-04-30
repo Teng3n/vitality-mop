@@ -16,7 +16,7 @@
   <p class="info-note officer-gate-status" data-officer-gate-status aria-live="polite"></p>
 </section>
 
-<div class="officer-gated-content" data-officer-gated-content hidden>
+<div class="officer-gated-content" data-officer-gated-content hidden aria-live="polite">
   <slot />
 </div>
 
@@ -27,8 +27,6 @@
   const officerGateForm = document.querySelector<HTMLFormElement>("[data-officer-gate-form]");
   const officerGateStatus = document.querySelector<HTMLElement>("[data-officer-gate-status]");
 
-  const getOfficerWindow = () => window as Window & { __vitalityOfficerPassword?: string };
-
   const showOfficerContent = () => {
     if (officerGate) {
       officerGate.hidden = true;
@@ -37,6 +35,8 @@
     if (officerContent) {
       officerContent.hidden = false;
     }
+
+    window.dispatchEvent(new CustomEvent("vitality:officer-unlocked"));
   };
 
   try {
@@ -94,9 +94,6 @@
         }
         return;
       }
-
-      getOfficerWindow().__vitalityOfficerPassword = password;
-      window.dispatchEvent(new CustomEvent("vitality:officer-authenticated", { detail: { password } }));
 
       try {
         sessionStorage.setItem(OFFICER_UNLOCKED_KEY, "true");

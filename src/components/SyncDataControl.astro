@@ -5,7 +5,6 @@
 
 <script>
   const syncControls = Array.from(document.querySelectorAll<HTMLElement>("[data-sync-control]"));
-  const getOfficerWindow = () => window as Window & { __vitalityOfficerPassword?: string };
 
   for (const syncControl of syncControls) {
     const syncButton = syncControl.querySelector<HTMLButtonElement>("[data-sync-trigger]");
@@ -33,11 +32,7 @@
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(
-            getOfficerWindow().__vitalityOfficerPassword
-              ? { password: getOfficerWindow().__vitalityOfficerPassword }
-              : {},
-          ),
+          body: JSON.stringify({}),
         });
         const responseText = await response.text();
         let result: { ok?: boolean; message?: string } | undefined;
