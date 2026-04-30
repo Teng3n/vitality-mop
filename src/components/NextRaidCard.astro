@@ -168,9 +168,9 @@ const raidPayload = calendar.raidDates.map((date) => ({
   const plural = (count: number, singular: string, pluralLabel = `${singular}s`) => `${count} ${count === 1 ? singular : pluralLabel}`;
   const pluralizeLabel = (label: string) => (label.endsWith("s") ? label : `${label}s`);
   const formatMinimumCheck = (label: string, available: number, minimum: number) =>
-    `${pluralizeLabel(label)}: ${available} available / ${minimum} required`;
+    `${pluralizeLabel(label)}: ${available} / ${minimum}`;
   const formatMinimumWarning = (label: string, available: number, minimum: number) =>
-    `Existing plan violates ${label} minimum: ${available} available / ${minimum} required. Review manually.`;
+    `${pluralizeLabel(label)} below minimum: ${available} / ${minimum}. Review manually.`;
   const playerListHtml = (players: DashboardPlayer[]) =>
     players
       .map((player) => {
@@ -243,16 +243,16 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const unavailableOrBenchSlugs = new Set([...unavailableSlugs, ...benchSlugs]);
     const raidReadyCount = activeRoster.filter((player) => !unavailableOrBenchSlugs.has(player.slug)).length;
     const requiredBenchCount = Math.max(0, activeRoster.length - unavailableSlugs.size - 25);
-    const checks = [`Raid-ready: ${plural(raidReadyCount, "player")}`];
+    const checks: string[] = [];
     const warnings: string[] = [];
     const counts = getAvailableCounts(activeRoster, unavailableSlugs, benchSlugs);
 
     if (raidReadyCount < 25) {
-      warnings.push(`Raid is short: only ${raidReadyCount} raid-ready players.`);
+      warnings.push(`Raid short: ${raidReadyCount} / 25. Review manually.`);
     }
 
     if (benchSlugs.size > requiredBenchCount) {
-      warnings.push(`Existing bench exceeds required bench by ${benchSlugs.size - requiredBenchCount}. Review manually.`);
+      warnings.push(`Bench exceeds target by ${benchSlugs.size - requiredBenchCount}. Review manually.`);
     }
 
     if (mia.length > 0) {
@@ -262,7 +262,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     for (const playerSlug of rules.neverBenchPlayers ?? []) {
       if (benchSlugs.has(playerSlug)) {
         const playerName = activeRoster.find((player) => player.slug === playerSlug)?.name ?? playerSlug;
-        warnings.push(`Existing plan violates never-bench rule: ${playerName} is benched. Review manually.`);
+        warnings.push(`Never-bench violation: ${playerName}. Review manually.`);
       }
     }
 
@@ -270,7 +270,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
       if (benchSlugs.has(firstPlayer) && benchSlugs.has(secondPlayer)) {
         const firstName = activeRoster.find((player) => player.slug === firstPlayer)?.name ?? firstPlayer;
         const secondName = activeRoster.find((player) => player.slug === secondPlayer)?.name ?? secondPlayer;
-        warnings.push(`Existing plan violates avoid-together rule: ${firstName} and ${secondName} are both benched. Review manually.`);
+        warnings.push(`Avoid-together violation: ${firstName} + ${secondName}. Review manually.`);
       }
     }
 
@@ -278,7 +278,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
       const available = counts.byRole.get(normalizeKey(role)) ?? 0;
 
       if (available < minimum) {
-        const roleLabel = normalizeKey(role) === "healer" ? "healer" : role;
+        const roleLabel = normalizeKey(role) === "healer" ? "Healer" : role;
         warnings.push(formatMinimumWarning(roleLabel, available, minimum));
       } else {
         checks.push(formatRoleMinimum(role, available, minimum));

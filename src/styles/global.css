@@ -940,9 +940,10 @@ p {
 }
 
 .readiness-checks {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 7px 14px;
+  align-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
   margin: 0;
   padding: 0;
   color: var(--muted);
@@ -951,6 +952,7 @@ p {
 }
 
 .readiness-checks li {
+  flex: 0 1 auto;
   position: relative;
   min-width: 0;
   padding-left: 14px;
@@ -972,6 +974,7 @@ p {
 }
 
 .readiness-checks li.is-warning {
+  flex: 1 1 240px;
   color: var(--text);
 }
 
