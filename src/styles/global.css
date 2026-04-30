@@ -133,8 +133,14 @@ main {
 }
 
 .side-nav-subitems {
-  display: grid;
+  display: none;
   gap: 2px;
+}
+
+.side-nav-group:hover .side-nav-subitems,
+.side-nav-group:focus-within .side-nav-subitems,
+.side-nav-group[data-active="true"] .side-nav-subitems {
+  display: grid;
 }
 
 .side-nav-subitems a {
@@ -294,6 +300,8 @@ main {
 }
 
 .officer-tools-grid {
+  display: grid;
+  gap: 16px;
   align-items: stretch;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -1197,7 +1205,6 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
 .roster-table.officer-roster-table th,
 .roster-table.officer-roster-table td {
-  padding: 11px 12px;
   vertical-align: middle;
 }
 
@@ -1826,8 +1833,14 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   }
 
   .side-nav-subitems {
-    display: flex;
+    display: none;
     gap: 8px;
+  }
+
+  .side-nav-group:hover .side-nav-subitems,
+  .side-nav-group:focus-within .side-nav-subitems,
+  .side-nav-group[data-active="true"] .side-nav-subitems {
+    display: flex;
   }
 
   .side-nav-subitems a {
