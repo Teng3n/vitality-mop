@@ -27,6 +27,7 @@ const activeRosterPayload = activeRosterPlayers.map((player) => ({
   slug: player.slug,
   name: player.name,
   className: player.className,
+  spec: player.spec,
   role: player.role,
 }));
 const getCalendarStatusPlayer = (name: string) => {
@@ -37,6 +38,7 @@ const getCalendarStatusPlayer = (name: string) => {
     slug: rosterPlayer?.slug ?? cleanedName.toLocaleLowerCase(),
     name: cleanedName,
     className: rosterPlayer?.className ?? getPlayerClass(name),
+    spec: rosterPlayer?.spec,
     role: rosterPlayer?.role,
     color: getPlayerClassColor(name),
     href: getPlayerProfileHref(cleanedName),
@@ -132,10 +134,15 @@ const raidPayload = calendar.raidDates.map((date) => ({
     slug: string;
     name: string;
     className?: string;
+    spec?: string;
     role?: string;
     color?: string;
     href?: string;
     activeRoster?: boolean;
+  };
+  type ReadinessItem = {
+    text: string;
+    detail?: string;
   };
   type BenchRules = {
     neverBenchPlayers?: string[];
@@ -180,6 +187,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     `${pluralizeLabel(label)}: ${available} / ${minimum}`;
   const formatMinimumWarning = (label: string, available: number, minimum: number) =>
     `${pluralizeLabel(label)} below minimum: ${available} / ${minimum}. Review manually.`;
+  const makeItem = (text: string, detail?: string): ReadinessItem => ({ text, detail });
   const playerListHtml = (players: DashboardPlayer[]) =>
     players
       .map((player) => {
@@ -225,6 +233,95 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const label = roleKey === "healer" ? "Healer" : role;
     return formatMinimumCheck(label, available, minimum);
   };
+  const hasClass = (player: DashboardPlayer, ...classNames: string[]) =>
+    classNames.some((className) => normalizeKey(player.className ?? "") === normalizeKey(className));
+  const hasSpec = (player: DashboardPlayer, ...specs: string[]) =>
+    Boolean(player.spec) && specs.some((spec) => normalizeKey(player.spec ?? "") === normalizeKey(spec));
+  const raidBuffs = [
+    {
+      name: "5% Stats",
+      isProvidedBy: (player: DashboardPlayer) => hasClass(player, "Druid", "Monk", "Paladin"),
+    },
+    {
+      name: "10% Stamina",
+      isProvidedBy: (player: DashboardPlayer) => hasClass(player, "Priest", "Warlock", "Warrior"),
+    },
+    {
+      name: "10% Attack Power",
+      isProvidedBy: (player: DashboardPlayer) => hasClass(player, "Death Knight", "Hunter", "Warrior"),
+    },
+    {
+      name: "10% Spell Power",
+      isProvidedBy: (player: DashboardPlayer) => hasClass(player, "Mage", "Shaman", "Warlock"),
+    },
+    {
+      name: "10% Attack Speed",
+      isProvidedBy: (player: DashboardPlayer) =>
+        hasClass(player, "Rogue") ||
+        (hasClass(player, "Death Knight") && hasSpec(player, "Frost", "Unholy")) ||
+        (hasClass(player, "Shaman") && hasSpec(player, "Enhancement")),
+    },
+    {
+      name: "5% Spell Haste",
+      isProvidedBy: (player: DashboardPlayer) =>
+        hasClass(player, "Shaman") ||
+        (hasClass(player, "Druid") && hasSpec(player, "Balance")) ||
+        (hasClass(player, "Priest") && hasSpec(player, "Shadow")),
+    },
+    {
+      name: "5% Crit",
+      isProvidedBy: (player: DashboardPlayer) =>
+        hasClass(player, "Mage") ||
+        (hasClass(player, "Druid") && hasSpec(player, "Feral", "Guardian")) ||
+        (hasClass(player, "Monk") && hasSpec(player, "Windwalker")),
+    },
+    {
+      name: "Mastery",
+      isProvidedBy: (player: DashboardPlayer) => hasClass(player, "Paladin", "Shaman"),
+    },
+  ];
+  const getRaidBuffCoverage = (raidReadyPlayers: DashboardPlayer[]) => {
+    const missing: string[] = [];
+    const detail: string[] = [];
+
+    for (const buff of raidBuffs) {
+      const providers = raidReadyPlayers.filter((player) => buff.isProvidedBy(player)).map((player) => player.name);
+
+      if (providers.length > 0) {
+        detail.push(`${buff.name}: covered by ${providers.join(", ")}`);
+      } else {
+        missing.push(buff.name);
+        detail.push(`${buff.name}: missing`);
+      }
+    }
+
+    return {
+      missing,
+      detail: detail.join("\n"),
+    };
+  };
+  const uniqueReadinessItems = (items: ReadinessItem[]) => {
+    const byText = new Map<string, ReadinessItem>();
+
+    for (const item of items) {
+      byText.set(item.text, item);
+    }
+
+    return [...byText.values()];
+  };
+  const renderReadinessItems = (items: ReadinessItem[], className: string, emptyText: string) =>
+    items.length > 0
+      ? items
+          .map((item) => {
+            const title = item.detail ? ` title="${escapeHtml(item.detail)}"` : "";
+            const ariaLabel = item.detail
+              ? ` aria-label="${escapeHtml(`${item.text}. ${item.detail.replace(/\n/g, " ")}`)}"`
+              : "";
+
+            return `<li class="${className}"${title}${ariaLabel}>${escapeHtml(item.text)}</li>`;
+          })
+          .join("")
+      : `<li class="is-empty">${escapeHtml(emptyText)}</li>`;
   const getReadiness = ({
     activeRoster,
     rules,
@@ -251,28 +348,36 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const benchSlugs = new Set(bench.map((player) => player.slug));
     const unavailableOrBenchSlugs = new Set([...unavailableSlugs, ...benchSlugs]);
     const availableCount = activeRoster.length - unavailableSlugs.size;
-    const raidReadyCount = activeRoster.filter((player) => !unavailableOrBenchSlugs.has(player.slug)).length;
+    const raidReadyPlayers = activeRoster.filter((player) => !unavailableOrBenchSlugs.has(player.slug));
+    const raidReadyCount = raidReadyPlayers.length;
     const requiredBenchCount = Math.max(0, activeRoster.length - unavailableSlugs.size - 25);
-    const checks: string[] = [];
-    const warnings: string[] = [];
+    const checks: ReadinessItem[] = [];
+    const warnings: ReadinessItem[] = [];
     const counts = getAvailableCounts(activeRoster, unavailableSlugs, benchSlugs);
+    const buffCoverage = getRaidBuffCoverage(raidReadyPlayers);
 
     if (raidReadyCount < 25) {
-      warnings.push(`Raid short: ${raidReadyCount} / 25. Review manually.`);
+      warnings.push(makeItem(`Raid short: ${raidReadyCount} / 25. Review manually.`));
     }
 
     if (benchSlugs.size > requiredBenchCount) {
-      warnings.push(`Bench exceeds target by ${benchSlugs.size - requiredBenchCount}. Review manually.`);
+      warnings.push(makeItem(`Bench exceeds target by ${benchSlugs.size - requiredBenchCount}. Review manually.`));
     }
 
     if (mia.length > 0) {
-      warnings.push(`MIA this week: ${mia.map((player) => player.name).join(", ")}.`);
+      warnings.push(makeItem(`MIA this week: ${mia.map((player) => player.name).join(", ")}.`));
+    }
+
+    if (buffCoverage.missing.length > 0) {
+      warnings.push(makeItem(`Raid Buffs: Missing ${buffCoverage.missing.join(", ")}`, buffCoverage.detail));
+    } else {
+      checks.push(makeItem("Raid Buffs: All covered", buffCoverage.detail));
     }
 
     for (const playerSlug of rules.neverBenchPlayers ?? []) {
       if (benchSlugs.has(playerSlug)) {
         const playerName = activeRoster.find((player) => player.slug === playerSlug)?.name ?? playerSlug;
-        warnings.push(`Never-bench violation: ${playerName}. Review manually.`);
+        warnings.push(makeItem(`Never-bench violation: ${playerName}. Review manually.`));
       }
     }
 
@@ -280,7 +385,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
       if (benchSlugs.has(firstPlayer) && benchSlugs.has(secondPlayer)) {
         const firstName = activeRoster.find((player) => player.slug === firstPlayer)?.name ?? firstPlayer;
         const secondName = activeRoster.find((player) => player.slug === secondPlayer)?.name ?? secondPlayer;
-        warnings.push(`Avoid-together violation: ${firstName} + ${secondName}. Review manually.`);
+        warnings.push(makeItem(`Avoid-together violation: ${firstName} + ${secondName}. Review manually.`));
       }
     }
 
@@ -289,9 +394,9 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
       if (available < minimum) {
         const roleLabel = normalizeKey(role) === "healer" ? "Healer" : role;
-        warnings.push(formatMinimumWarning(roleLabel, available, minimum));
+        warnings.push(makeItem(formatMinimumWarning(roleLabel, available, minimum)));
       } else {
-        checks.push(formatRoleMinimum(role, available, minimum));
+        checks.push(makeItem(formatRoleMinimum(role, available, minimum)));
       }
     }
 
@@ -299,9 +404,9 @@ const raidPayload = calendar.raidDates.map((date) => ({
       const available = counts.byClass.get(normalizeKey(className)) ?? 0;
 
       if (available < minimum) {
-        warnings.push(formatMinimumWarning(className, available, minimum));
+        warnings.push(makeItem(formatMinimumWarning(className, available, minimum)));
       } else {
-        checks.push(formatMinimumCheck(className, available, minimum));
+        checks.push(makeItem(formatMinimumCheck(className, available, minimum)));
       }
     }
 
@@ -313,7 +418,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
         const available = counts.byClass.get(normalizeKey(className)) ?? 0;
 
         if (available < minimum) {
-          warnings.push(formatMinimumWarning(className, available, minimum));
+          warnings.push(makeItem(formatMinimumWarning(className, available, minimum)));
         }
       }
     }
@@ -331,8 +436,8 @@ const raidPayload = calendar.raidDates.map((date) => ({
       detail,
       availableCount,
       raidReadyCount,
-      checks: [...new Set(checks)],
-      warnings: [...new Set(warnings)],
+      checks: uniqueReadinessItems(checks),
+      warnings: uniqueReadinessItems(warnings),
     };
   };
 
@@ -441,16 +546,16 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
     if (readinessPassing) {
       const checks = readiness.checks.slice(0, 5);
-      readinessPassing.innerHTML = checks.length > 0
-        ? checks.map((item) => `<li class="is-ok">${escapeHtml(item)}</li>`).join("")
-        : `<li class="is-empty">${readiness.warnings.length > 0 ? "No passing checks." : "No rule checks configured."}</li>`;
+      readinessPassing.innerHTML = renderReadinessItems(
+        checks,
+        "is-ok",
+        readiness.warnings.length > 0 ? "No passing checks." : "No rule checks configured.",
+      );
     }
 
     if (readinessWarnings) {
       const warnings = readiness.warnings.slice(0, 5);
-      readinessWarnings.innerHTML = warnings.length > 0
-        ? warnings.map((item) => `<li class="is-warning">${escapeHtml(item)}</li>`).join("")
-        : `<li class="is-empty">No issues flagged.</li>`;
+      readinessWarnings.innerHTML = renderReadinessItems(warnings, "is-warning", "No issues flagged.");
     }
   });
 </script>
