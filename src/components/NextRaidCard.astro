@@ -64,7 +64,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
   <div class="next-raid-heading">
     <div>
       <p class="eyebrow">Raider Dashboard</p>
-      <h2>Next Raid Readiness</h2>
+      <h2>Raid Readiness</h2>
     </div>
     <span class="muted">Next raid: <span data-next-raid-date>Upcoming raid</span></span>
   </div>
@@ -73,11 +73,11 @@ const raidPayload = calendar.raidDates.map((date) => ({
     <div class="next-raid-statuses is-week">
       <article class="next-raid-list next-raid-list-count">
         <div>
-          <span>Raiders</span>
+          <span>Raid Ready</span>
         </div>
         <div class="available-raiders">
           <strong data-week-raiders-count>{activeRosterCount}</strong>
-          <span>Available</span>
+          <span>players</span>
         </div>
       </article>
       <article class="next-raid-list">
@@ -166,6 +166,11 @@ const raidPayload = calendar.raidDates.map((date) => ({
     });
   const normalizeKey = (value: string) => value.toLocaleLowerCase().replace(/[^a-z0-9]+/g, "");
   const plural = (count: number, singular: string, pluralLabel = `${singular}s`) => `${count} ${count === 1 ? singular : pluralLabel}`;
+  const pluralizeLabel = (label: string) => (label.endsWith("s") ? label : `${label}s`);
+  const formatMinimumCheck = (label: string, available: number, minimum: number) =>
+    `${pluralizeLabel(label)}: ${available} available / ${minimum} required`;
+  const formatMinimumWarning = (label: string, available: number, minimum: number) =>
+    `Existing plan violates ${label} minimum: ${available} available / ${minimum} required. Review manually.`;
   const playerListHtml = (players: DashboardPlayer[]) =>
     players
       .map((player) => {
@@ -208,8 +213,8 @@ const raidPayload = calendar.raidDates.map((date) => ({
   };
   const formatRoleMinimum = (role: string, available: number, minimum: number) => {
     const roleKey = normalizeKey(role);
-    const label = roleKey === "healer" ? "healers" : role;
-    return `Available ${label}: ${available} / ${minimum}.`;
+    const label = roleKey === "healer" ? "Healer" : role;
+    return formatMinimumCheck(label, available, minimum);
   };
   const getReadiness = ({
     activeRoster,
@@ -238,7 +243,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const unavailableOrBenchSlugs = new Set([...unavailableSlugs, ...benchSlugs]);
     const raidReadyCount = activeRoster.filter((player) => !unavailableOrBenchSlugs.has(player.slug)).length;
     const requiredBenchCount = Math.max(0, activeRoster.length - unavailableSlugs.size - 25);
-    const checks = [`${raidReadyCount} raid-ready players.`];
+    const checks = [`Raid-ready: ${plural(raidReadyCount, "player")}`];
     const warnings: string[] = [];
     const counts = getAvailableCounts(activeRoster, unavailableSlugs, benchSlugs);
 
@@ -273,11 +278,8 @@ const raidPayload = calendar.raidDates.map((date) => ({
       const available = counts.byRole.get(normalizeKey(role)) ?? 0;
 
       if (available < minimum) {
-        const roleLabel = normalizeKey(role) === "healer" ? "healer" : role.toLocaleLowerCase();
-        const availableLabel = normalizeKey(role) === "healer" ? "available healers" : `available ${role} count`;
-        warnings.push(
-          `Existing plan violates ${roleLabel} minimum: ${availableLabel} would be ${available}, rule requires ${minimum}. Review manually.`,
-        );
+        const roleLabel = normalizeKey(role) === "healer" ? "healer" : role;
+        warnings.push(formatMinimumWarning(roleLabel, available, minimum));
       } else {
         checks.push(formatRoleMinimum(role, available, minimum));
       }
@@ -287,11 +289,9 @@ const raidPayload = calendar.raidDates.map((date) => ({
       const available = counts.byClass.get(normalizeKey(className)) ?? 0;
 
       if (available < minimum) {
-        warnings.push(
-          `Existing plan violates class minimum: available ${className} count would be ${available}, rule requires ${minimum}. Review manually.`,
-        );
+        warnings.push(formatMinimumWarning(className, available, minimum));
       } else {
-        checks.push(`Available ${className}s: ${available} / ${minimum}.`);
+        checks.push(formatMinimumCheck(className, available, minimum));
       }
     }
 
@@ -303,9 +303,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
         const available = counts.byClass.get(normalizeKey(className)) ?? 0;
 
         if (available < minimum) {
-          warnings.push(
-            `Existing plan violates class minimum: available ${className} count would be ${available}, rule requires ${minimum}. Review manually.`,
-          );
+          warnings.push(formatMinimumWarning(className, available, minimum));
         }
       }
     }
@@ -431,7 +429,9 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
     if (readinessChecks) {
       const items = [...readiness.warnings, ...readiness.checks].slice(0, 7);
-      readinessChecks.innerHTML = items.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+      readinessChecks.innerHTML = items
+        .map((item, index) => `<li class="${index < readiness.warnings.length ? "is-warning" : "is-ok"}">${escapeHtml(item)}</li>`)
+        .join("");
     }
   });
 </script>

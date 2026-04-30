@@ -53,13 +53,13 @@ const raidWeeks = Array.from(raidWeeksByStart.entries())
   .filter((week): week is { weekStart: string; raids: [RaidNight, RaidNight] } => week.raids.length === 2);
 const initialTodayIso = getTodayIso();
 const initialUpcomingWeekIndex = raidWeeks.findIndex((week) => week.raids.some((raid) => raid.isoDate >= initialTodayIso));
-const initialBaseIndex = initialUpcomingWeekIndex >= 0 ? initialUpcomingWeekIndex : Math.max(raidWeeks.length - weekCount, 0);
-const initialStartIndex = Math.min(initialBaseIndex + startOffset, Math.max(raidWeeks.length - weekCount, 0));
+const initialBaseIndex = initialUpcomingWeekIndex >= 0 ? initialUpcomingWeekIndex : raidWeeks.length;
+const initialStartIndex = initialBaseIndex + startOffset;
 const activeRosterSlugs = new Set(activeRosterPlayers.map((player) => player.slug));
 const formatPlayerList = (players: StatusPlayer[]) => (players.length > 0 ? players : []);
 const getAvailableRaiders = (raid: RaidNight) => {
   const unavailable = new Set(
-    [...raid.out, ...raid.late].filter((player) => activeRosterSlugs.has(player.slug)).map((player) => player.slug),
+    [...raid.out, ...raid.late, ...raid.mia].filter((player) => activeRosterSlugs.has(player.slug)).map((player) => player.slug),
   );
 
   return Math.max(activeRosterPlayers.length - unavailable.size, 0);
@@ -91,70 +91,76 @@ const getAvailableRaiders = (raid: RaidNight) => {
         >
           <div class="raid-week-days">
             {
-              week.raids.map((raid) => (
-                <section class="raid-week-day">
-                  <div class="raid-date-card-header">
-                    <div>
-                      <p class="eyebrow">Date</p>
-                      <h3>{raid.label}</h3>
+              week.raids.map((raid) => {
+                const availableRaiders = getAvailableRaiders(raid);
+
+                return (
+                  <section class="raid-week-day">
+                    <div class="raid-date-card-header">
+                      <div>
+                        <p class="eyebrow">Date</p>
+                        <h3>{raid.label}</h3>
+                      </div>
+                      <strong title={`${availableRaiders} available`} aria-label={`${availableRaiders} available raiders`}>
+                        {availableRaiders}
+                      </strong>
                     </div>
-                    <strong title="Available raiders">{getAvailableRaiders(raid)}</strong>
-                  </div>
-                  <div class="raid-date-statuses">
-                    <div>
-                      <span>Bench</span>
-                      <ul>
-                        {formatPlayerList(raid.bench).map((player) => (
-                          <li>
-                            <a
-                              class="player-name"
-                              href={player.href}
-                              style={getPlayerNameStyle(player.name)}
-                              title={getPlayerClass(player.name)}
-                            >
-                              {player.name}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
+                    <div class="raid-date-statuses">
+                      <div>
+                        <span>Bench</span>
+                        <ul>
+                          {formatPlayerList(raid.bench).map((player) => (
+                            <li>
+                              <a
+                                class="player-name"
+                                href={player.href}
+                                style={getPlayerNameStyle(player.name)}
+                                title={getPlayerClass(player.name)}
+                              >
+                                {player.name}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div>
+                        <span>Out</span>
+                        <ul>
+                          {formatPlayerList(raid.out).map((player) => (
+                            <li>
+                              <a
+                                class="player-name"
+                                href={player.href}
+                                style={getPlayerNameStyle(player.name)}
+                                title={getPlayerClass(player.name)}
+                              >
+                                {player.name}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div>
+                        <span>Late</span>
+                        <ul>
+                          {formatPlayerList(raid.late).map((player) => (
+                            <li>
+                              <a
+                                class="player-name"
+                                href={player.href}
+                                style={getPlayerNameStyle(player.name)}
+                                title={getPlayerClass(player.name)}
+                              >
+                                {player.name}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
-                    <div>
-                      <span>Out</span>
-                      <ul>
-                        {formatPlayerList(raid.out).map((player) => (
-                          <li>
-                            <a
-                              class="player-name"
-                              href={player.href}
-                              style={getPlayerNameStyle(player.name)}
-                              title={getPlayerClass(player.name)}
-                            >
-                              {player.name}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div>
-                      <span>Late</span>
-                      <ul>
-                        {formatPlayerList(raid.late).map((player) => (
-                          <li>
-                            <a
-                              class="player-name"
-                              href={player.href}
-                              style={getPlayerNameStyle(player.name)}
-                              title={getPlayerClass(player.name)}
-                            >
-                              {player.name}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </section>
-              ))
+                  </section>
+                );
+              })
             }
           </div>
         </article>
@@ -181,8 +187,8 @@ const getAvailableRaiders = (raid: RaidNight) => {
         .filter(Boolean)
         .some((isoDate) => parseIsoDate(isoDate) >= today),
     );
-    const baseIndex = firstUpcomingWeekIndex >= 0 ? firstUpcomingWeekIndex : Math.max(cards.length - weekCount, 0);
-    const startIndex = Math.min(baseIndex + startOffset, Math.max(cards.length - weekCount, 0));
+    const baseIndex = firstUpcomingWeekIndex >= 0 ? firstUpcomingWeekIndex : cards.length;
+    const startIndex = baseIndex + startOffset;
 
     cards.forEach((card, index) => {
       card.hidden = index < startIndex || index >= startIndex + weekCount;

@@ -967,6 +967,18 @@ p {
   background: var(--gold);
 }
 
+.readiness-checks li.is-ok::before {
+  background: var(--jade);
+}
+
+.readiness-checks li.is-warning {
+  color: var(--text);
+}
+
+.readiness-checks li.is-warning::before {
+  background: #ee9a8e;
+}
+
 .status-legend {
   display: flex;
   flex-wrap: wrap;
