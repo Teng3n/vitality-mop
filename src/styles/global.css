@@ -909,7 +909,8 @@ p {
 
 .readiness-panel {
   display: grid;
-  grid-template-columns: minmax(160px, 0.32fr) minmax(0, 1fr);
+  grid-template-columns: minmax(160px, 190px) minmax(0, 1fr);
+  align-items: stretch;
   gap: 12px;
   border: 1px solid rgba(43, 58, 49, 0.7);
   border-radius: 8px;
@@ -918,9 +919,13 @@ p {
 }
 
 .readiness-status {
-  display: grid;
-  align-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   gap: 5px;
+  min-height: 100%;
+  text-align: center;
 }
 
 .readiness-status span {
@@ -988,6 +993,8 @@ p {
 
 .readiness-warning-groups {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+  align-items: start;
   gap: 10px;
 }
 
@@ -2085,6 +2092,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .card-grid,
   .readiness-panel,
   .readiness-columns,
+  .readiness-warning-groups,
   .readiness-checks,
   .next-raid-statuses,
   .next-raid-statuses.is-week,
