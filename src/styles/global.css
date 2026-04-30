@@ -1212,6 +1212,11 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   white-space: nowrap;
 }
 
+.roster-table.officer-roster-table .status-count .sort-button {
+  justify-content: center;
+  width: 100%;
+}
+
 .loot-summary-table tbody tr[data-active-roster="false"] {
   background: rgba(200, 155, 60, 0.1);
   color: #d8bb73;

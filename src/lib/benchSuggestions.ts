@@ -14,6 +14,8 @@ const DEFAULT_BENCH_SUGGESTION_WINDOW_WEEKS = 8;
 const TARGET_RAID_SIZE = 25;
 const RECENT_BENCH_DAYS = 21;
 const RECENT_UNAVAILABLE_WEEK_LOOKBACK = 2;
+const MIN_RECENT_UNAVAILABLE_PENALTY = -20;
+const MIN_ADJACENT_UNAVAILABLE_PENALTY = -30;
 
 interface BenchRules {
   neverBenchPlayers: string[];
@@ -40,6 +42,8 @@ interface BenchCandidate {
   suggestedCount: number;
   totalBenchCount: number;
   daysSinceBench: number;
+  hasRecentUnavailablePenalty: boolean;
+  hasAdjacentUnavailablePenalty: boolean;
 }
 
 interface PlanningState {
@@ -92,7 +96,14 @@ const normalizeKey = (value: string) => value.toLocaleLowerCase().replace(/[^a-z
 const sortStatusPlayers = (players: StatusPlayer[]) =>
   [...players].sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
 const playerList = (players: StatusPlayer[]) => (players.length > 0 ? players.map((player) => player.name).join(", ") : "None");
-const formatRuleList = (values: string[]) => values.join(", ");
+const getEffectivePenalty = (weight: number | undefined, minimumPenalty: number) => {
+  if (!weight) {
+    return 0;
+  }
+
+  const penalty = weight > 0 ? -weight : weight;
+  return Math.min(penalty, minimumPenalty);
+};
 
 const getUniquePlayers = (playerLists: StatusPlayer[][]) => {
   const bySlug = new Map<string, StatusPlayer>();
@@ -251,7 +262,9 @@ const getConstraintWarnings = (benchSlugs: Set<string>, unavailableSlugs: Set<st
 
   for (const playerSlug of benchRules.neverBenchPlayers) {
     if (benchSlugs.has(playerSlug)) {
-      warnings.push(`Existing bench assignment violates NEVER_BENCH_PLAYER for ${activeRosterBySlug.get(playerSlug)?.name ?? playerSlug}.`);
+      warnings.push(
+        `Existing plan violates never-bench rule: ${activeRosterBySlug.get(playerSlug)?.name ?? playerSlug} is benched. Review manually.`,
+      );
     }
   }
 
@@ -259,7 +272,7 @@ const getConstraintWarnings = (benchSlugs: Set<string>, unavailableSlugs: Set<st
     if (benchSlugs.has(firstPlayer) && benchSlugs.has(secondPlayer)) {
       const firstName = activeRosterBySlug.get(firstPlayer)?.name ?? firstPlayer;
       const secondName = activeRosterBySlug.get(secondPlayer)?.name ?? secondPlayer;
-      warnings.push(`Existing bench assignment violates AVOID_BENCH_TOGETHER for ${firstName} and ${secondName}.`);
+      warnings.push(`Existing plan violates avoid-together rule: ${firstName} and ${secondName} are both benched. Review manually.`);
     }
   }
 
@@ -269,7 +282,11 @@ const getConstraintWarnings = (benchSlugs: Set<string>, unavailableSlugs: Set<st
     const available = counts.byRole.get(normalizeKey(role)) ?? 0;
 
     if (available < minimum) {
-      warnings.push(`Available ${role} count would be ${available}, below the rule minimum of ${minimum}.`);
+      const roleLabel = role.toLocaleLowerCase();
+      const availableLabel = normalizeKey(role) === "healer" ? "available healers" : `available ${role} count`;
+      warnings.push(
+        `Existing plan violates ${roleLabel} minimum: ${availableLabel} would be ${available}, rule requires ${minimum}. Review manually.`,
+      );
     }
   }
 
@@ -277,7 +294,9 @@ const getConstraintWarnings = (benchSlugs: Set<string>, unavailableSlugs: Set<st
     const available = counts.byClass.get(normalizeKey(className)) ?? 0;
 
     if (available < minimum) {
-      warnings.push(`Available ${className} count would be ${available}, below the rule minimum of ${minimum}.`);
+      warnings.push(
+        `Existing plan violates class minimum: available ${className} count would be ${available}, rule requires ${minimum}. Review manually.`,
+      );
     }
   }
 
@@ -289,7 +308,9 @@ const getConstraintWarnings = (benchSlugs: Set<string>, unavailableSlugs: Set<st
       const available = counts.byClass.get(normalizeKey(className)) ?? 0;
 
       if (available < minimum) {
-        warnings.push(`Available ${className} count would be ${available}, below the per-class minimum of ${minimum}.`);
+        warnings.push(
+          `Existing plan violates class minimum: available ${className} count would be ${available}, rule requires ${minimum}. Review manually.`,
+        );
       }
     }
   }
@@ -361,6 +382,16 @@ const scoreCandidate = (player: Player, weekKey: string, planningState: Planning
   const totalBenchCount = (summary?.totalScheduledBenchNights ?? 0) + suggestedCount;
   const daysSinceBench = getDaysSinceBench(player.slug, weekKey, planningState);
   const reasons: string[] = [];
+  const recentUnavailablePenalty = getEffectivePenalty(
+    benchRules.scoring.recentlyUnavailablePenalty,
+    MIN_RECENT_UNAVAILABLE_PENALTY,
+  );
+  const adjacentUnavailablePenalty = getEffectivePenalty(
+    benchRules.scoring.adjacentUnavailablePenalty,
+    MIN_ADJACENT_UNAVAILABLE_PENALTY,
+  );
+  const hasRecentUnavailablePenalty = Boolean(recentUnavailablePenalty && wasRecentlyUnavailable(player.slug, weekKey));
+  const hasAdjacentUnavailablePenalty = Boolean(adjacentUnavailablePenalty && hasAdjacentUnavailable(player.slug, weekKey));
   let score = 0;
 
   if (benchRules.scoring.lowBenchCountWeight) {
@@ -386,17 +417,26 @@ const scoreCandidate = (player: Player, weekKey: string, planningState: Planning
     );
   }
 
-  if (benchRules.scoring.recentlyUnavailablePenalty && wasRecentlyUnavailable(player.slug, weekKey)) {
-    score += benchRules.scoring.recentlyUnavailablePenalty;
+  if (hasRecentUnavailablePenalty) {
+    score += recentUnavailablePenalty;
     reasons.push("penalized for recent Out/Late/MIA");
   }
 
-  if (benchRules.scoring.adjacentUnavailablePenalty && hasAdjacentUnavailable(player.slug, weekKey)) {
-    score += benchRules.scoring.adjacentUnavailablePenalty;
+  if (hasAdjacentUnavailablePenalty) {
+    score += adjacentUnavailablePenalty;
     reasons.push("penalized for adjacent Out/Late/MIA");
   }
 
-  return { player, score, reasons, suggestedCount, totalBenchCount, daysSinceBench };
+  return {
+    player,
+    score,
+    reasons,
+    suggestedCount,
+    totalBenchCount,
+    daysSinceBench,
+    hasRecentUnavailablePenalty,
+    hasAdjacentUnavailablePenalty,
+  };
 };
 
 const compareDaysSinceBench = (a: BenchCandidate, b: BenchCandidate) => {
@@ -460,6 +500,8 @@ export const getBenchSuggestionWeeks = (todayIso = getTodayIso()): BenchSuggesti
     warnings.push(...getConstraintWarnings(existingBenchSlugs, unavailableSlugs));
 
     if (additionalBenchNeeded > 0) {
+      const selectedCandidates: BenchCandidate[] = [];
+      let skippedHardRuleCount = 0;
       const candidates = activeRosterPlayers
         .map((player) => scoreCandidate(player, weekKey, planningState))
         .sort(
@@ -479,22 +521,13 @@ export const getBenchSuggestionWeeks = (todayIso = getTodayIso()): BenchSuggesti
         const currentBenchSlugs = new Set([...existingBenchSlugs, ...suggestedBenchSlugs]);
 
         if (!passesHardRules(candidate.player, unavailableSlugs, currentBenchSlugs)) {
+          skippedHardRuleCount += 1;
           continue;
         }
 
         suggestedBenchPlayers.push(getStatusPlayer(candidate.player));
         suggestedBenchSlugs.add(candidate.player.slug);
-        const positiveReasons = candidate.reasons.filter((reason) => !reason.startsWith("penalized"));
-        const penaltyReasons = candidate.reasons.filter((reason) => reason.startsWith("penalized"));
-        const selectedReasons = positiveReasons.length > 0 ? positiveReasons : penaltyReasons;
-
-        notes.push(
-          `${candidate.player.name} selected${selectedReasons.length > 0 ? ` for ${formatRuleList(selectedReasons.slice(0, 2))}` : ""}.`,
-        );
-
-        for (const penaltyReason of penaltyReasons) {
-          notes.push(`${candidate.player.name} ${penaltyReason}.`);
-        }
+        selectedCandidates.push(candidate);
       }
 
       if (suggestedBenchPlayers.length < additionalBenchNeeded) {
@@ -502,6 +535,35 @@ export const getBenchSuggestionWeeks = (todayIso = getTodayIso()): BenchSuggesti
           "Could not suggest a full bench list for this week because too many players are unavailable or constraints would be violated.",
         );
         warnings.push("No valid bench suggestion found without violating constraints.");
+      }
+
+      if (selectedCandidates.length > 0) {
+        const selectedWithoutRepeat = selectedCandidates.every((candidate) => candidate.suggestedCount === 0);
+        notes.push(
+          selectedWithoutRepeat
+            ? "Selected players had low bench counts and were not already suggested in this planning run."
+            : "Selected players were the highest-ranked valid candidates after bench count and rotation scoring.",
+        );
+
+        const penalizedSelectedCandidates = selectedCandidates.filter(
+          (candidate) => candidate.hasRecentUnavailablePenalty || candidate.hasAdjacentUnavailablePenalty,
+        );
+
+        for (const candidate of penalizedSelectedCandidates) {
+          const penaltyLabel =
+            candidate.hasRecentUnavailablePenalty && candidate.hasAdjacentUnavailablePenalty
+              ? "recent and adjacent Out/Late/MIA"
+              : candidate.hasAdjacentUnavailablePenalty
+                ? "adjacent Out/Late/MIA"
+                : "recent Out/Late/MIA";
+          notes.push(
+            `${candidate.player.name} was selected despite a ${penaltyLabel} penalty because no higher-ranked valid candidates remained.`,
+          );
+        }
+
+        if (penalizedSelectedCandidates.length > 0 && skippedHardRuleCount > 0) {
+          notes.push("Some higher-ranked candidates were skipped due to healer/class minimum or other hard rules.");
+        }
       }
     }
 

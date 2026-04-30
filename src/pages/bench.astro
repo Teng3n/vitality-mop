@@ -79,20 +79,6 @@ const windowDateRange = firstRaidNight && lastRaidNight
   ? `${formatShortDate(firstRaidNight.isoDate)} - ${formatShortDate(lastRaidNight.isoDate)}`
   : "No raid dates";
 const nextBenchWeek = benchWeeks.find((week) => week.uniqueBenchPlayers.length > 0);
-const heaviestWeek = benchWeeks.reduce<(typeof benchWeeks)[number] | undefined>(
-  (best, week) => {
-    if (week.uniqueBenchPlayers.length === 0) {
-      return best;
-    }
-
-    if (!best || week.uniqueBenchPlayers.length > best.uniqueBenchPlayers.length) {
-      return week;
-    }
-
-    return best;
-  },
-  undefined,
-);
 const openWeekCount = benchWeeks.filter((week) => week.uniqueBenchPlayers.length === 0).length;
 ---
 
@@ -108,11 +94,6 @@ const openWeekCount = benchWeeks.filter((week) => week.uniqueBenchPlayers.length
       label="Next Bench"
       value={nextBenchWeek?.label ?? "None"}
       detail={nextBenchWeek ? formatPlayerDetail(nextBenchWeek.uniqueBenchPlayers.length) : "no bench scheduled"}
-    />
-    <StatCard
-      label="Heaviest Week"
-      value={heaviestWeek?.label ?? "None"}
-      detail={heaviestWeek ? `${heaviestWeek.uniqueBenchPlayers.length} benched` : "no bench scheduled"}
     />
     <StatCard label="Open Weeks" value={openWeekCount} detail="no bench scheduled" />
   </section>
