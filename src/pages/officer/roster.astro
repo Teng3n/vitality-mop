@@ -82,10 +82,10 @@ import Layout from "../../layouts/Layout.astro";
             <td data-label="Class">${escapeHtml(row.class)}</td>
             <td data-label="Spec">${escapeHtml(row.spec)}</td>
             <td data-label="Role">${escapeHtml(row.role)}</td>
-            <td class="is-right" data-label="Bench">${row.bench}</td>
-            <td class="is-right" data-label="Out">${row.out}</td>
-            <td class="is-right" data-label="Late">${row.late}</td>
-            <td class="is-right" data-label="MIA">${row.mia}</td>
+            <td class="status-count" data-label="Bench">${row.bench}</td>
+            <td class="status-count" data-label="Out">${row.out}</td>
+            <td class="status-count" data-label="Late">${row.late}</td>
+            <td class="status-count" data-label="MIA">${row.mia}</td>
           </tr>
         `,
       )
@@ -114,10 +114,10 @@ import Layout from "../../layouts/Layout.astro";
                 <th>Class</th>
                 <th>Spec</th>
                 <th>Role</th>
-                <th class="is-right">Bench</th>
-                <th class="is-right">Out</th>
-                <th class="is-right">Late</th>
-                <th class="is-right">MIA</th>
+                <th class="status-count">Bench</th>
+                <th class="status-count">Out</th>
+                <th class="status-count">Late</th>
+                <th class="status-count">MIA</th>
               </tr>
             </thead>
             <tbody>${rows}</tbody>

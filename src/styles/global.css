@@ -1203,10 +1203,13 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   vertical-align: middle;
 }
 
-.roster-table.officer-roster-table th:nth-child(n + 5),
-.roster-table.officer-roster-table td:nth-child(n + 5) {
+.roster-table.officer-roster-table .status-count {
   width: 72px;
+  min-width: 72px;
+  max-width: 72px;
   font-variant-numeric: tabular-nums;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .loot-summary-table tbody tr[data-active-roster="false"] {
