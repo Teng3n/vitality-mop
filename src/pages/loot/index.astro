@@ -3,12 +3,13 @@ import Layout from "../../layouts/Layout.astro";
 import DataTable from "../../components/DataTable.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import StatCard from "../../components/StatCard.astro";
-import { lootSummaries } from "../../lib/guildData";
+import { activeRosterPlayers, lootSummaries } from "../../lib/guildData";
 
 const summaryRows = [...lootSummaries];
 const rows: Record<string, unknown>[] = summaryRows.map((row) => ({ ...row }));
 const activeRows = summaryRows.filter((row) => row.activeRoster);
-const activeLoot = activeRows.reduce((sum, row) => sum + row.total, 0);
+const activeCountedAwards = activeRows.reduce((sum, row) => sum + row.total, 0);
+const allCountedAwards = summaryRows.reduce((sum, row) => sum + row.total, 0);
 const columns = [
   { key: "player", label: "Player", sortable: true, sortType: "text" },
   { key: "bis", label: "BiS", align: "right", sortable: true, sortType: "number" },
@@ -27,18 +28,28 @@ const columns = [
   />
 
   <section class="dashboard-grid compact">
-    <StatCard label="Active recipients" value={activeRows.length} detail="Shown by default" />
-    <StatCard label="Active awards" value={activeLoot} detail="BiS, major, and minor" />
-    <StatCard label="History" value="View" detail="Award log" href="/loot/history" />
+    <StatCard label="Active roster players" value={activeRosterPlayers.length} detail="Current roster" />
+    <article class="stat-card">
+      <span>Visible loot recipients</span>
+      <strong data-visible-loot-recipients>{activeRows.length}</strong>
+      <small>Current table view</small>
+    </article>
+    <article class="stat-card">
+      <span>Counted awards</span>
+      <strong data-visible-counted-awards>{activeCountedAwards}</strong>
+      <small>BiS, major, and minor</small>
+    </article>
   </section>
 
-  <section class="panel">
+  <section class="panel" data-loot-summary-panel data-active-counted-awards={activeCountedAwards} data-all-counted-awards={allCountedAwards}>
     <div class="toolbar">
       <label class="check-field">
         <input type="checkbox" data-include-all-loot />
-        <span>Include all loot recipients</span>
+        <span>Include historical loot recipients</span>
       </label>
-      <span class="muted" data-loot-summary-count>{activeRows.length} players</span>
+      <span class="muted" data-loot-summary-count>
+        Totals include BiS, Major, and Minor. Offspec and Bonus Rolls are shown separately.
+      </span>
     </div>
     <DataTable
       columns={columns}
@@ -51,8 +62,12 @@ const columns = [
 
   <script>
     const includeAllLoot = document.querySelector<HTMLInputElement>("[data-include-all-loot]");
-    const visibleCount = document.querySelector<HTMLElement>("[data-loot-summary-count]");
+    const visibleRecipientCount = document.querySelector<HTMLElement>("[data-visible-loot-recipients]");
+    const visibleCountedAwards = document.querySelector<HTMLElement>("[data-visible-counted-awards]");
+    const lootSummaryPanel = document.querySelector<HTMLElement>("[data-loot-summary-panel]");
     const lootRows = Array.from(document.querySelectorAll<HTMLTableRowElement>(".loot-summary-table tbody tr"));
+    const activeCountedAwards = Number(lootSummaryPanel?.dataset.activeCountedAwards ?? 0);
+    const allCountedAwards = Number(lootSummaryPanel?.dataset.allCountedAwards ?? 0);
 
     const updateLootRows = () => {
       const showAll = includeAllLoot?.checked ?? false;
@@ -67,8 +82,12 @@ const columns = [
         }
       }
 
-      if (visibleCount) {
-        visibleCount.textContent = `${count} players`;
+      if (visibleRecipientCount) {
+        visibleRecipientCount.textContent = String(count);
+      }
+
+      if (visibleCountedAwards) {
+        visibleCountedAwards.textContent = String(showAll ? allCountedAwards : activeCountedAwards);
       }
     };
 

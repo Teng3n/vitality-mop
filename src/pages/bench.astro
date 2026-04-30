@@ -186,7 +186,7 @@ const openWeekCount = benchWeeks.filter((week) => week.uniqueBenchPlayers.length
     }
 
     if (benchSearchEmpty) {
-      benchSearchEmpty.hidden = !query || visibleWeeks > 0;
+      benchSearchEmpty.hidden = query.length === 0 || visibleWeeks > 0;
     }
   };
 

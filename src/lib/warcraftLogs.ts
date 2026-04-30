@@ -1,7 +1,7 @@
 export const GUILD_REGION = "us";
 
 const knownRealmSlugs: Record<string, string> = {
-  leishen: "leishen",
+  leishen: "raden",
   pagle: "pagle",
   raden: "raden",
 };
