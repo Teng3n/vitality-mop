@@ -357,6 +357,11 @@ main {
   padding: 16px;
 }
 
+[data-officer-roster-root] {
+  display: grid;
+  gap: 28px;
+}
+
 .stat-card {
   display: grid;
   gap: 8px;
