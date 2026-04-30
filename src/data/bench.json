@@ -60,12 +60,6 @@
     "notes": "Scheduled: 2026-02-23, 2026-05-03, 2026-05-04"
   },
   {
-    "player": "Maverickdog",
-    "totalBenchCount": 3,
-    "lastBenched": "2026-05-04",
-    "notes": "Scheduled: 2026-02-23, 2026-05-03, 2026-05-04"
-  },
-  {
     "player": "Arrowqt",
     "totalBenchCount": 2,
     "lastBenched": "2026-02-02",
@@ -90,12 +84,6 @@
     "notes": "Scheduled: 2026-02-15, 2026-02-16"
   },
   {
-    "player": "Noxw",
-    "totalBenchCount": 2,
-    "lastBenched": "2026-05-04",
-    "notes": "Scheduled: 2026-05-03, 2026-05-04"
-  },
-  {
     "player": "Teehee",
     "totalBenchCount": 2,
     "lastBenched": "2026-04-27",
@@ -112,6 +100,12 @@
     "totalBenchCount": 1,
     "lastBenched": "2026-03-16",
     "notes": "Scheduled: 2026-03-16"
+  },
+  {
+    "player": "Maverickdog",
+    "totalBenchCount": 1,
+    "lastBenched": "2026-02-23",
+    "notes": "Scheduled: 2026-02-23"
   },
   {
     "player": "Tengen",
