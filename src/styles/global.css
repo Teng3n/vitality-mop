@@ -898,6 +898,75 @@ p {
   text-transform: uppercase;
 }
 
+.readiness-panel {
+  display: grid;
+  grid-template-columns: minmax(160px, 0.32fr) minmax(0, 1fr);
+  gap: 12px;
+  border: 1px solid rgba(43, 58, 49, 0.7);
+  border-radius: 8px;
+  padding: 13px;
+  background: rgba(23, 33, 27, 0.68);
+}
+
+.readiness-status {
+  display: grid;
+  align-content: center;
+  gap: 5px;
+}
+
+.readiness-status span {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.readiness-status strong {
+  color: var(--jade);
+  font-size: 1.35rem;
+}
+
+.readiness-status small {
+  color: var(--muted);
+}
+
+.readiness-panel[data-status="needs-review"] .readiness-status strong {
+  color: var(--gold);
+}
+
+.readiness-panel[data-status="short"] .readiness-status strong {
+  color: #ee9a8e;
+}
+
+.readiness-checks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px 14px;
+  margin: 0;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  list-style: none;
+}
+
+.readiness-checks li {
+  position: relative;
+  min-width: 0;
+  padding-left: 14px;
+}
+
+.readiness-checks li::before {
+  content: "";
+  position: absolute;
+  top: 0.72em;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--gold);
+}
+
 .status-legend {
   display: flex;
   flex-wrap: wrap;
@@ -1887,6 +1956,8 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .raid-card-grid,
   .raid-week-grid,
   .card-grid,
+  .readiness-panel,
+  .readiness-checks,
   .next-raid-statuses,
   .next-raid-statuses.is-week,
   .profile-overview,

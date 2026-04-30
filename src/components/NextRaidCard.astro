@@ -1,7 +1,8 @@
 ---
+import benchRules from "../data/benchRules.json";
 import { getPlayerClass, getPlayerClassColor } from "../lib/playerStyles";
 import { cleanPlayerName, getPlayerProfileHref } from "../lib/playerNames";
-import { activeRosterPlayers } from "../lib/guildData";
+import { activeRosterPlayers, getPlayerByName } from "../lib/guildData";
 
 interface RaidDate {
   label: string;
@@ -22,35 +23,40 @@ interface Props {
 
 const { calendar } = Astro.props;
 const activeRosterCount = activeRosterPlayers.length;
+const activeRosterPayload = activeRosterPlayers.map((player) => ({
+  slug: player.slug,
+  name: player.name,
+  className: player.className,
+  role: player.role,
+}));
+const getCalendarStatusPlayer = (name: string) => {
+  const rosterPlayer = getPlayerByName(name);
+  const cleanedName = cleanPlayerName(rosterPlayer?.name ?? name);
+
+  return {
+    slug: rosterPlayer?.slug ?? cleanedName.toLocaleLowerCase(),
+    name: cleanedName,
+    className: rosterPlayer?.className ?? getPlayerClass(name),
+    role: rosterPlayer?.role,
+    color: getPlayerClassColor(name),
+    href: getPlayerProfileHref(cleanedName),
+    activeRoster: Boolean(rosterPlayer),
+  };
+};
 const raidPayload = calendar.raidDates.map((date) => ({
   ...date,
   bench: calendar.players
     .filter((player) => player.schedule[date.label] === "Bench")
-    .map((player) => ({
-      name: cleanPlayerName(player.name),
-      className: getPlayerClass(player.name),
-      color: getPlayerClassColor(player.name),
-      href: getPlayerProfileHref(player.name),
-      activeRoster: Boolean(getPlayerClass(player.name)),
-    })),
+    .map((player) => getCalendarStatusPlayer(player.name)),
   out: calendar.players
     .filter((player) => player.schedule[date.label] === "Out")
-    .map((player) => ({
-      name: cleanPlayerName(player.name),
-      className: getPlayerClass(player.name),
-      color: getPlayerClassColor(player.name),
-      href: getPlayerProfileHref(player.name),
-      activeRoster: Boolean(getPlayerClass(player.name)),
-    })),
+    .map((player) => getCalendarStatusPlayer(player.name)),
   late: calendar.players
     .filter((player) => player.schedule[date.label] === "Late")
-    .map((player) => ({
-      name: cleanPlayerName(player.name),
-      className: getPlayerClass(player.name),
-      color: getPlayerClassColor(player.name),
-      href: getPlayerProfileHref(player.name),
-      activeRoster: Boolean(getPlayerClass(player.name)),
-    })),
+    .map((player) => getCalendarStatusPlayer(player.name)),
+  mia: calendar.players
+    .filter((player) => player.schedule[date.label] === "MIA")
+    .map((player) => getCalendarStatusPlayer(player.name)),
 }));
 ---
 
@@ -58,7 +64,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
   <div class="next-raid-heading">
     <div>
       <p class="eyebrow">Raider Dashboard</p>
-      <h2>Weekly Raid Summary</h2>
+      <h2>Next Raid Readiness</h2>
     </div>
     <span class="muted">Next raid: <span data-next-raid-date>Upcoming raid</span></span>
   </div>
@@ -96,12 +102,41 @@ const raidPayload = calendar.raidDates.map((date) => ({
         <ul data-week-late></ul>
       </article>
     </div>
+
+    <section class="readiness-panel" data-readiness-panel>
+      <div class="readiness-status">
+        <span>Readiness</span>
+        <strong data-readiness-status>Ready</strong>
+        <small data-readiness-detail>25 raid-ready players.</small>
+      </div>
+      <ul class="readiness-checks" data-readiness-checks></ul>
+    </section>
   </div>
 
   <script is:inline type="application/json" data-next-raid-data set:html={JSON.stringify(raidPayload)} />
+  <script is:inline type="application/json" data-active-roster-data set:html={JSON.stringify(activeRosterPayload)} />
+  <script is:inline type="application/json" data-bench-rules-data set:html={JSON.stringify(benchRules)} />
 </section>
 
 <script>
+  type DashboardPlayer = {
+    slug: string;
+    name: string;
+    className?: string;
+    role?: string;
+    color?: string;
+    href?: string;
+    activeRoster?: boolean;
+  };
+  type BenchRules = {
+    neverBenchPlayers?: string[];
+    avoidBenchingTogether?: [string, string][];
+    minimumAvailableByRole?: Record<string, number>;
+    minimumAvailableByClass?: Record<string, number>;
+    requireAtLeastOneAvailablePerClass?: boolean;
+    minimumAvailablePerClass?: number;
+  };
+
   const toLocalDate = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
   const parseIsoDate = (isoDate: string) => {
     const [year, month, day] = isoDate.split("-").map(Number);
@@ -129,7 +164,9 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
       return entities[character] ?? character;
     });
-  const playerListHtml = (players: Array<{ name: string; className?: string; color?: string; href?: string; activeRoster?: boolean }>) =>
+  const normalizeKey = (value: string) => value.toLocaleLowerCase().replace(/[^a-z0-9]+/g, "");
+  const plural = (count: number, singular: string, pluralLabel = `${singular}s`) => `${count} ${count === 1 ? singular : pluralLabel}`;
+  const playerListHtml = (players: DashboardPlayer[]) =>
     players
       .map((player) => {
         const color = player.color ? ` style="--player-color: ${escapeHtml(player.color)}"` : "";
@@ -138,18 +175,162 @@ const raidPayload = calendar.raidDates.map((date) => ({
         return `<li><a class="player-name player-link"${href}${color}${title}>${escapeHtml(player.name)}</a></li>`;
       })
       .join("");
-  const uniquePlayers = (players: Array<{ name: string; className?: string; color?: string; href?: string; activeRoster?: boolean }>) => {
-    const byPlayer = new Map<string, { name: string; className?: string; color?: string; href?: string; activeRoster?: boolean }>();
+  const uniquePlayers = (players: DashboardPlayer[]) => {
+    const byPlayer = new Map<string, DashboardPlayer>();
 
     for (const player of players) {
-      byPlayer.set(player.href || player.name.toLocaleLowerCase(), player);
+      byPlayer.set(player.slug || player.href || player.name.toLocaleLowerCase(), player);
     }
 
     return [...byPlayer.values()].sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
   };
+  const getAvailableCounts = (activeRoster: DashboardPlayer[], unavailableSlugs: Set<string>, benchSlugs: Set<string>) => {
+    const byRole = new Map<string, number>();
+    const byClass = new Map<string, number>();
+
+    for (const player of activeRoster) {
+      if (unavailableSlugs.has(player.slug) || benchSlugs.has(player.slug)) {
+        continue;
+      }
+
+      if (player.role) {
+        const roleKey = normalizeKey(player.role);
+        byRole.set(roleKey, (byRole.get(roleKey) ?? 0) + 1);
+      }
+
+      if (player.className) {
+        const classKey = normalizeKey(player.className);
+        byClass.set(classKey, (byClass.get(classKey) ?? 0) + 1);
+      }
+    }
+
+    return { byRole, byClass };
+  };
+  const formatRoleMinimum = (role: string, available: number, minimum: number) => {
+    const roleKey = normalizeKey(role);
+    const label = roleKey === "healer" ? "healers" : role;
+    return `Available ${label}: ${available} / ${minimum}.`;
+  };
+  const getReadiness = ({
+    activeRoster,
+    rules,
+    benchPlayers,
+    outPlayers,
+    latePlayers,
+    miaPlayers,
+  }: {
+    activeRoster: DashboardPlayer[];
+    rules: BenchRules;
+    benchPlayers: DashboardPlayer[];
+    outPlayers: DashboardPlayer[];
+    latePlayers: DashboardPlayer[];
+    miaPlayers: DashboardPlayer[];
+  }) => {
+    const activeSlugs = new Set(activeRoster.map((player) => player.slug));
+    const activeOnly = (players: DashboardPlayer[]) => players.filter((player) => activeSlugs.has(player.slug));
+    const bench = activeOnly(benchPlayers);
+    const out = activeOnly(outPlayers);
+    const late = activeOnly(latePlayers);
+    const mia = activeOnly(miaPlayers);
+    const unavailablePlayers = uniquePlayers([...out, ...late, ...mia]);
+    const unavailableSlugs = new Set(unavailablePlayers.map((player) => player.slug));
+    const benchSlugs = new Set(bench.map((player) => player.slug));
+    const unavailableOrBenchSlugs = new Set([...unavailableSlugs, ...benchSlugs]);
+    const raidReadyCount = activeRoster.filter((player) => !unavailableOrBenchSlugs.has(player.slug)).length;
+    const requiredBenchCount = Math.max(0, activeRoster.length - unavailableSlugs.size - 25);
+    const checks = [`${raidReadyCount} raid-ready players.`];
+    const warnings: string[] = [];
+    const counts = getAvailableCounts(activeRoster, unavailableSlugs, benchSlugs);
+
+    if (raidReadyCount < 25) {
+      warnings.push(`Raid is short: only ${raidReadyCount} raid-ready players.`);
+    }
+
+    if (benchSlugs.size > requiredBenchCount) {
+      warnings.push(`Existing bench exceeds required bench by ${benchSlugs.size - requiredBenchCount}. Review manually.`);
+    }
+
+    if (mia.length > 0) {
+      warnings.push(`MIA this week: ${mia.map((player) => player.name).join(", ")}.`);
+    }
+
+    for (const playerSlug of rules.neverBenchPlayers ?? []) {
+      if (benchSlugs.has(playerSlug)) {
+        const playerName = activeRoster.find((player) => player.slug === playerSlug)?.name ?? playerSlug;
+        warnings.push(`Existing plan violates never-bench rule: ${playerName} is benched. Review manually.`);
+      }
+    }
+
+    for (const [firstPlayer, secondPlayer] of rules.avoidBenchingTogether ?? []) {
+      if (benchSlugs.has(firstPlayer) && benchSlugs.has(secondPlayer)) {
+        const firstName = activeRoster.find((player) => player.slug === firstPlayer)?.name ?? firstPlayer;
+        const secondName = activeRoster.find((player) => player.slug === secondPlayer)?.name ?? secondPlayer;
+        warnings.push(`Existing plan violates avoid-together rule: ${firstName} and ${secondName} are both benched. Review manually.`);
+      }
+    }
+
+    for (const [role, minimum] of Object.entries(rules.minimumAvailableByRole ?? {})) {
+      const available = counts.byRole.get(normalizeKey(role)) ?? 0;
+
+      if (available < minimum) {
+        const roleLabel = normalizeKey(role) === "healer" ? "healer" : role.toLocaleLowerCase();
+        const availableLabel = normalizeKey(role) === "healer" ? "available healers" : `available ${role} count`;
+        warnings.push(
+          `Existing plan violates ${roleLabel} minimum: ${availableLabel} would be ${available}, rule requires ${minimum}. Review manually.`,
+        );
+      } else {
+        checks.push(formatRoleMinimum(role, available, minimum));
+      }
+    }
+
+    for (const [className, minimum] of Object.entries(rules.minimumAvailableByClass ?? {})) {
+      const available = counts.byClass.get(normalizeKey(className)) ?? 0;
+
+      if (available < minimum) {
+        warnings.push(
+          `Existing plan violates class minimum: available ${className} count would be ${available}, rule requires ${minimum}. Review manually.`,
+        );
+      } else {
+        checks.push(`Available ${className}s: ${available} / ${minimum}.`);
+      }
+    }
+
+    if (rules.requireAtLeastOneAvailablePerClass) {
+      const minimum = rules.minimumAvailablePerClass ?? 1;
+      const classes = [...new Set(activeRoster.map((player) => player.className).filter(Boolean) as string[])];
+
+      for (const className of classes) {
+        const available = counts.byClass.get(normalizeKey(className)) ?? 0;
+
+        if (available < minimum) {
+          warnings.push(
+            `Existing plan violates class minimum: available ${className} count would be ${available}, rule requires ${minimum}. Review manually.`,
+          );
+        }
+      }
+    }
+
+    const status = raidReadyCount < 25 ? "Short" : warnings.length > 0 ? "Needs Review" : "Ready";
+    const detail =
+      status === "Short"
+        ? `${raidReadyCount} raid-ready`
+        : status === "Needs Review"
+          ? `${raidReadyCount} raid-ready, ${plural(warnings.length, "warning")}`
+          : `${raidReadyCount} raid-ready`;
+
+    return {
+      status,
+      detail,
+      raidReadyCount,
+      checks: [...new Set(checks)],
+      warnings: [...new Set(warnings)],
+    };
+  };
 
   document.querySelectorAll<HTMLElement>("[data-next-raid]").forEach((card) => {
     const dataNode = card.querySelector<HTMLScriptElement>("[data-next-raid-data]");
+    const activeRosterNode = card.querySelector<HTMLScriptElement>("[data-active-roster-data]");
+    const rulesNode = card.querySelector<HTMLScriptElement>("[data-bench-rules-data]");
     const dateNode = card.querySelector<HTMLElement>("[data-next-raid-date]");
     const raidersCount = card.querySelector<HTMLElement>("[data-week-raiders-count]");
     const benchNode = card.querySelector<HTMLElement>("[data-week-bench]");
@@ -158,14 +339,20 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const benchCount = card.querySelector<HTMLElement>("[data-week-bench-count]");
     const outCount = card.querySelector<HTMLElement>("[data-week-out-count]");
     const lateCount = card.querySelector<HTMLElement>("[data-week-late-count]");
+    const readinessPanel = card.querySelector<HTMLElement>("[data-readiness-panel]");
+    const readinessStatus = card.querySelector<HTMLElement>("[data-readiness-status]");
+    const readinessDetail = card.querySelector<HTMLElement>("[data-readiness-detail]");
+    const readinessChecks = card.querySelector<HTMLElement>("[data-readiness-checks]");
     const raids = JSON.parse(dataNode?.textContent ?? "[]") as Array<{
       label: string;
       isoDate: string;
-      bench: Array<{ name: string; className?: string; color?: string; href?: string; activeRoster?: boolean }>;
-      out: Array<{ name: string; className?: string; color?: string; href?: string; activeRoster?: boolean }>;
-      late: Array<{ name: string; className?: string; color?: string; href?: string; activeRoster?: boolean }>;
+      bench: DashboardPlayer[];
+      out: DashboardPlayer[];
+      late: DashboardPlayer[];
+      mia: DashboardPlayer[];
     }>;
-    const activeRosterCount = Number(card.dataset.activeRosterCount ?? 0);
+    const activeRoster = JSON.parse(activeRosterNode?.textContent ?? "[]") as DashboardPlayer[];
+    const rules = JSON.parse(rulesNode?.textContent ?? "{}") as BenchRules;
     const today = toLocalDate(new Date());
     const datedRaids = raids.map((raid) => ({ ...raid, date: parseIsoDate(raid.isoDate) }));
     const nextRaid = datedRaids.find((raid) => raid.date >= today) ?? datedRaids[datedRaids.length - 1];
@@ -185,7 +372,15 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const weekBench = uniquePlayers(weekRaids.flatMap((raid) => raid.bench));
     const weekOut = uniquePlayers(weekRaids.flatMap((raid) => raid.out));
     const weekLate = uniquePlayers(weekRaids.flatMap((raid) => raid.late));
-    const unavailable = uniquePlayers([...weekOut, ...weekLate]).filter((player) => player.activeRoster !== false);
+    const weekMia = uniquePlayers(weekRaids.flatMap((raid) => raid.mia));
+    const readiness = getReadiness({
+      activeRoster,
+      rules,
+      benchPlayers: weekBench,
+      outPlayers: weekOut,
+      latePlayers: weekLate,
+      miaPlayers: weekMia,
+    });
     const raidDate = nextRaid.date;
     const weekday = new Intl.DateTimeFormat(undefined, { weekday: "long" }).format(raidDate);
     const month = new Intl.DateTimeFormat(undefined, { month: "short" }).format(raidDate);
@@ -219,7 +414,24 @@ const raidPayload = calendar.raidDates.map((date) => ({
     }
 
     if (raidersCount) {
-      raidersCount.textContent = String(Math.max(activeRosterCount - unavailable.length, 0));
+      raidersCount.textContent = String(Math.max(readiness.raidReadyCount, 0));
+    }
+
+    if (readinessStatus) {
+      readinessStatus.textContent = readiness.status;
+    }
+
+    if (readinessDetail) {
+      readinessDetail.textContent = readiness.detail;
+    }
+
+    if (readinessPanel) {
+      readinessPanel.dataset.status = readiness.status.toLocaleLowerCase().replace(/[^a-z0-9]+/g, "-");
+    }
+
+    if (readinessChecks) {
+      const items = [...readiness.warnings, ...readiness.checks].slice(0, 7);
+      readinessChecks.innerHTML = items.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
     }
   });
 </script>

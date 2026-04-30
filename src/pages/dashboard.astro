@@ -33,7 +33,7 @@ const calendarData = calendar as unknown as {
 
   <NextRaidCard calendar={calendarData} />
 
-  <UpcomingRaidWeeks eyebrow="Upcoming Raid Nights" title="Next Few Weeks" startOffset={1} />
+  <UpcomingRaidWeeks eyebrow="Upcoming Raid Nights" title="This Week" startOffset={0} weekCount={1} />
 
-  <UpcomingRaidWeeks eyebrow="Upcoming Raid Nights" title="Looking Ahead" startOffset={3} />
+  <UpcomingRaidWeeks eyebrow="Upcoming Raid Nights" title="Looking Ahead" startOffset={1} weekCount={2} />
 </Layout>
