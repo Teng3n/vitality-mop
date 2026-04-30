@@ -119,7 +119,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
         <div class="readiness-column" data-readiness-warnings-column>
           <div class="readiness-column-head">
             <span class="readiness-column-label">Warnings</span>
-            <strong data-readiness-warning-count>0 warnings</strong>
+            <strong data-readiness-warning-count>· 0 warnings</strong>
           </div>
           <div class="readiness-warning-groups" data-readiness-warnings></div>
         </div>
@@ -408,7 +408,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
       status === "Short"
         ? `${raidReadyCount} raid-ready`
         : status === "Needs Review"
-          ? `${raidReadyCount} raid-ready, ${plural(warnings.length, "warning")}`
+          ? ""
           : `${raidReadyCount} raid-ready`;
 
     return {
@@ -530,6 +530,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
     if (readinessDetail) {
       readinessDetail.textContent = readiness.detail;
+      readinessDetail.hidden = readiness.detail.length === 0;
     }
 
     if (readinessPanel) {
@@ -547,7 +548,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     }
 
     if (readinessWarningCount) {
-      readinessWarningCount.textContent = plural(readiness.warnings.length, "warning");
+      readinessWarningCount.textContent = `· ${plural(readiness.warnings.length, "warning")}`;
     }
 
     if (readinessWarnings) {
