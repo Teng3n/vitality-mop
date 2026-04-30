@@ -14,7 +14,6 @@
   },
   "minimumAvailableByClass": {
     "Death Knight": 2,
-    "Paladin": 2,
     "Warrior": 2
   },
   "requireAtLeastOneAvailablePerClass": true,
