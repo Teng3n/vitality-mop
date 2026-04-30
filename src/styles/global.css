@@ -123,8 +123,29 @@ main {
     background 160ms ease;
 }
 
+.side-nav-group {
+  display: grid;
+  gap: 2px;
+}
+
+.side-nav-group .side-nav-parent {
+  font-weight: 800;
+}
+
+.side-nav-subitems {
+  display: grid;
+  gap: 2px;
+}
+
+.side-nav-subitems a {
+  margin-left: 12px;
+  padding-left: 18px;
+  font-size: 0.8rem;
+}
+
 .side-nav nav a:hover,
-.side-nav nav a[aria-current="page"] {
+.side-nav nav a[aria-current="page"],
+.side-nav-group[data-active="true"] > .side-nav-parent {
   border-color: rgba(200, 155, 60, 0.72);
   color: #d8bb73;
   background: rgba(200, 155, 60, 0.1);
@@ -149,6 +170,19 @@ main {
   color: var(--muted);
   font-size: 1.08rem;
   line-height: 1.65;
+}
+
+.officer-client-heading {
+  padding: 30px 0 6px;
+}
+
+.officer-client-heading h1 {
+  font-size: clamp(2.35rem, 5vw, 3.4rem);
+  line-height: 1;
+}
+
+.officer-client-heading p:not(.eyebrow) {
+  font-size: 1rem;
 }
 
 .eyebrow {
@@ -211,43 +245,6 @@ main {
 
 .accent-panel {
   border-color: rgba(200, 155, 60, 0.4);
-}
-
-.officer-subnav {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  border: 1px solid rgba(43, 58, 49, 0.72);
-  border-radius: 8px;
-  padding: 6px;
-  background: rgba(17, 23, 20, 0.62);
-}
-
-.officer-subnav span {
-  padding: 0 8px;
-  color: var(--gold);
-  font-size: 0.76rem;
-  font-weight: 900;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.officer-subnav a {
-  border: 1px solid transparent;
-  border-radius: 6px;
-  padding: 6px 10px;
-  color: var(--muted);
-  font-size: 0.86rem;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.officer-subnav a:hover,
-.officer-subnav a[aria-current="page"] {
-  border-color: rgba(200, 155, 60, 0.56);
-  color: #d8bb73;
-  background: rgba(200, 155, 60, 0.1);
 }
 
 .officer-gate-shell {
@@ -1812,6 +1809,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .side-nav nav {
     display: flex;
     flex: 1;
+    align-items: start;
     gap: 10px;
   }
 
@@ -1820,6 +1818,21 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
     border-left: 0;
     border-bottom: 2px solid transparent;
     padding: 8px 0;
+  }
+
+  .side-nav-group {
+    flex: 0 0 auto;
+    min-width: max-content;
+  }
+
+  .side-nav-subitems {
+    display: flex;
+    gap: 8px;
+  }
+
+  .side-nav-subitems a {
+    margin-left: 0;
+    padding: 4px 0;
   }
 
   .dashboard-grid,

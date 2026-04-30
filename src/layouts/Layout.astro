@@ -6,7 +6,17 @@ interface Props {
 }
 
 const { title = "Vitality" } = Astro.props;
-const navItems = [
+type NavChild = {
+  href: string;
+  label: string;
+};
+
+type NavItem = NavChild & {
+  matchPrefix?: string;
+  children?: NavChild[];
+};
+
+const navItems: NavItem[] = [
   { href: "/", label: "Home" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/bench", label: "Bench" },
@@ -14,14 +24,24 @@ const navItems = [
   { href: "/calendar", label: "Calendar" },
   { href: "/loot", label: "Loot Summary" },
   { href: "/loot/history", label: "Loot History" },
-  { href: "/officer/tools", label: "Officer", matchPrefix: "/officer" },
+  {
+    href: "/officer/tools",
+    label: "Officer",
+    matchPrefix: "/officer",
+    children: [
+      { href: "/officer/tools", label: "Tools" },
+      { href: "/officer/roster", label: "Roster" },
+    ],
+  },
 ];
 
-const isActive = (item: (typeof navItems)[number]) => {
-  const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
-  const matchPrefix = "matchPrefix" in item ? item.matchPrefix : "";
+const pathname = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isActive = (item: NavItem) => {
+  const matchPrefix = item.matchPrefix ?? "";
   return pathname === item.href || (typeof matchPrefix === "string" && matchPrefix.length > 0 && pathname.startsWith(matchPrefix));
 };
+
+const isExactActive = (href: string) => pathname === href;
 ---
 
 <!doctype html>
@@ -42,11 +62,26 @@ const isActive = (item: (typeof navItems)[number]) => {
         <a class="side-nav-title" href="/">Vitality</a>
         <nav>
           {
-            navItems.map((item) => (
-              <a href={item.href} aria-current={isActive(item) ? "page" : undefined}>
-                {item.label}
-              </a>
-            ))
+            navItems.map((item) =>
+              item.children ? (
+                <div class="side-nav-group" data-active={isActive(item) ? "true" : undefined}>
+                  <a class="side-nav-parent" href={item.href}>
+                    {item.label}
+                  </a>
+                  <div class="side-nav-subitems">
+                    {item.children.map((child) => (
+                      <a href={child.href} aria-current={isExactActive(child.href) ? "page" : undefined}>
+                        {child.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <a href={item.href} aria-current={isActive(item) ? "page" : undefined}>
+                  {item.label}
+                </a>
+              ),
+            )
           }
         </nav>
       </aside>
