@@ -1200,7 +1200,6 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
 .roster-table.officer-roster-table {
   min-width: 860px;
-  table-layout: fixed;
 }
 
 .roster-table.officer-roster-table th,
@@ -1208,23 +1207,9 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   vertical-align: middle;
 }
 
-.roster-table.officer-roster-table th:nth-child(1),
-.roster-table.officer-roster-table td:nth-child(1) {
-  width: 190px;
-}
-
-.roster-table.officer-roster-table th:nth-child(2),
-.roster-table.officer-roster-table td:nth-child(2),
-.roster-table.officer-roster-table th:nth-child(3),
-.roster-table.officer-roster-table td:nth-child(3),
-.roster-table.officer-roster-table th:nth-child(4),
-.roster-table.officer-roster-table td:nth-child(4) {
-  width: 132px;
-}
-
 .roster-table.officer-roster-table th:nth-child(n + 5),
 .roster-table.officer-roster-table td:nth-child(n + 5) {
-  width: 76px;
+  width: 72px;
   font-variant-numeric: tabular-nums;
 }
 

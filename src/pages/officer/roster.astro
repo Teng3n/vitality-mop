@@ -148,10 +148,9 @@ import Layout from "../../layouts/Layout.astro";
       .join("");
 
     rosterRoot.innerHTML = `
-      <section class="page-header officer-client-heading">
+      <section class="page-header">
         <p class="eyebrow">Officer</p>
-        <h1>Officer Roster</h1>
-        <p>Officer-facing roster status counts from the raid calendar.</p>
+        <h1 class="sr-only">Officer Roster</h1>
       </section>
 
       <section class="dashboard-grid roster-summary-grid">
