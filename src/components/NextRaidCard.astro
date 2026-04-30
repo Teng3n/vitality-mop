@@ -119,7 +119,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
         <div class="readiness-column" data-readiness-warnings-column>
           <div class="readiness-column-head">
             <span class="readiness-column-label">Warnings</span>
-            <strong data-readiness-warning-count>0 issues</strong>
+            <strong data-readiness-warning-count>0 warnings</strong>
           </div>
           <div class="readiness-warning-groups" data-readiness-warnings></div>
         </div>
@@ -192,6 +192,10 @@ const raidPayload = calendar.raidDates.map((date) => ({
   const formatMinimumCheck = (label: string, available: number, minimum: number) =>
     `${pluralizeLabel(label)}: ${available} / ${minimum}`;
   const makeItem = (text: string, detail?: string, group?: string): ReadinessItem => ({ text, detail, group });
+  const formatStatusList = (statuses: string[]) =>
+    statuses.length <= 2
+      ? statuses.join(" and ")
+      : `${statuses.slice(0, -1).join(", ")}, and ${statuses[statuses.length - 1]}`;
   const playerListHtml = (players: DashboardPlayer[]) =>
     players
       .map((player) => {
@@ -261,7 +265,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
       : `<li class="is-empty">${escapeHtml(emptyText)}</li>`;
   const renderWarningGroups = (items: ReadinessItem[]) => {
     if (items.length === 0) {
-      return `<div class="readiness-warning-group"><ul class="readiness-checks"><li class="is-empty">No issues flagged.</li></ul></div>`;
+      return `<div class="readiness-warning-group"><ul class="readiness-checks"><li class="is-empty">No warnings flagged.</li></ul></div>`;
     }
 
     const groups = new Map<string, ReadinessItem[]>();
@@ -271,7 +275,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
       groups.set(group, [...(groups.get(group) ?? []), item]);
     }
 
-    const groupOrder = ["Raid Size", "Comp Minimums", "Raid Buffs", "Roster Status", "Bench Rules", "Other"];
+    const groupOrder = ["Raid Size", "Status Conflicts", "Comp Minimums", "Raid Buffs", "Roster Status", "Bench Rules", "Other"];
     const sortedGroups = [...groups.entries()].sort(([first], [second]) => {
       const firstIndex = groupOrder.includes(first) ? groupOrder.indexOf(first) : groupOrder.indexOf("Other");
       const secondIndex = groupOrder.includes(second) ? groupOrder.indexOf(second) : groupOrder.indexOf("Other");
@@ -331,6 +335,30 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
     if (mia.length > 0) {
       warnings.push(makeItem(`MIA: ${mia.map((player) => player.name).join(", ")}`, undefined, "Roster Status"));
+    }
+
+    const statusByPlayer = new Map<string, { player: DashboardPlayer; statuses: string[] }>();
+    const addPlayerStatus = (status: string, players: DashboardPlayer[]) => {
+      for (const player of players) {
+        const existing = statusByPlayer.get(player.slug) ?? { player, statuses: [] };
+        existing.statuses.push(status);
+        statusByPlayer.set(player.slug, existing);
+      }
+    };
+
+    addPlayerStatus("Bench", bench);
+    addPlayerStatus("Out", out);
+    addPlayerStatus("Late", late);
+    addPlayerStatus("MIA", mia);
+
+    for (const { player, statuses } of [...statusByPlayer.values()].sort((a, b) =>
+      a.player.name.localeCompare(b.player.name, undefined, { sensitivity: "base" }),
+    )) {
+      const uniqueStatuses = [...new Set(statuses)];
+
+      if (uniqueStatuses.length > 1) {
+        warnings.push(makeItem(`${player.name} is marked ${formatStatusList(uniqueStatuses)}`, undefined, "Status Conflicts"));
+      }
     }
 
     if (buffCoverage.missing.length > 0) {
@@ -519,7 +547,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     }
 
     if (readinessWarningCount) {
-      readinessWarningCount.textContent = plural(readiness.warnings.length, "issue");
+      readinessWarningCount.textContent = plural(readiness.warnings.length, "warning");
     }
 
     if (readinessWarnings) {
