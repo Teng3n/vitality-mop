@@ -73,7 +73,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
   <div class="next-raid-grid">
     <div class="next-raid-statuses is-week">
-      <article class="next-raid-list next-raid-list-count">
+      <article class="next-raid-list next-raid-list-count" data-available-card>
         <div>
           <span>Available</span>
         </div>
@@ -113,11 +113,11 @@ const raidPayload = calendar.raidDates.map((date) => ({
       </div>
       <div class="readiness-columns">
         <div class="readiness-column">
-          <span class="readiness-column-label">Passing Checks</span>
+          <span class="readiness-column-label">Passing</span>
           <ul class="readiness-checks" data-readiness-passing></ul>
         </div>
         <div class="readiness-column">
-          <span class="readiness-column-label">Needs Review</span>
+          <span class="readiness-column-label">Warnings</span>
           <ul class="readiness-checks" data-readiness-warnings></ul>
         </div>
       </div>
@@ -188,7 +188,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
   const formatMinimumCheck = (label: string, available: number, minimum: number) =>
     `${pluralizeLabel(label)}: ${available} / ${minimum}`;
   const formatMinimumWarning = (label: string, available: number, minimum: number) =>
-    `${pluralizeLabel(label)} below minimum: ${available} / ${minimum}. Review manually.`;
+    `${pluralizeLabel(label)} below minimum: ${available} / ${minimum}`;
   const makeItem = (text: string, detail?: string): ReadinessItem => ({ text, detail });
   const playerListHtml = (players: DashboardPlayer[]) =>
     players
@@ -248,12 +248,12 @@ const raidPayload = calendar.raidDates.map((date) => ({
     items.length > 0
       ? items
           .map((item) => {
-            const title = item.detail ? ` title="${escapeHtml(item.detail)}"` : "";
+            const tooltip = item.detail ? ` data-tooltip="${escapeHtml(item.detail)}" tabindex="0"` : "";
             const ariaLabel = item.detail
               ? ` aria-label="${escapeHtml(`${item.text}. ${item.detail.replace(/\n/g, " ")}`)}"`
               : "";
 
-            return `<li class="${className}"${title}${ariaLabel}>${escapeHtml(item.text)}</li>`;
+            return `<li class="${className}${item.detail ? " has-tooltip" : ""}"${tooltip}${ariaLabel}>${escapeHtml(item.text)}</li>`;
           })
           .join("")
       : `<li class="is-empty">${escapeHtml(emptyText)}</li>`;
@@ -292,11 +292,18 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const buffCoverage = getRaidBuffCoverage(raidReadyPlayers);
 
     if (raidReadyCount < 25) {
-      warnings.push(makeItem(`Raid short: ${raidReadyCount} / 25. Review manually.`));
+      warnings.push(makeItem(`Raid short: ${raidReadyCount} / 25`));
     }
 
     if (benchSlugs.size > requiredBenchCount) {
-      warnings.push(makeItem(`Bench exceeds target by ${benchSlugs.size - requiredBenchCount}. Review manually.`));
+      const excessBench = benchSlugs.size - requiredBenchCount;
+      warnings.push(
+        makeItem(
+          requiredBenchCount === 0
+            ? `${plural(excessBench, "benched player")} may be needed in raid`
+            : `Bench exceeds needed count by ${excessBench}`,
+        ),
+      );
     }
 
     if (mia.length > 0) {
@@ -312,7 +319,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     for (const playerSlug of rules.neverBenchPlayers ?? []) {
       if (benchSlugs.has(playerSlug)) {
         const playerName = activeRoster.find((player) => player.slug === playerSlug)?.name ?? playerSlug;
-        warnings.push(makeItem(`Never-bench violation: ${playerName}. Review manually.`));
+        warnings.push(makeItem(`Never-bench violation: ${playerName}`));
       }
     }
 
@@ -320,7 +327,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
       if (benchSlugs.has(firstPlayer) && benchSlugs.has(secondPlayer)) {
         const firstName = activeRoster.find((player) => player.slug === firstPlayer)?.name ?? firstPlayer;
         const secondName = activeRoster.find((player) => player.slug === secondPlayer)?.name ?? secondPlayer;
-        warnings.push(makeItem(`Avoid-together violation: ${firstName} + ${secondName}. Review manually.`));
+        warnings.push(makeItem(`Avoid-together violation: ${firstName} + ${secondName}`));
       }
     }
 
@@ -342,19 +349,6 @@ const raidPayload = calendar.raidDates.map((date) => ({
         warnings.push(makeItem(formatMinimumWarning(className, available, minimum)));
       } else {
         checks.push(makeItem(formatMinimumCheck(className, available, minimum)));
-      }
-    }
-
-    if (rules.requireAtLeastOneAvailablePerClass) {
-      const minimum = rules.minimumAvailablePerClass ?? 1;
-      const classes = [...new Set(activeRoster.map((player) => player.className).filter(Boolean) as string[])];
-
-      for (const className of classes) {
-        const available = counts.byClass.get(normalizeKey(className)) ?? 0;
-
-        if (available < minimum) {
-          warnings.push(makeItem(formatMinimumWarning(className, available, minimum)));
-        }
       }
     }
 
@@ -381,6 +375,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const activeRosterNode = card.querySelector<HTMLScriptElement>("[data-active-roster-data]");
     const rulesNode = card.querySelector<HTMLScriptElement>("[data-bench-rules-data]");
     const dateNode = card.querySelector<HTMLElement>("[data-next-raid-date]");
+    const availableCard = card.querySelector<HTMLElement>("[data-available-card]");
     const raidersCount = card.querySelector<HTMLElement>("[data-week-raiders-count]");
     const benchNode = card.querySelector<HTMLElement>("[data-week-bench]");
     const outNode = card.querySelector<HTMLElement>("[data-week-out]");
@@ -467,6 +462,14 @@ const raidPayload = calendar.raidDates.map((date) => ({
       raidersCount.textContent = String(Math.max(readiness.availableCount, 0));
     }
 
+    if (availableCard) {
+      if (readiness.availableCount < 25) {
+        availableCard.dataset.status = "short";
+      } else {
+        delete availableCard.dataset.status;
+      }
+    }
+
     if (readinessStatus) {
       readinessStatus.textContent = readiness.status;
     }
@@ -480,7 +483,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     }
 
     if (readinessPassing) {
-      const checks = readiness.checks.slice(0, 5);
+      const checks = readiness.checks;
       readinessPassing.innerHTML = renderReadinessItems(
         checks,
         "is-ok",
@@ -489,7 +492,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     }
 
     if (readinessWarnings) {
-      const warnings = readiness.warnings.slice(0, 5);
+      const warnings = readiness.warnings;
       readinessWarnings.innerHTML = renderReadinessItems(warnings, "is-warning", "No issues flagged.");
     }
   });

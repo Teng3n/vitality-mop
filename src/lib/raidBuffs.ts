@@ -68,16 +68,16 @@ export const trackedRaidBuffs: RaidBuffRule[] = [
 
 export const getRaidBuffCoverage = (raidReadyPlayers: RaidBuffPlayer[]): RaidBuffCoverage => {
   const missing: string[] = [];
-  const detail: string[] = [];
+  const detail = ["Raid Buff Coverage"];
 
   for (const buff of trackedRaidBuffs) {
     const providers = raidReadyPlayers.filter((player) => buff.isProvidedBy(player)).map((player) => player.name);
 
     if (providers.length > 0) {
-      detail.push(`${buff.name}: covered by ${providers.join(", ")}`);
+      detail.push(`Covered - ${buff.name}: ${providers.join(", ")}`);
     } else {
       missing.push(buff.name);
-      detail.push(`${buff.name}: missing`);
+      detail.push(`Missing - ${buff.name}`);
     }
   }
 

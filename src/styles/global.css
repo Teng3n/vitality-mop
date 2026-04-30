@@ -890,6 +890,15 @@ p {
   line-height: 1;
 }
 
+.next-raid-list[data-status="short"] {
+  border-color: rgba(238, 154, 142, 0.5);
+  background: rgba(72, 32, 29, 0.3);
+}
+
+.next-raid-list[data-status="short"] > .available-raiders strong {
+  color: #ee9a8e;
+}
+
 .next-raid-list > .available-raiders span {
   color: var(--muted);
   font-size: 0.8rem;
@@ -974,6 +983,48 @@ p {
   position: relative;
   min-width: 0;
   padding-left: 14px;
+}
+
+.readiness-checks li.has-tooltip {
+  cursor: help;
+  outline: none;
+}
+
+.readiness-checks li.has-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  z-index: 20;
+  bottom: calc(100% + 10px);
+  left: 0;
+  width: max-content;
+  max-width: min(360px, 72vw);
+  border: 1px solid rgba(200, 155, 60, 0.44);
+  border-radius: 8px;
+  padding: 11px 12px;
+  background: rgba(9, 14, 12, 0.98);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.42);
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.5;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 120ms ease, transform 120ms ease, visibility 120ms ease;
+  visibility: hidden;
+  white-space: pre-line;
+}
+
+.readiness-column + .readiness-column .readiness-checks li.has-tooltip::after {
+  right: 0;
+  left: auto;
+}
+
+.readiness-checks li.has-tooltip:hover::after,
+.readiness-checks li.has-tooltip:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
 }
 
 .readiness-checks li::before {
