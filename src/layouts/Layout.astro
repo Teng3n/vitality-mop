@@ -1,9 +1,13 @@
 ---
+import fs from "node:fs";
 import "../styles/global.css";
 
 interface Props {
   title?: string;
 }
+type SyncMeta = {
+  lastDataSyncAt?: string;
+};
 
 const { title = "Vitality" } = Astro.props;
 type NavChild = {
@@ -42,6 +46,35 @@ const isActive = (item: NavItem) => {
 };
 
 const isExactActive = (href: string) => pathname === href;
+const readSyncMeta = (): SyncMeta => {
+  try {
+    return JSON.parse(fs.readFileSync(new URL("../data/syncMeta.json", import.meta.url), "utf8")) as SyncMeta;
+  } catch {
+    return {};
+  }
+};
+const formatLastDataSync = (value?: string) => {
+  if (!value) {
+    return "Unknown";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "Unknown";
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone: "America/Los_Angeles",
+  }).format(date);
+};
+const syncMeta = readSyncMeta();
+const lastDataSync = formatLastDataSync(syncMeta.lastDataSyncAt);
 ---
 
 <!doctype html>
@@ -92,6 +125,7 @@ const isExactActive = (href: string) => pathname === href;
         </main>
         <footer class="site-footer">
           <span>Vitality Guild Tools</span>
+          <span class="site-footer-sync">Last data sync: {lastDataSync}</span>
         </footer>
       </div>
     </div>

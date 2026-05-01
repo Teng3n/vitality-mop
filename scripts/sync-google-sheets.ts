@@ -1234,22 +1234,36 @@ function buildBench(calendar: CalendarData) {
     );
 }
 
-async function writeJsonIfChanged(relativePath: string, value: unknown) {
+function formatJson(value: unknown) {
+  return `${JSON.stringify(value, null, 2)}\n`;
+}
+
+async function readTextIfExists(relativePath: string) {
   const targetPath = path.join(root, relativePath);
-  const next = `${JSON.stringify(value, null, 2)}\n`;
-  let previous = "";
 
   try {
-    previous = await fs.readFile(targetPath, "utf8");
+    return await fs.readFile(targetPath, "utf8");
   } catch {
-    previous = "";
+    return "";
   }
+}
 
-  if (previous === next) {
+async function jsonWouldChange(relativePath: string, value: unknown) {
+  const previous = await readTextIfExists(relativePath);
+  return previous !== formatJson(value);
+}
+
+async function writeJson(relativePath: string, value: unknown) {
+  const targetPath = path.join(root, relativePath);
+  await fs.writeFile(targetPath, formatJson(value), "utf8");
+}
+
+async function writeJsonIfChanged(relativePath: string, value: unknown) {
+  if (!(await jsonWouldChange(relativePath, value))) {
     return false;
   }
 
-  await fs.writeFile(targetPath, next, "utf8");
+  await writeJson(relativePath, value);
   return true;
 }
 
@@ -1280,7 +1294,7 @@ async function main() {
   const { roster, calendar } = parseCalendar(calendarRows, existingRaidDates);
   const loot = parseLoot(lootRows, roster);
   const bench = buildBench(calendar);
-  const generatedFiles = [
+  const sourceDataFiles = [
     { path: "src/data/roster.json", data: roster },
     { path: "src/data/calendar.json", data: calendar },
     { path: "src/data/lootHistory.json", data: loot.history },
@@ -1289,10 +1303,28 @@ async function main() {
     { path: "src/data/benchRules.json", data: benchRules.rules },
   ];
   const changedFiles: string[] = [];
+  const changedSourceFiles: string[] = [];
 
-  for (const file of generatedFiles) {
-    if (await writeJsonIfChanged(file.path, file.data)) {
+  for (const file of sourceDataFiles) {
+    if (await jsonWouldChange(file.path, file.data)) {
+      changedSourceFiles.push(file.path);
+    }
+  }
+
+  for (const file of sourceDataFiles) {
+    if (changedSourceFiles.includes(file.path)) {
+      await writeJson(file.path, file.data);
       changedFiles.push(file.path);
+    }
+  }
+
+  if (changedSourceFiles.length > 0) {
+    const syncMeta = {
+      lastDataSyncAt: new Date().toISOString(),
+    };
+
+    if (await writeJsonIfChanged("src/data/syncMeta.json", syncMeta)) {
+      changedFiles.push("src/data/syncMeta.json");
     }
   }
 
