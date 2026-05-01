@@ -1006,14 +1006,12 @@ p {
 
 .readiness-warning-groups {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
-  align-items: start;
-  gap: 10px;
+  gap: 0;
 }
 
 .readiness-warning-group {
   display: grid;
-  gap: 5px;
+  gap: 4px;
   min-width: 0;
 }
 
@@ -1027,11 +1025,12 @@ p {
 
 .readiness-checks {
   display: grid;
-  gap: 7px;
+  gap: 4px;
   margin: 0;
   padding: 0;
   color: var(--muted);
   font-size: 0.9rem;
+  line-height: 1.35;
   list-style: none;
 }
 

@@ -268,36 +268,20 @@ const raidPayload = calendar.raidDates.map((date) => ({
       : `<li class="is-empty">${escapeHtml(emptyText)}</li>`;
   const renderWarningGroups = (items: ReadinessItem[]) => {
     if (items.length === 0) {
-      return `<div class="readiness-warning-group"><ul class="readiness-checks"><li class="is-empty">No warnings.</li></ul></div>`;
-    }
-
-    const groups = new Map<string, ReadinessItem[]>();
-
-    for (const item of items) {
-      const group = item.group ?? "Other";
-      groups.set(group, [...(groups.get(group) ?? []), item]);
+      return `<ul class="readiness-checks"><li class="is-empty">No warnings.</li></ul>`;
     }
 
     const groupOrder = ["Raid Size", "Status Conflicts", "Comp Minimums", "Raid Buffs", "Roster Status", "Bench Rules", "Other"];
-    const sortedGroups = [...groups.entries()].sort(([first], [second]) => {
-      const firstIndex = groupOrder.includes(first) ? groupOrder.indexOf(first) : groupOrder.indexOf("Other");
-      const secondIndex = groupOrder.includes(second) ? groupOrder.indexOf(second) : groupOrder.indexOf("Other");
+    const sortedItems = [...items].sort((first, second) => {
+      const firstGroup = first.group ?? "Other";
+      const secondGroup = second.group ?? "Other";
+      const firstIndex = groupOrder.includes(firstGroup) ? groupOrder.indexOf(firstGroup) : groupOrder.indexOf("Other");
+      const secondIndex = groupOrder.includes(secondGroup) ? groupOrder.indexOf(secondGroup) : groupOrder.indexOf("Other");
 
-      return firstIndex - secondIndex || first.localeCompare(second, undefined, { sensitivity: "base" });
+      return firstIndex - secondIndex || first.text.localeCompare(second.text, undefined, { sensitivity: "base" });
     });
 
-    return sortedGroups
-      .map(
-        ([group, groupItems]) => `
-          <div class="readiness-warning-group">
-            <span class="readiness-group-label">${escapeHtml(group)}</span>
-            <ul class="readiness-checks">
-              ${renderReadinessItems(groupItems, "is-warning", "")}
-            </ul>
-          </div>
-        `,
-      )
-      .join("");
+    return `<ul class="readiness-checks">${renderReadinessItems(sortedItems, "is-warning", "")}</ul>`;
   };
   const getReadiness = ({
     activeRoster,
@@ -333,7 +317,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const buffCoverage = getRaidBuffCoverage(raidReadyPlayers);
 
     if (raidReadyCount < 25) {
-      warnings.push(makeItem(`${raidReadyCount} / 25 raid-ready`, undefined, "Raid Size"));
+      warnings.push(makeItem(`Raid size: ${raidReadyCount} / 25`, undefined, "Raid Size"));
     }
 
     if (mia.length > 0) {
@@ -365,7 +349,8 @@ const raidPayload = calendar.raidDates.map((date) => ({
     }
 
     if (buffCoverage.missing.length > 0) {
-      warnings.push(makeItem(`Missing: ${buffCoverage.missing.join(", ")}`, buffCoverage.detail, "Raid Buffs"));
+      const label = buffCoverage.missing.length === 1 ? "Missing raid buff" : "Missing raid buffs";
+      warnings.push(makeItem(`${label}: ${buffCoverage.missing.join(", ")}`, buffCoverage.detail, "Raid Buffs"));
     } else {
       checks.push(makeItem("Raid Buffs: All covered", buffCoverage.detail));
     }
