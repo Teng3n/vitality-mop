@@ -980,6 +980,8 @@ p {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+  min-height: 24px;
+  line-height: 1;
 }
 
 .readiness-column-label {
@@ -1025,19 +1027,19 @@ p {
 
 .readiness-checks {
   display: grid;
-  gap: 4px;
+  gap: 2px;
   margin: 0;
   padding: 0;
   color: var(--muted);
   font-size: 0.9rem;
-  line-height: 1.35;
+  line-height: 1.25;
   list-style: none;
 }
 
 .readiness-checks li {
   position: relative;
   min-width: 0;
-  padding-left: 14px;
+  padding-left: 13px;
 }
 
 .readiness-checks li.has-tooltip {
