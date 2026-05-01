@@ -105,24 +105,28 @@ const raidPayload = calendar.raidDates.map((date) => ({
       </article>
     </div>
 
-    <section class="readiness-panel" data-readiness-panel>
-      <div class="readiness-status">
-        <span>Readiness</span>
-        <strong data-readiness-status>Ready</strong>
-        <small data-readiness-detail>25 raid-ready players.</small>
-      </div>
-      <div class="readiness-columns" data-readiness-columns>
-        <div class="readiness-column" data-readiness-passing-column>
-          <span class="readiness-column-label">Passing</span>
-          <ul class="readiness-checks" data-readiness-passing></ul>
+    <section class="readiness-cards" data-readiness-panel>
+      <article class="readiness-card readiness-card-status">
+        <div class="readiness-status">
+          <span>Readiness</span>
+          <strong data-readiness-status>Ready</strong>
+          <small data-readiness-detail>25 raid-ready players.</small>
         </div>
-        <div class="readiness-column" data-readiness-warnings-column>
-          <div class="readiness-column-head">
+      </article>
+      <div class="readiness-columns" data-readiness-columns>
+        <article class="readiness-card readiness-column" data-readiness-passing-column>
+          <div class="readiness-card-head">
+            <span class="readiness-column-label">Passing</span>
+          </div>
+          <ul class="readiness-checks" data-readiness-passing></ul>
+        </article>
+        <article class="readiness-card readiness-column" data-readiness-warnings-column>
+          <div class="readiness-card-head">
             <span class="readiness-column-label">Warnings</span>
-            <strong data-readiness-warning-count>· 0 warnings</strong>
+            <strong class="readiness-warning-count" data-readiness-warning-count>0</strong>
           </div>
           <div class="readiness-warning-groups" data-readiness-warnings></div>
-        </div>
+        </article>
       </div>
     </section>
   </div>
@@ -187,7 +191,6 @@ const raidPayload = calendar.raidDates.map((date) => ({
       return entities[character] ?? character;
     });
   const normalizeKey = (value: string) => value.toLocaleLowerCase().replace(/[^a-z0-9]+/g, "");
-  const plural = (count: number, singular: string, pluralLabel = `${singular}s`) => `${count} ${count === 1 ? singular : pluralLabel}`;
   const pluralizeLabel = (label: string) => (label.endsWith("s") ? label : `${label}s`);
   const formatMinimumCheck = (label: string, available: number, minimum: number) =>
     `${pluralizeLabel(label)}: ${available} / ${minimum}`;
@@ -265,7 +268,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
       : `<li class="is-empty">${escapeHtml(emptyText)}</li>`;
   const renderWarningGroups = (items: ReadinessItem[]) => {
     if (items.length === 0) {
-      return `<div class="readiness-warning-group"><ul class="readiness-checks"><li class="is-empty">No warnings flagged.</li></ul></div>`;
+      return `<div class="readiness-warning-group"><ul class="readiness-checks"><li class="is-empty">No warnings.</li></ul></div>`;
     }
 
     const groups = new Map<string, ReadinessItem[]>();
@@ -437,8 +440,6 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const readinessPanel = card.querySelector<HTMLElement>("[data-readiness-panel]");
     const readinessStatus = card.querySelector<HTMLElement>("[data-readiness-status]");
     const readinessDetail = card.querySelector<HTMLElement>("[data-readiness-detail]");
-    const readinessColumns = card.querySelector<HTMLElement>("[data-readiness-columns]");
-    const readinessPassingColumn = card.querySelector<HTMLElement>("[data-readiness-passing-column]");
     const readinessWarningCount = card.querySelector<HTMLElement>("[data-readiness-warning-count]");
     const readinessPassing = card.querySelector<HTMLElement>("[data-readiness-passing]");
     const readinessWarnings = card.querySelector<HTMLElement>("[data-readiness-warnings]");
@@ -539,16 +540,11 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
     if (readinessPassing) {
       const checks = readiness.checks;
-      readinessPassing.innerHTML = renderReadinessItems(checks, "is-ok", "No rule checks configured.");
-
-      if (readinessPassingColumn && readinessColumns) {
-        readinessPassingColumn.hidden = checks.length === 0;
-        readinessColumns.dataset.layout = checks.length === 0 ? "warnings-only" : "split";
-      }
+      readinessPassing.innerHTML = renderReadinessItems(checks, "is-ok", "No passing checks.");
     }
 
     if (readinessWarningCount) {
-      readinessWarningCount.textContent = `· ${plural(readiness.warnings.length, "warning")}`;
+      readinessWarningCount.textContent = String(readiness.warnings.length);
     }
 
     if (readinessWarnings) {
