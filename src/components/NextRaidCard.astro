@@ -125,7 +125,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
             <span class="readiness-column-label">Warnings</span>
             <strong class="readiness-warning-count" data-readiness-warning-count>0</strong>
           </div>
-          <div class="readiness-warning-groups" data-readiness-warnings></div>
+          <ul class="readiness-checks" data-readiness-warnings></ul>
         </article>
       </div>
     </section>
@@ -266,11 +266,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
           })
           .join("")
       : `<li class="is-empty">${escapeHtml(emptyText)}</li>`;
-  const renderWarningGroups = (items: ReadinessItem[]) => {
-    if (items.length === 0) {
-      return `<ul class="readiness-checks"><li class="is-empty">No warnings.</li></ul>`;
-    }
-
+  const renderWarningItems = (items: ReadinessItem[]) => {
     const groupOrder = ["Raid Size", "Status Conflicts", "Comp Minimums", "Raid Buffs", "Roster Status", "Bench Rules", "Other"];
     const sortedItems = [...items].sort((first, second) => {
       const firstGroup = first.group ?? "Other";
@@ -281,7 +277,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
       return firstIndex - secondIndex || first.text.localeCompare(second.text, undefined, { sensitivity: "base" });
     });
 
-    return `<ul class="readiness-checks">${renderReadinessItems(sortedItems, "is-warning", "")}</ul>`;
+    return renderReadinessItems(sortedItems, "is-warning", "No warnings.");
   };
   const getReadiness = ({
     activeRoster,
@@ -534,7 +530,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
     if (readinessWarnings) {
       const warnings = readiness.warnings;
-      readinessWarnings.innerHTML = renderWarningGroups(warnings);
+      readinessWarnings.innerHTML = renderWarningItems(warnings);
     }
   });
 </script>
