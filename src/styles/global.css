@@ -1087,12 +1087,13 @@ p {
 .readiness-checks li::before {
   content: "";
   position: absolute;
-  top: 0.72em;
+  top: 0.62em;
   left: 0;
   width: 5px;
   height: 5px;
   border-radius: 999px;
   background: var(--gold);
+  transform: translateY(-50%);
 }
 
 .readiness-checks li.is-ok::before {
