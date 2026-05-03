@@ -1007,8 +1007,11 @@ p {
 }
 
 .readiness-checks {
+  align-content: start;
+  align-self: start;
   display: grid;
   gap: 2px;
+  grid-auto-rows: max-content;
   margin: 0;
   padding: 0;
   color: var(--muted);
