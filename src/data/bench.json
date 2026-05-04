@@ -6,12 +6,6 @@
     "notes": "Scheduled: 2025-12-21, 2025-12-22, 2026-02-01, 2026-02-02, 2026-03-15, 2026-03-16"
   },
   {
-    "player": "Aurumai",
-    "totalBenchCount": 5,
-    "lastBenched": "2026-05-25",
-    "notes": "Scheduled: 2025-08-03, 2026-02-01, 2026-02-02, 2026-05-24, 2026-05-25"
-  },
-  {
     "player": "Deéz",
     "totalBenchCount": 5,
     "lastBenched": "2026-04-13",
@@ -64,6 +58,12 @@
     "totalBenchCount": 4,
     "lastBenched": "2026-05-25",
     "notes": "Scheduled: 2026-04-26, 2026-04-27, 2026-05-24, 2026-05-25"
+  },
+  {
+    "player": "Aurumai",
+    "totalBenchCount": 3,
+    "lastBenched": "2026-02-02",
+    "notes": "Scheduled: 2025-08-03, 2026-02-01, 2026-02-02"
   },
   {
     "player": "Maverickdog",
