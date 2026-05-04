@@ -66,12 +66,6 @@
     "notes": "Scheduled: 2026-04-26, 2026-04-27, 2026-05-24, 2026-05-25"
   },
   {
-    "player": "Cardinalcrzy",
-    "totalBenchCount": 3,
-    "lastBenched": "2026-05-04",
-    "notes": "Scheduled: 2026-02-23, 2026-05-03, 2026-05-04"
-  },
-  {
     "player": "Maverickdog",
     "totalBenchCount": 3,
     "lastBenched": "2026-05-25",
@@ -88,6 +82,12 @@
     "totalBenchCount": 2,
     "lastBenched": "2026-05-11",
     "notes": "Scheduled: 2026-05-10, 2026-05-11"
+  },
+  {
+    "player": "Cardinalcrzy",
+    "totalBenchCount": 2,
+    "lastBenched": "2026-05-04",
+    "notes": "Scheduled: 2026-02-23, 2026-05-04"
   },
   {
     "player": "Chonkars",
