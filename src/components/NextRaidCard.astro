@@ -73,7 +73,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
   <div class="next-raid-grid">
     <div class="next-raid-statuses is-week">
-      <article class="next-raid-list next-raid-list-count" data-available-card>
+      <article class="next-raid-list next-raid-list-count" data-available-card data-copy-card="available">
         <div>
           <span>Available</span>
         </div>
@@ -82,21 +82,21 @@ const raidPayload = calendar.raidDates.map((date) => ({
           <span>players</span>
         </div>
       </article>
-      <article class="next-raid-list">
+      <article class="next-raid-list" data-copy-card="bench">
         <div>
           <span>Bench this week</span>
           <strong data-week-bench-count>0</strong>
         </div>
         <ul data-week-bench></ul>
       </article>
-      <article class="next-raid-list">
+      <article class="next-raid-list" data-copy-card="out">
         <div>
           <span>Out this week</span>
           <strong data-week-out-count>0</strong>
         </div>
         <ul data-week-out></ul>
       </article>
-      <article class="next-raid-list">
+      <article class="next-raid-list" data-copy-card="late">
         <div>
           <span>Late this week</span>
           <strong data-week-late-count>0</strong>
@@ -106,7 +106,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     </div>
 
     <section class="readiness-cards" data-readiness-panel>
-      <article class="readiness-card readiness-card-status">
+      <article class="readiness-card readiness-card-status" data-copy-card="readiness">
         <div class="readiness-status">
           <span>Readiness</span>
           <strong data-readiness-status>Ready</strong>
@@ -114,13 +114,13 @@ const raidPayload = calendar.raidDates.map((date) => ({
         </div>
       </article>
       <div class="readiness-columns" data-readiness-columns>
-        <article class="readiness-card readiness-column" data-readiness-passing-column>
+        <article class="readiness-card readiness-column" data-readiness-passing-column data-copy-card="passing">
           <div class="readiness-card-head">
             <span class="readiness-column-label">Passing</span>
           </div>
           <ul class="readiness-checks" data-readiness-passing></ul>
         </article>
-        <article class="readiness-card readiness-column" data-readiness-warnings-column>
+        <article class="readiness-card readiness-column" data-readiness-warnings-column data-copy-card="warnings">
           <div class="readiness-card-head">
             <span class="readiness-column-label">Warnings</span>
             <strong class="readiness-warning-count" data-readiness-warning-count>0</strong>
@@ -134,6 +134,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
   <script is:inline type="application/json" data-next-raid-data set:html={JSON.stringify(raidPayload)} />
   <script is:inline type="application/json" data-active-roster-data set:html={JSON.stringify(activeRosterPayload)} />
   <script is:inline type="application/json" data-bench-rules-data set:html={JSON.stringify(benchRules)} />
+  <span class="sr-only" aria-live="polite" data-copy-live></span>
 </section>
 
 <script>
@@ -266,9 +267,9 @@ const raidPayload = calendar.raidDates.map((date) => ({
           })
           .join("")
       : `<li class="is-empty">${escapeHtml(emptyText)}</li>`;
-  const renderWarningItems = (items: ReadinessItem[]) => {
+  const getSortedWarningItems = (items: ReadinessItem[]) => {
     const groupOrder = ["Raid Size", "Status Conflicts", "Comp Minimums", "Raid Buffs", "Roster Status", "Bench Rules", "Other"];
-    const sortedItems = [...items].sort((first, second) => {
+    return [...items].sort((first, second) => {
       const firstGroup = first.group ?? "Other";
       const secondGroup = second.group ?? "Other";
       const firstIndex = groupOrder.includes(firstGroup) ? groupOrder.indexOf(firstGroup) : groupOrder.indexOf("Other");
@@ -276,8 +277,120 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
       return firstIndex - secondIndex || first.text.localeCompare(second.text, undefined, { sensitivity: "base" });
     });
+  };
+  const renderWarningItems = (items: ReadinessItem[]) => {
+    const sortedItems = getSortedWarningItems(items);
 
     return renderReadinessItems(sortedItems, "is-warning", "No warnings.");
+  };
+  const copyFeedbackDefault = "Click to copy";
+  const copyFeedbackTimers = new WeakMap<HTMLElement, number>();
+  const playersToPlainText = (players: DashboardPlayer[]) =>
+    players.length > 0 ? players.map((player) => player.name).join("\n") : "None";
+  const itemsToPlainText = (items: ReadinessItem[]) =>
+    items.length > 0 ? items.map((item) => item.text).join("\n") : "None";
+  const isInteractiveTarget = (target: EventTarget | null) =>
+    target instanceof Element &&
+    Boolean(target.closest("a, button, input, select, textarea, summary, [data-tooltip]"));
+  const copyText = async (text: string) => {
+    if (navigator.clipboard?.writeText && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.top = "-9999px";
+    textarea.style.left = "-9999px";
+    document.body.append(textarea);
+    textarea.select();
+
+    try {
+      const copied = document.execCommand("copy");
+
+      if (!copied) {
+        throw new Error("Copy command failed");
+      }
+    } finally {
+      textarea.remove();
+    }
+  };
+  const setCopyFeedback = (
+    element: HTMLElement,
+    message: string,
+    state: "success" | "error",
+    liveRegion?: HTMLElement | null,
+  ) => {
+    const existingTimeout = copyFeedbackTimers.get(element);
+
+    if (existingTimeout) {
+      window.clearTimeout(existingTimeout);
+    }
+
+    element.dataset.copyFeedback = message;
+    element.dataset.copyState = state;
+
+    if (liveRegion) {
+      liveRegion.textContent = message;
+    }
+
+    copyFeedbackTimers.set(
+      element,
+      window.setTimeout(() => {
+        element.dataset.copyFeedback = copyFeedbackDefault;
+        delete element.dataset.copyState;
+      }, 1800),
+    );
+  };
+  const setupCopyCard = ({
+    element,
+    getText,
+    successMessage,
+    ariaLabel,
+    liveRegion,
+  }: {
+    element: HTMLElement | null;
+    getText: () => string;
+    successMessage: string;
+    ariaLabel: string;
+    liveRegion?: HTMLElement | null;
+  }) => {
+    if (!element) {
+      return;
+    }
+
+    element.dataset.copyFeedback = copyFeedbackDefault;
+    element.setAttribute("role", "button");
+    element.setAttribute("tabindex", "0");
+    element.setAttribute("aria-label", ariaLabel);
+
+    const triggerCopy = async () => {
+      try {
+        await copyText(getText());
+        setCopyFeedback(element, successMessage, "success", liveRegion);
+      } catch {
+        setCopyFeedback(element, "Copy failed", "error", liveRegion);
+      }
+    };
+
+    element.addEventListener("click", (event) => {
+      if (isInteractiveTarget(event.target)) {
+        return;
+      }
+
+      void triggerCopy();
+    });
+
+    element.addEventListener("keydown", (event) => {
+      if (event.target !== element || (event.key !== "Enter" && event.key !== " ")) {
+        return;
+      }
+
+      event.preventDefault();
+      void triggerCopy();
+    });
   };
   const getReadiness = ({
     activeRoster,
@@ -411,6 +524,13 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const rulesNode = card.querySelector<HTMLScriptElement>("[data-bench-rules-data]");
     const dateNode = card.querySelector<HTMLElement>("[data-next-raid-date]");
     const availableCard = card.querySelector<HTMLElement>("[data-available-card]");
+    const benchCard = card.querySelector<HTMLElement>('[data-copy-card="bench"]');
+    const outCard = card.querySelector<HTMLElement>('[data-copy-card="out"]');
+    const lateCard = card.querySelector<HTMLElement>('[data-copy-card="late"]');
+    const readinessCard = card.querySelector<HTMLElement>('[data-copy-card="readiness"]');
+    const passingCard = card.querySelector<HTMLElement>('[data-copy-card="passing"]');
+    const warningsCard = card.querySelector<HTMLElement>('[data-copy-card="warnings"]');
+    const copyLiveRegion = card.querySelector<HTMLElement>("[data-copy-live]");
     const raidersCount = card.querySelector<HTMLElement>("[data-week-raiders-count]");
     const benchNode = card.querySelector<HTMLElement>("[data-week-bench]");
     const outNode = card.querySelector<HTMLElement>("[data-week-out]");
@@ -465,9 +585,16 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const raidDate = nextRaid.date;
     const weekday = new Intl.DateTimeFormat(undefined, { weekday: "long" }).format(raidDate);
     const month = new Intl.DateTimeFormat(undefined, { month: "short" }).format(raidDate);
+    const raidDateLabel = `${weekday}, ${month} ${ordinal(raidDate.getDate())}`;
+    const unavailableSlugs = new Set(uniquePlayers([...weekOut, ...weekLate, ...weekMia]).map((player) => player.slug));
+    const benchSlugs = new Set(weekBench.map((player) => player.slug));
+    const availablePlayers = uniquePlayers(activeRoster.filter((player) => !unavailableSlugs.has(player.slug)));
+    const raidReadyPlayers = uniquePlayers(
+      activeRoster.filter((player) => !unavailableSlugs.has(player.slug) && !benchSlugs.has(player.slug)),
+    );
 
     if (dateNode) {
-      dateNode.textContent = `${weekday}, ${month} ${ordinal(raidDate.getDate())}`;
+      dateNode.textContent = raidDateLabel;
     }
 
     if (benchNode) {
@@ -532,5 +659,69 @@ const raidPayload = calendar.raidDates.map((date) => ({
       const warnings = readiness.warnings;
       readinessWarnings.innerHTML = renderWarningItems(warnings);
     }
+
+    setupCopyCard({
+      element: availableCard,
+      getText: () => `Available this week:\n${playersToPlainText(availablePlayers)}`,
+      successMessage: "Copied available list",
+      ariaLabel: "Copy available player list to clipboard",
+      liveRegion: copyLiveRegion,
+    });
+
+    setupCopyCard({
+      element: benchCard,
+      getText: () => `Bench this week:\n${playersToPlainText(weekBench)}`,
+      successMessage: "Copied bench list",
+      ariaLabel: "Copy bench list to clipboard",
+      liveRegion: copyLiveRegion,
+    });
+
+    setupCopyCard({
+      element: outCard,
+      getText: () => `Out this week:\n${playersToPlainText(weekOut)}`,
+      successMessage: "Copied out list",
+      ariaLabel: "Copy out list to clipboard",
+      liveRegion: copyLiveRegion,
+    });
+
+    setupCopyCard({
+      element: lateCard,
+      getText: () => `Late this week:\n${playersToPlainText(weekLate)}`,
+      successMessage: "Copied late list",
+      ariaLabel: "Copy late list to clipboard",
+      liveRegion: copyLiveRegion,
+    });
+
+    setupCopyCard({
+      element: readinessCard,
+      getText: () =>
+        [
+          `Raid readiness for ${raidDateLabel}`,
+          `Status: ${readiness.status}`,
+          `Raid-ready: ${readiness.raidReadyCount} / 25`,
+          "",
+          "Raid-ready players:",
+          playersToPlainText(raidReadyPlayers),
+        ].join("\n"),
+      successMessage: "Copied raid-ready list",
+      ariaLabel: "Copy raid-ready player list to clipboard",
+      liveRegion: copyLiveRegion,
+    });
+
+    setupCopyCard({
+      element: passingCard,
+      getText: () => `Passing checks for ${raidDateLabel}:\n${itemsToPlainText(readiness.checks)}`,
+      successMessage: "Copied passing checks",
+      ariaLabel: "Copy passing checks to clipboard",
+      liveRegion: copyLiveRegion,
+    });
+
+    setupCopyCard({
+      element: warningsCard,
+      getText: () => `Raid readiness warnings for ${raidDateLabel}:\n${itemsToPlainText(getSortedWarningItems(readiness.warnings))}`,
+      successMessage: "Copied warnings",
+      ariaLabel: "Copy raid readiness warnings to clipboard",
+      liveRegion: copyLiveRegion,
+    });
   });
 </script>

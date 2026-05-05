@@ -823,6 +823,73 @@ p {
   background: rgba(23, 33, 27, 0.7);
 }
 
+.next-raid-list[data-copy-card],
+.readiness-card[data-copy-card] {
+  position: relative;
+  cursor: copy;
+  outline: none;
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.next-raid-list[data-copy-card]::after,
+.readiness-card[data-copy-card]::after {
+  content: attr(data-copy-feedback);
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
+  color: var(--muted);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  text-transform: uppercase;
+  transform: translateY(2px);
+  transition:
+    color 140ms ease,
+    opacity 140ms ease,
+    transform 140ms ease;
+}
+
+.next-raid-list[data-copy-card]:hover,
+.next-raid-list[data-copy-card]:focus-visible,
+.readiness-card[data-copy-card]:hover,
+.readiness-card[data-copy-card]:focus-visible {
+  border-color: rgba(200, 155, 60, 0.46);
+  box-shadow: 0 0 0 1px rgba(200, 155, 60, 0.12);
+}
+
+.next-raid-list[data-copy-card]:focus-visible,
+.readiness-card[data-copy-card]:focus-visible {
+  outline: 2px solid rgba(200, 155, 60, 0.42);
+  outline-offset: 2px;
+}
+
+.next-raid-list[data-copy-card]:hover::after,
+.next-raid-list[data-copy-card]:focus-visible::after,
+.next-raid-list[data-copy-card][data-copy-state]::after,
+.readiness-card[data-copy-card]:hover::after,
+.readiness-card[data-copy-card]:focus-visible::after,
+.readiness-card[data-copy-card][data-copy-state]::after {
+  opacity: 0.78;
+  transform: translateY(0);
+}
+
+.next-raid-list[data-copy-card][data-copy-state="success"]::after,
+.readiness-card[data-copy-card][data-copy-state="success"]::after {
+  color: var(--jade);
+  opacity: 1;
+}
+
+.next-raid-list[data-copy-card][data-copy-state="error"]::after,
+.readiness-card[data-copy-card][data-copy-state="error"]::after {
+  color: #ee9a8e;
+  opacity: 1;
+}
+
 .next-raid-list > div {
   display: flex;
   align-items: center;
