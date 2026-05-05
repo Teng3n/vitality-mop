@@ -2,7 +2,6 @@
 import Layout from "../layouts/Layout.astro";
 import StatCard from "../components/StatCard.astro";
 import progressionSeed from "../data/wclProgressionSeed.json";
-import wclSyncMeta from "../data/wclSyncMeta.json";
 
 type DifficultyStatus = "Killed" | "Best Pull" | "No Data";
 type ProgressionDifficulty = {
@@ -40,9 +39,6 @@ type ProgressionSeed = {
   } | null;
   raids?: ProgressionRaid[] | null;
 };
-type WclSyncMeta = {
-  lastWclSync?: string | null;
-};
 type KillRecord = {
   raidName: string;
   bossName: string;
@@ -51,10 +47,7 @@ type KillRecord = {
 };
 
 const seed = progressionSeed as ProgressionSeed;
-const meta = wclSyncMeta as WclSyncMeta;
 const raids = Array.isArray(seed.raids) ? seed.raids : [];
-const guildName = seed.guild?.name || "Vitality";
-const serverName = seed.guild?.server || "Raden";
 
 const formatDate = (value?: string | null) => {
   if (!value) {
@@ -73,26 +66,6 @@ const formatDate = (value?: string | null) => {
     year: "numeric",
   }).format(date);
 };
-const formatDateTime = (value?: string | null) => {
-  if (!value) {
-    return "";
-  }
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return "";
-  }
-
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    timeZone: "America/Los_Angeles",
-  }).format(date);
-};
 const formatPercent = (value?: number | null) => {
   if (typeof value !== "number" || !Number.isFinite(value)) {
     return "";
@@ -107,9 +80,74 @@ const getDifficultyStatus = (difficulty?: ProgressionDifficulty): DifficultyStat
     return "No Data";
   }
 
-  return difficulty.status === "Killed" || difficulty.status === "Best Pull" ? difficulty.status : "No Data";
+  const status = String(difficulty.status ?? "").trim().toLowerCase();
+
+  if (status === "killed") {
+    return "Killed";
+  }
+
+  if (status === "best pull") {
+    return "Best Pull";
+  }
+
+  return "No Data";
 };
 const isDifficultyKilled = (difficulty?: ProgressionDifficulty) => getDifficultyStatus(difficulty) === "Killed";
+const normalizeBossName = (value?: string | null) =>
+  String(value ?? "")
+    .toLowerCase()
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, "")
+    .trim();
+const throneOfThunderEncounterOrder = new Map<number, number>([
+  [51577, 1],
+  [51575, 2],
+  [51570, 3],
+  [51565, 4],
+  [51578, 5],
+  [51573, 6],
+  [51572, 7],
+  [51574, 8],
+  [51576, 9],
+  [51559, 10],
+  [51560, 11],
+  [51579, 12],
+  [51580, 13],
+]);
+const throneOfThunderNameOrder = new Map<string, number>([
+  ["jinrokhthebreaker", 1],
+  ["horridon", 2],
+  ["councilofelders", 3],
+  ["tortos", 4],
+  ["megaera", 5],
+  ["jikun", 6],
+  ["durumutheforgotten", 7],
+  ["primordius", 8],
+  ["darkanimus", 9],
+  ["ironqon", 10],
+  ["twinconsorts", 11],
+  ["twinempyreans", 11],
+  ["leishen", 12],
+  ["raden", 13],
+]);
+const getBossSortOrder = (raid: ProgressionRaid, boss: ProgressionBoss) => {
+  if (normalizeBossName(raid.name) !== "throneofthunder") {
+    return Number.POSITIVE_INFINITY;
+  }
+
+  if (typeof boss.encounterId === "number" && throneOfThunderEncounterOrder.has(boss.encounterId)) {
+    return throneOfThunderEncounterOrder.get(boss.encounterId) ?? Number.POSITIVE_INFINITY;
+  }
+
+  return throneOfThunderNameOrder.get(normalizeBossName(boss.name)) ?? Number.POSITIVE_INFINITY;
+};
+const getSortedBosses = (raid: ProgressionRaid) =>
+  [...(raid.bosses ?? [])].sort(
+    (a, b) =>
+      getBossSortOrder(raid, a) - getBossSortOrder(raid, b) ||
+      (a.encounterId ?? Number.POSITIVE_INFINITY) - (b.encounterId ?? Number.POSITIVE_INFINITY) ||
+      (a.name || "").localeCompare(b.name || ""),
+  );
 const getRaidEffectiveProgress = (raid: ProgressionRaid) => {
   const bosses = Array.isArray(raid.bosses) ? raid.bosses : [];
   const totalBosses = bosses.length;
@@ -169,7 +207,6 @@ const aggregateProgress = getAggregateEffectiveProgress();
 const latestKill = getLatestKills(raids)[0];
 const currentTier =
   raids.length === 0 ? "No data" : raids.length === 1 ? raids[0]?.name || "Unknown Raid" : `${raids.length} raids`;
-const lastWclSync = formatDateTime(meta.lastWclSync);
 const hasProgressionData = raids.some((raid) => Array.isArray(raid.bosses) && raid.bosses.length > 0);
 const getStatusClass = (status: DifficultyStatus) =>
   status === "Killed" ? "is-killed" : status === "Best Pull" ? "is-best-pull" : "is-no-data";
@@ -220,11 +257,6 @@ const getBossDifficultyRows = (boss: ProgressionBoss) => {
 <Layout title="Progression | Vitality">
   <section class="page-header progression-header">
     <p class="eyebrow">Progression</p>
-    <h1>Progression</h1>
-    <p>Warcraft Logs data for {guildName} - {serverName}</p>
-    <p class="progression-sync-note">
-      {lastWclSync ? `Last WCL sync: ${lastWclSync}` : "No Warcraft Logs sync yet"}
-    </p>
   </section>
 
   <section class="dashboard-grid progression-summary-grid">
@@ -260,8 +292,7 @@ const getBossDifficultyRows = (boss: ProgressionBoss) => {
                   <p class="eyebrow">Raid</p>
                   <h2>{raid.name || "Unknown Raid"}</h2>
                   <p class="info-note">
-                    Heroic {progress.heroicKilledCount} / {progress.totalBosses}, Normal Only {progress.normalOnlyKilledCount} /{" "}
-                    {progress.totalBosses}
+                    {`Heroic ${progress.heroicKilledCount} / ${progress.totalBosses}, Normal Only ${progress.normalOnlyKilledCount} / ${progress.totalBosses}`}
                   </p>
                 </div>
                 <div class="progression-raid-latest">
@@ -272,7 +303,7 @@ const getBossDifficultyRows = (boss: ProgressionBoss) => {
               </div>
 
               <div class="progression-boss-grid">
-                {(raid.bosses ?? []).map((boss) => {
+                {getSortedBosses(raid).map((boss) => {
                   const difficultyRows = getBossDifficultyRows(boss);
 
                   return (
