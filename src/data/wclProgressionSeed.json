@@ -5,5 +5,226 @@
     "serverSlug": "raden",
     "region": "US"
   },
-  "raids": []
+  "raids": [
+    {
+      "name": "Throne of Thunder",
+      "zoneId": 1046,
+      "bosses": [
+        {
+          "name": "Iron Qon",
+          "encounterId": 51559,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "firstKillDate": "2026-02-16T07:05:34.401Z",
+              "latestKillDate": "2026-04-27T04:59:17.723Z",
+              "bestPercent": 0,
+              "reportCode": "6DWhGMH1NaJ87mPV",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/6DWhGMH1NaJ87mPV#fight=50",
+              "pulls": 21,
+              "kills": 12
+            }
+          }
+        },
+        {
+          "name": "Twin Empyreans",
+          "encounterId": 51560,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "firstKillDate": "2026-02-17T04:15:17.459Z",
+              "latestKillDate": "2026-04-27T05:07:57.964Z",
+              "bestPercent": 0,
+              "reportCode": "R1QNYZzyPAKXMc4V",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/R1QNYZzyPAKXMc4V#fight=1",
+              "pulls": 23,
+              "kills": 11
+            }
+          }
+        },
+        {
+          "name": "Tortos",
+          "encounterId": 51565,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "firstKillDate": "2026-02-16T04:48:48.063Z",
+              "latestKillDate": "2026-04-27T03:48:43.203Z",
+              "bestPercent": 0,
+              "reportCode": "6DWhGMH1NaJ87mPV",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/6DWhGMH1NaJ87mPV#fight=12",
+              "pulls": 17,
+              "kills": 12
+            }
+          }
+        },
+        {
+          "name": "Council of Elders",
+          "encounterId": 51570,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "firstKillDate": "2026-02-16T04:38:41.003Z",
+              "latestKillDate": "2026-04-27T03:40:30.988Z",
+              "bestPercent": 0,
+              "reportCode": "6DWhGMH1NaJ87mPV",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/6DWhGMH1NaJ87mPV#fight=10",
+              "pulls": 13,
+              "kills": 12
+            }
+          }
+        },
+        {
+          "name": "Durumu the Forgotten",
+          "encounterId": 51572,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "firstKillDate": "2026-02-16T05:31:21.501Z",
+              "latestKillDate": "2026-04-27T04:31:43.474Z",
+              "bestPercent": 0,
+              "reportCode": "6DWhGMH1NaJ87mPV",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/6DWhGMH1NaJ87mPV#fight=29",
+              "pulls": 17,
+              "kills": 12
+            }
+          }
+        },
+        {
+          "name": "Ji-Kun",
+          "encounterId": 51573,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "firstKillDate": "2026-02-16T05:17:24.789Z",
+              "latestKillDate": "2026-04-27T04:20:51.416Z",
+              "bestPercent": 0,
+              "reportCode": "6DWhGMH1NaJ87mPV",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/6DWhGMH1NaJ87mPV#fight=25",
+              "pulls": 24,
+              "kills": 12
+            }
+          }
+        },
+        {
+          "name": "Primordius",
+          "encounterId": 51574,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "firstKillDate": "2026-02-16T05:41:51.938Z",
+              "latestKillDate": "2026-04-27T04:41:08.217Z",
+              "bestPercent": 0,
+              "reportCode": "6DWhGMH1NaJ87mPV",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/6DWhGMH1NaJ87mPV#fight=33",
+              "pulls": 14,
+              "kills": 12
+            }
+          }
+        },
+        {
+          "name": "Horridon",
+          "encounterId": 51575,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "firstKillDate": "2026-02-16T04:27:46.263Z",
+              "latestKillDate": "2026-04-27T03:30:45.470Z",
+              "bestPercent": 0,
+              "reportCode": "6DWhGMH1NaJ87mPV",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/6DWhGMH1NaJ87mPV#fight=5",
+              "pulls": 21,
+              "kills": 12
+            }
+          }
+        },
+        {
+          "name": "Dark Animus",
+          "encounterId": 51576,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "firstKillDate": "2026-02-16T06:52:06.217Z",
+              "latestKillDate": "2026-04-27T04:49:47.150Z",
+              "bestPercent": 0,
+              "reportCode": "6DWhGMH1NaJ87mPV",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/6DWhGMH1NaJ87mPV#fight=46",
+              "pulls": 35,
+              "kills": 12
+            }
+          }
+        },
+        {
+          "name": "Jin'rokh the Breaker",
+          "encounterId": 51577,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "firstKillDate": "2026-02-16T04:14:31.715Z",
+              "latestKillDate": "2026-04-27T03:18:50.067Z",
+              "bestPercent": 0,
+              "reportCode": "6DWhGMH1NaJ87mPV",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/6DWhGMH1NaJ87mPV#fight=2",
+              "pulls": 18,
+              "kills": 12
+            }
+          }
+        },
+        {
+          "name": "Megaera",
+          "encounterId": 51578,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "firstKillDate": "2026-02-16T05:02:46.174Z",
+              "latestKillDate": "2026-04-27T04:03:07.708Z",
+              "bestPercent": 0,
+              "reportCode": "6DWhGMH1NaJ87mPV",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/6DWhGMH1NaJ87mPV#fight=18",
+              "pulls": 18,
+              "kills": 12
+            }
+          }
+        },
+        {
+          "name": "Lei Shen",
+          "encounterId": 51579,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "firstKillDate": "2026-02-17T04:43:12.920Z",
+              "latestKillDate": "2026-04-27T05:54:47.227Z",
+              "bestPercent": 0,
+              "reportCode": "R1QNYZzyPAKXMc4V",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/R1QNYZzyPAKXMc4V#fight=4",
+              "pulls": 69,
+              "kills": 11
+            }
+          }
+        },
+        {
+          "name": "Ra-den",
+          "encounterId": 51580,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "firstKillDate": "2026-03-10T05:32:47.558Z",
+              "latestKillDate": "2026-04-27T06:06:42.984Z",
+              "bestPercent": 0,
+              "reportCode": "MTzCRch2V7yA9fka",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/MTzCRch2V7yA9fka#fight=25",
+              "pulls": 77,
+              "kills": 8
+            }
+          }
+        }
+      ],
+      "summary": {
+        "normalKilled": 13,
+        "normalTotal": 13,
+        "heroicKilled": 0,
+        "heroicTotal": 13
+      }
+    }
+  ]
 }

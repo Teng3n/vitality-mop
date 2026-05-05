@@ -1,11 +1,11 @@
 {
-  "lastWclSync": null,
+  "lastWclSync": "2026-05-05T22:35:52.080Z",
   "source": "Warcraft Logs API v2",
   "endpoint": "https://classic.warcraftlogs.com/api/v2/client",
   "guild": "Vitality",
   "server": "Raden",
   "serverSlug": "raden",
   "region": "US",
-  "reportsSynced": 0,
-  "fightsSynced": 0
+  "reportsSynced": 20,
+  "fightsSynced": 693
 }
