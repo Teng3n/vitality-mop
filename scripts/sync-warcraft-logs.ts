@@ -16,7 +16,7 @@ type WclReportApiFight = {
   id?: number | null;
   name?: string | null;
   encounterID?: number | null;
-  difficulty?: number | null;
+  difficulty?: number | string | null;
   kill?: boolean | null;
   bossPercentage?: number | null;
   fightPercentage?: number | null;
@@ -54,6 +54,7 @@ type WclFight = {
   encounterId: number | null;
   difficulty: string;
   difficultyId: number | null;
+  rawDifficultyId: number | string | null;
   kill: boolean;
   bossPercentage: number | null;
   startTime: string | null;
@@ -82,6 +83,8 @@ type WclReportsData = {
 
 type ProgressionDifficulty = {
   status: "Killed" | "Best Pull";
+  difficultyId: number | null;
+  rawDifficultyId: number | string | null;
   firstKillDate: string | null;
   latestKillDate: string | null;
   bestPercent: number | null;
@@ -287,18 +290,40 @@ function getAbsoluteFightTime(reportStartMs: number | null, fightTime: unknown) 
   return reportStartMs === null ? parsed : reportStartMs + parsed;
 }
 
-function getDifficultyLabel(value: number | null) {
-  switch (value) {
-    case 3:
-    case 4:
-      return "Normal";
-    case 5:
-    case 6:
-      return "Heroic";
-    case 7:
-      return "Looking For Raid";
+function normalizeDifficulty(value: number | string | null | undefined) {
+  const rawDifficultyId = typeof value === "number" || typeof value === "string" ? value : null;
+  const text = cleanText(value);
+  const numericDifficulty = text ? Number(text) : Number.NaN;
+  const difficultyId = Number.isFinite(numericDifficulty) ? numericDifficulty : null;
+  const normalizedText = text.toLowerCase().replace(/[^a-z0-9]+/g, "");
+
+  if (difficultyId !== null) {
+    switch (difficultyId) {
+      case 3:
+        return { difficulty: "Normal", difficultyId, rawDifficultyId };
+      case 4:
+        return { difficulty: "Heroic", difficultyId, rawDifficultyId };
+      case 5:
+        return { difficulty: "Mythic", difficultyId, rawDifficultyId };
+      case 7:
+        return { difficulty: "Looking For Raid", difficultyId, rawDifficultyId };
+      default:
+        return { difficulty: difficultyId > 0 ? `Difficulty ${difficultyId}` : "Unknown", difficultyId, rawDifficultyId };
+    }
+  }
+
+  switch (normalizedText) {
+    case "normal":
+      return { difficulty: "Normal", difficultyId, rawDifficultyId };
+    case "heroic":
+      return { difficulty: "Heroic", difficultyId, rawDifficultyId };
+    case "mythic":
+      return { difficulty: "Mythic", difficultyId, rawDifficultyId };
+    case "lookingforraid":
+    case "lfr":
+      return { difficulty: "Looking For Raid", difficultyId, rawDifficultyId };
     default:
-      return value === null ? "Unknown" : `Difficulty ${value}`;
+      return { difficulty: "Unknown", difficultyId, rawDifficultyId };
   }
 }
 
@@ -335,7 +360,7 @@ function normalizeApiReport(report: WclReportApiReport): WclReport | null {
         return null;
       }
 
-      const difficultyId = toNumber(fight.difficulty);
+      const difficulty = normalizeDifficulty(fight.difficulty);
       const startMs = getAbsoluteFightTime(reportStartMs, fight.startTime);
       const endMs = getAbsoluteFightTime(reportStartMs, fight.endTime);
       const durationMs = startMs !== null && endMs !== null && endMs >= startMs ? endMs - startMs : null;
@@ -344,8 +369,9 @@ function normalizeApiReport(report: WclReportApiReport): WclReport | null {
         id,
         name: cleanText(fight.name) || "Unknown Encounter",
         encounterId: toNumber(fight.encounterID),
-        difficulty: getDifficultyLabel(difficultyId),
-        difficultyId,
+        difficulty: difficulty.difficulty,
+        difficultyId: difficulty.difficultyId,
+        rawDifficultyId: difficulty.rawDifficultyId,
         kill: Boolean(fight.kill),
         bossPercentage: normalizePercentage(fight.bossPercentage ?? fight.fightPercentage),
         startTime: toIsoString(startMs),
@@ -455,6 +481,8 @@ async function fetchGuildReports(accessToken: string): Promise<WclReportsData> {
 function createDifficultyDraft(): DifficultyDraft {
   return {
     status: "Best Pull",
+    difficultyId: null,
+    rawDifficultyId: null,
     firstKillDate: null,
     latestKillDate: null,
     bestPercent: null,
@@ -477,6 +505,14 @@ function getDateSortTime(value: string | null) {
 }
 
 function updateProgressionDifficulty(difficulty: DifficultyDraft, fight: WclFight) {
+  if (difficulty.difficultyId === null && fight.difficultyId !== null) {
+    difficulty.difficultyId = fight.difficultyId;
+  }
+
+  if (difficulty.rawDifficultyId === null && fight.rawDifficultyId !== null) {
+    difficulty.rawDifficultyId = fight.rawDifficultyId;
+  }
+
   difficulty.pulls += 1;
 
   if (fight.kill) {
@@ -559,6 +595,8 @@ function buildProgressionSeed(reportsData: WclReportsData): WclProgressionSeed {
                 difficultyName,
                 {
                   status: difficulty.status,
+                  difficultyId: difficulty.difficultyId,
+                  rawDifficultyId: difficulty.rawDifficultyId,
                   firstKillDate: difficulty.firstKillDate,
                   latestKillDate: difficulty.latestKillDate,
                   bestPercent: difficulty.bestPercent,
@@ -668,4 +706,3 @@ await runWarcraftLogsSync().catch((error: unknown) => {
   console.error(`Warcraft Logs sync failed: ${error instanceof Error ? error.message : String(error)}`);
   console.error("Preserving existing Warcraft Logs JSON files.");
 });
-

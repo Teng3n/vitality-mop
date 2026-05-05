@@ -196,7 +196,7 @@ const getDifficultyMeta = (difficulty?: ProgressionDifficulty) => {
   </section>
 
   <section class="dashboard-grid progression-summary-grid">
-    <StatCard label="Current Tier" value={currentTier} detail={hasProgressionData ? "Synced reports" : "Awaiting data"} />
+    <StatCard label="Current Tier" value={currentTier} />
     <StatCard label="Normal Progress" value={`${normalProgress.killed} / ${normalProgress.total}`} detail="bosses killed" />
     <StatCard label="Heroic Progress" value={`${heroicProgress.killed} / ${heroicProgress.total}`} detail="bosses killed" />
     <StatCard
@@ -221,7 +221,7 @@ const getDifficultyMeta = (difficulty?: ProgressionDifficulty) => {
                   <p class="eyebrow">Raid</p>
                   <h2>{raid.name || "Unknown Raid"}</h2>
                   <p class="info-note">
-                    Normal {normal.killed} / {normal.total} · Heroic {heroic.killed} / {heroic.total}
+                    Normal {normal.killed} / {normal.total}, Heroic {heroic.killed} / {heroic.total}
                   </p>
                 </div>
                 <div class="progression-raid-latest">

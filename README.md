@@ -258,7 +258,7 @@ Assumptions:
 - Warcraft Logs guild lookup uses `guildName`, `guildServerSlug`, and `guildServerRegion`.
 - The default guild is `Vitality` on `raden` in `US`.
 - Report fights use report-relative fight times when they are not already epoch timestamps.
-- Difficulty IDs `3` and `4` are normalized to `Normal`; `5` and `6` are normalized to `Heroic`. The raw `difficultyId` is also preserved.
+- Difficulty ID `3` is normalized to `Normal`; difficulty ID `4` is normalized to `Heroic`. Difficulty ID `5` is treated as `Mythic` if it ever appears, but it is not expected for current MoP Classic progression. The raw difficulty value is preserved as `rawDifficultyId`.
 - Progression totals are based on bosses present in the synced recent reports. Unpulled bosses are not invented.
 - The default recent report limit is `20`.
 

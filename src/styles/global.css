@@ -1774,6 +1774,18 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.progression-summary-grid .stat-card {
+  min-height: 118px;
+  padding: 16px;
+}
+
+.progression-summary-grid .stat-card strong {
+  align-self: center;
+  overflow-wrap: anywhere;
+  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  line-height: 1.1;
+}
+
 .progression-raid-stack {
   display: grid;
   gap: 16px;

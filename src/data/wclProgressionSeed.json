@@ -14,8 +14,10 @@
           "name": "Iron Qon",
           "encounterId": 51559,
           "difficulties": {
-            "Normal": {
+            "Heroic": {
               "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
               "firstKillDate": "2026-02-16T07:05:34.401Z",
               "latestKillDate": "2026-04-27T04:59:17.723Z",
               "bestPercent": 0,
@@ -30,15 +32,29 @@
           "name": "Twin Empyreans",
           "encounterId": 51560,
           "difficulties": {
-            "Normal": {
+            "Heroic": {
               "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
               "firstKillDate": "2026-02-17T04:15:17.459Z",
               "latestKillDate": "2026-04-27T05:07:57.964Z",
               "bestPercent": 0,
               "reportCode": "R1QNYZzyPAKXMc4V",
               "reportUrl": "https://classic.warcraftlogs.com/reports/R1QNYZzyPAKXMc4V#fight=1",
-              "pulls": 23,
-              "kills": 11
+              "pulls": 22,
+              "kills": 10
+            },
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2026-03-03T04:08:57.717Z",
+              "latestKillDate": "2026-03-03T04:08:57.717Z",
+              "bestPercent": 0,
+              "reportCode": "fnmYcXtQay28h1g4",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/fnmYcXtQay28h1g4#fight=1",
+              "pulls": 1,
+              "kills": 1
             }
           }
         },
@@ -46,8 +62,10 @@
           "name": "Tortos",
           "encounterId": 51565,
           "difficulties": {
-            "Normal": {
+            "Heroic": {
               "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
               "firstKillDate": "2026-02-16T04:48:48.063Z",
               "latestKillDate": "2026-04-27T03:48:43.203Z",
               "bestPercent": 0,
@@ -62,8 +80,10 @@
           "name": "Council of Elders",
           "encounterId": 51570,
           "difficulties": {
-            "Normal": {
+            "Heroic": {
               "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
               "firstKillDate": "2026-02-16T04:38:41.003Z",
               "latestKillDate": "2026-04-27T03:40:30.988Z",
               "bestPercent": 0,
@@ -78,8 +98,10 @@
           "name": "Durumu the Forgotten",
           "encounterId": 51572,
           "difficulties": {
-            "Normal": {
+            "Heroic": {
               "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
               "firstKillDate": "2026-02-16T05:31:21.501Z",
               "latestKillDate": "2026-04-27T04:31:43.474Z",
               "bestPercent": 0,
@@ -94,8 +116,10 @@
           "name": "Ji-Kun",
           "encounterId": 51573,
           "difficulties": {
-            "Normal": {
+            "Heroic": {
               "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
               "firstKillDate": "2026-02-16T05:17:24.789Z",
               "latestKillDate": "2026-04-27T04:20:51.416Z",
               "bestPercent": 0,
@@ -110,8 +134,10 @@
           "name": "Primordius",
           "encounterId": 51574,
           "difficulties": {
-            "Normal": {
+            "Heroic": {
               "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
               "firstKillDate": "2026-02-16T05:41:51.938Z",
               "latestKillDate": "2026-04-27T04:41:08.217Z",
               "bestPercent": 0,
@@ -126,8 +152,10 @@
           "name": "Horridon",
           "encounterId": 51575,
           "difficulties": {
-            "Normal": {
+            "Heroic": {
               "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
               "firstKillDate": "2026-02-16T04:27:46.263Z",
               "latestKillDate": "2026-04-27T03:30:45.470Z",
               "bestPercent": 0,
@@ -142,8 +170,10 @@
           "name": "Dark Animus",
           "encounterId": 51576,
           "difficulties": {
-            "Normal": {
+            "Heroic": {
               "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
               "firstKillDate": "2026-02-16T06:52:06.217Z",
               "latestKillDate": "2026-04-27T04:49:47.150Z",
               "bestPercent": 0,
@@ -158,8 +188,10 @@
           "name": "Jin'rokh the Breaker",
           "encounterId": 51577,
           "difficulties": {
-            "Normal": {
+            "Heroic": {
               "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
               "firstKillDate": "2026-02-16T04:14:31.715Z",
               "latestKillDate": "2026-04-27T03:18:50.067Z",
               "bestPercent": 0,
@@ -174,8 +206,10 @@
           "name": "Megaera",
           "encounterId": 51578,
           "difficulties": {
-            "Normal": {
+            "Heroic": {
               "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
               "firstKillDate": "2026-02-16T05:02:46.174Z",
               "latestKillDate": "2026-04-27T04:03:07.708Z",
               "bestPercent": 0,
@@ -190,8 +224,10 @@
           "name": "Lei Shen",
           "encounterId": 51579,
           "difficulties": {
-            "Normal": {
+            "Heroic": {
               "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
               "firstKillDate": "2026-02-17T04:43:12.920Z",
               "latestKillDate": "2026-04-27T05:54:47.227Z",
               "bestPercent": 0,
@@ -206,8 +242,10 @@
           "name": "Ra-den",
           "encounterId": 51580,
           "difficulties": {
-            "Normal": {
+            "Heroic": {
               "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
               "firstKillDate": "2026-03-10T05:32:47.558Z",
               "latestKillDate": "2026-04-27T06:06:42.984Z",
               "bestPercent": 0,
@@ -220,9 +258,9 @@
         }
       ],
       "summary": {
-        "normalKilled": 13,
+        "normalKilled": 1,
         "normalTotal": 13,
-        "heroicKilled": 0,
+        "heroicKilled": 13,
         "heroicTotal": 13
       }
     }
