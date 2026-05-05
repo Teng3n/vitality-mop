@@ -40,6 +40,12 @@ jobs:
           LOOT_RANGE: ${{ vars.LOOT_RANGE }}
           BENCH_RULES_RANGE: ${{ vars.BENCH_RULES_RANGE }}
           CALENDAR_START_YEAR: ${{ vars.CALENDAR_START_YEAR }}
+          WCL_CLIENT_ID: ${{ secrets.WCL_CLIENT_ID }}
+          WCL_CLIENT_SECRET: ${{ secrets.WCL_CLIENT_SECRET }}
+          WCL_GUILD_NAME: ${{ vars.WCL_GUILD_NAME }}
+          WCL_SERVER_SLUG: ${{ vars.WCL_SERVER_SLUG }}
+          WCL_REGION: ${{ vars.WCL_REGION }}
+          WCL_REPORT_LIMIT: ${{ vars.WCL_REPORT_LIMIT }}
 
       - name: Check generated data changes
         id: changes

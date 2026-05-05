@@ -9,7 +9,8 @@
     "build:with-data": "npm run sync:data && npm run build",
     "preview": "astro preview",
     "check": "astro check",
-    "sync:data": "tsx scripts/sync-google-sheets.ts"
+    "sync:data": "tsx scripts/sync-google-sheets.ts && npm run sync:wcl",
+    "sync:wcl": "tsx scripts/sync-warcraft-logs.ts"
   },
   "dependencies": {
     "astro": "^6.1.8"

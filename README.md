@@ -21,6 +21,7 @@ Optional local data sync:
 ```bash
 cp .env.example .env.local
 # Fill in GOOGLE_SHEET_ID, GOOGLE_SERVICE_ACCOUNT_JSON, and CALENDAR_START_YEAR.
+# Optional: fill in WCL_CLIENT_ID and WCL_CLIENT_SECRET to sync Warcraft Logs data.
 npm run sync:data
 ```
 
@@ -57,15 +58,19 @@ Current public site data lives in:
 - `src/data/lootHistory.json`
 - `src/data/bench.json`
 - `src/data/benchRules.json`
+- `src/data/wclReports.json`
+- `src/data/wclProgressionSeed.json`
+- `src/data/wclSyncMeta.json`
 
 ## Automated data sync
 
-The site is still static. Runtime visitors never fetch Google Sheets directly, and the Google Sheet does not need to be public. Instead, GitHub Actions authenticates to the private sheet with a Google service account, reads the Calendar, History, and optional Bench Rules tabs, regenerates the JSON files in `src/data`, commits only real JSON changes, and Cloudflare Pages redeploys from that GitHub commit.
+The site is still static. Runtime visitors never fetch Google Sheets or Warcraft Logs directly, and the Google Sheet does not need to be public. Instead, GitHub Actions authenticates to the private sheet with a Google service account, optionally authenticates to Warcraft Logs with OAuth client credentials, regenerates the JSON files in `src/data`, commits only real JSON changes, and Cloudflare Pages redeploys from that GitHub commit.
 
 Pipeline:
 
 ```text
 Private Google Sheet Calendar + History + Bench Rules tabs -> Google Sheets API -> scripts/sync-google-sheets.ts -> src/data/*.json -> GitHub commit -> Cloudflare Pages deploy
+Warcraft Logs API v2 reports + fights -> scripts/sync-warcraft-logs.ts -> src/data/wcl*.json -> same GitHub commit guard
 ```
 
 Required GitHub Actions secrets:
@@ -75,12 +80,26 @@ Required GitHub Actions secrets:
 
 The service account JSON must stay in GitHub Secrets or a private local `.env.local` file. Do not commit the service account file or paste it into frontend code. Share the Google Sheet directly with the service account email as Viewer.
 
+Optional GitHub Actions secrets for Warcraft Logs:
+
+- `WCL_CLIENT_ID`
+- `WCL_CLIENT_SECRET`
+
+These are OAuth client credentials for Warcraft Logs API v2. Keep them in GitHub Secrets or a private local `.env.local` file. They are used only by sync scripts and are never exposed to frontend code. If either value is missing, the sync logs `Skipping Warcraft Logs sync: missing credentials.` and preserves any existing Warcraft Logs JSON.
+
 Optional GitHub Actions variables for non-sensitive sheet ranges:
 
 - `CALENDAR_RANGE`, default `Calendar!A:ZZ`
 - `LOOT_RANGE`, default `History!A:Z`
 - `BENCH_RULES_RANGE`, default `Bench Rules!A:I`
 - `CALENDAR_START_YEAR`, default none in GitHub Actions. Set this when Calendar date headers omit years.
+
+Optional GitHub Actions variables for Warcraft Logs:
+
+- `WCL_GUILD_NAME`, default `Vitality`
+- `WCL_SERVER_SLUG`, default `raden`
+- `WCL_REGION`, default `US`
+- `WCL_REPORT_LIMIT`, default `20`, maximum `100`
 
 Calendar is the roster source of truth. Anyone listed as a player row in the Calendar range is treated as active roster and is used to generate `src/data/roster.json`, `src/data/calendar.json`, and `src/data/bench.json`.
 
@@ -173,6 +192,76 @@ Built-in Bench Suggestion behavior:
 - `PENALTY_ADJACENT_UNAVAILABLE` checks the immediately previous and immediately next raid week/date range.
 - If all raid dates in a week are in the past, that week is skipped.
 
+### Warcraft Logs sync
+
+Warcraft Logs sync is optional and static. It uses Warcraft Logs API v2 during the data sync only. No browser/client code calls Warcraft Logs directly.
+
+The script:
+
+- Requests an OAuth access token from `https://www.warcraftlogs.com/oauth/token` using `WCL_CLIENT_ID` and `WCL_CLIENT_SECRET`.
+- Queries the Classic GraphQL endpoint at `https://classic.warcraftlogs.com/api/v2/client`.
+- Reads recent guild reports for `WCL_GUILD_NAME`, `WCL_SERVER_SLUG`, and `WCL_REGION`.
+- Extracts report metadata, zone data, and report fight data.
+- Writes deterministic JSON to `src/data/wclReports.json` and `src/data/wclProgressionSeed.json`.
+- Updates `src/data/wclSyncMeta.json` only when the WCL report/progression JSON actually changes.
+
+Generated Warcraft Logs files:
+
+- `src/data/wclReports.json`: recent reports with fight metadata.
+- `src/data/wclProgressionSeed.json`: raid/boss/difficulty seed data for a future progression page.
+- `src/data/wclSyncMeta.json`: last successful WCL data-changing sync metadata.
+
+The report query is intentionally narrow:
+
+```graphql
+query GuildReports($guildName: String!, $serverSlug: String!, $serverRegion: String!, $limit: Int!, $page: Int!) {
+  reportData {
+    reports(
+      guildName: $guildName
+      guildServerSlug: $serverSlug
+      guildServerRegion: $serverRegion
+      limit: $limit
+      page: $page
+    ) {
+      data {
+        code
+        title
+        startTime
+        endTime
+        zone {
+          id
+          name
+        }
+        fights(translate: true) {
+          id
+          name
+          encounterID
+          difficulty
+          kill
+          bossPercentage
+          fightPercentage
+          startTime
+          endTime
+        }
+      }
+      total
+      per_page
+      current_page
+      last_page
+    }
+  }
+}
+```
+
+Assumptions:
+
+- Warcraft Logs guild lookup uses `guildName`, `guildServerSlug`, and `guildServerRegion`.
+- The default guild is `Vitality` on `raden` in `US`.
+- Report fights use report-relative fight times when they are not already epoch timestamps.
+- Difficulty IDs `3` and `4` are normalized to `Normal`; `5` and `6` are normalized to `Heroic`. The raw `difficultyId` is also preserved.
+- Progression totals are based on bosses present in the synced recent reports. Unpulled bosses are not invented.
+- The default recent report limit is `20`.
+
 Example `.env.local` shape:
 
 ```bash
@@ -182,12 +271,24 @@ CALENDAR_RANGE=Calendar!A:ZZ
 LOOT_RANGE=History!A:Z
 BENCH_RULES_RANGE=Bench Rules!A:I
 CALENDAR_START_YEAR=2026
+WCL_CLIENT_ID=your-warcraft-logs-client-id
+WCL_CLIENT_SECRET=your-warcraft-logs-client-secret
+WCL_GUILD_NAME=Vitality
+WCL_SERVER_SLUG=raden
+WCL_REGION=US
+WCL_REPORT_LIMIT=20
 ```
 
 Run locally:
 
 ```bash
 npm run sync:data
+```
+
+Run only Warcraft Logs locally:
+
+```bash
+npm run sync:wcl
 ```
 
 Build after syncing:
@@ -209,7 +310,7 @@ The workflow intentionally avoids unnecessary Cloudflare builds:
 - It checks `git diff --quiet -- src/data/*.json`.
 - If there are no generated JSON changes, it prints `No data changes detected.` and exits successfully.
 - If there are changes, it stages and commits only `src/data/*.json`.
-- It never writes generated timestamps such as `lastSyncedAt`, `generatedAt`, or `updatedAt` into committed JSON.
+- Sync metadata timestamps are updated only when the underlying generated data changed. A scheduled no-change run does not update `syncMeta.json` or `wclSyncMeta.json`.
 
 ## Manual Sync Data button
 
@@ -239,10 +340,16 @@ Generated files:
 - `src/data/lootSummary.json`
 - `src/data/bench.json`
 - `src/data/benchRules.json`
+- `src/data/syncMeta.json`
+- `src/data/wclReports.json`
+- `src/data/wclProgressionSeed.json`
+- `src/data/wclSyncMeta.json`
 
 Troubleshooting:
 
 - Missing `GOOGLE_SHEET_ID` or `GOOGLE_SERVICE_ACCOUNT_JSON`: add the required repository secret in GitHub.
+- Missing `WCL_CLIENT_ID` or `WCL_CLIENT_SECRET`: Warcraft Logs sync is skipped and existing WCL JSON is preserved.
+- Warcraft Logs API error: check the Action logs for the safe HTTP/GraphQL error. Existing WCL JSON is preserved.
 - Inaccessible sheet: confirm the sheet is shared with the service account email as Viewer.
 - Wrong range: set `CALENDAR_RANGE` or `LOOT_RANGE` to the correct tab and columns.
 - Missing Bench Rules tab: this is allowed. The sync uses fallback bench rules and logs a warning.
