@@ -1,0 +1,296 @@
+---
+import Layout from "../layouts/Layout.astro";
+import StatCard from "../components/StatCard.astro";
+import progressionSeed from "../data/wclProgressionSeed.json";
+import wclSyncMeta from "../data/wclSyncMeta.json";
+
+type DifficultyStatus = "Killed" | "Best Pull" | "No Data";
+type ProgressionDifficulty = {
+  status?: string | null;
+  firstKillDate?: string | null;
+  latestKillDate?: string | null;
+  bestPercent?: number | null;
+  reportCode?: string | null;
+  reportUrl?: string | null;
+  pulls?: number | null;
+  kills?: number | null;
+};
+type ProgressionBoss = {
+  name?: string | null;
+  encounterId?: number | null;
+  difficulties?: Record<string, ProgressionDifficulty | undefined> | null;
+};
+type ProgressionRaid = {
+  name?: string | null;
+  zoneId?: number | null;
+  bosses?: ProgressionBoss[] | null;
+  summary?: {
+    normalKilled?: number | null;
+    normalTotal?: number | null;
+    heroicKilled?: number | null;
+    heroicTotal?: number | null;
+  } | null;
+};
+type ProgressionSeed = {
+  guild?: {
+    name?: string | null;
+    server?: string | null;
+    serverSlug?: string | null;
+    region?: string | null;
+  } | null;
+  raids?: ProgressionRaid[] | null;
+};
+type WclSyncMeta = {
+  lastWclSync?: string | null;
+};
+type KillRecord = {
+  raidName: string;
+  bossName: string;
+  difficultyName: string;
+  date: string;
+};
+
+const seed = progressionSeed as ProgressionSeed;
+const meta = wclSyncMeta as WclSyncMeta;
+const raids = Array.isArray(seed.raids) ? seed.raids : [];
+const guildName = seed.guild?.name || "Vitality";
+const serverName = seed.guild?.server || "Raden";
+
+const formatDate = (value?: string | null) => {
+  if (!value) {
+    return "";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
+};
+const formatDateTime = (value?: string | null) => {
+  if (!value) {
+    return "";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone: "America/Los_Angeles",
+  }).format(date);
+};
+const formatPercent = (value?: number | null) => {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return "";
+  }
+
+  return `${Number.isInteger(value) ? value : value.toFixed(1)}%`;
+};
+const getDifficulty = (boss: ProgressionBoss, difficultyName: string): ProgressionDifficulty | undefined =>
+  boss.difficulties?.[difficultyName];
+const getDifficultyStatus = (difficulty?: ProgressionDifficulty): DifficultyStatus => {
+  if (!difficulty) {
+    return "No Data";
+  }
+
+  return difficulty.status === "Killed" || difficulty.status === "Best Pull" ? difficulty.status : "No Data";
+};
+const getRaidProgress = (raid: ProgressionRaid, difficultyName: "Normal" | "Heroic") => {
+  const summaryKey = difficultyName.toLowerCase() as "normal" | "heroic";
+  const bosses = Array.isArray(raid.bosses) ? raid.bosses : [];
+  const summaryKilled = raid.summary?.[`${summaryKey}Killed`];
+  const summaryTotal = raid.summary?.[`${summaryKey}Total`];
+  const killed =
+    typeof summaryKilled === "number"
+      ? summaryKilled
+      : bosses.filter((boss) => getDifficultyStatus(getDifficulty(boss, difficultyName)) === "Killed").length;
+  const total = typeof summaryTotal === "number" ? summaryTotal : bosses.length;
+
+  return { killed, total };
+};
+const getAggregateProgress = (difficultyName: "Normal" | "Heroic") =>
+  raids.reduce(
+    (total, raid) => {
+      const progress = getRaidProgress(raid, difficultyName);
+      return {
+        killed: total.killed + progress.killed,
+        total: total.total + progress.total,
+      };
+    },
+    { killed: 0, total: 0 },
+  );
+const getDifficultyKillDate = (difficulty?: ProgressionDifficulty) => difficulty?.latestKillDate || difficulty?.firstKillDate || "";
+const getLatestKills = (sourceRaids: ProgressionRaid[]) => {
+  const kills: KillRecord[] = [];
+
+  for (const raid of sourceRaids) {
+    const raidName = raid.name || "Unknown Raid";
+
+    for (const boss of raid.bosses ?? []) {
+      const bossName = boss.name || "Unknown Boss";
+
+      for (const [difficultyName, difficulty] of Object.entries(boss.difficulties ?? {})) {
+        if (getDifficultyStatus(difficulty) !== "Killed") {
+          continue;
+        }
+
+        const date = getDifficultyKillDate(difficulty);
+
+        if (date) {
+          kills.push({ raidName, bossName, difficultyName, date });
+        }
+      }
+    }
+  }
+
+  return kills.sort((a, b) => b.date.localeCompare(a.date));
+};
+const getRaidLatestKill = (raid: ProgressionRaid) => getLatestKills([raid])[0];
+const normalProgress = getAggregateProgress("Normal");
+const heroicProgress = getAggregateProgress("Heroic");
+const latestKill = getLatestKills(raids)[0];
+const currentTier =
+  raids.length === 0 ? "No data" : raids.length === 1 ? raids[0]?.name || "Unknown Raid" : `${raids.length} raids`;
+const lastWclSync = formatDateTime(meta.lastWclSync);
+const hasProgressionData = raids.some((raid) => Array.isArray(raid.bosses) && raid.bosses.length > 0);
+const getStatusClass = (status: DifficultyStatus) =>
+  status === "Killed" ? "is-killed" : status === "Best Pull" ? "is-best-pull" : "is-no-data";
+const getDifficultyMeta = (difficulty?: ProgressionDifficulty) => {
+  const status = getDifficultyStatus(difficulty);
+  const firstKillDate = formatDate(difficulty?.firstKillDate);
+  const latestKillDate = formatDate(difficulty?.latestKillDate);
+  const bestPercent = status === "Best Pull" ? formatPercent(difficulty?.bestPercent) : "";
+
+  return {
+    status,
+    firstKillDate,
+    latestKillDate,
+    bestPercent,
+    reportUrl: difficulty?.reportUrl || "",
+  };
+};
+---
+
+<Layout title="Progression | Vitality">
+  <section class="page-header progression-header">
+    <p class="eyebrow">Progression</p>
+    <h1>Progression</h1>
+    <p>Warcraft Logs data for {guildName} - {serverName}</p>
+    <p class="progression-sync-note">
+      {lastWclSync ? `Last WCL sync: ${lastWclSync}` : "No Warcraft Logs sync yet"}
+    </p>
+  </section>
+
+  <section class="dashboard-grid progression-summary-grid">
+    <StatCard label="Current Tier" value={currentTier} detail={hasProgressionData ? "Synced reports" : "Awaiting data"} />
+    <StatCard label="Normal Progress" value={`${normalProgress.killed} / ${normalProgress.total}`} detail="bosses killed" />
+    <StatCard label="Heroic Progress" value={`${heroicProgress.killed} / ${heroicProgress.total}`} detail="bosses killed" />
+    <StatCard
+      label="Latest Kill"
+      value={latestKill?.bossName ?? "None"}
+      detail={latestKill ? `${latestKill.difficultyName} - ${formatDate(latestKill.date)}` : "No kills synced"}
+    />
+  </section>
+
+  {
+    hasProgressionData ? (
+      <section class="progression-raid-stack">
+        {raids.map((raid) => {
+          const normal = getRaidProgress(raid, "Normal");
+          const heroic = getRaidProgress(raid, "Heroic");
+          const raidLatestKill = getRaidLatestKill(raid);
+
+          return (
+            <section class="panel progression-raid-panel">
+              <div class="section-heading inline">
+                <div>
+                  <p class="eyebrow">Raid</p>
+                  <h2>{raid.name || "Unknown Raid"}</h2>
+                  <p class="info-note">
+                    Normal {normal.killed} / {normal.total} · Heroic {heroic.killed} / {heroic.total}
+                  </p>
+                </div>
+                <div class="progression-raid-latest">
+                  <span>Latest Kill</span>
+                  <strong>{raidLatestKill?.bossName ?? "None"}</strong>
+                  {raidLatestKill && <small>{raidLatestKill.difficultyName} - {formatDate(raidLatestKill.date)}</small>}
+                </div>
+              </div>
+
+              <div class="progression-boss-grid">
+                {(raid.bosses ?? []).map((boss) => {
+                  const normalMeta = getDifficultyMeta(getDifficulty(boss, "Normal"));
+                  const heroicMeta = getDifficultyMeta(getDifficulty(boss, "Heroic"));
+
+                  return (
+                    <article class="progression-boss-card">
+                      <h3>{boss.name || "Unknown Boss"}</h3>
+                      {([
+                        { name: "Normal", meta: normalMeta },
+                        { name: "Heroic", meta: heroicMeta },
+                      ] as const).map(({ name: difficultyName, meta }) => (
+                        <section class="progression-difficulty">
+                          <div class="progression-difficulty-head">
+                            <span>{difficultyName}</span>
+                            <strong class={`progression-status ${getStatusClass(meta.status)}`}>{meta.status}</strong>
+                          </div>
+
+                          <dl class="progression-detail-list">
+                            {meta.firstKillDate && (
+                              <div>
+                                <dt>First kill</dt>
+                                <dd>{meta.firstKillDate}</dd>
+                              </div>
+                            )}
+                            {meta.latestKillDate && (
+                              <div>
+                                <dt>Latest kill</dt>
+                                <dd>{meta.latestKillDate}</dd>
+                              </div>
+                            )}
+                            {meta.bestPercent && (
+                              <div>
+                                <dt>Best pull</dt>
+                                <dd>{meta.bestPercent}</dd>
+                              </div>
+                            )}
+                          </dl>
+
+                          {meta.reportUrl && (
+                            <a class="progression-log-link" href={meta.reportUrl} target="_blank" rel="noreferrer">
+                              View Log
+                            </a>
+                          )}
+                        </section>
+                      ))}
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+          );
+        })}
+      </section>
+    ) : (
+      <section class="panel progression-empty-panel">
+        <p class="eyebrow">Warcraft Logs</p>
+        <h2>No Warcraft Logs progression data has been synced yet.</h2>
+        <p class="info-note">Once the sync imports guild reports, raid and boss progression will appear here.</p>
+      </section>
+    )
+  }
+</Layout>
