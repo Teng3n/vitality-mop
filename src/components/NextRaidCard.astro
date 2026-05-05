@@ -114,13 +114,13 @@ const raidPayload = calendar.raidDates.map((date) => ({
         </div>
       </article>
       <div class="readiness-columns" data-readiness-columns>
-        <article class="readiness-card readiness-column" data-readiness-passing-column data-copy-card="passing">
+        <article class="readiness-card readiness-column" data-readiness-passing-column>
           <div class="readiness-card-head">
             <span class="readiness-column-label">Passing</span>
           </div>
           <ul class="readiness-checks" data-readiness-passing></ul>
         </article>
-        <article class="readiness-card readiness-column" data-readiness-warnings-column data-copy-card="warnings">
+        <article class="readiness-card readiness-column" data-readiness-warnings-column>
           <div class="readiness-card-head">
             <span class="readiness-column-label">Warnings</span>
             <strong class="readiness-warning-count" data-readiness-warning-count>0</strong>
@@ -283,12 +283,9 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
     return renderReadinessItems(sortedItems, "is-warning", "No warnings.");
   };
-  const copyFeedbackDefault = "Click to copy";
+  const copyFeedbackDefault = "Click to copy names";
   const copyFeedbackTimers = new WeakMap<HTMLElement, number>();
-  const playersToPlainText = (players: DashboardPlayer[]) =>
-    players.length > 0 ? players.map((player) => player.name).join("\n") : "None";
-  const itemsToPlainText = (items: ReadinessItem[]) =>
-    items.length > 0 ? items.map((item) => item.text).join("\n") : "None";
+  const playersToPlainText = (players: DashboardPlayer[]) => players.map((player) => player.name).join("\n");
   const isInteractiveTarget = (target: EventTarget | null) =>
     target instanceof Element &&
     Boolean(target.closest("a, button, input, select, textarea, summary, [data-tooltip]"));
@@ -367,8 +364,15 @@ const raidPayload = calendar.raidDates.map((date) => ({
     element.setAttribute("aria-label", ariaLabel);
 
     const triggerCopy = async () => {
+      const text = getText();
+
+      if (text.length === 0) {
+        setCopyFeedback(element, "No names to copy", "error", liveRegion);
+        return;
+      }
+
       try {
-        await copyText(getText());
+        await copyText(text);
         setCopyFeedback(element, successMessage, "success", liveRegion);
       } catch {
         setCopyFeedback(element, "Copy failed", "error", liveRegion);
@@ -528,8 +532,6 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const outCard = card.querySelector<HTMLElement>('[data-copy-card="out"]');
     const lateCard = card.querySelector<HTMLElement>('[data-copy-card="late"]');
     const readinessCard = card.querySelector<HTMLElement>('[data-copy-card="readiness"]');
-    const passingCard = card.querySelector<HTMLElement>('[data-copy-card="passing"]');
-    const warningsCard = card.querySelector<HTMLElement>('[data-copy-card="warnings"]');
     const copyLiveRegion = card.querySelector<HTMLElement>("[data-copy-live]");
     const raidersCount = card.querySelector<HTMLElement>("[data-week-raiders-count]");
     const benchNode = card.querySelector<HTMLElement>("[data-week-bench]");
@@ -662,65 +664,41 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
     setupCopyCard({
       element: availableCard,
-      getText: () => `Available this week:\n${playersToPlainText(availablePlayers)}`,
-      successMessage: "Copied available list",
-      ariaLabel: "Copy available player list to clipboard",
+      getText: () => playersToPlainText(availablePlayers),
+      successMessage: "Copied available names",
+      ariaLabel: "Copy available player names",
       liveRegion: copyLiveRegion,
     });
 
     setupCopyCard({
       element: benchCard,
-      getText: () => `Bench this week:\n${playersToPlainText(weekBench)}`,
-      successMessage: "Copied bench list",
-      ariaLabel: "Copy bench list to clipboard",
+      getText: () => playersToPlainText(weekBench),
+      successMessage: "Copied bench names",
+      ariaLabel: "Copy bench player names",
       liveRegion: copyLiveRegion,
     });
 
     setupCopyCard({
       element: outCard,
-      getText: () => `Out this week:\n${playersToPlainText(weekOut)}`,
-      successMessage: "Copied out list",
-      ariaLabel: "Copy out list to clipboard",
+      getText: () => playersToPlainText(weekOut),
+      successMessage: "Copied out names",
+      ariaLabel: "Copy out player names",
       liveRegion: copyLiveRegion,
     });
 
     setupCopyCard({
       element: lateCard,
-      getText: () => `Late this week:\n${playersToPlainText(weekLate)}`,
-      successMessage: "Copied late list",
-      ariaLabel: "Copy late list to clipboard",
+      getText: () => playersToPlainText(weekLate),
+      successMessage: "Copied late names",
+      ariaLabel: "Copy late player names",
       liveRegion: copyLiveRegion,
     });
 
     setupCopyCard({
       element: readinessCard,
-      getText: () =>
-        [
-          `Raid readiness for ${raidDateLabel}`,
-          `Status: ${readiness.status}`,
-          `Raid-ready: ${readiness.raidReadyCount} / 25`,
-          "",
-          "Raid-ready players:",
-          playersToPlainText(raidReadyPlayers),
-        ].join("\n"),
-      successMessage: "Copied raid-ready list",
-      ariaLabel: "Copy raid-ready player list to clipboard",
-      liveRegion: copyLiveRegion,
-    });
-
-    setupCopyCard({
-      element: passingCard,
-      getText: () => `Passing checks for ${raidDateLabel}:\n${itemsToPlainText(readiness.checks)}`,
-      successMessage: "Copied passing checks",
-      ariaLabel: "Copy passing checks to clipboard",
-      liveRegion: copyLiveRegion,
-    });
-
-    setupCopyCard({
-      element: warningsCard,
-      getText: () => `Raid readiness warnings for ${raidDateLabel}:\n${itemsToPlainText(getSortedWarningItems(readiness.warnings))}`,
-      successMessage: "Copied warnings",
-      ariaLabel: "Copy raid readiness warnings to clipboard",
+      getText: () => playersToPlainText(raidReadyPlayers),
+      successMessage: "Copied raid-ready names",
+      ariaLabel: "Copy raid-ready player names",
       liveRegion: copyLiveRegion,
     });
   });
