@@ -1,0 +1,72 @@
+name: Audit Warcraft Logs guild history
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/guild-site-mvp
+    paths:
+      - ".github/workflows/audit-wcl-guild-history.yml"
+      - "package.json"
+      - "package-lock.json"
+      - "scripts/audit-warcraft-logs-guild-history.ts"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: audit-wcl-guild-history
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit Warcraft Logs guild history
+        run: npm run audit:wcl-guild-history
+        env:
+          WCL_CLIENT_ID: ${{ secrets.WCL_CLIENT_ID }}
+          WCL_CLIENT_SECRET: ${{ secrets.WCL_CLIENT_SECRET }}
+          WCL_AUDIT_CURRENT_GUILD_NAME: Vitality
+          WCL_AUDIT_CURRENT_SERVER_SLUG: raden
+          WCL_AUDIT_CURRENT_REGION: US
+          WCL_AUDIT_GUILD_IDS: 482914,619658,738773
+          WCL_REPORT_LIMIT: ${{ vars.WCL_REPORT_LIMIT || 20 }}
+          WCL_REPORT_PAGES: ${{ vars.WCL_REPORT_PAGES || 25 }}
+
+      - name: Check audit report changes
+        id: changes
+        shell: bash
+        run: |
+          if git diff --quiet -- docs/wcl-guild-history-audit.md; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No audit report changes detected."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git diff --stat -- docs/wcl-guild-history-audit.md
+          fi
+
+      - name: Commit audit report
+        if: steps.changes.outputs.changed == 'true'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/wcl-guild-history-audit.md
+          git commit -m "docs: update Warcraft Logs guild history audit"
+          git push
