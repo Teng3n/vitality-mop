@@ -20,7 +20,7 @@ Report pages: 25
 
 | Expansion | Tier/phase | Zones found | Best guild source | Date range | Notes/gaps |
 | --- | --- | --- | --- | --- | --- |
-| Classic Era | Molten Core / Onyxia | Molten Core, Onyxia | Guild 482914 | Oct 15, 2019 to Nov 19, 2021 | 106 reports, 556 kills |
+| Classic Era | Molten Core / Onyxia | Molten Core, Onyxia | Guild 482914 | Oct 15, 2019 to Nov 19, 2021 | 106 reports, 554 kills |
 | Classic Era | Blackwing Lair | Blackwing Lair | Guild 482914 | Feb 17, 2020 to Nov 19, 2021 | 51 reports, 508 kills |
 | Classic Era | Ahn'Qiraj | Temple of Ahn'Qiraj | Guild 482914 | Aug 31, 2020 to Apr 12, 2021 | 26 reports, 208 kills |
 | Classic Era | Naxxramas | Naxxramas | Guild 482914 | Dec 7, 2020 to May 31, 2021 | 37 reports, 364 kills |
@@ -54,7 +54,7 @@ Report pages: 25
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Classic Era | Ahn'Qiraj | Temple of Ahn'Qiraj | Aug 31, 2020 | Apr 12, 2021 | 26 | 208 | https://classic.warcraftlogs.com/reports/bfyTcW7BCwXVYKZn |
 | Classic Era | Blackwing Lair | Blackwing Lair | Feb 17, 2020 | Nov 19, 2021 | 51 | 508 | https://classic.warcraftlogs.com/reports/jyrQwxqD4tB1HpFh |
-| Classic Era | Molten Core / Onyxia | Molten Core, Onyxia | Oct 15, 2019 | Nov 19, 2021 | 106 | 556 | https://classic.warcraftlogs.com/reports/wxk3Y14f2pND8cCZ |
+| Classic Era | Molten Core / Onyxia | Molten Core, Onyxia | Oct 15, 2019 | Nov 19, 2021 | 106 | 554 | https://classic.warcraftlogs.com/reports/wxk3Y14f2pND8cCZ |
 | Classic Era | Naxxramas | Naxxramas | Dec 7, 2020 | May 31, 2021 | 37 | 364 | https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm |
 | Classic Era | Ruins of Ahn'Qiraj | Ruins of Ahn'Qiraj | Aug 28, 2020 | Oct 7, 2020 | 9 | 54 | https://classic.warcraftlogs.com/reports/a24dyk8NZPzDBRxX |
 | Classic Era | Zul'Gurub | Zul'Gurub | Apr 16, 2020 | Feb 22, 2021 | 37 | 334 | https://classic.warcraftlogs.com/reports/B7j8DLTP3wa2C6Hh |
