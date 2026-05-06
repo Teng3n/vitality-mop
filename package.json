@@ -9,6 +9,7 @@
     "build:with-data": "npm run sync:data && npm run build",
     "preview": "astro preview",
     "check": "astro check",
+    "audit:wcl-guild-history": "tsx scripts/audit-warcraft-logs-guild-history.ts",
     "sync:data": "tsx scripts/sync-google-sheets.ts && npm run sync:wcl",
     "sync:wcl": "tsx scripts/sync-warcraft-logs.ts"
   },
