@@ -20,19 +20,19 @@ Report pages: 25
 
 | Expansion | Tier/phase | Zones found | Best guild source | Date range | Notes/gaps |
 | --- | --- | --- | --- | --- | --- |
-| Classic Era | Molten Core / Onyxia | Molten Core | Guild 482914 | Oct 15, 2019 to Nov 19, 2021 | 54 reports, 464 kills |
+| Classic Era | Molten Core / Onyxia | Molten Core, Onyxia | Guild 482914 | Oct 15, 2019 to Nov 19, 2021 | 106 reports, 556 kills |
 | Classic Era | Blackwing Lair | Blackwing Lair | Guild 482914 | Feb 17, 2020 to Nov 19, 2021 | 51 reports, 508 kills |
 | Classic Era | Ahn'Qiraj | Temple of Ahn'Qiraj | Guild 482914 | Aug 31, 2020 to Apr 12, 2021 | 26 reports, 208 kills |
 | Classic Era | Naxxramas | Naxxramas | Guild 482914 | Dec 7, 2020 to May 31, 2021 | 37 reports, 364 kills |
-| The Burning Crusade Classic | Tier 4 | Karazhan | Guild 482914 | Jun 7, 2021 to Sep 14, 2021 | 30 reports, 281 kills |
-| The Burning Crusade Classic | Tier 5 | None found | None found | No reports found | Needs another guild ID or wider report history |
-| The Burning Crusade Classic | Black Temple / Hyjal | None found | None found | No reports found | Needs another guild ID or wider report history |
+| The Burning Crusade Classic | Tier 4 | Gruul / Magtheridon, Karazhan | Guild 482914 | Jun 7, 2021 to Sep 14, 2021 | 44 reports, 318 kills |
+| The Burning Crusade Classic | Tier 5 | SSC / TK | Guild 482914 | Aug 10, 2021 to Aug 24, 2021 | 4 reports, 3 kills |
+| The Burning Crusade Classic | Black Temple / Hyjal | BT / Hyjal | Guild 619658 | Apr 4, 2022 to Sep 26, 2022 | 14 reports, 144 kills |
 | The Burning Crusade Classic | Sunwell Plateau | Sunwell Plateau | Guild 619658 | Apr 26, 2022 to Sep 26, 2022 | 33 reports, 135 kills |
-| Wrath of the Lich King Classic | Tier 7 | None found | None found | No reports found | Needs another guild ID or wider report history |
+| Wrath of the Lich King Classic | Tier 7 | Naxx / Sarth / Maly | Guild 619658 | Oct 10, 2022 to Jan 17, 2023 | 55 reports, 903 kills |
 | Wrath of the Lich King Classic | Tier 8 | Ulduar | Guild 619658 | Dec 13, 2022 to Oct 9, 2023 | 123 reports, 1204 kills |
 | Wrath of the Lich King Classic | Tier 9 | Trial of the Crusader | Guild 619658 | Feb 7, 2023 to Oct 9, 2023 | 80 reports, 542 kills |
 | Wrath of the Lich King Classic | Tier 10 | Icecrown Citadel | Guild 619658 | Aug 31, 2023 to May 6, 2024 | 76 reports, 597 kills |
-| Cataclysm Classic | Tier 11 | None found | None found | No reports found | Needs another guild ID or wider report history |
+| Cataclysm Classic | Tier 11 | TotFW / BWD / BoT | Guild 738773 | Jun 3, 2024 to Oct 21, 2024 | 44 reports, 322 kills |
 | Cataclysm Classic | Tier 12 | Firelands | Guild 738773 | Oct 7, 2024 to Feb 4, 2025 | 25 reports, 84 kills |
 | Cataclysm Classic | Tier 13 | Dragon Soul | Guild 738773 | Feb 24, 2025 to Jul 21, 2025 | 30 reports, 173 kills |
 | Mists of Pandaria Classic | Tier 14 | Heart of Fear, Mogu'shan Vaults, Terrace of Endless Spring | Guild 738773 | Aug 4, 2025 to Oct 6, 2025 | 23 reports, 168 kills |
@@ -54,21 +54,26 @@ Report pages: 25
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Classic Era | Ahn'Qiraj | Temple of Ahn'Qiraj | Aug 31, 2020 | Apr 12, 2021 | 26 | 208 | https://classic.warcraftlogs.com/reports/bfyTcW7BCwXVYKZn |
 | Classic Era | Blackwing Lair | Blackwing Lair | Feb 17, 2020 | Nov 19, 2021 | 51 | 508 | https://classic.warcraftlogs.com/reports/jyrQwxqD4tB1HpFh |
-| Classic Era | Molten Core / Onyxia | Molten Core | Oct 15, 2019 | Nov 19, 2021 | 54 | 464 | https://classic.warcraftlogs.com/reports/wxk3Y14f2pND8cCZ |
+| Classic Era | Molten Core / Onyxia | Molten Core, Onyxia | Oct 15, 2019 | Nov 19, 2021 | 106 | 556 | https://classic.warcraftlogs.com/reports/wxk3Y14f2pND8cCZ |
 | Classic Era | Naxxramas | Naxxramas | Dec 7, 2020 | May 31, 2021 | 37 | 364 | https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm |
 | Classic Era | Ruins of Ahn'Qiraj | Ruins of Ahn'Qiraj | Aug 28, 2020 | Oct 7, 2020 | 9 | 54 | https://classic.warcraftlogs.com/reports/a24dyk8NZPzDBRxX |
 | Classic Era | Zul'Gurub | Zul'Gurub | Apr 16, 2020 | Feb 22, 2021 | 37 | 334 | https://classic.warcraftlogs.com/reports/B7j8DLTP3wa2C6Hh |
-| The Burning Crusade Classic | Tier 4 | Karazhan | Jun 7, 2021 | Sep 14, 2021 | 30 | 281 | https://classic.warcraftlogs.com/reports/1drFanBTH9bytAgm |
+| The Burning Crusade Classic | Tier 4 | Gruul / Magtheridon, Karazhan | Jun 7, 2021 | Sep 14, 2021 | 44 | 318 | https://classic.warcraftlogs.com/reports/1drFanBTH9bytAgm |
+| The Burning Crusade Classic | Tier 5 | SSC / TK | Aug 10, 2021 | Aug 24, 2021 | 4 | 3 | https://classic.warcraftlogs.com/reports/XyLWPJghqv3dDk9Y |
 
 ### Guild 619658
 
 | Expansion | Tier/phase | Zones found | First report | Last report | Reports | Kills | Example report |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| Cataclysm Classic | Tier 11 | TotFW / BWD / BoT | Jun 4, 2024 | Jul 22, 2024 | 14 | 90 | https://classic.warcraftlogs.com/reports/6kPqmnVGy7A4jhfg |
 | Cataclysm Classic | Tier 13 | Dragon Soul | Mar 18, 2025 | Jul 21, 2025 | 19 | 110 | https://classic.warcraftlogs.com/reports/8vAcQ7p4nkMhXV3x |
+| The Burning Crusade Classic | Black Temple / Hyjal | BT / Hyjal | Apr 4, 2022 | Sep 26, 2022 | 14 | 144 | https://classic.warcraftlogs.com/reports/9tca8hyNz2bKpgFP |
 | The Burning Crusade Classic | Sunwell Plateau | Sunwell Plateau | Apr 26, 2022 | Sep 26, 2022 | 33 | 135 | https://classic.warcraftlogs.com/reports/FBfWtmyDhzjqdnX2 |
+| The Burning Crusade Classic | Tier 5 | SSC / TK | Apr 5, 2022 | May 3, 2022 | 3 | 18 | https://classic.warcraftlogs.com/reports/yN4mWpP83A69TYBh |
 | The Burning Crusade Classic | Zul'Aman | Zul'Aman | Apr 8, 2022 | Aug 19, 2022 | 6 | 35 | https://classic.warcraftlogs.com/reports/YpB2fcdwta9Fh4zK |
 | Wrath of the Lich King Classic | Ruby Sanctum | Ruby Sanctum | Jan 30, 2024 | Feb 27, 2024 | 4 | 3 | https://classic.warcraftlogs.com/reports/gLPmnVQN8qZ3dpMh |
 | Wrath of the Lich King Classic | Tier 10 | Icecrown Citadel | Aug 31, 2023 | May 6, 2024 | 76 | 597 | https://classic.warcraftlogs.com/reports/N7Mq9LGV46BhxPbY |
+| Wrath of the Lich King Classic | Tier 7 | Naxx / Sarth / Maly | Oct 10, 2022 | Jan 17, 2023 | 55 | 903 | https://classic.warcraftlogs.com/reports/Z3YWypLHMdbKVx7f |
 | Wrath of the Lich King Classic | Tier 8 | Ulduar | Dec 13, 2022 | Oct 9, 2023 | 123 | 1204 | https://classic.warcraftlogs.com/reports/kGABMDwf8KcqZ34h |
 | Wrath of the Lich King Classic | Tier 9 | Trial of the Crusader | Feb 7, 2023 | Oct 9, 2023 | 80 | 542 | https://classic.warcraftlogs.com/reports/3fKpz82DkvrX4F7Q |
 
@@ -76,6 +81,7 @@ Report pages: 25
 
 | Expansion | Tier/phase | Zones found | First report | Last report | Reports | Kills | Example report |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| Cataclysm Classic | Tier 11 | TotFW / BWD / BoT | Jun 3, 2024 | Oct 21, 2024 | 44 | 322 | https://classic.warcraftlogs.com/reports/Rv62GN3Tc9FHa7gt |
 | Cataclysm Classic | Tier 12 | Firelands | Oct 7, 2024 | Feb 4, 2025 | 25 | 84 | https://classic.warcraftlogs.com/reports/Hcj4LP8xyGvhYkAb |
 | Cataclysm Classic | Tier 13 | Dragon Soul | Feb 24, 2025 | Jul 21, 2025 | 30 | 173 | https://classic.warcraftlogs.com/reports/RaPF7YxD3XdvpgAq |
 | Mists of Pandaria Classic | Tier 14 | Heart of Fear, Mogu'shan Vaults, Terrace of Endless Spring | Aug 4, 2025 | Oct 6, 2025 | 23 | 168 | https://classic.warcraftlogs.com/reports/rjqXZJyh38CdHapL |
@@ -116,6 +122,7 @@ Only tiers and expansions with evidence in this audit are included.
       "naxxramas",
       "ruins-of-ahn-qiraj",
       "tier-4",
+      "tier-5",
       "zul-gurub"
     ]
   },
@@ -130,9 +137,11 @@ Only tiers and expansions with evidence in this audit are included.
       "wrath-of-the-lich-king-classic"
     ],
     "tiers": [
+      "black-temple-hyjal",
       "ruby-sanctum",
       "sunwell-plateau",
       "tier-10",
+      "tier-7",
       "tier-8",
       "tier-9",
       "zul-aman"
@@ -149,6 +158,7 @@ Only tiers and expansions with evidence in this audit are included.
       "mists-of-pandaria-classic"
     ],
     "tiers": [
+      "tier-11",
       "tier-12",
       "tier-13",
       "tier-14"
@@ -159,15 +169,11 @@ Only tiers and expansions with evidence in this audit are included.
 
 ## Gaps
 
-- The Burning Crusade Classic: Tier 5
-- The Burning Crusade Classic: Black Temple / Hyjal
-- Wrath of the Lich King Classic: Tier 7
-- Cataclysm Classic: Tier 11
 - Mists of Pandaria Classic: Tier 16
 
 ## Unclassified Zones
 
 - Vitality - Raden: Unknown Zone
-- Guild 482914: Gruul / Magtheridon, Onyxia, SSC / TK, Unknown Zone
-- Guild 619658: Baradin Hold, Blackfathom Deeps, BT / Hyjal, Heroic Dungeons, Naxx / Sarth / Maly, SSC / TK, TotFW / BWD / BoT, Unknown Zone, Vault of Archavon
-- Guild 738773: TotFW / BWD / BoT, Unknown Zone
+- Guild 482914: Unknown Zone
+- Guild 619658: Baradin Hold, Blackfathom Deeps, Heroic Dungeons, Unknown Zone, Vault of Archavon
+- Guild 738773: Unknown Zone
