@@ -57,6 +57,7 @@ const tierSummaries = progressionTiers.map((tier) => {
     <div class="progression-tier-grid">
       {tierSummaries.map(({ tier, progress, latestKill: tierLatestKill }) => {
         const hasData = progress.totalBosses > 0;
+        const raidNames = tier.raidNames.join(", ");
 
         return (
           <a class="progression-tier-card" href={`/progression/${tier.slug}`}>
@@ -75,6 +76,8 @@ const tierSummaries = progressionTiers.map((tier) => {
                 }
               </h3>
             </div>
+
+            <p class="progression-tier-raids" title={raidNames}>{raidNames}</p>
 
             <div class="progression-tier-meta">
               <span>Final Progression Kill</span>
