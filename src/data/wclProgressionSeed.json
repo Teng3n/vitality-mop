@@ -93,17 +93,29 @@
           "name": "Anub'arak",
           "encounterId": 218,
           "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2023-06-23T04:09:12.057Z",
+              "latestKillDate": "2023-10-09T06:27:21.552Z",
+              "bestPercent": 0,
+              "reportCode": "QRjhHgaPN6ydqZYw",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/QRjhHgaPN6ydqZYw#fight=9",
+              "pulls": 249,
+              "kills": 90
+            },
             "Normal": {
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
               "firstKillDate": "2022-09-27T05:26:31.698Z",
-              "latestKillDate": "2022-09-27T05:26:31.698Z",
+              "latestKillDate": "2023-07-04T05:54:25.655Z",
               "bestPercent": 0,
               "reportCode": "RVQ148vCj9kYZBy7",
               "reportUrl": "https://classic.warcraftlogs.com/reports/RVQ148vCj9kYZBy7#fight=25",
-              "pulls": 1,
-              "kills": 1
+              "pulls": 5,
+              "kills": 5
             }
           }
         },
@@ -202,115 +214,13 @@
               "kills": 2
             }
           }
-        },
-        {
-          "name": "Anub'arak",
-          "encounterId": 645,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2023-06-23T04:09:12.057Z",
-              "latestKillDate": "2023-10-09T06:27:21.552Z",
-              "bestPercent": 0,
-              "reportCode": "QRjhHgaPN6ydqZYw",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/QRjhHgaPN6ydqZYw#fight=9",
-              "pulls": 249,
-              "kills": 90
-            },
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2023-06-27T06:12:04.540Z",
-              "latestKillDate": "2023-07-04T05:54:25.655Z",
-              "bestPercent": 0,
-              "reportCode": "M2YT1xyfvrK6GFnN",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/M2YT1xyfvrK6GFnN#fight=24",
-              "pulls": 4,
-              "kills": 4
-            }
-          }
-        },
-        {
-          "name": "Koralon the Flame Watcher",
-          "encounterId": 776,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2023-07-12T02:31:13.846Z",
-              "latestKillDate": "2023-07-12T02:31:13.846Z",
-              "bestPercent": 0,
-              "reportCode": "JFpkKG19wfRjnLT2",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/JFpkKG19wfRjnLT2#fight=40",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "The Oculus",
-          "encounterId": 100020,
-          "difficulties": {
-            "Difficulty 10": {
-              "status": "Killed",
-              "difficultyId": 10,
-              "rawDifficultyId": 10,
-              "firstKillDate": "2023-07-11T02:45:06.672Z",
-              "latestKillDate": "2023-07-11T02:45:06.672Z",
-              "bestPercent": 0,
-              "reportCode": "JFpkKG19wfRjnLT2",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/JFpkKG19wfRjnLT2#fight=21",
-              "pulls": 2,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Drak'Tharon Keep",
-          "encounterId": 100023,
-          "difficulties": {
-            "Difficulty 10": {
-              "status": "Best Pull",
-              "difficultyId": 10,
-              "rawDifficultyId": 10,
-              "firstKillDate": null,
-              "latestKillDate": null,
-              "bestPercent": 0,
-              "reportCode": "8VKCJFBgZPwDcHdL",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/8VKCJFBgZPwDcHdL#fight=86",
-              "pulls": 1,
-              "kills": 0
-            }
-          }
-        },
-        {
-          "name": "Gundrak",
-          "encounterId": 100026,
-          "difficulties": {
-            "Difficulty 10": {
-              "status": "Best Pull",
-              "difficultyId": 10,
-              "rawDifficultyId": 10,
-              "firstKillDate": null,
-              "latestKillDate": null,
-              "bestPercent": 0,
-              "reportCode": "8VKCJFBgZPwDcHdL",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/8VKCJFBgZPwDcHdL#fight=35",
-              "pulls": 1,
-              "kills": 0
-            }
-          }
         }
       ],
       "summary": {
-        "normalKilled": 5,
-        "normalTotal": 10,
+        "normalKilled": 3,
+        "normalTotal": 5,
         "heroicKilled": 5,
-        "heroicTotal": 10
+        "heroicTotal": 5
       }
     },
     {
@@ -329,199 +239,19 @@
       "bosses": [
         {
           "name": "Lucifron",
-          "encounterId": 663,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2019-10-21T04:37:12.173Z",
-              "latestKillDate": "2019-11-04T05:26:24.955Z",
-              "bestPercent": 0,
-              "reportCode": "Tt2r8CRqdKk3g6W4",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Tt2r8CRqdKk3g6W4#fight=1",
-              "pulls": 3,
-              "kills": 3
-            }
-          }
-        },
-        {
-          "name": "Magmadar",
-          "encounterId": 664,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2019-10-21T04:45:55.010Z",
-              "latestKillDate": "2019-11-04T05:34:21.398Z",
-              "bestPercent": 0,
-              "reportCode": "Tt2r8CRqdKk3g6W4",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Tt2r8CRqdKk3g6W4#fight=5",
-              "pulls": 3,
-              "kills": 3
-            }
-          }
-        },
-        {
-          "name": "Gehennas",
-          "encounterId": 665,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2019-10-21T04:56:35.808Z",
-              "latestKillDate": "2019-11-04T05:48:56.832Z",
-              "bestPercent": 0,
-              "reportCode": "Tt2r8CRqdKk3g6W4",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Tt2r8CRqdKk3g6W4#fight=11",
-              "pulls": 3,
-              "kills": 3
-            }
-          }
-        },
-        {
-          "name": "Garr",
-          "encounterId": 666,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2019-10-21T05:14:16.741Z",
-              "latestKillDate": "2019-11-04T06:02:17.715Z",
-              "bestPercent": 0,
-              "reportCode": "Tt2r8CRqdKk3g6W4",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Tt2r8CRqdKk3g6W4#fight=17",
-              "pulls": 3,
-              "kills": 3
-            }
-          }
-        },
-        {
-          "name": "Shazzrah",
-          "encounterId": 667,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2019-10-21T05:48:22.045Z",
-              "latestKillDate": "2019-11-04T06:26:02.698Z",
-              "bestPercent": 0,
-              "reportCode": "Tt2r8CRqdKk3g6W4",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Tt2r8CRqdKk3g6W4#fight=28",
-              "pulls": 3,
-              "kills": 3
-            }
-          }
-        },
-        {
-          "name": "Baron Geddon",
-          "encounterId": 668,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2019-10-21T05:31:19.539Z",
-              "latestKillDate": "2019-11-04T06:16:07.842Z",
-              "bestPercent": 0,
-              "reportCode": "Tt2r8CRqdKk3g6W4",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Tt2r8CRqdKk3g6W4#fight=23",
-              "pulls": 3,
-              "kills": 3
-            }
-          }
-        },
-        {
-          "name": "Sulfuron Harbinger",
-          "encounterId": 669,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2019-10-15T04:42:04.609Z",
-              "latestKillDate": "2019-11-04T06:56:15.157Z",
-              "bestPercent": 0,
-              "reportCode": "wxk3Y14f2pND8cCZ",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/wxk3Y14f2pND8cCZ#fight=28",
-              "pulls": 4,
-              "kills": 4
-            }
-          }
-        },
-        {
-          "name": "Golemagg the Incinerator",
-          "encounterId": 670,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2019-10-15T04:22:48.903Z",
-              "latestKillDate": "2019-11-04T07:06:58.064Z",
-              "bestPercent": 0,
-              "reportCode": "wxk3Y14f2pND8cCZ",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/wxk3Y14f2pND8cCZ#fight=24",
-              "pulls": 4,
-              "kills": 4
-            }
-          }
-        },
-        {
-          "name": "Majordomo Executus",
-          "encounterId": 671,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2019-10-15T05:38:05.812Z",
-              "latestKillDate": "2019-11-04T07:18:26.756Z",
-              "bestPercent": 0,
-              "reportCode": "wxk3Y14f2pND8cCZ",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/wxk3Y14f2pND8cCZ#fight=35",
-              "pulls": 6,
-              "kills": 5
-            }
-          }
-        },
-        {
-          "name": "Ragnaros",
-          "encounterId": 672,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2019-10-22T04:21:49.101Z",
-              "latestKillDate": "2019-11-04T07:35:36.106Z",
-              "bestPercent": 0,
-              "reportCode": "93agVkJh7TdxBAjG",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/93agVkJh7TdxBAjG#fight=3",
-              "pulls": 8,
-              "kills": 3
-            }
-          }
-        },
-        {
-          "name": "Lucifron",
           "encounterId": 50663,
           "difficulties": {
             "Normal": {
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2019-11-11T05:18:35.537Z",
+              "firstKillDate": "2019-10-21T04:37:12.173Z",
               "latestKillDate": "2020-12-01T05:40:00.732Z",
               "bestPercent": 0,
-              "reportCode": "GhJArCN3td1Df6Zp",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/GhJArCN3td1Df6Zp#fight=2",
-              "pulls": 57,
-              "kills": 57
+              "reportCode": "Tt2r8CRqdKk3g6W4",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Tt2r8CRqdKk3g6W4#fight=1",
+              "pulls": 60,
+              "kills": 60
             }
           }
         },
@@ -533,13 +263,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2019-11-11T05:25:41.521Z",
+              "firstKillDate": "2019-10-21T04:45:55.010Z",
               "latestKillDate": "2020-12-01T05:43:26.054Z",
               "bestPercent": 0,
-              "reportCode": "GhJArCN3td1Df6Zp",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/GhJArCN3td1Df6Zp#fight=3",
-              "pulls": 57,
-              "kills": 57
+              "reportCode": "Tt2r8CRqdKk3g6W4",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Tt2r8CRqdKk3g6W4#fight=5",
+              "pulls": 60,
+              "kills": 60
             }
           }
         },
@@ -551,13 +281,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2019-11-11T05:39:51.806Z",
+              "firstKillDate": "2019-10-21T04:56:35.808Z",
               "latestKillDate": "2020-12-01T05:49:11.914Z",
               "bestPercent": 0,
-              "reportCode": "GhJArCN3td1Df6Zp",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/GhJArCN3td1Df6Zp#fight=4",
-              "pulls": 56,
-              "kills": 56
+              "reportCode": "Tt2r8CRqdKk3g6W4",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Tt2r8CRqdKk3g6W4#fight=11",
+              "pulls": 59,
+              "kills": 59
             }
           }
         },
@@ -569,13 +299,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2019-11-11T05:52:32.208Z",
+              "firstKillDate": "2019-10-21T05:14:16.741Z",
               "latestKillDate": "2021-11-19T08:39:35.780Z",
               "bestPercent": 0,
-              "reportCode": "GhJArCN3td1Df6Zp",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/GhJArCN3td1Df6Zp#fight=5",
-              "pulls": 67,
-              "kills": 65
+              "reportCode": "Tt2r8CRqdKk3g6W4",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Tt2r8CRqdKk3g6W4#fight=17",
+              "pulls": 70,
+              "kills": 68
             }
           }
         },
@@ -587,13 +317,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2019-11-11T06:12:57.116Z",
+              "firstKillDate": "2019-10-21T05:48:22.045Z",
               "latestKillDate": "2020-12-01T06:05:58.140Z",
               "bestPercent": 0,
-              "reportCode": "GhJArCN3td1Df6Zp",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/GhJArCN3td1Df6Zp#fight=7",
-              "pulls": 58,
-              "kills": 57
+              "reportCode": "Tt2r8CRqdKk3g6W4",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Tt2r8CRqdKk3g6W4#fight=28",
+              "pulls": 61,
+              "kills": 60
             }
           }
         },
@@ -605,13 +335,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2019-11-11T06:02:23.172Z",
+              "firstKillDate": "2019-10-21T05:31:19.539Z",
               "latestKillDate": "2021-11-19T08:35:51.348Z",
               "bestPercent": 0,
-              "reportCode": "GhJArCN3td1Df6Zp",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/GhJArCN3td1Df6Zp#fight=6",
-              "pulls": 69,
-              "kills": 65
+              "reportCode": "Tt2r8CRqdKk3g6W4",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Tt2r8CRqdKk3g6W4#fight=23",
+              "pulls": 72,
+              "kills": 68
             }
           }
         },
@@ -623,13 +353,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2019-11-11T06:34:05.682Z",
+              "firstKillDate": "2019-10-15T04:42:04.609Z",
               "latestKillDate": "2020-12-01T06:18:09.615Z",
               "bestPercent": 0,
-              "reportCode": "GhJArCN3td1Df6Zp",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/GhJArCN3td1Df6Zp#fight=8",
-              "pulls": 58,
-              "kills": 57
+              "reportCode": "wxk3Y14f2pND8cCZ",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/wxk3Y14f2pND8cCZ#fight=28",
+              "pulls": 62,
+              "kills": 61
             }
           }
         },
@@ -641,13 +371,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2019-11-11T06:46:01.062Z",
+              "firstKillDate": "2019-10-15T04:22:48.903Z",
               "latestKillDate": "2020-12-01T06:22:24.678Z",
               "bestPercent": 0,
-              "reportCode": "GhJArCN3td1Df6Zp",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/GhJArCN3td1Df6Zp#fight=9",
-              "pulls": 60,
-              "kills": 57
+              "reportCode": "wxk3Y14f2pND8cCZ",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/wxk3Y14f2pND8cCZ#fight=24",
+              "pulls": 64,
+              "kills": 61
             }
           }
         },
@@ -659,13 +389,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2019-11-11T06:55:05.871Z",
+              "firstKillDate": "2019-10-15T05:38:05.812Z",
               "latestKillDate": "2020-12-01T06:27:46.257Z",
               "bestPercent": 0,
-              "reportCode": "GhJArCN3td1Df6Zp",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/GhJArCN3td1Df6Zp#fight=10",
-              "pulls": 60,
-              "kills": 57
+              "reportCode": "wxk3Y14f2pND8cCZ",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/wxk3Y14f2pND8cCZ#fight=35",
+              "pulls": 66,
+              "kills": 62
             }
           }
         },
@@ -677,22 +407,22 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2019-11-11T07:13:54.050Z",
+              "firstKillDate": "2019-10-22T04:21:49.101Z",
               "latestKillDate": "2020-12-01T06:35:21.265Z",
               "bestPercent": 0,
-              "reportCode": "GhJArCN3td1Df6Zp",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/GhJArCN3td1Df6Zp#fight=11",
-              "pulls": 57,
-              "kills": 57
+              "reportCode": "93agVkJh7TdxBAjG",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/93agVkJh7TdxBAjG#fight=3",
+              "pulls": 65,
+              "kills": 60
             }
           }
         }
       ],
       "summary": {
-        "normalKilled": 20,
-        "normalTotal": 20,
+        "normalKilled": 10,
+        "normalTotal": 10,
         "heroicKilled": 0,
-        "heroicTotal": 20
+        "heroicTotal": 10
       }
     },
     {
@@ -711,46 +441,28 @@
       "bosses": [
         {
           "name": "Onyxia",
-          "encounterId": 1084,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2019-10-21T03:42:25.119Z",
-              "latestKillDate": "2019-11-04T04:44:44.095Z",
-              "bestPercent": 0,
-              "reportCode": "vYkzhgxnqdPbJNr8",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/vYkzhgxnqdPbJNr8#fight=1",
-              "pulls": 4,
-              "kills": 4
-            }
-          }
-        },
-        {
-          "name": "Onyxia",
           "encounterId": 51084,
           "difficulties": {
             "Normal": {
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2019-11-11T04:35:42.328Z",
+              "firstKillDate": "2019-10-21T03:42:25.119Z",
               "latestKillDate": "2021-01-26T07:50:28.544Z",
               "bestPercent": 0,
-              "reportCode": "GhJArCN3td1Df6Zp",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/GhJArCN3td1Df6Zp#fight=1",
-              "pulls": 66,
-              "kills": 66
+              "reportCode": "vYkzhgxnqdPbJNr8",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/vYkzhgxnqdPbJNr8#fight=1",
+              "pulls": 70,
+              "kills": 70
             }
           }
         }
       ],
       "summary": {
-        "normalKilled": 2,
-        "normalTotal": 2,
+        "normalKilled": 1,
+        "normalTotal": 1,
         "heroicKilled": 0,
-        "heroicTotal": 2
+        "heroicTotal": 1
       }
     },
     {
@@ -769,145 +481,19 @@
       "bosses": [
         {
           "name": "Razorgore the Untamed",
-          "encounterId": 610,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-02-17T05:25:24.397Z",
-              "latestKillDate": "2020-02-17T05:25:24.397Z",
-              "bestPercent": 0,
-              "reportCode": "jyrQwxqD4tB1HpFh",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/jyrQwxqD4tB1HpFh#fight=2",
-              "pulls": 2,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Vaelastrasz the Corrupt",
-          "encounterId": 611,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-02-17T05:58:31.995Z",
-              "latestKillDate": "2020-02-17T05:58:31.995Z",
-              "bestPercent": 0,
-              "reportCode": "jyrQwxqD4tB1HpFh",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/jyrQwxqD4tB1HpFh#fight=5",
-              "pulls": 3,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Broodlord Lashlayer",
-          "encounterId": 612,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-02-17T07:00:26.469Z",
-              "latestKillDate": "2020-02-17T07:00:26.469Z",
-              "bestPercent": 0,
-              "reportCode": "jyrQwxqD4tB1HpFh",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/jyrQwxqD4tB1HpFh#fight=7",
-              "pulls": 2,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Firemaw",
-          "encounterId": 613,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-02-17T07:33:59.650Z",
-              "latestKillDate": "2020-02-17T07:33:59.650Z",
-              "bestPercent": 0,
-              "reportCode": "jyrQwxqD4tB1HpFh",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/jyrQwxqD4tB1HpFh#fight=9",
-              "pulls": 2,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Ebonroc",
-          "encounterId": 614,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-02-17T08:15:57.171Z",
-              "latestKillDate": "2020-02-17T08:15:57.171Z",
-              "bestPercent": 0,
-              "reportCode": "jyrQwxqD4tB1HpFh",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/jyrQwxqD4tB1HpFh#fight=11",
-              "pulls": 2,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Flamegor",
-          "encounterId": 615,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-02-17T08:20:23.601Z",
-              "latestKillDate": "2020-02-17T08:20:23.601Z",
-              "bestPercent": 0,
-              "reportCode": "jyrQwxqD4tB1HpFh",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/jyrQwxqD4tB1HpFh#fight=12",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Chromaggus",
-          "encounterId": 616,
-          "difficulties": {
-            "Normal": {
-              "status": "Best Pull",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": null,
-              "latestKillDate": null,
-              "bestPercent": 78,
-              "reportCode": "jyrQwxqD4tB1HpFh",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/jyrQwxqD4tB1HpFh#fight=13",
-              "pulls": 1,
-              "kills": 0
-            }
-          }
-        },
-        {
-          "name": "Razorgore the Untamed",
           "encounterId": 50610,
           "difficulties": {
             "Normal": {
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2020-02-24T04:52:56.692Z",
+              "firstKillDate": "2020-02-17T05:25:24.397Z",
               "latestKillDate": "2021-11-19T07:30:13.046Z",
               "bestPercent": 0,
-              "reportCode": "Ja6tV8cmMB4YnCbH",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Ja6tV8cmMB4YnCbH#fight=3",
-              "pulls": 50,
-              "kills": 48
+              "reportCode": "jyrQwxqD4tB1HpFh",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/jyrQwxqD4tB1HpFh#fight=2",
+              "pulls": 52,
+              "kills": 49
             }
           }
         },
@@ -919,13 +505,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2020-02-24T05:14:17.468Z",
+              "firstKillDate": "2020-02-17T05:58:31.995Z",
               "latestKillDate": "2021-11-19T07:33:19.351Z",
               "bestPercent": 0,
-              "reportCode": "Ja6tV8cmMB4YnCbH",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Ja6tV8cmMB4YnCbH#fight=6",
-              "pulls": 54,
-              "kills": 48
+              "reportCode": "jyrQwxqD4tB1HpFh",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/jyrQwxqD4tB1HpFh#fight=5",
+              "pulls": 57,
+              "kills": 49
             }
           }
         },
@@ -937,13 +523,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2020-02-24T05:42:27.840Z",
+              "firstKillDate": "2020-02-17T07:00:26.469Z",
               "latestKillDate": "2021-11-19T07:46:48.053Z",
               "bestPercent": 0,
-              "reportCode": "Ja6tV8cmMB4YnCbH",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Ja6tV8cmMB4YnCbH#fight=17",
-              "pulls": 50,
-              "kills": 49
+              "reportCode": "jyrQwxqD4tB1HpFh",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/jyrQwxqD4tB1HpFh#fight=7",
+              "pulls": 52,
+              "kills": 50
             }
           }
         },
@@ -955,13 +541,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2020-02-24T06:25:39.982Z",
+              "firstKillDate": "2020-02-17T07:33:59.650Z",
               "latestKillDate": "2021-11-19T07:53:40.574Z",
               "bestPercent": 0,
-              "reportCode": "Ja6tV8cmMB4YnCbH",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Ja6tV8cmMB4YnCbH#fight=25",
-              "pulls": 58,
-              "kills": 49
+              "reportCode": "jyrQwxqD4tB1HpFh",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/jyrQwxqD4tB1HpFh#fight=9",
+              "pulls": 60,
+              "kills": 50
             }
           }
         },
@@ -973,13 +559,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2020-02-24T06:55:47.194Z",
+              "firstKillDate": "2020-02-17T08:15:57.171Z",
               "latestKillDate": "2021-11-19T08:04:46.300Z",
               "bestPercent": 0,
-              "reportCode": "Ja6tV8cmMB4YnCbH",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Ja6tV8cmMB4YnCbH#fight=35",
-              "pulls": 56,
-              "kills": 49
+              "reportCode": "jyrQwxqD4tB1HpFh",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/jyrQwxqD4tB1HpFh#fight=11",
+              "pulls": 58,
+              "kills": 50
             }
           }
         },
@@ -991,13 +577,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2020-02-24T06:59:44.454Z",
+              "firstKillDate": "2020-02-17T08:20:23.601Z",
               "latestKillDate": "2021-11-19T08:06:51.734Z",
               "bestPercent": 0,
-              "reportCode": "Ja6tV8cmMB4YnCbH",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Ja6tV8cmMB4YnCbH#fight=36",
-              "pulls": 51,
-              "kills": 49
+              "reportCode": "jyrQwxqD4tB1HpFh",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/jyrQwxqD4tB1HpFh#fight=12",
+              "pulls": 52,
+              "kills": 50
             }
           }
         },
@@ -1014,7 +600,7 @@
               "bestPercent": 0,
               "reportCode": "2V7HpdkwTFm9MgBv",
               "reportUrl": "https://classic.warcraftlogs.com/reports/2V7HpdkwTFm9MgBv#fight=1",
-              "pulls": 50,
+              "pulls": 51,
               "kills": 50
             }
           }
@@ -1039,10 +625,10 @@
         }
       ],
       "summary": {
-        "normalKilled": 14,
-        "normalTotal": 15,
+        "normalKilled": 8,
+        "normalTotal": 8,
         "heroicKilled": 0,
-        "heroicTotal": 15
+        "heroicTotal": 8
       }
     },
     {
@@ -1381,13 +967,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2021-05-31T04:36:44.213Z",
+              "firstKillDate": "2020-12-07T07:01:45.648Z",
               "latestKillDate": "2021-05-31T04:36:44.213Z",
               "bestPercent": 0,
-              "reportCode": "3bWy4CTQfnFv9xKX",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/3bWy4CTQfnFv9xKX#fight=26",
-              "pulls": 1,
-              "kills": 1
+              "reportCode": "Hk4TgJM7KtCFz6xm",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm#fight=53",
+              "pulls": 30,
+              "kills": 25
             }
           }
         },
@@ -1399,13 +985,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2021-05-31T05:32:51.899Z",
+              "firstKillDate": "2020-12-07T05:40:03.503Z",
               "latestKillDate": "2021-05-31T05:32:51.899Z",
               "bestPercent": 0,
-              "reportCode": "3bWy4CTQfnFv9xKX",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/3bWy4CTQfnFv9xKX#fight=72",
-              "pulls": 1,
-              "kills": 1
+              "reportCode": "Hk4TgJM7KtCFz6xm",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm#fight=38",
+              "pulls": 25,
+              "kills": 25
             }
           }
         },
@@ -1417,13 +1003,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2021-05-31T06:43:43.073Z",
+              "firstKillDate": "2020-12-15T07:35:48.009Z",
               "latestKillDate": "2021-05-31T06:43:43.073Z",
               "bestPercent": 0,
-              "reportCode": "3bWy4CTQfnFv9xKX",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/3bWy4CTQfnFv9xKX#fight=102",
-              "pulls": 1,
-              "kills": 1
+              "reportCode": "fCjY1HWLX2q4GFzx",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/fCjY1HWLX2q4GFzx#fight=43",
+              "pulls": 41,
+              "kills": 24
             }
           }
         },
@@ -1435,13 +1021,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2021-05-31T04:50:25.161Z",
+              "firstKillDate": "2020-12-07T07:43:11.096Z",
               "latestKillDate": "2021-05-31T04:50:25.161Z",
               "bestPercent": 0,
-              "reportCode": "3bWy4CTQfnFv9xKX",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/3bWy4CTQfnFv9xKX#fight=38",
-              "pulls": 1,
-              "kills": 1
+              "reportCode": "Hk4TgJM7KtCFz6xm",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm#fight=78",
+              "pulls": 26,
+              "kills": 25
             }
           }
         },
@@ -1453,13 +1039,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2021-05-31T05:28:56.819Z",
+              "firstKillDate": "2020-12-07T05:29:54.196Z",
               "latestKillDate": "2021-05-31T05:28:56.819Z",
               "bestPercent": 0,
-              "reportCode": "3bWy4CTQfnFv9xKX",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/3bWy4CTQfnFv9xKX#fight=68",
-              "pulls": 1,
-              "kills": 1
+              "reportCode": "Hk4TgJM7KtCFz6xm",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm#fight=32",
+              "pulls": 26,
+              "kills": 25
             }
           }
         },
@@ -1471,13 +1057,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2021-05-31T06:01:04.023Z",
+              "firstKillDate": "2020-12-08T06:49:41.676Z",
               "latestKillDate": "2021-05-31T06:01:04.023Z",
               "bestPercent": 0,
-              "reportCode": "3bWy4CTQfnFv9xKX",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/3bWy4CTQfnFv9xKX#fight=89",
-              "pulls": 1,
-              "kills": 1
+              "reportCode": "Y4n28FM1pGAVHxRP",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Y4n28FM1pGAVHxRP#fight=69",
+              "pulls": 38,
+              "kills": 25
             }
           }
         },
@@ -1489,13 +1075,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2021-05-31T04:27:01.528Z",
+              "firstKillDate": "2020-12-08T08:21:53.158Z",
               "latestKillDate": "2021-05-31T04:27:01.528Z",
               "bestPercent": 0,
-              "reportCode": "3bWy4CTQfnFv9xKX",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/3bWy4CTQfnFv9xKX#fight=19",
-              "pulls": 1,
-              "kills": 1
+              "reportCode": "Y4n28FM1pGAVHxRP",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Y4n28FM1pGAVHxRP#fight=97",
+              "pulls": 33,
+              "kills": 25
             }
           }
         },
@@ -1507,13 +1093,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2021-05-25T05:01:15.841Z",
+              "firstKillDate": "2021-01-05T08:08:16.497Z",
               "latestKillDate": "2021-05-25T05:01:15.841Z",
               "bestPercent": 0,
-              "reportCode": "gTrPh61CmqV7yv3p",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/gTrPh61CmqV7yv3p#fight=5",
-              "pulls": 1,
-              "kills": 1
+              "reportCode": "H2YWkv9wx3K16mV8",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/H2YWkv9wx3K16mV8#fight=39",
+              "pulls": 33,
+              "kills": 21
             }
           }
         },
@@ -1525,13 +1111,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2021-05-25T04:27:49.449Z",
+              "firstKillDate": "2020-12-15T04:45:36.357Z",
               "latestKillDate": "2021-05-31T06:29:12.469Z",
               "bestPercent": 0,
-              "reportCode": "gTrPh61CmqV7yv3p",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/gTrPh61CmqV7yv3p#fight=1",
-              "pulls": 3,
-              "kills": 2
+              "reportCode": "fCjY1HWLX2q4GFzx",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/fCjY1HWLX2q4GFzx#fight=2",
+              "pulls": 34,
+              "kills": 25
             }
           }
         },
@@ -1543,13 +1129,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2021-05-31T05:01:09.395Z",
+              "firstKillDate": "2020-12-07T08:33:39.801Z",
               "latestKillDate": "2021-05-31T05:01:09.395Z",
               "bestPercent": 0,
-              "reportCode": "3bWy4CTQfnFv9xKX",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/3bWy4CTQfnFv9xKX#fight=46",
-              "pulls": 1,
-              "kills": 1
+              "reportCode": "Hk4TgJM7KtCFz6xm",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm#fight=98",
+              "pulls": 29,
+              "kills": 25
             }
           }
         },
@@ -1561,13 +1147,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2021-05-31T05:54:27.729Z",
+              "firstKillDate": "2020-12-08T04:45:57.038Z",
               "latestKillDate": "2021-05-31T05:54:27.729Z",
               "bestPercent": 0,
-              "reportCode": "3bWy4CTQfnFv9xKX",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/3bWy4CTQfnFv9xKX#fight=85",
-              "pulls": 1,
-              "kills": 1
+              "reportCode": "Y4n28FM1pGAVHxRP",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Y4n28FM1pGAVHxRP#fight=12",
+              "pulls": 27,
+              "kills": 25
             }
           }
         },
@@ -1579,13 +1165,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2021-05-31T05:22:13.674Z",
+              "firstKillDate": "2020-12-07T05:14:45.874Z",
               "latestKillDate": "2021-05-31T05:22:13.674Z",
               "bestPercent": 0,
-              "reportCode": "3bWy4CTQfnFv9xKX",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/3bWy4CTQfnFv9xKX#fight=62",
-              "pulls": 1,
-              "kills": 1
+              "reportCode": "Hk4TgJM7KtCFz6xm",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm#fight=26",
+              "pulls": 25,
+              "kills": 25
             }
           }
         },
@@ -1597,13 +1183,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2021-05-25T04:42:16.060Z",
+              "firstKillDate": "2021-01-05T05:33:30.791Z",
               "latestKillDate": "2021-05-25T04:42:16.060Z",
               "bestPercent": 0,
-              "reportCode": "gTrPh61CmqV7yv3p",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/gTrPh61CmqV7yv3p#fight=3",
-              "pulls": 1,
-              "kills": 1
+              "reportCode": "H2YWkv9wx3K16mV8",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/H2YWkv9wx3K16mV8#fight=16",
+              "pulls": 44,
+              "kills": 22
             }
           }
         },
@@ -1615,13 +1201,13 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2021-05-31T05:42:17.459Z",
+              "firstKillDate": "2020-12-07T06:20:02.807Z",
               "latestKillDate": "2021-05-31T05:42:17.459Z",
               "bestPercent": 0,
-              "reportCode": "3bWy4CTQfnFv9xKX",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/3bWy4CTQfnFv9xKX#fight=74",
-              "pulls": 1,
-              "kills": 1
+              "reportCode": "Hk4TgJM7KtCFz6xm",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm#fight=43",
+              "pulls": 30,
+              "kills": 25
             }
           }
         },
@@ -1633,292 +1219,22 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2021-05-31T07:31:08.038Z",
-              "latestKillDate": "2021-05-31T07:31:08.038Z",
-              "bestPercent": 0,
-              "reportCode": "3bWy4CTQfnFv9xKX",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/3bWy4CTQfnFv9xKX#fight=117",
-              "pulls": 3,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Anub'Rekhan",
-          "encounterId": 51107,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-12-07T07:01:45.648Z",
-              "latestKillDate": "2021-05-17T04:17:46.739Z",
-              "bestPercent": 0,
-              "reportCode": "Hk4TgJM7KtCFz6xm",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm#fight=53",
-              "pulls": 29,
-              "kills": 24
-            }
-          }
-        },
-        {
-          "name": "Gluth",
-          "encounterId": 51108,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-12-07T05:40:03.503Z",
-              "latestKillDate": "2021-05-17T05:08:22.381Z",
-              "bestPercent": 0,
-              "reportCode": "Hk4TgJM7KtCFz6xm",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm#fight=38",
-              "pulls": 24,
-              "kills": 24
-            }
-          }
-        },
-        {
-          "name": "Gothik the Harvester",
-          "encounterId": 51109,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-12-15T07:35:48.009Z",
-              "latestKillDate": "2021-05-17T05:49:05.626Z",
-              "bestPercent": 0,
-              "reportCode": "fCjY1HWLX2q4GFzx",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/fCjY1HWLX2q4GFzx#fight=43",
-              "pulls": 40,
-              "kills": 23
-            }
-          }
-        },
-        {
-          "name": "Grand Widow Faerlina",
-          "encounterId": 51110,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-12-07T07:43:11.096Z",
-              "latestKillDate": "2021-05-17T04:30:08.109Z",
-              "bestPercent": 0,
-              "reportCode": "Hk4TgJM7KtCFz6xm",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm#fight=78",
-              "pulls": 25,
-              "kills": 24
-            }
-          }
-        },
-        {
-          "name": "Grobbulus",
-          "encounterId": 51111,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-12-07T05:29:54.196Z",
-              "latestKillDate": "2021-05-17T05:05:23.680Z",
-              "bestPercent": 0,
-              "reportCode": "Hk4TgJM7KtCFz6xm",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm#fight=32",
-              "pulls": 25,
-              "kills": 24
-            }
-          }
-        },
-        {
-          "name": "Heigan the Unclean",
-          "encounterId": 51112,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-12-08T06:49:41.676Z",
-              "latestKillDate": "2021-05-17T05:27:20.265Z",
-              "bestPercent": 0,
-              "reportCode": "Y4n28FM1pGAVHxRP",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Y4n28FM1pGAVHxRP#fight=69",
-              "pulls": 37,
-              "kills": 24
-            }
-          }
-        },
-        {
-          "name": "Instructor Razuvious",
-          "encounterId": 51113,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-12-08T08:21:53.158Z",
-              "latestKillDate": "2021-05-17T03:59:17.264Z",
-              "bestPercent": 0,
-              "reportCode": "Y4n28FM1pGAVHxRP",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Y4n28FM1pGAVHxRP#fight=97",
-              "pulls": 32,
-              "kills": 24
-            }
-          }
-        },
-        {
-          "name": "Kel'Thuzad",
-          "encounterId": 51114,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2021-01-05T08:08:16.497Z",
-              "latestKillDate": "2021-05-17T07:40:05.393Z",
-              "bestPercent": 0,
-              "reportCode": "H2YWkv9wx3K16mV8",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/H2YWkv9wx3K16mV8#fight=39",
-              "pulls": 32,
-              "kills": 20
-            }
-          }
-        },
-        {
-          "name": "Loatheb",
-          "encounterId": 51115,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-12-15T04:45:36.357Z",
-              "latestKillDate": "2021-05-17T05:35:04.529Z",
-              "bestPercent": 0,
-              "reportCode": "fCjY1HWLX2q4GFzx",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/fCjY1HWLX2q4GFzx#fight=2",
-              "pulls": 31,
-              "kills": 23
-            }
-          }
-        },
-        {
-          "name": "Maexxna",
-          "encounterId": 51116,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-12-07T08:33:39.801Z",
-              "latestKillDate": "2021-05-17T04:40:13.696Z",
-              "bestPercent": 0,
-              "reportCode": "Hk4TgJM7KtCFz6xm",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm#fight=98",
-              "pulls": 28,
-              "kills": 24
-            }
-          }
-        },
-        {
-          "name": "Noth the Plaguebringer",
-          "encounterId": 51117,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-12-08T04:45:57.038Z",
-              "latestKillDate": "2021-05-17T05:22:09.120Z",
-              "bestPercent": 0,
-              "reportCode": "Y4n28FM1pGAVHxRP",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Y4n28FM1pGAVHxRP#fight=12",
-              "pulls": 26,
-              "kills": 24
-            }
-          }
-        },
-        {
-          "name": "Patchwerk",
-          "encounterId": 51118,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-12-07T05:14:45.874Z",
-              "latestKillDate": "2021-05-17T04:59:36.824Z",
-              "bestPercent": 0,
-              "reportCode": "Hk4TgJM7KtCFz6xm",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm#fight=26",
-              "pulls": 24,
-              "kills": 24
-            }
-          }
-        },
-        {
-          "name": "Sapphiron",
-          "encounterId": 51119,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2021-01-05T05:33:30.791Z",
-              "latestKillDate": "2021-05-17T06:56:03.021Z",
-              "bestPercent": 0,
-              "reportCode": "H2YWkv9wx3K16mV8",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/H2YWkv9wx3K16mV8#fight=16",
-              "pulls": 43,
-              "kills": 21
-            }
-          }
-        },
-        {
-          "name": "Thaddius",
-          "encounterId": 51120,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2020-12-07T06:20:02.807Z",
-              "latestKillDate": "2021-05-17T05:13:45.589Z",
-              "bestPercent": 0,
-              "reportCode": "Hk4TgJM7KtCFz6xm",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Hk4TgJM7KtCFz6xm#fight=43",
-              "pulls": 29,
-              "kills": 24
-            }
-          }
-        },
-        {
-          "name": "The Four Horsemen",
-          "encounterId": 51121,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
               "firstKillDate": "2020-12-29T04:59:57.104Z",
-              "latestKillDate": "2021-05-17T06:04:41.113Z",
+              "latestKillDate": "2021-05-31T07:31:08.038Z",
               "bestPercent": 0,
               "reportCode": "pYz7wDvqcQbPZCFn",
               "reportUrl": "https://classic.warcraftlogs.com/reports/pYz7wDvqcQbPZCFn#fight=13",
-              "pulls": 55,
-              "kills": 21
+              "pulls": 58,
+              "kills": 22
             }
           }
         }
       ],
       "summary": {
-        "normalKilled": 30,
-        "normalTotal": 30,
+        "normalKilled": 15,
+        "normalTotal": 15,
         "heroicKilled": 0,
-        "heroicTotal": 30
+        "heroicTotal": 15
       }
     },
     {
@@ -1985,24 +1301,6 @@
               "reportCode": "1drFanBTH9bytAgm",
               "reportUrl": "https://classic.warcraftlogs.com/reports/1drFanBTH9bytAgm#fight=28",
               "pulls": 29,
-              "kills": 26
-            }
-          }
-        },
-        {
-          "name": "Opera Hall",
-          "encounterId": 655,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2021-06-07T05:07:46.243Z",
-              "latestKillDate": "2021-09-14T04:07:56.801Z",
-              "bestPercent": 0,
-              "reportCode": "1drFanBTH9bytAgm",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/1drFanBTH9bytAgm#fight=40",
-              "pulls": 27,
               "kills": 26
             }
           }
@@ -2135,10 +1433,10 @@
         }
       ],
       "summary": {
-        "normalKilled": 11,
-        "normalTotal": 11,
+        "normalKilled": 10,
+        "normalTotal": 10,
         "heroicKilled": 0,
-        "heroicTotal": 11
+        "heroicTotal": 10
       }
     },
     {
@@ -2639,121 +1937,13 @@
               "kills": 7
             }
           }
-        },
-        {
-          "name": "Akil'zon",
-          "encounterId": 1189,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2022-08-25T06:14:48.337Z",
-              "latestKillDate": "2022-08-25T06:14:48.337Z",
-              "bestPercent": 0,
-              "reportCode": "Jt8mBQLpXRH37gnd",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Jt8mBQLpXRH37gnd#fight=44",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Nalorakk",
-          "encounterId": 1190,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2022-08-25T06:26:11.374Z",
-              "latestKillDate": "2022-08-25T06:26:11.374Z",
-              "bestPercent": 0,
-              "reportCode": "Jt8mBQLpXRH37gnd",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Jt8mBQLpXRH37gnd#fight=51",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Jan'alai",
-          "encounterId": 1191,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2022-08-25T06:35:44.029Z",
-              "latestKillDate": "2022-08-25T06:35:44.029Z",
-              "bestPercent": 0,
-              "reportCode": "Jt8mBQLpXRH37gnd",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Jt8mBQLpXRH37gnd#fight=56",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Halazzi",
-          "encounterId": 1192,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2022-08-25T06:48:36.264Z",
-              "latestKillDate": "2022-08-25T06:48:36.264Z",
-              "bestPercent": 0,
-              "reportCode": "Jt8mBQLpXRH37gnd",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Jt8mBQLpXRH37gnd#fight=63",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Hex Lord Malacrass",
-          "encounterId": 1193,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2022-08-25T06:58:26.361Z",
-              "latestKillDate": "2022-08-25T06:58:26.361Z",
-              "bestPercent": 0,
-              "reportCode": "Jt8mBQLpXRH37gnd",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Jt8mBQLpXRH37gnd#fight=66",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Daakara",
-          "encounterId": 1194,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2022-08-25T07:05:48.047Z",
-              "latestKillDate": "2022-08-25T07:05:48.047Z",
-              "bestPercent": 0,
-              "reportCode": "Jt8mBQLpXRH37gnd",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Jt8mBQLpXRH37gnd#fight=68",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
         }
       ],
       "summary": {
-        "normalKilled": 11,
-        "normalTotal": 11,
+        "normalKilled": 5,
+        "normalTotal": 5,
         "heroicKilled": 0,
-        "heroicTotal": 11
+        "heroicTotal": 5
       }
     },
     {
@@ -2877,121 +2067,13 @@
               "kills": 13
             }
           }
-        },
-        {
-          "name": "Akil'zon",
-          "encounterId": 1189,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2022-08-22T07:21:46.792Z",
-              "latestKillDate": "2022-08-22T07:21:46.792Z",
-              "bestPercent": 0,
-              "reportCode": "FtLQTPWc8wz3XV6b",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/FtLQTPWc8wz3XV6b#fight=60",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Nalorakk",
-          "encounterId": 1190,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2022-08-22T07:31:33.463Z",
-              "latestKillDate": "2022-08-22T07:31:33.463Z",
-              "bestPercent": 0,
-              "reportCode": "FtLQTPWc8wz3XV6b",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/FtLQTPWc8wz3XV6b#fight=65",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Jan'alai",
-          "encounterId": 1191,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2022-08-22T07:39:44.839Z",
-              "latestKillDate": "2022-08-22T07:39:44.839Z",
-              "bestPercent": 0,
-              "reportCode": "FtLQTPWc8wz3XV6b",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/FtLQTPWc8wz3XV6b#fight=71",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Halazzi",
-          "encounterId": 1192,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2022-08-22T07:53:00.965Z",
-              "latestKillDate": "2022-08-22T07:53:00.965Z",
-              "bestPercent": 0,
-              "reportCode": "FtLQTPWc8wz3XV6b",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/FtLQTPWc8wz3XV6b#fight=80",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Hex Lord Malacrass",
-          "encounterId": 1193,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2022-08-22T08:04:17.057Z",
-              "latestKillDate": "2022-08-22T08:04:17.057Z",
-              "bestPercent": 0,
-              "reportCode": "FtLQTPWc8wz3XV6b",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/FtLQTPWc8wz3XV6b#fight=84",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Daakara",
-          "encounterId": 1194,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2022-08-22T08:11:22.804Z",
-              "latestKillDate": "2022-08-22T08:11:22.804Z",
-              "bestPercent": 0,
-              "reportCode": "FtLQTPWc8wz3XV6b",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/FtLQTPWc8wz3XV6b#fight=87",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
         }
       ],
       "summary": {
-        "normalKilled": 12,
-        "normalTotal": 12,
+        "normalKilled": 6,
+        "normalTotal": 6,
         "heroicKilled": 0,
-        "heroicTotal": 12
+        "heroicTotal": 6
       }
     },
     {
@@ -3008,60 +2090,6 @@
         "Inept - Grobbulus"
       ],
       "bosses": [
-        {
-          "name": "Archavon the Stone Watcher",
-          "encounterId": 772,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2022-11-01T23:20:47.793Z",
-              "latestKillDate": "2022-11-01T23:20:47.793Z",
-              "bestPercent": 0,
-              "reportCode": "hJ6YKZ8F1QTq4jw9",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/hJ6YKZ8F1QTq4jw9#fight=65",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "The Oculus",
-          "encounterId": 100020,
-          "difficulties": {
-            "Difficulty 10": {
-              "status": "Killed",
-              "difficultyId": 10,
-              "rawDifficultyId": 10,
-              "firstKillDate": "2022-11-01T06:45:59.495Z",
-              "latestKillDate": "2022-11-01T06:45:59.495Z",
-              "bestPercent": 0,
-              "reportCode": "hJ6YKZ8F1QTq4jw9",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/hJ6YKZ8F1QTq4jw9#fight=62",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "The Violet Hold",
-          "encounterId": 100027,
-          "difficulties": {
-            "Difficulty 10": {
-              "status": "Killed",
-              "difficultyId": 10,
-              "rawDifficultyId": 10,
-              "firstKillDate": "2022-12-08T02:10:21.452Z",
-              "latestKillDate": "2022-12-08T02:10:21.452Z",
-              "bestPercent": 0,
-              "reportCode": "a4j9HBgJGdx83Crk",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/a4j9HBgJGdx83Crk#fight=54",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
         {
           "name": "Anub'Rekhan",
           "encounterId": 101107,
@@ -3334,10 +2362,10 @@
         }
       ],
       "summary": {
-        "normalKilled": 16,
-        "normalTotal": 18,
+        "normalKilled": 15,
+        "normalTotal": 15,
         "heroicKilled": 0,
-        "heroicTotal": 18
+        "heroicTotal": 15
       }
     },
     {
@@ -3474,24 +2502,6 @@
         "Inept - Grobbulus"
       ],
       "bosses": [
-        {
-          "name": "The Iron Council",
-          "encounterId": 748,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2024-04-08T06:33:44.209Z",
-              "latestKillDate": "2024-04-08T06:33:44.209Z",
-              "bestPercent": 0,
-              "reportCode": "ZyAQgLmkW3nCNhTH",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/ZyAQgLmkW3nCNhTH#fight=49",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
         {
           "name": "Lord Marrowgar",
           "encounterId": 845,
@@ -3703,66 +2713,6 @@
           }
         },
         {
-          "name": "Blood Council",
-          "encounterId": 852,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2023-10-23T06:37:25.973Z",
-              "latestKillDate": "2024-05-06T05:46:59.774Z",
-              "bestPercent": 0,
-              "reportCode": "jHBb2zcwhrF8gYkQ",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/jHBb2zcwhrF8gYkQ#fight=37",
-              "pulls": 75,
-              "kills": 34
-            },
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2023-10-13T06:43:56.934Z",
-              "latestKillDate": "2024-02-08T05:22:33.535Z",
-              "bestPercent": 0,
-              "reportCode": "V2pBCYcfPgqDQdza",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/V2pBCYcfPgqDQdza#fight=50",
-              "pulls": 21,
-              "kills": 11
-            }
-          }
-        },
-        {
-          "name": "Queen Lana'thel",
-          "encounterId": 853,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2023-10-14T05:51:24.331Z",
-              "latestKillDate": "2024-05-06T05:56:02.204Z",
-              "bestPercent": 0,
-              "reportCode": "a8qbg21nKjRXJMw7",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/a8qbg21nKjRXJMw7#fight=48",
-              "pulls": 76,
-              "kills": 40
-            },
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2023-10-13T06:58:34.562Z",
-              "latestKillDate": "2023-10-19T06:14:29.537Z",
-              "bestPercent": 0,
-              "reportCode": "V2pBCYcfPgqDQdza",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/V2pBCYcfPgqDQdza#fight=56",
-              "pulls": 3,
-              "kills": 3
-            }
-          }
-        },
-        {
           "name": "Valithria Dreamwalker",
           "encounterId": 854,
           "difficulties": {
@@ -3854,10 +2804,10 @@
         }
       ],
       "summary": {
-        "normalKilled": 13,
-        "normalTotal": 13,
-        "heroicKilled": 12,
-        "heroicTotal": 13
+        "normalKilled": 10,
+        "normalTotal": 10,
+        "heroicKilled": 10,
+        "heroicTotal": 10
       }
     },
     {
@@ -4007,12 +2957,12 @@
               "difficultyId": 3,
               "rawDifficultyId": 3,
               "firstKillDate": "2022-12-14T06:17:48.190Z",
-              "latestKillDate": "2023-08-19T04:24:17.065Z",
+              "latestKillDate": "2024-04-08T06:33:44.209Z",
               "bestPercent": 0,
               "reportCode": "PBn7Aax2hzypLRX3",
               "reportUrl": "https://classic.warcraftlogs.com/reports/PBn7Aax2hzypLRX3#fight=4",
-              "pulls": 209,
-              "kills": 87
+              "pulls": 214,
+              "kills": 92
             }
           }
         },
@@ -4177,31 +3127,13 @@
               "kills": 77
             }
           }
-        },
-        {
-          "name": "The Oculus",
-          "encounterId": 100020,
-          "difficulties": {
-            "Difficulty 10": {
-              "status": "Best Pull",
-              "difficultyId": 10,
-              "rawDifficultyId": 10,
-              "firstKillDate": null,
-              "latestKillDate": null,
-              "bestPercent": 0,
-              "reportCode": "4pNPVBMJ38tTXwxc",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/4pNPVBMJ38tTXwxc#fight=26",
-              "pulls": 2,
-              "kills": 0
-            }
-          }
         }
       ],
       "summary": {
         "normalKilled": 14,
-        "normalTotal": 15,
+        "normalTotal": 14,
         "heroicKilled": 0,
-        "heroicTotal": 15
+        "heroicTotal": 14
       }
     },
     {
@@ -4397,43 +3329,13 @@
               "kills": 2
             }
           }
-        },
-        {
-          "name": "Theralion and Valiona",
-          "encounterId": 1032,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2024-06-24T06:55:17.081Z",
-              "latestKillDate": "2024-10-21T06:40:56.519Z",
-              "bestPercent": 0,
-              "reportCode": "6JT8RtPd3ABQWy2h",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/6JT8RtPd3ABQWy2h#fight=5",
-              "pulls": 59,
-              "kills": 20
-            },
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2024-06-04T06:57:32.884Z",
-              "latestKillDate": "2024-06-22T05:49:34.836Z",
-              "bestPercent": 0,
-              "reportCode": "Y3vqQwH6ZTp4NkxM",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Y3vqQwH6ZTp4NkxM#fight=10",
-              "pulls": 6,
-              "kills": 6
-            }
-          }
         }
       ],
       "summary": {
-        "normalKilled": 7,
-        "normalTotal": 7,
-        "heroicKilled": 7,
-        "heroicTotal": 7
+        "normalKilled": 6,
+        "normalTotal": 6,
+        "heroicKilled": 6,
+        "heroicTotal": 6
       }
     },
     {
@@ -5431,381 +4333,6 @@
         "normalTotal": 4,
         "heroicKilled": 4,
         "heroicTotal": 4
-      }
-    },
-    {
-      "name": "Throne of Thunder",
-      "zoneId": 1046,
-      "expansionSlug": "mop",
-      "tierSlug": "tier-15",
-      "sourceGuildName": "Vitality",
-      "sourceServerSlug": "raden",
-      "sourceRegion": "US",
-      "sourceLabel": "Vitality - Raden",
-      "sourceLabels": [
-        "Vitality - Raden"
-      ],
-      "bosses": [
-        {
-          "name": "Iron Qon",
-          "encounterId": 51559,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2026-01-13T05:59:33.854Z",
-              "latestKillDate": "2026-04-27T04:59:17.723Z",
-              "bestPercent": 0,
-              "reportCode": "N91726CPnyYaGw83",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/N91726CPnyYaGw83#fight=23",
-              "pulls": 35,
-              "kills": 16
-            },
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2025-12-16T06:25:17.827Z",
-              "latestKillDate": "2025-12-30T06:45:56.019Z",
-              "bestPercent": 0,
-              "reportCode": "YyxkVHCcd69gZB8G",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=41",
-              "pulls": 5,
-              "kills": 3
-            }
-          }
-        },
-        {
-          "name": "Twin Empyreans",
-          "encounterId": 51560,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2026-01-13T06:56:21.174Z",
-              "latestKillDate": "2026-04-27T05:07:57.964Z",
-              "bestPercent": 0,
-              "reportCode": "N91726CPnyYaGw83",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/N91726CPnyYaGw83#fight=31",
-              "pulls": 35,
-              "kills": 14
-            },
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2025-12-16T06:43:34.274Z",
-              "latestKillDate": "2026-03-03T04:08:57.717Z",
-              "bestPercent": 0,
-              "reportCode": "YyxkVHCcd69gZB8G",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=43",
-              "pulls": 5,
-              "kills": 4
-            }
-          }
-        },
-        {
-          "name": "Tortos",
-          "encounterId": 51565,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-12-29T05:45:07.366Z",
-              "latestKillDate": "2026-04-27T03:48:43.203Z",
-              "bestPercent": 0,
-              "reportCode": "24hPT3mtH897GpCj",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/24hPT3mtH897GpCj#fight=19",
-              "pulls": 51,
-              "kills": 19
-            },
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2025-12-16T04:07:56.686Z",
-              "latestKillDate": "2025-12-23T05:11:39.379Z",
-              "bestPercent": 0,
-              "reportCode": "YyxkVHCcd69gZB8G",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=3",
-              "pulls": 3,
-              "kills": 2
-            }
-          }
-        },
-        {
-          "name": "Council of Elders",
-          "encounterId": 51570,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-12-22T06:26:50.013Z",
-              "latestKillDate": "2026-04-27T03:40:30.988Z",
-              "bestPercent": 0,
-              "reportCode": "yYwFKzZ8vLGWDBVj",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/yYwFKzZ8vLGWDBVj#fight=26",
-              "pulls": 29,
-              "kills": 20
-            },
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2025-12-15T06:50:44.380Z",
-              "latestKillDate": "2025-12-15T06:50:44.380Z",
-              "bestPercent": 0,
-              "reportCode": "9dRpykMfthFNVXaJ",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/9dRpykMfthFNVXaJ#fight=38",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Durumu the Forgotten",
-          "encounterId": 51572,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2026-01-05T07:03:24.296Z",
-              "latestKillDate": "2026-04-27T04:31:43.474Z",
-              "bestPercent": 0,
-              "reportCode": "N4WLk1AQfTbtgGpy",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/N4WLk1AQfTbtgGpy#fight=36",
-              "pulls": 38,
-              "kills": 18
-            },
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2025-12-16T05:01:46.385Z",
-              "latestKillDate": "2025-12-30T06:02:03.581Z",
-              "bestPercent": 0,
-              "reportCode": "YyxkVHCcd69gZB8G",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=24",
-              "pulls": 4,
-              "kills": 3
-            }
-          }
-        },
-        {
-          "name": "Ji-Kun",
-          "encounterId": 51573,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-12-30T05:50:03.761Z",
-              "latestKillDate": "2026-04-27T04:20:51.416Z",
-              "bestPercent": 0,
-              "reportCode": "dxHNL3vnPfQW2mp8",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/dxHNL3vnPfQW2mp8#fight=20",
-              "pulls": 55,
-              "kills": 19
-            },
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2025-12-16T04:41:36.927Z",
-              "latestKillDate": "2025-12-23T05:43:13.759Z",
-              "bestPercent": 0,
-              "reportCode": "YyxkVHCcd69gZB8G",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=20",
-              "pulls": 3,
-              "kills": 2
-            }
-          }
-        },
-        {
-          "name": "Primordius",
-          "encounterId": 51574,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2026-01-06T04:37:46.234Z",
-              "latestKillDate": "2026-04-27T04:41:08.217Z",
-              "bestPercent": 0,
-              "reportCode": "CmYvDZkXdhMtN8y4",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/CmYvDZkXdhMtN8y4#fight=5",
-              "pulls": 28,
-              "kills": 18
-            },
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2025-12-16T05:13:56.076Z",
-              "latestKillDate": "2025-12-30T06:11:35.130Z",
-              "bestPercent": 0,
-              "reportCode": "YyxkVHCcd69gZB8G",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=26",
-              "pulls": 3,
-              "kills": 3
-            }
-          }
-        },
-        {
-          "name": "Horridon",
-          "encounterId": 51575,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-12-15T06:37:41.670Z",
-              "latestKillDate": "2026-04-27T03:30:45.470Z",
-              "bestPercent": 0,
-              "reportCode": "9dRpykMfthFNVXaJ",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/9dRpykMfthFNVXaJ#fight=36",
-              "pulls": 45,
-              "kills": 21
-            }
-          }
-        },
-        {
-          "name": "Dark Animus",
-          "encounterId": 51576,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2026-01-20T07:06:28.507Z",
-              "latestKillDate": "2026-04-27T04:49:47.150Z",
-              "bestPercent": 0,
-              "reportCode": "VP7ZTdavcCgh84z3",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/VP7ZTdavcCgh84z3#fight=38",
-              "pulls": 122,
-              "kills": 16
-            },
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2025-12-16T05:47:06.136Z",
-              "latestKillDate": "2026-01-13T05:08:15.513Z",
-              "bestPercent": 0,
-              "reportCode": "YyxkVHCcd69gZB8G",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=34",
-              "pulls": 13,
-              "kills": 4
-            }
-          }
-        },
-        {
-          "name": "Jin'rokh the Breaker",
-          "encounterId": 51577,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-12-15T05:07:53.240Z",
-              "latestKillDate": "2026-04-27T03:18:50.067Z",
-              "bestPercent": 0,
-              "reportCode": "9dRpykMfthFNVXaJ",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/9dRpykMfthFNVXaJ#fight=15",
-              "pulls": 48,
-              "kills": 21
-            }
-          }
-        },
-        {
-          "name": "Megaera",
-          "encounterId": 51578,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-12-30T04:29:50.928Z",
-              "latestKillDate": "2026-04-27T04:03:07.708Z",
-              "bestPercent": 0,
-              "reportCode": "dxHNL3vnPfQW2mp8",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/dxHNL3vnPfQW2mp8#fight=6",
-              "pulls": 41,
-              "kills": 19
-            },
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2025-12-16T04:22:51.948Z",
-              "latestKillDate": "2025-12-23T05:31:14.705Z",
-              "bestPercent": 0,
-              "reportCode": "YyxkVHCcd69gZB8G",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=12",
-              "pulls": 3,
-              "kills": 2
-            }
-          }
-        },
-        {
-          "name": "Lei Shen",
-          "encounterId": 51579,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2026-02-17T04:43:12.920Z",
-              "latestKillDate": "2026-04-27T05:54:47.227Z",
-              "bestPercent": 0,
-              "reportCode": "R1QNYZzyPAKXMc4V",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/R1QNYZzyPAKXMc4V#fight=4",
-              "pulls": 128,
-              "kills": 11
-            },
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2025-12-23T07:18:37.388Z",
-              "latestKillDate": "2025-12-30T07:21:39.207Z",
-              "bestPercent": 0,
-              "reportCode": "1rC3qcwkgAxGap6j",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/1rC3qcwkgAxGap6j#fight=51",
-              "pulls": 7,
-              "kills": 2
-            }
-          }
-        },
-        {
-          "name": "Ra-den",
-          "encounterId": 51580,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2026-03-10T05:32:47.558Z",
-              "latestKillDate": "2026-04-27T06:06:42.984Z",
-              "bestPercent": 0,
-              "reportCode": "MTzCRch2V7yA9fka",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/MTzCRch2V7yA9fka#fight=25",
-              "pulls": 77,
-              "kills": 8
-            }
-          }
-        }
-      ],
-      "summary": {
-        "normalKilled": 10,
-        "normalTotal": 13,
-        "heroicKilled": 13,
-        "heroicTotal": 13
       }
     }
   ]
