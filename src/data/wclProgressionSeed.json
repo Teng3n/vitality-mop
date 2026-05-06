@@ -51,6 +51,7 @@
       ],
       "tiers": [
         "tbc-sunwell",
+        "tbc-tier-5",
         "tbc-tier-6",
         "wrath-tier-10",
         "wrath-tier-7",
@@ -75,6 +76,48 @@
     }
   ],
   "raids": [
+    {
+      "name": "Tempest Keep",
+      "zoneId": null,
+      "expansionSlug": "tbc",
+      "tierSlug": "tbc-tier-5",
+      "sourceGuildName": null,
+      "sourceServerSlug": null,
+      "sourceRegion": null,
+      "sourceLabel": null,
+      "sourceLabels": [
+        "Inept - Grobbulus",
+        "Might - Fairbanks"
+      ],
+      "bosses": [
+        {
+          "name": "Al'ar",
+          "encounterId": null,
+          "difficulties": {}
+        },
+        {
+          "name": "High Astromancer Solarian",
+          "encounterId": null,
+          "difficulties": {}
+        },
+        {
+          "name": "Kael'thas Sunstrider",
+          "encounterId": null,
+          "difficulties": {}
+        },
+        {
+          "name": "Void Reaver",
+          "encounterId": null,
+          "difficulties": {}
+        }
+      ],
+      "summary": {
+        "normalKilled": 0,
+        "normalTotal": 4,
+        "heroicKilled": 0,
+        "heroicTotal": 4
+      }
+    },
     {
       "name": "Trial of the Crusader",
       "zoneId": null,
@@ -1440,6 +1483,64 @@
       }
     },
     {
+      "name": "Gruul's Lair",
+      "zoneId": 1008,
+      "expansionSlug": "tbc",
+      "tierSlug": "tbc-tier-4",
+      "sourceGuildId": 482914,
+      "sourceGuildName": "Might",
+      "sourceServerSlug": "fairbanks",
+      "sourceRegion": "US",
+      "sourceLabel": "Might - Fairbanks",
+      "sourceLabels": [
+        "Might - Fairbanks"
+      ],
+      "bosses": [
+        {
+          "name": "High King Maulgar",
+          "encounterId": 649,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2021-06-08T04:18:24.260Z",
+              "latestKillDate": "2021-08-23T03:38:15.359Z",
+              "bestPercent": 0,
+              "reportCode": "pXVz3WGc7YN8JvDf",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/pXVz3WGc7YN8JvDf#fight=2",
+              "pulls": 15,
+              "kills": 12
+            }
+          }
+        },
+        {
+          "name": "Gruul the Dragonkiller",
+          "encounterId": 650,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2021-06-08T05:41:08.300Z",
+              "latestKillDate": "2021-08-23T03:53:22.176Z",
+              "bestPercent": 0,
+              "reportCode": "pXVz3WGc7YN8JvDf",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/pXVz3WGc7YN8JvDf#fight=10",
+              "pulls": 18,
+              "kills": 13
+            }
+          }
+        }
+      ],
+      "summary": {
+        "normalKilled": 2,
+        "normalTotal": 2,
+        "heroicKilled": 0,
+        "heroicTotal": 2
+      }
+    },
+    {
       "name": "Magtheridon's Lair",
       "zoneId": 1008,
       "expansionSlug": "tbc",
@@ -1484,12 +1585,13 @@
       "zoneId": 1010,
       "expansionSlug": "tbc",
       "tierSlug": "tbc-tier-5",
-      "sourceGuildId": 482914,
-      "sourceGuildName": "Might",
-      "sourceServerSlug": "fairbanks",
+      "sourceGuildId": 619658,
+      "sourceGuildName": "Inept",
+      "sourceServerSlug": "grobbulus",
       "sourceRegion": "US",
-      "sourceLabel": "Might - Fairbanks",
+      "sourceLabel": "Inept - Grobbulus",
       "sourceLabels": [
+        "Inept - Grobbulus",
         "Might - Fairbanks"
       ],
       "bosses": [
@@ -1516,16 +1618,16 @@
           "encounterId": 624,
           "difficulties": {
             "Normal": {
-              "status": "Best Pull",
+              "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": null,
-              "latestKillDate": null,
-              "bestPercent": 39,
-              "reportCode": "XyLWPJghqv3dDk9Y",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/XyLWPJghqv3dDk9Y#fight=23",
-              "pulls": 3,
-              "kills": 0
+              "firstKillDate": "2022-04-05T03:44:50.530Z",
+              "latestKillDate": "2022-05-03T03:55:02.780Z",
+              "bestPercent": 0,
+              "reportCode": "yN4mWpP83A69TYBh",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/yN4mWpP83A69TYBh#fight=10",
+              "pulls": 6,
+              "kills": 3
             }
           }
         },
@@ -1582,13 +1684,31 @@
               "kills": 0
             }
           }
+        },
+        {
+          "name": "Lady Vashj",
+          "encounterId": 628,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2022-04-05T03:55:41.018Z",
+              "latestKillDate": "2022-05-03T04:06:18.422Z",
+              "bestPercent": 0,
+              "reportCode": "yN4mWpP83A69TYBh",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/yN4mWpP83A69TYBh#fight=11",
+              "pulls": 4,
+              "kills": 3
+            }
+          }
         }
       ],
       "summary": {
-        "normalKilled": 2,
-        "normalTotal": 5,
+        "normalKilled": 4,
+        "normalTotal": 6,
         "heroicKilled": 0,
-        "heroicTotal": 5
+        "heroicTotal": 6
       }
     },
     {
@@ -1773,65 +1893,6 @@
         "normalTotal": 9,
         "heroicKilled": 0,
         "heroicTotal": 9
-      }
-    },
-    {
-      "name": "Gruul's Lair",
-      "zoneId": 1011,
-      "expansionSlug": "tbc",
-      "tierSlug": "tbc-tier-4",
-      "sourceGuildId": 619658,
-      "sourceGuildName": "Inept",
-      "sourceServerSlug": "grobbulus",
-      "sourceRegion": "US",
-      "sourceLabel": "Inept - Grobbulus",
-      "sourceLabels": [
-        "Inept - Grobbulus",
-        "Might - Fairbanks"
-      ],
-      "bosses": [
-        {
-          "name": "High King Maulgar",
-          "encounterId": 649,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2021-06-08T04:18:24.260Z",
-              "latestKillDate": "2022-09-12T05:50:48.570Z",
-              "bestPercent": 0,
-              "reportCode": "pXVz3WGc7YN8JvDf",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/pXVz3WGc7YN8JvDf#fight=2",
-              "pulls": 19,
-              "kills": 16
-            }
-          }
-        },
-        {
-          "name": "Gruul the Dragonkiller",
-          "encounterId": 650,
-          "difficulties": {
-            "Normal": {
-              "status": "Killed",
-              "difficultyId": 3,
-              "rawDifficultyId": 3,
-              "firstKillDate": "2021-06-08T05:41:08.300Z",
-              "latestKillDate": "2022-09-12T05:54:04.049Z",
-              "bestPercent": 0,
-              "reportCode": "pXVz3WGc7YN8JvDf",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/pXVz3WGc7YN8JvDf#fight=10",
-              "pulls": 22,
-              "kills": 17
-            }
-          }
-        }
-      ],
-      "summary": {
-        "normalKilled": 2,
-        "normalTotal": 2,
-        "heroicKilled": 0,
-        "heroicTotal": 2
       }
     },
     {

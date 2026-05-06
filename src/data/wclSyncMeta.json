@@ -1,5 +1,5 @@
 {
-  "lastWclSync": "2026-05-06T19:04:40.590Z",
+  "lastWclSync": "2026-05-06T22:17:02.300Z",
   "source": "Warcraft Logs API v2",
   "endpoint": "https://classic.warcraftlogs.com/api/v2/client",
   "guild": "Vitality",
@@ -52,6 +52,7 @@
       ],
       "tiers": [
         "tbc-sunwell",
+        "tbc-tier-5",
         "tbc-tier-6",
         "wrath-tier-10",
         "wrath-tier-7",
