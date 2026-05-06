@@ -1,0 +1,161 @@
+---
+import {
+  getDifficulty,
+  getDifficultyStatus,
+  getProgressBreakdown,
+  getRaidLatestKill,
+  getRaidProgress,
+  getSortedBosses,
+  type DifficultyStatus,
+  type ProgressionBoss,
+  type ProgressionDifficulty,
+  type ProgressionRaid,
+} from "../lib/progressionTiers";
+
+interface Props {
+  raid: ProgressionRaid;
+}
+
+const { raid } = Astro.props;
+
+const formatDate = (value?: string | null) => {
+  if (!value) {
+    return "";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
+};
+
+const formatPercent = (value?: number | null) => {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return "";
+  }
+
+  return `${Number.isInteger(value) ? value : value.toFixed(1)}%`;
+};
+
+const getStatusClass = (status: DifficultyStatus) =>
+  status === "Killed" ? "is-killed" : status === "Best Pull" ? "is-best-pull" : "is-no-data";
+
+const getDifficultyMeta = (difficulty?: ProgressionDifficulty) => {
+  const status = getDifficultyStatus(difficulty);
+  const firstKillDate = formatDate(difficulty?.firstKillDate);
+  const latestKillDate = formatDate(difficulty?.latestKillDate);
+  const bestPercent = status === "Best Pull" ? formatPercent(difficulty?.bestPercent) : "";
+
+  return {
+    status,
+    firstKillDate,
+    latestKillDate,
+    bestPercent,
+    reportUrl: difficulty?.reportUrl || "",
+  };
+};
+
+const getBossDifficultyRows = (boss: ProgressionBoss) => {
+  const normalMeta = getDifficultyMeta(getDifficulty(boss, "Normal"));
+  const heroicMeta = getDifficultyMeta(getDifficulty(boss, "Heroic"));
+
+  if (heroicMeta.status === "Killed") {
+    return [{ name: "Heroic", meta: heroicMeta }];
+  }
+
+  if (normalMeta.status === "Killed") {
+    return [
+      { name: "Normal", meta: normalMeta },
+      { name: "Heroic", meta: heroicMeta },
+    ];
+  }
+
+  const normalScore = normalMeta.status === "Best Pull" ? 1 : 0;
+  const heroicScore = heroicMeta.status === "Best Pull" ? 1 : 0;
+
+  return heroicScore > normalScore
+    ? [
+        { name: "Heroic", meta: heroicMeta },
+        { name: "Normal", meta: normalMeta },
+      ]
+    : [
+        { name: "Normal", meta: normalMeta },
+        { name: "Heroic", meta: heroicMeta },
+      ];
+};
+
+const progress = getRaidProgress(raid);
+const latestKill = getRaidLatestKill(raid);
+---
+
+<section class="panel progression-raid-panel">
+  <div class="section-heading inline">
+    <div>
+      <p class="eyebrow">Raid</p>
+      <h2>{raid.name || "Unknown Raid"}</h2>
+      <p class="info-note">
+        Progress {progress.killedBosses} / {progress.totalBosses} <span aria-hidden="true">&middot;</span>{" "}
+        {getProgressBreakdown(progress)}
+      </p>
+    </div>
+    <div class="progression-raid-latest">
+      <span>Latest Kill</span>
+      <strong>{latestKill?.bossName ?? "None"}</strong>
+      {latestKill && <small>{latestKill.difficultyName} - {formatDate(latestKill.date)}</small>}
+    </div>
+  </div>
+
+  <div class="progression-boss-grid">
+    {getSortedBosses(raid).map((boss) => {
+      const difficultyRows = getBossDifficultyRows(boss);
+
+      return (
+        <article class="progression-boss-card">
+          <h3>{boss.name || "Unknown Boss"}</h3>
+          {difficultyRows.map(({ name: difficultyName, meta }) => (
+            <section class="progression-difficulty">
+              <div class="progression-difficulty-head">
+                <span>{difficultyName}</span>
+                <strong class={`progression-status ${getStatusClass(meta.status)}`}>{meta.status}</strong>
+              </div>
+
+              <dl class="progression-detail-list">
+                {meta.firstKillDate && (
+                  <div>
+                    <dt>First kill</dt>
+                    <dd>{meta.firstKillDate}</dd>
+                  </div>
+                )}
+                {meta.latestKillDate && (
+                  <div>
+                    <dt>Latest kill</dt>
+                    <dd>{meta.latestKillDate}</dd>
+                  </div>
+                )}
+                {meta.bestPercent && (
+                  <div>
+                    <dt>Best pull</dt>
+                    <dd>{meta.bestPercent}</dd>
+                  </div>
+                )}
+              </dl>
+
+              {meta.reportUrl && (
+                <a class="progression-log-link" href={meta.reportUrl} target="_blank" rel="noreferrer">
+                  View Log
+                </a>
+              )}
+            </section>
+          ))}
+        </article>
+      );
+    })}
+  </div>
+</section>

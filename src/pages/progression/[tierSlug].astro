@@ -1,0 +1,91 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import StatCard from "../../components/StatCard.astro";
+import ProgressionRaidSection from "../../components/ProgressionRaidSection.astro";
+import progressionSeed from "../../data/wclProgressionSeed.json";
+import {
+  getProgressBreakdown,
+  getTierLatestKill,
+  getTierProgress,
+  getTierRaids,
+  progressionTiers,
+  type ProgressionSeed,
+  type ProgressionTier,
+} from "../../lib/progressionTiers";
+
+export const getStaticPaths = () =>
+  progressionTiers.map((tier) => ({
+    params: { tierSlug: tier.slug },
+    props: { tier },
+  }));
+
+interface Props {
+  tier: ProgressionTier;
+}
+
+const { tier } = Astro.props as Props;
+const seed = progressionSeed as ProgressionSeed;
+const raids = Array.isArray(seed.raids) ? seed.raids : [];
+const tierRaids = getTierRaids(tier, raids);
+const progress = getTierProgress(tier, raids);
+const latestKill = getTierLatestKill(tier, raids);
+
+const formatDate = (value?: string | null) => {
+  if (!value) {
+    return "";
+  }
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
+};
+---
+
+<Layout title={`${tier.name} Progression | Vitality`}>
+  <section class="page-header progression-header">
+    <p class="eyebrow">{tier.name}</p>
+  </section>
+
+  <a class="progression-back-link" href="/progression">Back to Progression</a>
+
+  <section class="dashboard-grid progression-summary-grid">
+    <StatCard
+      label="Progress"
+      value={progress.totalBosses > 0 ? `${progress.killedBosses} / ${progress.totalBosses}` : "No data"}
+      detail={getProgressBreakdown(progress)}
+    />
+    <StatCard label="Breakdown" value={getProgressBreakdown(progress)} />
+    <StatCard
+      label="Latest Kill"
+      value={latestKill?.bossName ?? "None"}
+      detail={latestKill ? `${latestKill.difficultyName} - ${formatDate(latestKill.date)}` : "No kills synced"}
+    />
+    <StatCard label="Raids" value={`${tierRaids.length} / ${tier.raidNames.length}`} detail="synced" />
+  </section>
+
+  {
+    tierRaids.length > 0 ? (
+      <section class="progression-raid-stack">
+        {tierRaids.map((raid) => (
+          <ProgressionRaidSection raid={raid} />
+        ))}
+      </section>
+    ) : (
+      <section class="panel progression-empty-panel">
+        <p class="eyebrow">{tier.name}</p>
+        <h2>No Warcraft Logs progression data has been synced for this tier yet.</h2>
+        <p class="info-note">
+          This tier includes {tier.raidNames.join(", ")}. Once synced logs include these raids, boss progression will appear here.
+        </p>
+      </section>
+    )
+  }
+</Layout>
