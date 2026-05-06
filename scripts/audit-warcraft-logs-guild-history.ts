@@ -226,7 +226,7 @@ query GuildMetadata($guildId: Int!) {
 const zoneCatalog = [
   // Classic Era
   { names: ["Molten Core"], expansion: "Classic Era", tier: "Molten Core / Onyxia" },
-  { names: ["Onyxia's Lair"], expansion: "Classic Era", tier: "Molten Core / Onyxia" },
+  { names: ["Onyxia", "Onyxia's Lair"], expansion: "Classic Era", tier: "Molten Core / Onyxia" },
   { names: ["Blackwing Lair"], expansion: "Classic Era", tier: "Blackwing Lair" },
   { names: ["Zul'Gurub"], expansion: "Classic Era", tier: "Zul'Gurub" },
   { names: ["Ruins of Ahn'Qiraj"], expansion: "Classic Era", tier: "Ruins of Ahn'Qiraj" },
@@ -235,16 +235,17 @@ const zoneCatalog = [
 
   // The Burning Crusade Classic
   { names: ["Karazhan"], expansion: "The Burning Crusade Classic", tier: "Tier 4" },
-  { names: ["Gruul's Lair"], expansion: "The Burning Crusade Classic", tier: "Tier 4" },
+  { names: ["Gruul / Magtheridon", "Gruul's Lair"], expansion: "The Burning Crusade Classic", tier: "Tier 4" },
   { names: ["Magtheridon's Lair"], expansion: "The Burning Crusade Classic", tier: "Tier 4" },
-  { names: ["Serpentshrine Cavern"], expansion: "The Burning Crusade Classic", tier: "Tier 5" },
+  { names: ["SSC / TK", "Serpentshrine Cavern"], expansion: "The Burning Crusade Classic", tier: "Tier 5" },
   { names: ["The Eye", "Tempest Keep"], expansion: "The Burning Crusade Classic", tier: "Tier 5" },
-  { names: ["Mount Hyjal", "Hyjal Summit"], expansion: "The Burning Crusade Classic", tier: "Black Temple / Hyjal" },
+  { names: ["BT / Hyjal", "Mount Hyjal", "Hyjal Summit"], expansion: "The Burning Crusade Classic", tier: "Black Temple / Hyjal" },
   { names: ["Black Temple"], expansion: "The Burning Crusade Classic", tier: "Black Temple / Hyjal" },
   { names: ["Zul'Aman"], expansion: "The Burning Crusade Classic", tier: "Zul'Aman" },
   { names: ["Sunwell Plateau"], expansion: "The Burning Crusade Classic", tier: "Sunwell Plateau" },
 
   // Wrath of the Lich King Classic
+  { names: ["Naxx / Sarth / Maly"], expansion: "Wrath of the Lich King Classic", tier: "Tier 7" },
   { names: ["The Obsidian Sanctum", "Obsidian Sanctum"], expansion: "Wrath of the Lich King Classic", tier: "Tier 7" },
   { names: ["The Eye of Eternity", "Eye of Eternity"], expansion: "Wrath of the Lich King Classic", tier: "Tier 7" },
   { names: ["Ulduar"], expansion: "Wrath of the Lich King Classic", tier: "Tier 8" },
@@ -253,6 +254,7 @@ const zoneCatalog = [
   { names: ["The Ruby Sanctum", "Ruby Sanctum"], expansion: "Wrath of the Lich King Classic", tier: "Ruby Sanctum" },
 
   // Cataclysm Classic
+  { names: ["TotFW / BWD / BoT"], expansion: "Cataclysm Classic", tier: "Tier 11" },
   { names: ["Blackwing Descent"], expansion: "Cataclysm Classic", tier: "Tier 11" },
   { names: ["The Bastion of Twilight", "Bastion of Twilight"], expansion: "Cataclysm Classic", tier: "Tier 11" },
   { names: ["Throne of the Four Winds"], expansion: "Cataclysm Classic", tier: "Tier 11" },
