@@ -11,13 +11,17 @@
       "serverSlug": "raden",
       "region": "US",
       "label": "Vitality - Raden",
-      "tiers": []
+      "tiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ]
     }
   ],
   "raids": [
     {
-      "name": "Unknown Zone",
-      "zoneId": null,
+      "name": "Heart of Fear",
+      "zoneId": 1040,
       "sourceGuildName": "Vitality",
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
@@ -25,17 +29,126 @@
       "sourceLabels": [
         "Vitality - Raden"
       ],
-      "bosses": [],
+      "bosses": [
+        {
+          "name": "Garalon",
+          "encounterId": 1463,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2025-09-22T03:40:47.587Z",
+              "latestKillDate": "2025-12-08T04:45:58.155Z",
+              "bestPercent": 0,
+              "reportCode": "Zk9B4VXHzcQPF2rM",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Zk9B4VXHzcQPF2rM#fight=4",
+              "pulls": 13,
+              "kills": 13
+            }
+          }
+        },
+        {
+          "name": "Wind Lord Mel'jarak",
+          "encounterId": 1498,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2025-09-22T03:53:27.783Z",
+              "latestKillDate": "2025-12-08T04:50:43.626Z",
+              "bestPercent": 0,
+              "reportCode": "Zk9B4VXHzcQPF2rM",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Zk9B4VXHzcQPF2rM#fight=6",
+              "pulls": 16,
+              "kills": 12
+            }
+          }
+        },
+        {
+          "name": "Amber-Shaper Un'sok",
+          "encounterId": 1499,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2025-09-22T05:06:11.481Z",
+              "latestKillDate": "2025-12-08T05:03:57.230Z",
+              "bestPercent": 0,
+              "reportCode": "Zk9B4VXHzcQPF2rM",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Zk9B4VXHzcQPF2rM#fight=13",
+              "pulls": 29,
+              "kills": 13
+            }
+          }
+        },
+        {
+          "name": "Grand Empress Shek'zeer",
+          "encounterId": 1501,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2025-09-23T03:56:21.702Z",
+              "latestKillDate": "2025-12-08T05:22:40.949Z",
+              "bestPercent": 0,
+              "reportCode": "WDXRqFJN6HMGca2C",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/WDXRqFJN6HMGca2C#fight=5",
+              "pulls": 40,
+              "kills": 13
+            }
+          }
+        },
+        {
+          "name": "Blade Lord Ta'yak",
+          "encounterId": 1504,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2025-09-22T03:29:12.832Z",
+              "latestKillDate": "2025-12-08T04:38:45.220Z",
+              "bestPercent": 0,
+              "reportCode": "Zk9B4VXHzcQPF2rM",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Zk9B4VXHzcQPF2rM#fight=3",
+              "pulls": 16,
+              "kills": 13
+            }
+          }
+        },
+        {
+          "name": "Imperial Vizier Zor'lok",
+          "encounterId": 1507,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2025-09-22T03:20:02.592Z",
+              "latestKillDate": "2025-12-08T04:14:34.263Z",
+              "bestPercent": 0,
+              "reportCode": "Zk9B4VXHzcQPF2rM",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/Zk9B4VXHzcQPF2rM#fight=2",
+              "pulls": 17,
+              "kills": 13
+            }
+          }
+        }
+      ],
       "summary": {
         "normalKilled": 0,
-        "normalTotal": 0,
-        "heroicKilled": 0,
-        "heroicTotal": 0
+        "normalTotal": 6,
+        "heroicKilled": 6,
+        "heroicTotal": 6
       }
     },
     {
       "name": "Mogu'shan Vaults",
-      "zoneId": 1038,
+      "zoneId": 1040,
       "sourceGuildName": "Vitality",
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
@@ -53,12 +166,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2025-09-26T03:45:26.062Z",
-              "latestKillDate": "2025-09-26T03:45:26.062Z",
+              "latestKillDate": "2025-10-21T03:46:45.364Z",
               "bestPercent": 0,
               "reportCode": "bRgXHG7zP1Cy3jaJ",
               "reportUrl": "https://classic.warcraftlogs.com/reports/bRgXHG7zP1Cy3jaJ#fight=8",
-              "pulls": 1,
-              "kills": 1
+              "pulls": 4,
+              "kills": 4
             }
           }
         },
@@ -71,12 +184,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2025-09-26T03:37:44.918Z",
-              "latestKillDate": "2025-09-26T03:37:44.918Z",
+              "latestKillDate": "2025-10-21T03:40:49.907Z",
               "bestPercent": 0,
               "reportCode": "bRgXHG7zP1Cy3jaJ",
               "reportUrl": "https://classic.warcraftlogs.com/reports/bRgXHG7zP1Cy3jaJ#fight=4",
-              "pulls": 3,
-              "kills": 1
+              "pulls": 6,
+              "kills": 4
             }
           }
         },
@@ -107,12 +220,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2025-09-26T03:55:14.752Z",
-              "latestKillDate": "2025-09-26T03:55:14.752Z",
+              "latestKillDate": "2025-10-21T03:53:42.851Z",
               "bestPercent": 0,
               "reportCode": "bRgXHG7zP1Cy3jaJ",
               "reportUrl": "https://classic.warcraftlogs.com/reports/bRgXHG7zP1Cy3jaJ#fight=10",
-              "pulls": 1,
-              "kills": 1
+              "pulls": 4,
+              "kills": 4
             }
           }
         },
@@ -125,12 +238,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2025-09-26T04:11:43.286Z",
-              "latestKillDate": "2025-10-07T03:09:38.663Z",
+              "latestKillDate": "2025-10-21T04:12:27.433Z",
               "bestPercent": 0,
               "reportCode": "bRgXHG7zP1Cy3jaJ",
               "reportUrl": "https://classic.warcraftlogs.com/reports/bRgXHG7zP1Cy3jaJ#fight=16",
-              "pulls": 3,
-              "kills": 2
+              "pulls": 8,
+              "kills": 4
             }
           }
         },
@@ -143,12 +256,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2025-09-26T04:24:41.087Z",
-              "latestKillDate": "2025-10-07T03:23:46.820Z",
+              "latestKillDate": "2025-10-21T04:22:37.193Z",
               "bestPercent": 0,
               "reportCode": "bRgXHG7zP1Cy3jaJ",
               "reportUrl": "https://classic.warcraftlogs.com/reports/bRgXHG7zP1Cy3jaJ#fight=21",
-              "pulls": 3,
-              "kills": 2
+              "pulls": 4,
+              "kills": 3
             }
           }
         }
@@ -161,7 +274,7 @@
       }
     },
     {
-      "name": "HoF / ToES",
+      "name": "Terrace of Endless Spring",
       "zoneId": 1040,
       "sourceGuildName": "Vitality",
       "sourceServerSlug": "raden",
@@ -171,42 +284,6 @@
         "Vitality - Raden"
       ],
       "bosses": [
-        {
-          "name": "Feng the Accursed",
-          "encounterId": 1390,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-10-06T05:48:06.287Z",
-              "latestKillDate": "2025-10-21T03:46:45.364Z",
-              "bestPercent": 0,
-              "reportCode": "qZcMGH8mXh9TKNb1",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/qZcMGH8mXh9TKNb1#fight=33",
-              "pulls": 3,
-              "kills": 3
-            }
-          }
-        },
-        {
-          "name": "The Stone Guard",
-          "encounterId": 1395,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-10-06T05:42:38.853Z",
-              "latestKillDate": "2025-10-21T03:40:49.907Z",
-              "bestPercent": 0,
-              "reportCode": "qZcMGH8mXh9TKNb1",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/qZcMGH8mXh9TKNb1#fight=30",
-              "pulls": 3,
-              "kills": 3
-            }
-          }
-        },
         {
           "name": "Protectors of the Endless",
           "encounterId": 1409,
@@ -256,222 +333,6 @@
           }
         },
         {
-          "name": "Gara'jal the Spiritbinder",
-          "encounterId": 1434,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-10-06T05:53:33.785Z",
-              "latestKillDate": "2025-10-21T03:53:42.851Z",
-              "bestPercent": 0,
-              "reportCode": "qZcMGH8mXh9TKNb1",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/qZcMGH8mXh9TKNb1#fight=35",
-              "pulls": 3,
-              "kills": 3
-            }
-          }
-        },
-        {
-          "name": "The Spirit Kings",
-          "encounterId": 1436,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-10-14T03:47:04.187Z",
-              "latestKillDate": "2025-10-21T04:12:27.433Z",
-              "bestPercent": 0,
-              "reportCode": "aXNYZAK2c7tdmfHL",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/aXNYZAK2c7tdmfHL#fight=14",
-              "pulls": 5,
-              "kills": 2
-            }
-          }
-        },
-        {
-          "name": "General Pa'valak",
-          "encounterId": 1447,
-          "difficulties": {
-            "Unknown": {
-              "status": "Killed",
-              "difficultyId": 0,
-              "rawDifficultyId": 0,
-              "firstKillDate": "2025-11-03T03:42:38.348Z",
-              "latestKillDate": "2025-11-03T03:42:38.348Z",
-              "bestPercent": 0,
-              "reportCode": "ja1tBkGn3yRvDLCp",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/ja1tBkGn3yRvDLCp#fight=9",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Garalon",
-          "encounterId": 1463,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-09-22T03:40:47.587Z",
-              "latestKillDate": "2025-12-08T04:45:58.155Z",
-              "bestPercent": 0,
-              "reportCode": "Zk9B4VXHzcQPF2rM",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Zk9B4VXHzcQPF2rM#fight=4",
-              "pulls": 13,
-              "kills": 13
-            }
-          }
-        },
-        {
-          "name": "Wing Leader Ner'onok",
-          "encounterId": 1464,
-          "difficulties": {
-            "Unknown": {
-              "status": "Killed",
-              "difficultyId": 0,
-              "rawDifficultyId": 0,
-              "firstKillDate": "2025-11-03T03:44:59.293Z",
-              "latestKillDate": "2025-11-03T03:44:59.293Z",
-              "bestPercent": 0,
-              "reportCode": "ja1tBkGn3yRvDLCp",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/ja1tBkGn3yRvDLCp#fight=11",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Vizier Jin'bak",
-          "encounterId": 1465,
-          "difficulties": {
-            "Unknown": {
-              "status": "Killed",
-              "difficultyId": 0,
-              "rawDifficultyId": 0,
-              "firstKillDate": "2025-11-03T03:32:32.781Z",
-              "latestKillDate": "2025-11-03T03:32:32.781Z",
-              "bestPercent": 0,
-              "reportCode": "ja1tBkGn3yRvDLCp",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/ja1tBkGn3yRvDLCp#fight=2",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Wind Lord Mel'jarak",
-          "encounterId": 1498,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-09-22T03:53:27.783Z",
-              "latestKillDate": "2025-12-08T04:50:43.626Z",
-              "bestPercent": 0,
-              "reportCode": "Zk9B4VXHzcQPF2rM",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Zk9B4VXHzcQPF2rM#fight=6",
-              "pulls": 16,
-              "kills": 12
-            }
-          }
-        },
-        {
-          "name": "Amber-Shaper Un'sok",
-          "encounterId": 1499,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-09-22T05:06:11.481Z",
-              "latestKillDate": "2025-12-08T05:03:57.230Z",
-              "bestPercent": 0,
-              "reportCode": "Zk9B4VXHzcQPF2rM",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Zk9B4VXHzcQPF2rM#fight=13",
-              "pulls": 29,
-              "kills": 13
-            }
-          }
-        },
-        {
-          "name": "Elegon",
-          "encounterId": 1500,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-10-21T04:22:37.193Z",
-              "latestKillDate": "2025-10-21T04:22:37.193Z",
-              "bestPercent": 0,
-              "reportCode": "ZgKh4CzGy2bWJ1B9",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/ZgKh4CzGy2bWJ1B9#fight=27",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Grand Empress Shek'zeer",
-          "encounterId": 1501,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-09-23T03:56:21.702Z",
-              "latestKillDate": "2025-12-08T05:22:40.949Z",
-              "bestPercent": 0,
-              "reportCode": "WDXRqFJN6HMGca2C",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/WDXRqFJN6HMGca2C#fight=5",
-              "pulls": 40,
-              "kills": 13
-            }
-          }
-        },
-        {
-          "name": "Commander Vo'jak",
-          "encounterId": 1502,
-          "difficulties": {
-            "Unknown": {
-              "status": "Killed",
-              "difficultyId": 0,
-              "rawDifficultyId": 0,
-              "firstKillDate": "2025-11-03T03:38:30.067Z",
-              "latestKillDate": "2025-11-03T03:38:30.067Z",
-              "bestPercent": 0,
-              "reportCode": "ja1tBkGn3yRvDLCp",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/ja1tBkGn3yRvDLCp#fight=7",
-              "pulls": 1,
-              "kills": 1
-            }
-          }
-        },
-        {
-          "name": "Blade Lord Ta'yak",
-          "encounterId": 1504,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-09-22T03:29:12.832Z",
-              "latestKillDate": "2025-12-08T04:38:45.220Z",
-              "bestPercent": 0,
-              "reportCode": "Zk9B4VXHzcQPF2rM",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Zk9B4VXHzcQPF2rM#fight=3",
-              "pulls": 16,
-              "kills": 13
-            }
-          }
-        },
-        {
           "name": "Tsulong",
           "encounterId": 1505,
           "difficulties": {
@@ -506,31 +367,13 @@
               "kills": 11
             }
           }
-        },
-        {
-          "name": "Imperial Vizier Zor'lok",
-          "encounterId": 1507,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2025-09-22T03:20:02.592Z",
-              "latestKillDate": "2025-12-08T04:14:34.263Z",
-              "bestPercent": 0,
-              "reportCode": "Zk9B4VXHzcQPF2rM",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Zk9B4VXHzcQPF2rM#fight=2",
-              "pulls": 17,
-              "kills": 13
-            }
-          }
         }
       ],
       "summary": {
         "normalKilled": 1,
-        "normalTotal": 19,
-        "heroicKilled": 15,
-        "heroicTotal": 19
+        "normalTotal": 4,
+        "heroicKilled": 4,
+        "heroicTotal": 4
       }
     },
     {

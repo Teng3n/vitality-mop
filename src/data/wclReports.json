@@ -10,7 +10,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -763,7 +767,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -1531,7 +1539,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -2254,7 +2266,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -2977,7 +2993,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -3130,7 +3150,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -3808,7 +3832,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -4051,7 +4079,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -4774,7 +4806,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -4882,7 +4918,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -5035,7 +5075,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -5203,7 +5247,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -5851,7 +5899,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -6244,7 +6296,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -6922,7 +6978,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -6970,7 +7030,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -7723,7 +7787,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -8341,7 +8409,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -9484,7 +9556,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -9997,7 +10073,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -10765,7 +10845,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -11218,7 +11302,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -11986,7 +12074,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -12409,7 +12501,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -13207,7 +13303,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -13645,7 +13745,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -14428,7 +14532,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -15031,7 +15139,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -15694,7 +15806,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -16192,7 +16308,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -16945,7 +17065,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -17548,7 +17672,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -18121,7 +18249,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -18784,7 +18916,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -19297,7 +19433,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": null,
         "name": "Unknown Zone"
@@ -19314,7 +19454,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -20097,7 +20241,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -20625,7 +20773,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -21333,7 +21485,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1046,
         "name": "Throne of Thunder"
@@ -22011,7 +22167,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -22524,7 +22684,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -22902,7 +23066,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -23280,7 +23448,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -23703,7 +23875,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": null,
         "name": "Unknown Zone"
@@ -23720,7 +23896,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": null,
         "name": "Unknown Zone"
@@ -23737,7 +23917,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": null,
         "name": "Unknown Zone"
@@ -23754,7 +23938,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": null,
         "name": "Unknown Zone"
@@ -23771,7 +23959,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -24179,7 +24371,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -24707,7 +24903,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -25160,7 +25360,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": null,
         "name": "Unknown Zone"
@@ -25177,7 +25381,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -25600,7 +25808,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -26188,7 +26400,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -26416,7 +26632,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -26644,7 +26864,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -26782,7 +27006,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1038,
         "name": "Mogu'shan Vaults"
@@ -27070,7 +27298,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -27688,7 +27920,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -27976,7 +28212,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -28114,7 +28354,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -28252,7 +28496,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -28705,7 +28953,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1038,
         "name": "Mogu'shan Vaults"
@@ -29113,7 +29365,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"
@@ -29431,7 +29687,11 @@
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
       "sourceLabel": "Vitality - Raden",
-      "sourceTiers": [],
+      "sourceTiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ],
       "zone": {
         "id": 1040,
         "name": "HoF / ToES"

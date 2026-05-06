@@ -12,7 +12,11 @@
       "serverSlug": "raden",
       "region": "US",
       "label": "Vitality - Raden",
-      "tiers": []
+      "tiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ]
     }
   ],
   "reportsSynced": 65,

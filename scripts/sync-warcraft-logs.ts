@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { config as loadEnv } from "dotenv";
-import { getTierForRaidName } from "../src/lib/progressionTiers";
+import { getTierForRaidName, normalizeProgressionName } from "../src/lib/progressionTiers";
 
 type GraphQlError = {
   message?: string;
@@ -217,6 +217,7 @@ loadEnv({ path: path.join(root, ".env"), override: false });
 
 const reportLimit = getReportLimit(process.env.WCL_REPORT_LIMIT);
 const reportPages = getReportPages(process.env.WCL_REPORT_PAGES);
+const defaultSourceTiers = ["tier-14", "tier-15", "tier-16"];
 const guildSources = getGuildSources();
 const primarySource = guildSources[0];
 
@@ -393,7 +394,7 @@ function getFallbackGuildSource(): WclGuildSource {
     serverName,
     region,
     label: cleanText(process.env.WCL_SOURCE_LABEL) || `${guildName} - ${serverName}`,
-    tiers: [],
+    tiers: defaultSourceTiers,
   };
 }
 
@@ -819,6 +820,62 @@ function chooseReportsForRaid(reports: WclReport[]) {
   })[0] ?? [];
 }
 
+const tier14RaidByEncounterName = new Map<string, string>([
+  ["thestoneguard", "Mogu'shan Vaults"],
+  ["fengtheaccursed", "Mogu'shan Vaults"],
+  ["garajalthespiritbinder", "Mogu'shan Vaults"],
+  ["thespiritkings", "Mogu'shan Vaults"],
+  ["elegon", "Mogu'shan Vaults"],
+  ["willoftheemperor", "Mogu'shan Vaults"],
+  ["imperialvizierzorlok", "Heart of Fear"],
+  ["bladelordtayak", "Heart of Fear"],
+  ["garalon", "Heart of Fear"],
+  ["windlordmeljarak", "Heart of Fear"],
+  ["ambershaperunsok", "Heart of Fear"],
+  ["grandempressshekzeer", "Heart of Fear"],
+  ["protectorsoftheendless", "Terrace of Endless Spring"],
+  ["tsulong", "Terrace of Endless Spring"],
+  ["leishi", "Terrace of Endless Spring"],
+  ["shaoffear", "Terrace of Endless Spring"],
+]);
+
+const raidAliases = new Map<string, string>([
+  ["mogushanvaults", "Mogu'shan Vaults"],
+  ["mogushanvault", "Mogu'shan Vaults"],
+  ["heartoffear", "Heart of Fear"],
+  ["terraceofendlessspring", "Terrace of Endless Spring"],
+  ["throneofthunder", "Throne of Thunder"],
+  ["siegeoforgrimmar", "Siege of Orgrimmar"],
+]);
+
+function getCanonicalRaidName(zoneName: string, fightName: string) {
+  const normalizedZone = normalizeProgressionName(zoneName);
+  const normalizedFight = normalizeProgressionName(fightName);
+  const inferredRaid = tier14RaidByEncounterName.get(normalizedFight);
+
+  if (inferredRaid) {
+    return inferredRaid;
+  }
+
+  for (const [encounterName, raidName] of tier14RaidByEncounterName) {
+    if (normalizedFight.includes(encounterName)) {
+      return raidName;
+    }
+  }
+
+  const aliasedRaid = raidAliases.get(normalizedZone);
+
+  if (aliasedRaid) {
+    return aliasedRaid;
+  }
+
+  if (["hoftoes", "unknownzone"].includes(normalizedZone)) {
+    return null;
+  }
+
+  return zoneName;
+}
+
 function createDifficultyDraft(): DifficultyDraft {
   return {
     status: "Best Pull",
@@ -898,35 +955,37 @@ function buildProgressionSeed(reportsData: WclReportsData): WclProgressionSeed {
   }
 
   for (const reports of [...reportsByRaid.values()].map(chooseReportsForRaid)) {
-    const firstReport = reports[0];
-
-    if (!firstReport) {
+    if (reports.length === 0) {
       continue;
     }
 
-    const raidKey = `${firstReport.zone.id ?? "unknown"}:${firstReport.zone.name}`;
-    const raid =
-      raidDrafts.get(raidKey) ??
-      ({
-        name: firstReport.zone.name,
-        zoneId: firstReport.zone.id,
-        sourceGuildId: firstReport.sourceGuildId,
-        sourceGuildName: firstReport.sourceGuildName,
-        sourceServerSlug: firstReport.sourceServerSlug,
-        sourceRegion: firstReport.sourceRegion,
-        sourceLabel: firstReport.sourceLabel,
-        sourceLabels: new Set<string>(),
-        bosses: new Map<string, BossDraft>(),
-      } satisfies RaidDraft);
-    raidDrafts.set(raidKey, raid);
-
     for (const report of reports) {
-      raid.sourceLabels.add(getReportSourceLabel(report));
-
       for (const fight of report.fights) {
         if (!fight.encounterId) {
           continue;
         }
+
+        const raidName = getCanonicalRaidName(report.zone.name, fight.name);
+        if (!raidName) {
+          continue;
+        }
+
+        const raidKey = normalizeProgressionName(raidName) || `${report.zone.id ?? "unknown"}:${report.zone.name}`;
+        const raid =
+          raidDrafts.get(raidKey) ??
+          ({
+            name: raidName,
+            zoneId: report.zone.id,
+            sourceGuildId: report.sourceGuildId,
+            sourceGuildName: report.sourceGuildName,
+            sourceServerSlug: report.sourceServerSlug,
+            sourceRegion: report.sourceRegion,
+            sourceLabel: report.sourceLabel,
+            sourceLabels: new Set<string>(),
+            bosses: new Map<string, BossDraft>(),
+          } satisfies RaidDraft);
+        raidDrafts.set(raidKey, raid);
+        raid.sourceLabels.add(getReportSourceLabel(report));
 
         const bossKey = `${fight.encounterId}:${fight.name}`;
         const boss =
@@ -993,6 +1052,7 @@ function buildProgressionSeed(reportsData: WclReportsData): WclProgressionSeed {
         },
       };
     })
+    .filter((raid) => raid.bosses.length > 0)
     .sort((a, b) => (a.zoneId ?? 0) - (b.zoneId ?? 0) || a.name.localeCompare(b.name));
 
   return {
