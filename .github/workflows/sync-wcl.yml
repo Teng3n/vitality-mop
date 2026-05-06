@@ -39,6 +39,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Debug WCL guild progress
+        run: npm run debug:wcl-guild-progress
+        continue-on-error: true
+        env:
+          WCL_CLIENT_ID: ${{ secrets.WCL_CLIENT_ID }}
+          WCL_CLIENT_SECRET: ${{ secrets.WCL_CLIENT_SECRET }}
+
       - name: Sync Warcraft Logs data
         run: npm run sync:wcl
         env:
