@@ -81,10 +81,11 @@
       "zoneId": null,
       "expansionSlug": "tbc",
       "tierSlug": "tbc-tier-5",
-      "sourceGuildName": null,
-      "sourceServerSlug": null,
-      "sourceRegion": null,
-      "sourceLabel": null,
+      "sourceGuildId": 619658,
+      "sourceGuildName": "Inept",
+      "sourceServerSlug": "grobbulus",
+      "sourceRegion": "US",
+      "sourceLabel": "Inept - Grobbulus",
       "sourceLabels": [
         "Inept - Grobbulus",
         "Might - Fairbanks"
@@ -92,27 +93,79 @@
       "bosses": [
         {
           "name": "Al'ar",
-          "encounterId": null,
-          "difficulties": {}
-        },
-        {
-          "name": "High Astromancer Solarian",
-          "encounterId": null,
-          "difficulties": {}
-        },
-        {
-          "name": "Kael'thas Sunstrider",
-          "encounterId": null,
-          "difficulties": {}
+          "encounterId": 730,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2021-09-20T04:12:05.592Z",
+              "latestKillDate": "2021-09-20T04:12:05.592Z",
+              "bestPercent": 0,
+              "reportCode": null,
+              "reportUrl": null,
+              "pulls": 2,
+              "kills": 1
+            }
+          }
         },
         {
           "name": "Void Reaver",
-          "encounterId": null,
-          "difficulties": {}
+          "encounterId": 731,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2021-09-20T04:43:49.439Z",
+              "latestKillDate": "2021-09-20T04:43:49.439Z",
+              "bestPercent": 0,
+              "reportCode": null,
+              "reportUrl": null,
+              "pulls": 1,
+              "kills": 1
+            }
+          }
+        },
+        {
+          "name": "High Astromancer Solarian",
+          "encounterId": 732,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2021-09-20T05:17:15.149Z",
+              "latestKillDate": "2021-09-20T05:17:15.149Z",
+              "bestPercent": 0,
+              "reportCode": null,
+              "reportUrl": null,
+              "pulls": 1,
+              "kills": 1
+            }
+          }
+        },
+        {
+          "name": "Kael'thas Sunstrider",
+          "encounterId": 733,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2021-09-28T04:54:52.284Z",
+              "latestKillDate": "2021-09-28T04:54:52.284Z",
+              "bestPercent": 0,
+              "reportCode": null,
+              "reportUrl": null,
+              "pulls": 19,
+              "kills": 1
+            }
+          }
         }
       ],
       "summary": {
-        "normalKilled": 0,
+        "normalKilled": 4,
         "normalTotal": 4,
         "heroicKilled": 0,
         "heroicTotal": 4
@@ -1600,16 +1653,16 @@
           "encounterId": 623,
           "difficulties": {
             "Normal": {
-              "status": "Best Pull",
+              "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": null,
-              "latestKillDate": null,
-              "bestPercent": 0.01,
-              "reportCode": "Wv7wpHTynzt6ACDZ",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Wv7wpHTynzt6ACDZ#fight=6",
+              "firstKillDate": "2021-09-20T07:04:49.310Z",
+              "latestKillDate": "2021-09-20T07:04:49.310Z",
+              "bestPercent": 0,
+              "reportCode": null,
+              "reportUrl": null,
               "pulls": 5,
-              "kills": 0
+              "kills": 1
             }
           }
         },
@@ -1621,11 +1674,11 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2022-04-05T03:44:50.530Z",
+              "firstKillDate": "2021-09-20T07:29:23.657Z",
               "latestKillDate": "2022-05-03T03:55:02.780Z",
               "bestPercent": 0,
-              "reportCode": "yN4mWpP83A69TYBh",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/yN4mWpP83A69TYBh#fight=10",
+              "reportCode": null,
+              "reportUrl": null,
               "pulls": 6,
               "kills": 3
             }
@@ -1640,7 +1693,7 @@
               "difficultyId": 3,
               "rawDifficultyId": 3,
               "firstKillDate": "2021-08-10T07:07:23.087Z",
-              "latestKillDate": "2021-08-24T04:56:47.718Z",
+              "latestKillDate": "2021-09-21T04:03:42.314Z",
               "bestPercent": 0,
               "reportCode": "XyLWPJghqv3dDk9Y",
               "reportUrl": "https://classic.warcraftlogs.com/reports/XyLWPJghqv3dDk9Y#fight=33",
@@ -1658,7 +1711,7 @@
               "difficultyId": 3,
               "rawDifficultyId": 3,
               "firstKillDate": "2021-08-24T06:01:50.441Z",
-              "latestKillDate": "2021-08-24T06:01:50.441Z",
+              "latestKillDate": "2021-09-21T04:25:07.396Z",
               "bestPercent": 0,
               "reportCode": "Wv7wpHTynzt6ACDZ",
               "reportUrl": "https://classic.warcraftlogs.com/reports/Wv7wpHTynzt6ACDZ#fight=42",
@@ -1672,16 +1725,16 @@
           "encounterId": 627,
           "difficulties": {
             "Normal": {
-              "status": "Best Pull",
+              "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": null,
-              "latestKillDate": null,
-              "bestPercent": 50,
-              "reportCode": "Wv7wpHTynzt6ACDZ",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/Wv7wpHTynzt6ACDZ#fight=54",
+              "firstKillDate": "2021-09-21T05:33:39.829Z",
+              "latestKillDate": "2021-09-21T05:33:39.829Z",
+              "bestPercent": 0,
+              "reportCode": null,
+              "reportUrl": null,
               "pulls": 11,
-              "kills": 0
+              "kills": 1
             }
           }
         },
@@ -1693,19 +1746,19 @@
               "status": "Killed",
               "difficultyId": 3,
               "rawDifficultyId": 3,
-              "firstKillDate": "2022-04-05T03:55:41.018Z",
+              "firstKillDate": "2021-10-19T05:29:03.853Z",
               "latestKillDate": "2022-05-03T04:06:18.422Z",
               "bestPercent": 0,
-              "reportCode": "yN4mWpP83A69TYBh",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/yN4mWpP83A69TYBh#fight=11",
-              "pulls": 4,
+              "reportCode": null,
+              "reportUrl": null,
+              "pulls": 18,
               "kills": 3
             }
           }
         }
       ],
       "summary": {
-        "normalKilled": 4,
+        "normalKilled": 6,
         "normalTotal": 6,
         "heroicKilled": 0,
         "heroicTotal": 6
