@@ -444,7 +444,7 @@ function getAuditedDefaultGuildSources(): WclGuildSource[] {
       region: "US",
       label: "Inept - Grobbulus",
       expansions: ["tbc", "wrath"],
-      tiers: ["tbc-sunwell", "tbc-tier-6", "wrath-tier-10", "wrath-tier-7", "wrath-tier-8", "wrath-tier-9"],
+      tiers: ["tbc-sunwell", "tbc-tier-5", "tbc-tier-6", "wrath-tier-10", "wrath-tier-7", "wrath-tier-8", "wrath-tier-9"],
     },
     {
       guildId: 738773,
@@ -872,7 +872,16 @@ function sourceMatchesTier(source: WclGuildSource | undefined, tierSlug?: string
 function chooseReportsForRaid(reports: WclReport[]) {
   const tierSlug = reports.map(getReportTierSlug).find(Boolean);
   const preferred = reports.filter((report) => sourceMatchesTier(getConfiguredSourceByLabel(getReportSourceLabel(report)), tierSlug));
-  const candidates = preferred.length > 0 ? preferred : reports;
+  if (preferred.length > 0) {
+    return preferred.sort(
+      (a, b) =>
+        compareNullableIsoDates(b.startTime, a.startTime) ||
+        getReportSourceLabel(a).localeCompare(getReportSourceLabel(b)) ||
+        a.code.localeCompare(b.code),
+    );
+  }
+
+  const candidates = reports;
   const grouped = new Map<string, WclReport[]>();
 
   for (const report of candidates) {
@@ -928,7 +937,7 @@ addRaidZone("Karazhan", "tbc", "tbc-tier-4");
 addRaidZone("Gruul's Lair", "tbc", "tbc-tier-4", ["Gruul / Magtheridon", "Gruul"]);
 addRaidZone("Magtheridon's Lair", "tbc", "tbc-tier-4", ["Magtheridon"]);
 addRaidZone("Serpentshrine Cavern", "tbc", "tbc-tier-5", ["SSC / TK", "Serpentshrine Cavern / Tempest Keep"]);
-addRaidZone("Tempest Keep", "tbc", "tbc-tier-5", ["The Eye"]);
+addRaidZone("Tempest Keep", "tbc", "tbc-tier-5", ["The Eye", "Serpentshrine Cavern / The Eye"]);
 addRaidZone("Mount Hyjal", "tbc", "tbc-tier-6", ["BT / Hyjal", "Black Temple / Hyjal", "Hyjal Summit"]);
 addRaidZone("Black Temple", "tbc", "tbc-tier-6");
 addRaidZone("Sunwell Plateau", "tbc", "tbc-sunwell");
@@ -985,12 +994,36 @@ addRaidEncounters("Terrace of Endless Spring", "mop", "tier-14", ["Protectors of
 addRaidEncounters("Throne of Thunder", "mop", "tier-15", ["Jin'rokh the Breaker", "Horridon", "Council of Elders", "Tortos", "Megaera", "Ji-Kun", "Durumu the Forgotten", "Primordius", "Dark Animus", "Iron Qon", "Twin Consorts", "Twin Empyreans", "Lei Shen", "Ra-den"]);
 addRaidEncounters("Siege of Orgrimmar", "mop", "tier-16", ["Immerseus", "The Fallen Protectors", "Norushen", "Sha of Pride", "Galakras", "Iron Juggernaut", "Kor'kron Dark Shaman", "General Nazgrim", "Malkorok", "Spoils of Pandaria", "Thok the Bloodthirsty", "Siegecrafter Blackfuse", "Paragons of the Klaxxi", "Garrosh Hellscream"]);
 
+const canonicalTbcTier5Raids = [
+  {
+    raidName: "Serpentshrine Cavern",
+    bosses: [
+      "Hydross the Unstable",
+      "The Lurker Below",
+      "Leotheras the Blind",
+      "Fathom-Lord Karathress",
+      "Morogrim Tidewalker",
+      "Lady Vashj",
+    ],
+  },
+  {
+    raidName: "Tempest Keep",
+    bosses: ["Al'ar", "Void Reaver", "High Astromancer Solarian", "Kael'thas Sunstrider"],
+  },
+];
+
 function selectClassification(candidates: RaidClassification[] | undefined, sourceTiers: string[] = []) {
   if (!candidates?.length) {
     return null;
   }
 
-  return candidates.find((candidate) => sourceTiers.includes(candidate.tierSlug)) ?? candidates[0];
+  const matched = candidates.find((candidate) => sourceTiers.includes(candidate.tierSlug));
+
+  if (sourceTiers.length > 0) {
+    return matched ?? null;
+  }
+
+  return matched ?? candidates[0];
 }
 
 function getCanonicalRaidClassification(zoneName: string, fightName: string, sourceTiers: string[] = []) {
@@ -1027,7 +1060,8 @@ function getReportTierSlug(report: WclReport) {
     }
   }
 
-  return getCanonicalRaidClassification(report.zone.name, "", report.sourceTiers)?.tierSlug ?? getTierForRaidName(report.zone.name)?.slug;
+  return getCanonicalRaidClassification(report.zone.name, "", report.sourceTiers)?.tierSlug ??
+    (report.sourceTiers.length > 0 ? undefined : getTierForRaidName(report.zone.name)?.slug);
 }
 
 function createDifficultyDraft(): DifficultyDraft {
@@ -1099,6 +1133,59 @@ function updateProgressionDifficulty(difficulty: DifficultyDraft, fight: WclFigh
   }
 }
 
+function getSourceLabelsForTier(tierSlug: string) {
+  return guildSources
+    .filter((source) => source.tiers.includes(tierSlug))
+    .map((source) => source.label)
+    .sort((a, b) => a.localeCompare(b));
+}
+
+function ensureTbcTier5Coverage(raidDrafts: Map<string, RaidDraft>) {
+  const hasTier5Data = [...raidDrafts.values()].some((raid) => raid.tierSlug === "tbc-tier-5");
+
+  if (!hasTier5Data) {
+    return;
+  }
+
+  const tierSourceLabels = getSourceLabelsForTier("tbc-tier-5");
+
+  for (const canonicalRaid of canonicalTbcTier5Raids) {
+    const raidKey = `tbc-tier-5:${normalizeProgressionName(canonicalRaid.raidName)}`;
+    const raid =
+      raidDrafts.get(raidKey) ??
+      ({
+        name: canonicalRaid.raidName,
+        zoneId: null,
+        expansionSlug: "tbc",
+        tierSlug: "tbc-tier-5",
+        sourceGuildId: null,
+        sourceGuildName: null,
+        sourceServerSlug: null,
+        sourceRegion: null,
+        sourceLabel: null,
+        sourceLabels: new Set<string>(),
+        bosses: new Map<string, BossDraft>(),
+      } satisfies RaidDraft);
+    raidDrafts.set(raidKey, raid);
+
+    for (const label of tierSourceLabels) {
+      raid.sourceLabels.add(label);
+    }
+
+    for (const bossName of canonicalRaid.bosses) {
+      const bossKey = normalizeProgressionName(bossName);
+
+      if (!raid.bosses.has(bossKey)) {
+        raid.bosses.set(bossKey, {
+          name: bossName,
+          encounterId: null,
+          difficulties: new Map<string, DifficultyDraft>(),
+        });
+      }
+    }
+  }
+}
+
 function buildProgressionSeed(reportsData: WclReportsData): WclProgressionSeed {
   const raidDrafts = new Map<string, RaidDraft>();
   const reportsByRaid = new Map<string, WclReport[]>();
@@ -1159,6 +1246,8 @@ function buildProgressionSeed(reportsData: WclReportsData): WclProgressionSeed {
       }
     }
   }
+
+  ensureTbcTier5Coverage(raidDrafts);
 
   const raids = [...raidDrafts.values()]
     .map((raid): ProgressionRaid => {

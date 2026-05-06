@@ -10,6 +10,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "audit:wcl-guild-history": "tsx scripts/audit-warcraft-logs-guild-history.ts",
+    "debug:wcl-progression": "tsx scripts/debug-wcl-progression.ts",
     "sync:data": "tsx scripts/sync-google-sheets.ts && npm run sync:wcl",
     "sync:wcl": "tsx scripts/sync-warcraft-logs.ts"
   },

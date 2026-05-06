@@ -131,7 +131,7 @@ Recommended `WCL_GUILD_SOURCES_JSON` from the Warcraft Logs guild history audit:
     "region": "US",
     "label": "Inept - Grobbulus",
     "expansions": ["tbc", "wrath"],
-    "tiers": ["tbc-tier-6", "tbc-sunwell", "wrath-tier-7", "wrath-tier-8", "wrath-tier-9", "wrath-tier-10"]
+    "tiers": ["tbc-tier-5", "tbc-tier-6", "tbc-sunwell", "wrath-tier-7", "wrath-tier-8", "wrath-tier-9", "wrath-tier-10"]
   },
   {
     "guildId": 738773,
@@ -304,7 +304,8 @@ Assumptions:
 - The default guild is `Vitality` on `raden` in `US`.
 - `WCL_GUILD_SOURCES_JSON` can assign sources to expansion/tier groups. The audited mapping uses `Vitality - Raden` for MoP, `Might - Fairbanks` for Classic and early TBC, `Inept - Grobbulus` for late TBC and Wrath, and `Inept - Benediction` for Cataclysm.
 - If a source includes `guildId`, the sync first tries the Warcraft Logs `reportData.reports(guildID: ...)` query. If that query is rejected or unavailable, it falls back to `guildName`, `guildServerSlug`, and `guildServerRegion`.
-- When the same raid appears from multiple sources, the sync prefers the source whose configured `tiers` includes that raid's tier. If still ambiguous, it prefers the source with the newest report.
+- When a tier appears in multiple configured sources, the sync merges those source reports into one progression result. This is intentional for split tiers such as `tbc-tier-5`.
+- When the same raid appears from sources that are not both configured for its tier, the sync prefers configured tier sources and falls back to the newest available source only if no configured source is present.
 - If one configured WCL source fails, the sync preserves existing JSON for that source when possible instead of wiping all WCL data.
 - The sync reads multiple report pages per source. The default `WCL_REPORT_LIMIT=20` and `WCL_REPORT_PAGES=25` can fetch up to 500 reports per source so older tier logs are less likely to be missed.
 - Report fights use report-relative fight times when they are not already epoch timestamps.
@@ -328,7 +329,7 @@ WCL_SERVER_SLUG=raden
 WCL_REGION=US
 WCL_REPORT_LIMIT=20
 WCL_REPORT_PAGES=25
-WCL_GUILD_SOURCES_JSON=[{"guildName":"Vitality","serverSlug":"raden","region":"US","label":"Vitality - Raden","expansions":["mop"],"tiers":["tier-14","tier-15","tier-16"]},{"guildId":482914,"guildName":"Might","serverSlug":"fairbanks","region":"US","label":"Might - Fairbanks","expansions":["classic","tbc"],"tiers":["classic-mc-ony","classic-bwl","classic-aq","classic-naxx","tbc-tier-4","tbc-tier-5"]},{"guildId":619658,"guildName":"Inept","serverSlug":"grobbulus","region":"US","label":"Inept - Grobbulus","expansions":["tbc","wrath"],"tiers":["tbc-tier-6","tbc-sunwell","wrath-tier-7","wrath-tier-8","wrath-tier-9","wrath-tier-10"]},{"guildId":738773,"guildName":"Inept","serverSlug":"benediction","region":"US","label":"Inept - Benediction","expansions":["cata"],"tiers":["cata-tier-11","cata-tier-12","cata-tier-13"]}]
+WCL_GUILD_SOURCES_JSON=[{"guildName":"Vitality","serverSlug":"raden","region":"US","label":"Vitality - Raden","expansions":["mop"],"tiers":["tier-14","tier-15","tier-16"]},{"guildId":482914,"guildName":"Might","serverSlug":"fairbanks","region":"US","label":"Might - Fairbanks","expansions":["classic","tbc"],"tiers":["classic-mc-ony","classic-bwl","classic-aq","classic-naxx","tbc-tier-4","tbc-tier-5"]},{"guildId":619658,"guildName":"Inept","serverSlug":"grobbulus","region":"US","label":"Inept - Grobbulus","expansions":["tbc","wrath"],"tiers":["tbc-tier-5","tbc-tier-6","tbc-sunwell","wrath-tier-7","wrath-tier-8","wrath-tier-9","wrath-tier-10"]},{"guildId":738773,"guildName":"Inept","serverSlug":"benediction","region":"US","label":"Inept - Benediction","expansions":["cata"],"tiers":["cata-tier-11","cata-tier-12","cata-tier-13"]}]
 ```
 
 Sources can include `guildId` when needed. MoP stays on the current `Vitality - Raden` identity for all tracked MoP tiers.

@@ -120,7 +120,7 @@ const tbcProgressionTiers: ProgressionTier[] = [
     slug: "tbc-tier-5",
     name: "Tier 5",
     raidNames: ["Serpentshrine Cavern", "Tempest Keep", "The Eye"],
-    raidAliases: ["SSC / TK", "Serpentshrine Cavern / Tempest Keep"],
+    raidAliases: ["SSC / TK", "Serpentshrine Cavern / Tempest Keep", "Serpentshrine Cavern / The Eye"],
   },
   {
     slug: "tbc-tier-6",
