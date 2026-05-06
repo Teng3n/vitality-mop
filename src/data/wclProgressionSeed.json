@@ -11,6 +11,9 @@
       "serverSlug": "raden",
       "region": "US",
       "label": "Vitality - Raden",
+      "expansions": [
+        "mop"
+      ],
       "tiers": [
         "tier-14",
         "tier-15",
@@ -22,6 +25,8 @@
     {
       "name": "Heart of Fear",
       "zoneId": 1040,
+      "expansionSlug": "mop",
+      "tierSlug": "tier-14",
       "sourceGuildName": "Vitality",
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
@@ -149,6 +154,8 @@
     {
       "name": "Mogu'shan Vaults",
       "zoneId": 1040,
+      "expansionSlug": "mop",
+      "tierSlug": "tier-14",
       "sourceGuildName": "Vitality",
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
@@ -276,6 +283,8 @@
     {
       "name": "Terrace of Endless Spring",
       "zoneId": 1040,
+      "expansionSlug": "mop",
+      "tierSlug": "tier-14",
       "sourceGuildName": "Vitality",
       "sourceServerSlug": "raden",
       "sourceRegion": "US",
@@ -379,6 +388,8 @@
     {
       "name": "Throne of Thunder",
       "zoneId": 1046,
+      "expansionSlug": "mop",
+      "tierSlug": "tier-15",
       "sourceGuildName": "Vitality",
       "sourceServerSlug": "raden",
       "sourceRegion": "US",

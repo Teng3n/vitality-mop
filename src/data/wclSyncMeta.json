@@ -1,5 +1,5 @@
 {
-  "lastWclSync": "2026-05-06T05:06:05.056Z",
+  "lastWclSync": "2026-05-06T18:40:00.881Z",
   "source": "Warcraft Logs API v2",
   "endpoint": "https://classic.warcraftlogs.com/api/v2/client",
   "guild": "Vitality",
@@ -12,6 +12,9 @@
       "serverSlug": "raden",
       "region": "US",
       "label": "Vitality - Raden",
+      "expansions": [
+        "mop"
+      ],
       "tiers": [
         "tier-14",
         "tier-15",
