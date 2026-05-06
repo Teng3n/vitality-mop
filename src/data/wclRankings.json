@@ -1,7 +1,7 @@
 {
   "available": false,
   "reason": "Warcraft Logs API did not expose guild zone rankings in the queried schema.",
-  "currentRaid": "Terrace of Endless Spring",
+  "currentRaid": "Throne of Thunder",
   "difficulty": "Heroic",
   "sourceLabel": "Vitality - Raden",
   "lastUpdated": null,

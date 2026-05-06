@@ -4334,6 +4334,381 @@
         "heroicKilled": 4,
         "heroicTotal": 4
       }
+    },
+    {
+      "name": "Throne of Thunder",
+      "zoneId": 1046,
+      "expansionSlug": "mop",
+      "tierSlug": "tier-15",
+      "sourceGuildName": "Vitality",
+      "sourceServerSlug": "raden",
+      "sourceRegion": "US",
+      "sourceLabel": "Vitality - Raden",
+      "sourceLabels": [
+        "Vitality - Raden"
+      ],
+      "bosses": [
+        {
+          "name": "Iron Qon",
+          "encounterId": 51559,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2026-01-13T05:59:33.854Z",
+              "latestKillDate": "2026-04-27T04:59:17.723Z",
+              "bestPercent": 0,
+              "reportCode": "N91726CPnyYaGw83",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/N91726CPnyYaGw83#fight=23",
+              "pulls": 35,
+              "kills": 16
+            },
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2025-12-16T06:25:17.827Z",
+              "latestKillDate": "2025-12-30T06:45:56.019Z",
+              "bestPercent": 0,
+              "reportCode": "YyxkVHCcd69gZB8G",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=41",
+              "pulls": 5,
+              "kills": 3
+            }
+          }
+        },
+        {
+          "name": "Twin Empyreans",
+          "encounterId": 51560,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2026-01-13T06:56:21.174Z",
+              "latestKillDate": "2026-04-27T05:07:57.964Z",
+              "bestPercent": 0,
+              "reportCode": "N91726CPnyYaGw83",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/N91726CPnyYaGw83#fight=31",
+              "pulls": 35,
+              "kills": 14
+            },
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2025-12-16T06:43:34.274Z",
+              "latestKillDate": "2026-03-03T04:08:57.717Z",
+              "bestPercent": 0,
+              "reportCode": "YyxkVHCcd69gZB8G",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=43",
+              "pulls": 5,
+              "kills": 4
+            }
+          }
+        },
+        {
+          "name": "Tortos",
+          "encounterId": 51565,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2025-12-29T05:45:07.366Z",
+              "latestKillDate": "2026-04-27T03:48:43.203Z",
+              "bestPercent": 0,
+              "reportCode": "24hPT3mtH897GpCj",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/24hPT3mtH897GpCj#fight=19",
+              "pulls": 51,
+              "kills": 19
+            },
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2025-12-16T04:07:56.686Z",
+              "latestKillDate": "2025-12-23T05:11:39.379Z",
+              "bestPercent": 0,
+              "reportCode": "YyxkVHCcd69gZB8G",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=3",
+              "pulls": 3,
+              "kills": 2
+            }
+          }
+        },
+        {
+          "name": "Council of Elders",
+          "encounterId": 51570,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2025-12-22T06:26:50.013Z",
+              "latestKillDate": "2026-04-27T03:40:30.988Z",
+              "bestPercent": 0,
+              "reportCode": "yYwFKzZ8vLGWDBVj",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/yYwFKzZ8vLGWDBVj#fight=26",
+              "pulls": 29,
+              "kills": 20
+            },
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2025-12-15T06:50:44.380Z",
+              "latestKillDate": "2025-12-15T06:50:44.380Z",
+              "bestPercent": 0,
+              "reportCode": "9dRpykMfthFNVXaJ",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/9dRpykMfthFNVXaJ#fight=38",
+              "pulls": 1,
+              "kills": 1
+            }
+          }
+        },
+        {
+          "name": "Durumu the Forgotten",
+          "encounterId": 51572,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2026-01-05T07:03:24.296Z",
+              "latestKillDate": "2026-04-27T04:31:43.474Z",
+              "bestPercent": 0,
+              "reportCode": "N4WLk1AQfTbtgGpy",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/N4WLk1AQfTbtgGpy#fight=36",
+              "pulls": 38,
+              "kills": 18
+            },
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2025-12-16T05:01:46.385Z",
+              "latestKillDate": "2025-12-30T06:02:03.581Z",
+              "bestPercent": 0,
+              "reportCode": "YyxkVHCcd69gZB8G",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=24",
+              "pulls": 4,
+              "kills": 3
+            }
+          }
+        },
+        {
+          "name": "Ji-Kun",
+          "encounterId": 51573,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2025-12-30T05:50:03.761Z",
+              "latestKillDate": "2026-04-27T04:20:51.416Z",
+              "bestPercent": 0,
+              "reportCode": "dxHNL3vnPfQW2mp8",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/dxHNL3vnPfQW2mp8#fight=20",
+              "pulls": 55,
+              "kills": 19
+            },
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2025-12-16T04:41:36.927Z",
+              "latestKillDate": "2025-12-23T05:43:13.759Z",
+              "bestPercent": 0,
+              "reportCode": "YyxkVHCcd69gZB8G",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=20",
+              "pulls": 3,
+              "kills": 2
+            }
+          }
+        },
+        {
+          "name": "Primordius",
+          "encounterId": 51574,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2026-01-06T04:37:46.234Z",
+              "latestKillDate": "2026-04-27T04:41:08.217Z",
+              "bestPercent": 0,
+              "reportCode": "CmYvDZkXdhMtN8y4",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/CmYvDZkXdhMtN8y4#fight=5",
+              "pulls": 28,
+              "kills": 18
+            },
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2025-12-16T05:13:56.076Z",
+              "latestKillDate": "2025-12-30T06:11:35.130Z",
+              "bestPercent": 0,
+              "reportCode": "YyxkVHCcd69gZB8G",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=26",
+              "pulls": 3,
+              "kills": 3
+            }
+          }
+        },
+        {
+          "name": "Horridon",
+          "encounterId": 51575,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2025-12-15T06:37:41.670Z",
+              "latestKillDate": "2026-04-27T03:30:45.470Z",
+              "bestPercent": 0,
+              "reportCode": "9dRpykMfthFNVXaJ",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/9dRpykMfthFNVXaJ#fight=36",
+              "pulls": 45,
+              "kills": 21
+            }
+          }
+        },
+        {
+          "name": "Dark Animus",
+          "encounterId": 51576,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2026-01-20T07:06:28.507Z",
+              "latestKillDate": "2026-04-27T04:49:47.150Z",
+              "bestPercent": 0,
+              "reportCode": "VP7ZTdavcCgh84z3",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/VP7ZTdavcCgh84z3#fight=38",
+              "pulls": 122,
+              "kills": 16
+            },
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2025-12-16T05:47:06.136Z",
+              "latestKillDate": "2026-01-13T05:08:15.513Z",
+              "bestPercent": 0,
+              "reportCode": "YyxkVHCcd69gZB8G",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=34",
+              "pulls": 13,
+              "kills": 4
+            }
+          }
+        },
+        {
+          "name": "Jin'rokh the Breaker",
+          "encounterId": 51577,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2025-12-15T05:07:53.240Z",
+              "latestKillDate": "2026-04-27T03:18:50.067Z",
+              "bestPercent": 0,
+              "reportCode": "9dRpykMfthFNVXaJ",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/9dRpykMfthFNVXaJ#fight=15",
+              "pulls": 48,
+              "kills": 21
+            }
+          }
+        },
+        {
+          "name": "Megaera",
+          "encounterId": 51578,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2025-12-30T04:29:50.928Z",
+              "latestKillDate": "2026-04-27T04:03:07.708Z",
+              "bestPercent": 0,
+              "reportCode": "dxHNL3vnPfQW2mp8",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/dxHNL3vnPfQW2mp8#fight=6",
+              "pulls": 41,
+              "kills": 19
+            },
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2025-12-16T04:22:51.948Z",
+              "latestKillDate": "2025-12-23T05:31:14.705Z",
+              "bestPercent": 0,
+              "reportCode": "YyxkVHCcd69gZB8G",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/YyxkVHCcd69gZB8G#fight=12",
+              "pulls": 3,
+              "kills": 2
+            }
+          }
+        },
+        {
+          "name": "Lei Shen",
+          "encounterId": 51579,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2026-02-17T04:43:12.920Z",
+              "latestKillDate": "2026-04-27T05:54:47.227Z",
+              "bestPercent": 0,
+              "reportCode": "R1QNYZzyPAKXMc4V",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/R1QNYZzyPAKXMc4V#fight=4",
+              "pulls": 128,
+              "kills": 11
+            },
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2025-12-23T07:18:37.388Z",
+              "latestKillDate": "2025-12-30T07:21:39.207Z",
+              "bestPercent": 0,
+              "reportCode": "1rC3qcwkgAxGap6j",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/1rC3qcwkgAxGap6j#fight=51",
+              "pulls": 7,
+              "kills": 2
+            }
+          }
+        },
+        {
+          "name": "Ra-den",
+          "encounterId": 51580,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2026-03-10T05:32:47.558Z",
+              "latestKillDate": "2026-04-27T06:06:42.984Z",
+              "bestPercent": 0,
+              "reportCode": "MTzCRch2V7yA9fka",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/MTzCRch2V7yA9fka#fight=25",
+              "pulls": 77,
+              "kills": 8
+            }
+          }
+        }
+      ],
+      "summary": {
+        "normalKilled": 10,
+        "normalTotal": 13,
+        "heroicKilled": 13,
+        "heroicTotal": 13
+      }
     }
   ]
 }
