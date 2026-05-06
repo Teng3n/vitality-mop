@@ -1,12 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import StatCard from "../../components/StatCard.astro";
 import ProgressionRaidSection from "../../components/ProgressionRaidSection.astro";
 import progressionSeed from "../../data/wclProgressionSeed.json";
 import {
-  getProgressBreakdown,
-  getTierLatestKill,
-  getTierProgress,
   getTierRaids,
   progressionTiers,
   type ProgressionSeed,
@@ -27,26 +23,6 @@ const { tier } = Astro.props as Props;
 const seed = progressionSeed as ProgressionSeed;
 const raids = Array.isArray(seed.raids) ? seed.raids : [];
 const tierRaids = getTierRaids(tier, raids);
-const progress = getTierProgress(tier, raids);
-const latestKill = getTierLatestKill(tier, raids);
-
-const formatDate = (value?: string | null) => {
-  if (!value) {
-    return "";
-  }
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return "";
-  }
-
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(date);
-};
 ---
 
 <Layout title={`${tier.name} Progression | Vitality`}>
@@ -55,21 +31,6 @@ const formatDate = (value?: string | null) => {
   </section>
 
   <a class="progression-back-link" href="/progression">Back to Progression</a>
-
-  <section class="dashboard-grid progression-summary-grid">
-    <StatCard
-      label="Progress"
-      value={progress.totalBosses > 0 ? `${progress.killedBosses} / ${progress.totalBosses}` : "No data"}
-      detail={getProgressBreakdown(progress)}
-    />
-    <StatCard label="Breakdown" value={getProgressBreakdown(progress)} />
-    <StatCard
-      label="Latest Kill"
-      value={latestKill?.bossName ?? "None"}
-      detail={latestKill ? `${latestKill.difficultyName} - ${formatDate(latestKill.date)}` : "No kills synced"}
-    />
-    <StatCard label="Raids" value={`${tierRaids.length} / ${tier.raidNames.length}`} detail="synced" />
-  </section>
 
   {
     tierRaids.length > 0 ? (

@@ -6,6 +6,19 @@
   "server": "Raden",
   "serverSlug": "raden",
   "region": "US",
+  "sources": [
+    {
+      "guildName": "Vitality",
+      "serverSlug": "raden",
+      "region": "US",
+      "label": "Vitality - Raden",
+      "tiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ]
+    }
+  ],
   "reportsSynced": 20,
   "fightsSynced": 693
 }

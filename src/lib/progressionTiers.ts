@@ -20,7 +20,22 @@ export type ProgressionBoss = {
 export type ProgressionRaid = {
   name?: string | null;
   zoneId?: number | null;
+  sourceGuildId?: number | null;
+  sourceGuildName?: string | null;
+  sourceServerSlug?: string | null;
+  sourceRegion?: string | null;
+  sourceLabel?: string | null;
+  sourceLabels?: string[] | null;
   bosses?: ProgressionBoss[] | null;
+};
+
+export type ProgressionSource = {
+  guildId?: number | null;
+  guildName?: string | null;
+  serverSlug?: string | null;
+  region?: string | null;
+  label?: string | null;
+  tiers?: string[] | null;
 };
 
 export type ProgressionSeed = {
@@ -30,6 +45,7 @@ export type ProgressionSeed = {
     serverSlug?: string | null;
     region?: string | null;
   } | null;
+  sources?: ProgressionSource[] | null;
   raids?: ProgressionRaid[] | null;
 };
 
@@ -268,6 +284,36 @@ export const getTierRaids = (tier: ProgressionTier, raids: ProgressionRaid[]) =>
   return tier.raidNames
     .map((raidName) => raidByName.get(normalizeProgressionName(raidName)))
     .filter((raid): raid is ProgressionRaid => Boolean(raid));
+};
+
+export const getRaidSourceLabels = (raid?: ProgressionRaid | null) => {
+  const labels = [
+    ...(Array.isArray(raid?.sourceLabels) ? raid.sourceLabels : []),
+    raid?.sourceLabel,
+  ]
+    .map((label) => String(label ?? "").trim())
+    .filter(Boolean);
+
+  return [...new Set(labels)];
+};
+
+export const getTierSourceLabels = (tier: ProgressionTier, raids: ProgressionRaid[]) => [
+  ...new Set(getTierRaids(tier, raids).flatMap(getRaidSourceLabels)),
+];
+
+export const getProgressionSourceLabels = (seed: ProgressionSeed) => {
+  const sourceLabels = (seed.sources ?? [])
+    .map((source) => String(source?.label ?? "").trim())
+    .filter(Boolean);
+
+  if (sourceLabels.length > 0) {
+    return [...new Set(sourceLabels)];
+  }
+
+  const guild = String(seed.guild?.name ?? "").trim();
+  const server = String(seed.guild?.server ?? "").trim();
+
+  return guild && server ? [`${guild} - ${server}`] : [];
 };
 
 export const getTierProgress = (tier: ProgressionTier, raids: ProgressionRaid[]) =>

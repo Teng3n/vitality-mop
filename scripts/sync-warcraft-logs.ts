@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { config as loadEnv } from "dotenv";
+import { getTierForRaidName } from "../src/lib/progressionTiers";
 
 type GraphQlError = {
   message?: string;
@@ -48,6 +49,25 @@ type WclReportsQueryData = {
   } | null;
 };
 
+type WclGuildSource = {
+  guildId?: number;
+  guildName: string;
+  serverSlug: string;
+  serverName: string;
+  region: string;
+  label: string;
+  tiers: string[];
+};
+
+type WclSourceSummary = {
+  guildId?: number;
+  guildName: string;
+  serverSlug: string;
+  region: string;
+  label: string;
+  tiers: string[];
+};
+
 type WclFight = {
   id: number;
   name: string;
@@ -70,6 +90,12 @@ type WclReport = {
   startTime: string | null;
   endTime: string | null;
   url: string;
+  sourceGuildId?: number;
+  sourceGuildName: string;
+  sourceServerSlug: string;
+  sourceRegion: string;
+  sourceLabel: string;
+  sourceTiers: string[];
   zone: {
     id: number | null;
     name: string;
@@ -103,6 +129,12 @@ type ProgressionBoss = {
 type ProgressionRaid = {
   name: string;
   zoneId: number | null;
+  sourceGuildId?: number | null;
+  sourceGuildName: string | null;
+  sourceServerSlug: string | null;
+  sourceRegion: string | null;
+  sourceLabel: string | null;
+  sourceLabels: string[];
   bosses: ProgressionBoss[];
   summary: {
     normalKilled: number;
@@ -119,6 +151,7 @@ type WclProgressionSeed = {
     serverSlug: string;
     region: string;
   };
+  sources: WclSourceSummary[];
   raids: ProgressionRaid[];
 };
 
@@ -130,8 +163,24 @@ type WclSyncMeta = {
   server: string;
   serverSlug: string;
   region: string;
+  sources: WclSourceSummary[];
   reportsSynced: number;
   fightsSynced: number;
+};
+
+type WclRankingsData = {
+  available: boolean;
+  reason: string | null;
+  currentRaid: string | null;
+  difficulty: string | null;
+  sourceLabel: string | null;
+  lastUpdated: string | null;
+  rankings: {
+    world: number | null;
+    region: number | null;
+    realm: number | null;
+    faction: number | null;
+  };
 };
 
 type DifficultyDraft = ProgressionDifficulty & {
@@ -148,6 +197,12 @@ type BossDraft = {
 type RaidDraft = {
   name: string;
   zoneId: number | null;
+  sourceGuildId?: number | null;
+  sourceGuildName: string | null;
+  sourceServerSlug: string | null;
+  sourceRegion: string | null;
+  sourceLabel: string | null;
+  sourceLabels: Set<string>;
   bosses: Map<string, BossDraft>;
 };
 
@@ -160,11 +215,10 @@ const reportUrlBase = "https://classic.warcraftlogs.com/reports";
 loadEnv({ path: path.join(root, ".env.local"), override: false });
 loadEnv({ path: path.join(root, ".env"), override: false });
 
-const guildName = cleanText(process.env.WCL_GUILD_NAME) || "Vitality";
-const serverSlug = (cleanText(process.env.WCL_SERVER_SLUG) || "raden").toLowerCase();
-const serverName = cleanText(process.env.WCL_SERVER_NAME) || serverSlugToName(serverSlug);
-const region = (cleanText(process.env.WCL_REGION) || "US").toUpperCase();
 const reportLimit = getReportLimit(process.env.WCL_REPORT_LIMIT);
+const reportPages = getReportPages(process.env.WCL_REPORT_PAGES);
+const guildSources = getGuildSources();
+const primarySource = guildSources[0];
 
 // Focused report/fight query only. It intentionally avoids events, tables, casts, rankings, and player parse data.
 const guildReportsQuery = `
@@ -174,6 +228,44 @@ query GuildReports($guildName: String!, $serverSlug: String!, $serverRegion: Str
       guildName: $guildName
       guildServerSlug: $serverSlug
       guildServerRegion: $serverRegion
+      limit: $limit
+      page: $page
+    ) {
+      data {
+        code
+        title
+        startTime
+        endTime
+        zone {
+          id
+          name
+        }
+        fights(translate: true) {
+          id
+          name
+          encounterID
+          difficulty
+          kill
+          bossPercentage
+          fightPercentage
+          startTime
+          endTime
+        }
+      }
+      total
+      per_page
+      current_page
+      last_page
+    }
+  }
+}
+`;
+
+const guildReportsByGuildIdQuery = `
+query GuildReportsByGuildId($guildId: Int!, $limit: Int!, $page: Int!) {
+  reportData {
+    reports(
+      guildID: $guildId
       limit: $limit
       page: $page
     ) {
@@ -221,12 +313,124 @@ function getReportLimit(value: unknown) {
   return Math.min(Math.floor(parsed), 100);
 }
 
+function getReportPages(value: unknown) {
+  const parsed = Number(cleanText(value));
+
+  if (!Number.isFinite(parsed) || parsed < 1) {
+    return 5;
+  }
+
+  return Math.min(Math.floor(parsed), 20);
+}
+
 function serverSlugToName(value: string) {
   return value
     .split(/[-\s]+/)
     .filter(Boolean)
     .map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1).toLowerCase()}`)
     .join(" ");
+}
+
+function normalizeSourceTiers(value: unknown) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return [...new Set(value.map((tier) => cleanText(tier)).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+}
+
+function normalizeGuildId(value: unknown) {
+  const text = cleanText(value);
+
+  if (!text) {
+    return undefined;
+  }
+
+  const parsed = Number(text);
+
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : undefined;
+}
+
+function normalizeGuildSource(value: unknown, index: number): WclGuildSource | null {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  const source = value as Record<string, unknown>;
+  const guildName = cleanText(source.guildName ?? source.guild ?? source.name);
+  const serverSlug = cleanText(source.serverSlug ?? source.server ?? source.guildServerSlug).toLowerCase();
+  const region = (cleanText(source.region ?? source.serverRegion ?? source.guildServerRegion) || "US").toUpperCase();
+  const guildId = normalizeGuildId(source.guildId ?? source.guildID ?? source.id);
+
+  if (!guildId && (!guildName || !serverSlug)) {
+    console.warn(`Skipping Warcraft Logs source ${index + 1}: missing guildId or guildName/serverSlug.`);
+    return null;
+  }
+
+  const serverName = cleanText(source.serverName) || (serverSlug ? serverSlugToName(serverSlug) : "");
+  const label = cleanText(source.label) || (guildName && serverName ? `${guildName} - ${serverName}` : `Guild ${guildId}`);
+
+  return {
+    ...(guildId ? { guildId } : {}),
+    guildName,
+    serverSlug,
+    serverName,
+    region,
+    label,
+    tiers: normalizeSourceTiers(source.tiers),
+  };
+}
+
+function getFallbackGuildSource(): WclGuildSource {
+  const guildName = cleanText(process.env.WCL_GUILD_NAME) || "Vitality";
+  const serverSlug = (cleanText(process.env.WCL_SERVER_SLUG) || "raden").toLowerCase();
+  const serverName = cleanText(process.env.WCL_SERVER_NAME) || serverSlugToName(serverSlug);
+  const region = (cleanText(process.env.WCL_REGION) || "US").toUpperCase();
+
+  return {
+    guildName,
+    serverSlug,
+    serverName,
+    region,
+    label: cleanText(process.env.WCL_SOURCE_LABEL) || `${guildName} - ${serverName}`,
+    tiers: [],
+  };
+}
+
+function getGuildSources(): WclGuildSource[] {
+  const sourcesJson = cleanText(process.env.WCL_GUILD_SOURCES_JSON);
+
+  if (!sourcesJson) {
+    return [getFallbackGuildSource()];
+  }
+
+  try {
+    const parsed = JSON.parse(sourcesJson) as unknown;
+    const sources = Array.isArray(parsed)
+      ? parsed.map(normalizeGuildSource).filter((source): source is WclGuildSource => Boolean(source))
+      : [];
+
+    if (sources.length > 0) {
+      return sources;
+    }
+
+    console.warn("WCL_GUILD_SOURCES_JSON did not contain any valid sources. Falling back to WCL_GUILD_NAME.");
+  } catch (error) {
+    console.warn(`Could not parse WCL_GUILD_SOURCES_JSON. Falling back to WCL_GUILD_NAME. ${error instanceof Error ? error.message : ""}`);
+  }
+
+  return [getFallbackGuildSource()];
+}
+
+function toSourceSummary(source: WclGuildSource): WclSourceSummary {
+  return {
+    ...(source.guildId ? { guildId: source.guildId } : {}),
+    guildName: source.guildName,
+    serverSlug: source.serverSlug,
+    region: source.region,
+    label: source.label,
+    tiers: source.tiers,
+  };
 }
 
 function formatJson(value: unknown) {
@@ -343,7 +547,7 @@ function compareNullableIsoDates(a: string | null, b: string | null) {
   return 0;
 }
 
-function normalizeApiReport(report: WclReportApiReport): WclReport | null {
+function normalizeApiReport(report: WclReportApiReport, source: WclGuildSource): WclReport | null {
   const code = cleanText(report.code);
 
   if (!code) {
@@ -390,6 +594,12 @@ function normalizeApiReport(report: WclReportApiReport): WclReport | null {
     startTime: toIsoString(report.startTime),
     endTime: toIsoString(report.endTime),
     url: reportUrl,
+    ...(source.guildId ? { sourceGuildId: source.guildId } : {}),
+    sourceGuildName: source.guildName,
+    sourceServerSlug: source.serverSlug,
+    sourceRegion: source.region,
+    sourceLabel: source.label,
+    sourceTiers: source.tiers,
     zone: {
       id: toNumber(report.zone?.id),
       name: cleanText(report.zone?.name) || "Unknown Zone",
@@ -460,22 +670,149 @@ async function requestGraphQl<T>(accessToken: string, query: string, variables: 
   return parsed.data;
 }
 
-async function fetchGuildReports(accessToken: string): Promise<WclReportsData> {
-  const data = await requestGraphQl<WclReportsQueryData>(accessToken, guildReportsQuery, {
-    guildName,
-    serverSlug,
-    serverRegion: region,
+async function fetchGuildReports(accessToken: string, source: WclGuildSource): Promise<WclReportsData> {
+  if (source.guildId) {
+    try {
+      return await fetchGuildReportsPages(accessToken, source, guildReportsByGuildIdQuery, {
+        guildId: source.guildId,
+        limit: reportLimit,
+      });
+    } catch (error) {
+      if (!source.guildName || !source.serverSlug) {
+        throw error;
+      }
+
+      console.warn(
+        `Warcraft Logs guildId lookup failed for ${source.label}; falling back to guildName/serverSlug. ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+    }
+  }
+
+  if (!source.guildName || !source.serverSlug) {
+    throw new Error(`Warcraft Logs source ${source.label} needs guildName and serverSlug when guildId lookup is unavailable.`);
+  }
+
+  return fetchGuildReportsPages(accessToken, source, guildReportsQuery, {
+    guildName: source.guildName,
+    serverSlug: source.serverSlug,
+    serverRegion: source.region,
     limit: reportLimit,
-    page: 1,
   });
-  const reports = data.reportData?.reports?.data ?? [];
+}
+
+async function fetchGuildReportsPages(
+  accessToken: string,
+  source: WclGuildSource,
+  query: string,
+  baseVariables: Record<string, unknown>,
+): Promise<WclReportsData> {
+  const reports: WclReportApiReport[] = [];
+
+  for (let page = 1; page <= reportPages; page += 1) {
+    const data = await requestGraphQl<WclReportsQueryData>(accessToken, query, {
+      ...baseVariables,
+      page,
+    });
+    const pageData = data.reportData?.reports;
+    const pageReports = pageData?.data ?? [];
+
+    if (pageReports.length === 0) {
+      break;
+    }
+
+    reports.push(...pageReports);
+
+    const lastPage = toNumber(pageData?.last_page);
+    const currentPage = toNumber(pageData?.current_page) ?? page;
+
+    if (lastPage !== null && currentPage >= lastPage) {
+      break;
+    }
+  }
 
   return {
     reports: reports
-      .map(normalizeApiReport)
+      .map((report) => normalizeApiReport(report, source))
       .filter((report): report is WclReport => Boolean(report))
-      .sort((a, b) => compareNullableIsoDates(b.startTime, a.startTime) || a.code.localeCompare(b.code)),
+      .sort(
+        (a, b) =>
+          compareNullableIsoDates(b.startTime, a.startTime) ||
+          a.sourceLabel.localeCompare(b.sourceLabel) ||
+          a.code.localeCompare(b.code),
+      ),
   };
+}
+
+async function readJsonIfExists<T>(relativePath: string): Promise<T | null> {
+  try {
+    const text = await fs.readFile(path.join(root, relativePath), "utf8");
+    return JSON.parse(text) as T;
+  } catch {
+    return null;
+  }
+}
+
+function getReportSourceLabel(report: Partial<WclReport>, fallbackSource = primarySource) {
+  return cleanText(report.sourceLabel) || fallbackSource.label;
+}
+
+function normalizeExistingReportSource(report: WclReport, fallbackSource = primarySource): WclReport {
+  const sourceLabel = getReportSourceLabel(report, fallbackSource);
+  const sourceGuildId = normalizeGuildId(report.sourceGuildId ?? fallbackSource.guildId);
+
+  return {
+    ...report,
+    ...(sourceGuildId ? { sourceGuildId } : {}),
+    sourceGuildName: cleanText(report.sourceGuildName) || fallbackSource.guildName,
+    sourceServerSlug: cleanText(report.sourceServerSlug) || fallbackSource.serverSlug,
+    sourceRegion: cleanText(report.sourceRegion) || fallbackSource.region,
+    sourceLabel,
+    sourceTiers: Array.isArray(report.sourceTiers) ? report.sourceTiers : fallbackSource.tiers,
+  };
+}
+
+function sortReports(reports: WclReport[]) {
+  return [...reports].sort(
+    (a, b) =>
+      compareNullableIsoDates(b.startTime, a.startTime) ||
+      getReportSourceLabel(a).localeCompare(getReportSourceLabel(b)) ||
+      a.code.localeCompare(b.code),
+  );
+}
+
+function combineSourceReports(reportsBySource: Map<string, WclReport[]>) {
+  return {
+    reports: sortReports([...reportsBySource.values()].flat()),
+  };
+}
+
+function getConfiguredSourceByLabel(label: string) {
+  return guildSources.find((source) => source.label === label);
+}
+
+function sourceMatchesTier(source: WclGuildSource | undefined, tierSlug?: string) {
+  return !tierSlug || !source?.tiers.length || source.tiers.includes(tierSlug);
+}
+
+function chooseReportsForRaid(reports: WclReport[]) {
+  const tierSlug = getTierForRaidName(reports[0]?.zone.name)?.slug;
+  const preferred = reports.filter((report) => sourceMatchesTier(getConfiguredSourceByLabel(getReportSourceLabel(report)), tierSlug));
+  const candidates = preferred.length > 0 ? preferred : reports;
+  const grouped = new Map<string, WclReport[]>();
+
+  for (const report of candidates) {
+    const label = getReportSourceLabel(report);
+    grouped.set(label, [...(grouped.get(label) ?? []), report]);
+  }
+
+  return [...grouped.values()].sort((a, b) => {
+    const newestA = a.map((report) => report.startTime ?? "").sort().at(-1) ?? "";
+    const newestB = b.map((report) => report.startTime ?? "").sort().at(-1) ?? "";
+
+    return newestB.localeCompare(newestA) || getReportSourceLabel(a[0]).localeCompare(getReportSourceLabel(b[0]));
+  })[0] ?? [];
 }
 
 function createDifficultyDraft(): DifficultyDraft {
@@ -549,36 +886,58 @@ function updateProgressionDifficulty(difficulty: DifficultyDraft, fight: WclFigh
 
 function buildProgressionSeed(reportsData: WclReportsData): WclProgressionSeed {
   const raidDrafts = new Map<string, RaidDraft>();
+  const reportsByRaid = new Map<string, WclReport[]>();
 
   for (const report of reportsData.reports) {
     const raidKey = `${report.zone.id ?? "unknown"}:${report.zone.name}`;
+    reportsByRaid.set(raidKey, [...(reportsByRaid.get(raidKey) ?? []), report]);
+  }
+
+  for (const reports of [...reportsByRaid.values()].map(chooseReportsForRaid)) {
+    const firstReport = reports[0];
+
+    if (!firstReport) {
+      continue;
+    }
+
+    const raidKey = `${firstReport.zone.id ?? "unknown"}:${firstReport.zone.name}`;
     const raid =
       raidDrafts.get(raidKey) ??
       ({
-        name: report.zone.name,
-        zoneId: report.zone.id,
+        name: firstReport.zone.name,
+        zoneId: firstReport.zone.id,
+        sourceGuildId: firstReport.sourceGuildId,
+        sourceGuildName: firstReport.sourceGuildName,
+        sourceServerSlug: firstReport.sourceServerSlug,
+        sourceRegion: firstReport.sourceRegion,
+        sourceLabel: firstReport.sourceLabel,
+        sourceLabels: new Set<string>(),
         bosses: new Map<string, BossDraft>(),
       } satisfies RaidDraft);
     raidDrafts.set(raidKey, raid);
 
-    for (const fight of report.fights) {
-      if (!fight.encounterId) {
-        continue;
+    for (const report of reports) {
+      raid.sourceLabels.add(getReportSourceLabel(report));
+
+      for (const fight of report.fights) {
+        if (!fight.encounterId) {
+          continue;
+        }
+
+        const bossKey = `${fight.encounterId}:${fight.name}`;
+        const boss =
+          raid.bosses.get(bossKey) ??
+          ({
+            name: fight.name,
+            encounterId: fight.encounterId,
+            difficulties: new Map<string, DifficultyDraft>(),
+          } satisfies BossDraft);
+        raid.bosses.set(bossKey, boss);
+
+        const difficulty = boss.difficulties.get(fight.difficulty) ?? createDifficultyDraft();
+        boss.difficulties.set(fight.difficulty, difficulty);
+        updateProgressionDifficulty(difficulty, fight);
       }
-
-      const bossKey = `${fight.encounterId}:${fight.name}`;
-      const boss =
-        raid.bosses.get(bossKey) ??
-        ({
-          name: fight.name,
-          encounterId: fight.encounterId,
-          difficulties: new Map<string, DifficultyDraft>(),
-        } satisfies BossDraft);
-      raid.bosses.set(bossKey, boss);
-
-      const difficulty = boss.difficulties.get(fight.difficulty) ?? createDifficultyDraft();
-      boss.difficulties.set(fight.difficulty, difficulty);
-      updateProgressionDifficulty(difficulty, fight);
     }
   }
 
@@ -615,6 +974,12 @@ function buildProgressionSeed(reportsData: WclReportsData): WclProgressionSeed {
       return {
         name: raid.name,
         zoneId: raid.zoneId,
+        ...(raid.sourceGuildId ? { sourceGuildId: raid.sourceGuildId } : {}),
+        sourceGuildName: raid.sourceGuildName,
+        sourceServerSlug: raid.sourceServerSlug,
+        sourceRegion: raid.sourceRegion,
+        sourceLabel: raid.sourceLabel,
+        sourceLabels: [...raid.sourceLabels].sort((a, b) => a.localeCompare(b)),
         bosses,
         summary: {
           normalKilled,
@@ -628,11 +993,12 @@ function buildProgressionSeed(reportsData: WclReportsData): WclProgressionSeed {
 
   return {
     guild: {
-      name: guildName,
-      server: serverName,
-      serverSlug,
-      region,
+      name: primarySource.guildName,
+      server: primarySource.serverName,
+      serverSlug: primarySource.serverSlug,
+      region: primarySource.region,
     },
+    sources: guildSources.map(toSourceSummary),
     raids,
   };
 }
@@ -642,12 +1008,57 @@ function buildSyncMeta(reportsData: WclReportsData): WclSyncMeta {
     lastWclSync: new Date().toISOString(),
     source: sourceName,
     endpoint,
-    guild: guildName,
-    server: serverName,
-    serverSlug,
-    region,
+    guild: primarySource.guildName,
+    server: primarySource.serverName,
+    serverSlug: primarySource.serverSlug,
+    region: primarySource.region,
+    sources: guildSources.map(toSourceSummary),
     reportsSynced: reportsData.reports.length,
     fightsSynced: reportsData.reports.reduce((sum, report) => sum + report.fights.length, 0),
+  };
+}
+
+function getLatestProgressionKill(progressionSeed: WclProgressionSeed) {
+  const kills: Array<{
+    raidName: string;
+    difficultyName: string;
+    date: string;
+    sourceLabel: string | null;
+  }> = [];
+
+  for (const raid of progressionSeed.raids) {
+    for (const boss of raid.bosses) {
+      for (const [difficultyName, difficulty] of Object.entries(boss.difficulties)) {
+        if (difficulty.status === "Killed") {
+          const date = difficulty.latestKillDate || difficulty.firstKillDate;
+
+          if (date) {
+            kills.push({ raidName: raid.name, difficultyName, date, sourceLabel: raid.sourceLabel });
+          }
+        }
+      }
+    }
+  }
+
+  return kills.sort((a, b) => b.date.localeCompare(a.date))[0] ?? null;
+}
+
+function buildRankingsFallback(progressionSeed: WclProgressionSeed): WclRankingsData {
+  const latestKill = getLatestProgressionKill(progressionSeed);
+
+  return {
+    available: false,
+    reason: "Warcraft Logs API did not expose guild zone rankings in the queried schema.",
+    currentRaid: latestKill?.raidName ?? progressionSeed.raids[0]?.name ?? null,
+    difficulty: latestKill?.difficultyName ?? null,
+    sourceLabel: latestKill?.sourceLabel ?? progressionSeed.raids[0]?.sourceLabel ?? null,
+    lastUpdated: null,
+    rankings: {
+      world: null,
+      region: null,
+      realm: null,
+      faction: null,
+    },
   };
 }
 
@@ -658,11 +1069,53 @@ async function runWarcraftLogsSync() {
     return;
   }
 
-  const reportsData = await fetchGuildReports(accessToken);
+  const existingReportsData = await readJsonIfExists<WclReportsData>("src/data/wclReports.json");
+  const existingReports = (existingReportsData?.reports ?? []).map((report) => normalizeExistingReportSource(report));
+  const existingReportsBySource = new Map<string, WclReport[]>();
+  const reportsBySource = new Map<string, WclReport[]>();
+  const failedSources: WclGuildSource[] = [];
+
+  for (const report of existingReports) {
+    const label = getReportSourceLabel(report);
+    existingReportsBySource.set(label, [...(existingReportsBySource.get(label) ?? []), report]);
+  }
+
+  for (const source of guildSources) {
+    console.log(`Syncing Warcraft Logs source: ${source.label} (${source.guildName} - ${source.serverSlug}, ${source.region})`);
+
+    try {
+      const sourceReports = await fetchGuildReports(accessToken, source);
+      reportsBySource.set(source.label, sourceReports.reports);
+    } catch (error) {
+      failedSources.push(source);
+      console.error(`Warcraft Logs source failed for ${source.label}: ${error instanceof Error ? error.message : String(error)}`);
+
+      const preservedReports = existingReportsBySource.get(source.label);
+
+      if (preservedReports?.length) {
+        reportsBySource.set(source.label, preservedReports);
+        console.error(`Preserving ${preservedReports.length} existing reports for ${source.label}.`);
+      }
+    }
+  }
+
+  if (reportsBySource.size === 0) {
+    console.error("No Warcraft Logs sources synced successfully. Preserving existing Warcraft Logs JSON files.");
+    return;
+  }
+
+  const reportsData = combineSourceReports(reportsBySource);
+  if (reportsData.reports.length === 0 && existingReports.length > 0) {
+    console.error("Warcraft Logs sources returned no reports. Preserving existing Warcraft Logs JSON files.");
+    return;
+  }
+
   const progressionSeed = buildProgressionSeed(reportsData);
+  const rankingsData = buildRankingsFallback(progressionSeed);
   const sourceFiles = [
     { path: "src/data/wclReports.json", data: reportsData },
     { path: "src/data/wclProgressionSeed.json", data: progressionSeed },
+    { path: "src/data/wclRankings.json", data: rankingsData },
   ];
   const changedSourceFiles: string[] = [];
   const changedFiles: string[] = [];
@@ -691,8 +1144,12 @@ async function runWarcraftLogsSync() {
 
   console.log("");
   console.log("Warcraft Logs sync complete");
-  console.log(`Guild: ${guildName} - ${serverName} (${region})`);
+  console.log(`Sources: ${guildSources.map((source) => source.label).join(", ")}`);
+  if (failedSources.length > 0) {
+    console.log(`Failed sources preserved when possible: ${failedSources.map((source) => source.label).join(", ")}`);
+  }
   console.log(`Report limit: ${reportLimit}`);
+  console.log(`Report pages: ${reportPages}`);
   console.log(`Reports synced: ${reportsData.reports.length}`);
   console.log(`Fights synced: ${reportsData.reports.reduce((sum, report) => sum + report.fights.length, 0)}`);
   console.log(`Files changed: ${changedFiles.length}`);

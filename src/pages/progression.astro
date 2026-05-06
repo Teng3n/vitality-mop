@@ -1,17 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import StatCard from "../components/StatCard.astro";
 import progressionSeed from "../data/wclProgressionSeed.json";
 import {
-  getBestDifficultyLabel,
-  getCurrentRaid,
-  getCurrentTier,
-  getCurrentTierProgress,
-  getLatestKills,
   getProgressBreakdown,
   getTierLatestKill,
   getTierProgress,
   getTierRaids,
+  getTierSourceLabels,
   progressionTiers,
   type ProgressionSeed,
 } from "../lib/progressionTiers";
@@ -37,20 +32,18 @@ const formatDate = (value?: string | null) => {
   }).format(date);
 };
 
-const latestKill = getLatestKills(raids)[0];
-const currentRaid = getCurrentRaid(raids);
-const currentTier = getCurrentTier(raids);
-const currentTierProgress = getCurrentTierProgress(raids);
 const tierSummaries = progressionTiers.map((tier) => {
   const tierRaids = getTierRaids(tier, raids);
   const progress = getTierProgress(tier, raids);
   const tierLatestKill = getTierLatestKill(tier, raids);
+  const sourceLabels = getTierSourceLabels(tier, raids);
 
   return {
     tier,
     tierRaids,
     progress,
     latestKill: tierLatestKill,
+    sourceLabels,
   };
 });
 ---
@@ -60,21 +53,6 @@ const tierSummaries = progressionTiers.map((tier) => {
     <p class="eyebrow">Progression</p>
   </section>
 
-  <section class="dashboard-grid progression-summary-grid">
-    <StatCard label="Current Tier" value={currentTier?.name || "No data"} />
-    <StatCard label="Current Raid" value={currentRaid?.name || "No data"} />
-    <StatCard
-      label="Progress"
-      value={currentTierProgress.totalBosses > 0 ? `${currentTierProgress.killedBosses} / ${currentTierProgress.totalBosses}` : "No data"}
-      detail={getProgressBreakdown(currentTierProgress)}
-    />
-    <StatCard
-      label="Latest Kill"
-      value={latestKill?.bossName ?? "None"}
-      detail={latestKill ? `${latestKill.difficultyName} - ${formatDate(latestKill.date)}` : "No kills synced"}
-    />
-  </section>
-
   <section class="progression-tier-stack">
     <div class="section-heading">
       <p class="eyebrow">Tier History</p>
@@ -82,29 +60,43 @@ const tierSummaries = progressionTiers.map((tier) => {
     </div>
 
     <div class="progression-tier-grid">
-      {tierSummaries.map(({ tier, tierRaids, progress, latestKill: tierLatestKill }) => {
+      {tierSummaries.map(({ tier, tierRaids, progress, latestKill: tierLatestKill, sourceLabels }) => {
         const hasData = progress.totalBosses > 0;
+        const sourceText = sourceLabels.length > 0 ? sourceLabels.join(", ") : "";
 
         return (
           <a class="progression-tier-card" href={`/progression/${tier.slug}`}>
             <div class="progression-tier-card-head">
               <p class="eyebrow">{tier.name}</p>
-              <h3>{hasData ? `${progress.killedBosses} / ${progress.totalBosses}` : "Not started"}</h3>
-              <small>{hasData ? getProgressBreakdown(progress) : "No synced data"}</small>
+              <h3>
+                {
+                  hasData ? (
+                    <>
+                      {progress.killedBosses} / {progress.totalBosses} <span aria-hidden="true">&middot;</span>{" "}
+                      {getProgressBreakdown(progress)}
+                    </>
+                  ) : (
+                    "Not started"
+                  )
+                }
+              </h3>
+              {!hasData && <small>No data</small>}
             </div>
 
             <p class="progression-tier-raids">{tier.raidNames.join(", ")}</p>
-
-            <div class="progression-tier-meta">
-              <span>Best Difficulty</span>
-              <strong>{getBestDifficultyLabel(progress)}</strong>
-            </div>
 
             <div class="progression-tier-meta">
               <span>Latest Kill</span>
               <strong>{tierLatestKill?.bossName ?? "None"}</strong>
               {tierLatestKill && <small>{tierLatestKill.difficultyName} - {formatDate(tierLatestKill.date)}</small>}
             </div>
+
+            {sourceText && (
+              <div class="progression-tier-meta">
+                <span>Source</span>
+                <strong>{sourceText}</strong>
+              </div>
+            )}
 
             <span class="progression-tier-link">{tierRaids.length > 0 ? "View tier" : "View empty tier"}</span>
           </a>

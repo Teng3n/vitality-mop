@@ -5,10 +5,30 @@
     "serverSlug": "raden",
     "region": "US"
   },
+  "sources": [
+    {
+      "guildName": "Vitality",
+      "serverSlug": "raden",
+      "region": "US",
+      "label": "Vitality - Raden",
+      "tiers": [
+        "tier-14",
+        "tier-15",
+        "tier-16"
+      ]
+    }
+  ],
   "raids": [
     {
       "name": "Throne of Thunder",
       "zoneId": 1046,
+      "sourceGuildName": "Vitality",
+      "sourceServerSlug": "raden",
+      "sourceRegion": "US",
+      "sourceLabel": "Vitality - Raden",
+      "sourceLabels": [
+        "Vitality - Raden"
+      ],
       "bosses": [
         {
           "name": "Iron Qon",

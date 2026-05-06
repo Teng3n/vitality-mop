@@ -3,6 +3,7 @@ import {
   getDifficulty,
   getDifficultyStatus,
   getProgressBreakdown,
+  getRaidSourceLabels,
   getRaidLatestKill,
   getRaidProgress,
   getSortedBosses,
@@ -93,6 +94,7 @@ const getBossDifficultyRows = (boss: ProgressionBoss) => {
 
 const progress = getRaidProgress(raid);
 const latestKill = getRaidLatestKill(raid);
+const sourceText = getRaidSourceLabels(raid).join(", ");
 ---
 
 <section class="panel progression-raid-panel">
@@ -103,6 +105,12 @@ const latestKill = getRaidLatestKill(raid);
       <p class="info-note">
         Progress {progress.killedBosses} / {progress.totalBosses} <span aria-hidden="true">&middot;</span>{" "}
         {getProgressBreakdown(progress)}
+        {sourceText && (
+          <>
+            {" "}
+            <span aria-hidden="true">&middot;</span> Source: {sourceText}
+          </>
+        )}
       </p>
     </div>
     <div class="progression-raid-latest">
