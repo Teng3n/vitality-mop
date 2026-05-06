@@ -100,7 +100,7 @@ Optional GitHub Actions variables for Warcraft Logs:
 - `WCL_SERVER_SLUG`, default `raden`
 - `WCL_REGION`, default `US`
 - `WCL_REPORT_LIMIT`, default `20`, maximum `100`
-- `WCL_REPORT_PAGES`, default `5`, maximum `20`
+- `WCL_REPORT_PAGES`, default `10`, maximum `20`
 - `WCL_GUILD_SOURCES_JSON`, optional JSON array for multi-guild WCL sources. Sources can include optional `guildId`. When set, it replaces the single-source `WCL_GUILD_NAME`/`WCL_SERVER_SLUG`/`WCL_REGION` lookup.
 
 Calendar is the roster source of truth. Anyone listed as a player row in the Calendar range is treated as active roster and is used to generate `src/data/roster.json`, `src/data/calendar.json`, and `src/data/bench.json`.
@@ -264,7 +264,7 @@ Assumptions:
 - If a source includes `guildId`, the sync first tries the Warcraft Logs `reportData.reports(guildID: ...)` query. If that query is rejected or unavailable, it falls back to `guildName`, `guildServerSlug`, and `guildServerRegion`.
 - When the same raid appears from multiple sources, the sync prefers the source whose configured `tiers` includes that raid's tier. If still ambiguous, it prefers the source with the newest report.
 - If one configured WCL source fails, the sync preserves existing JSON for that source when possible instead of wiping all WCL data.
-- The sync reads multiple report pages per source. The default `WCL_REPORT_LIMIT=20` and `WCL_REPORT_PAGES=5` can fetch up to 100 reports per source so older tier logs are less likely to be missed.
+- The sync reads multiple report pages per source. The default `WCL_REPORT_LIMIT=20` and `WCL_REPORT_PAGES=10` can fetch up to 200 reports per source so older tier logs are less likely to be missed.
 - Report fights use report-relative fight times when they are not already epoch timestamps.
 - Difficulty ID `3` is normalized to `Normal`; difficulty ID `4` is normalized to `Heroic`. Difficulty ID `5` is treated as `Mythic` if it ever appears, but it is not expected for current MoP Classic progression. The raw difficulty value is preserved as `rawDifficultyId`.
 - Progression totals are based on bosses present in the synced recent reports. Unpulled bosses are not invented.
@@ -285,7 +285,7 @@ WCL_GUILD_NAME=Vitality
 WCL_SERVER_SLUG=raden
 WCL_REGION=US
 WCL_REPORT_LIMIT=20
-WCL_REPORT_PAGES=5
+WCL_REPORT_PAGES=10
 WCL_GUILD_SOURCES_JSON=[{"guildName":"Vitality","serverSlug":"raden","region":"US","label":"Vitality - Raden","tiers":["tier-14","tier-15","tier-16"]}]
 ```
 

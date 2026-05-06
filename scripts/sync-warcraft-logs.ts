@@ -317,7 +317,7 @@ function getReportPages(value: unknown) {
   const parsed = Number(cleanText(value));
 
   if (!Number.isFinite(parsed) || parsed < 1) {
-    return 5;
+    return 10;
   }
 
   return Math.min(Math.floor(parsed), 20);
@@ -709,6 +709,7 @@ async function fetchGuildReportsPages(
   baseVariables: Record<string, unknown>,
 ): Promise<WclReportsData> {
   const reports: WclReportApiReport[] = [];
+  let pagesFetched = 0;
 
   for (let page = 1; page <= reportPages; page += 1) {
     const data = await requestGraphQl<WclReportsQueryData>(accessToken, query, {
@@ -722,6 +723,7 @@ async function fetchGuildReportsPages(
       break;
     }
 
+    pagesFetched = page;
     reports.push(...pageReports);
 
     const lastPage = toNumber(pageData?.last_page);
@@ -731,6 +733,8 @@ async function fetchGuildReportsPages(
       break;
     }
   }
+
+  console.log(`Fetched ${reports.length} reports from ${source.label} across ${pagesFetched} page(s).`);
 
   return {
     reports: reports
