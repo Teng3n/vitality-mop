@@ -96,7 +96,7 @@ const isDifficultyKilled = (difficulty?: ProgressionDifficulty) => getDifficulty
 const normalizeBossName = (value?: string | null) =>
   String(value ?? "")
     .toLowerCase()
-    .replace(/['’]/g, "")
+    .replace(/[\u0027\u2019]/g, "")
     .replace(/[^a-z0-9]+/g, "")
     .trim();
 const throneOfThunderEncounterOrder = new Map<number, number>([
@@ -148,34 +148,63 @@ const getSortedBosses = (raid: ProgressionRaid) =>
       (a.encounterId ?? Number.POSITIVE_INFINITY) - (b.encounterId ?? Number.POSITIVE_INFINITY) ||
       (a.name || "").localeCompare(b.name || ""),
   );
-const getRaidEffectiveProgress = (raid: ProgressionRaid) => {
+type CompletedDifficulty = "Heroic" | "Normal" | null;
+const getBestCompletedDifficulty = (boss: ProgressionBoss): CompletedDifficulty => {
+  const heroicKilled = isDifficultyKilled(getDifficulty(boss, "Heroic"));
+  const normalKilled = isDifficultyKilled(getDifficulty(boss, "Normal"));
+
+  if (heroicKilled) {
+    return "Heroic";
+  }
+
+  if (normalKilled) {
+    return "Normal";
+  }
+
+  return null;
+};
+const getRaidProgress = (raid: ProgressionRaid) => {
   const bosses = Array.isArray(raid.bosses) ? raid.bosses : [];
   const totalBosses = bosses.length;
-  const heroicKilledCount = bosses.filter((boss) => isDifficultyKilled(getDifficulty(boss, "Heroic"))).length;
-  const normalOnlyKilledCount = bosses.filter(
-    (boss) => isDifficultyKilled(getDifficulty(boss, "Normal")) && !isDifficultyKilled(getDifficulty(boss, "Heroic")),
-  ).length;
+  const heroicBosses = bosses.filter((boss) => getBestCompletedDifficulty(boss) === "Heroic").length;
+  const normalBosses = bosses.filter((boss) => getBestCompletedDifficulty(boss) === "Normal").length;
+  const killedBosses = heroicBosses + normalBosses;
 
   return {
-    heroicKilledCount,
-    normalOnlyKilledCount,
+    heroicBosses,
+    normalBosses,
+    killedBosses,
     totalBosses,
-    effectiveKilledCount: heroicKilledCount + normalOnlyKilledCount,
+    unkilledBosses: totalBosses - killedBosses,
   };
 };
-const getAggregateEffectiveProgress = () =>
-  raids.reduce(
-    (total, raid) => {
-      const progress = getRaidEffectiveProgress(raid);
-      return {
-        heroicKilledCount: total.heroicKilledCount + progress.heroicKilledCount,
-        normalOnlyKilledCount: total.normalOnlyKilledCount + progress.normalOnlyKilledCount,
-        totalBosses: total.totalBosses + progress.totalBosses,
-        effectiveKilledCount: total.effectiveKilledCount + progress.effectiveKilledCount,
-      };
-    },
-    { heroicKilledCount: 0, normalOnlyKilledCount: 0, totalBosses: 0, effectiveKilledCount: 0 },
-  );
+type RaidProgress = ReturnType<typeof getRaidProgress>;
+const getProgressBreakdown = (progress: RaidProgress) => {
+  if (progress.heroicBosses > 0 && progress.normalBosses > 0) {
+    return `${progress.heroicBosses}H / ${progress.normalBosses}N`;
+  }
+
+  if (progress.heroicBosses > 0) {
+    return `${progress.heroicBosses}H`;
+  }
+
+  if (progress.normalBosses > 0) {
+    return `${progress.normalBosses}N`;
+  }
+
+  return "No kills";
+};
+const getBestDifficultyLabel = (progress: RaidProgress) => {
+  if (progress.heroicBosses > 0) {
+    return "Heroic";
+  }
+
+  if (progress.normalBosses > 0) {
+    return "Normal";
+  }
+
+  return "No kills";
+};
 const getDifficultyKillDate = (difficulty?: ProgressionDifficulty) => difficulty?.latestKillDate || difficulty?.firstKillDate || "";
 const getLatestKills = (sourceRaids: ProgressionRaid[]) => {
   const kills: KillRecord[] = [];
@@ -203,10 +232,12 @@ const getLatestKills = (sourceRaids: ProgressionRaid[]) => {
   return kills.sort((a, b) => b.date.localeCompare(a.date));
 };
 const getRaidLatestKill = (raid: ProgressionRaid) => getLatestKills([raid])[0];
-const aggregateProgress = getAggregateEffectiveProgress();
 const latestKill = getLatestKills(raids)[0];
-const currentTier =
-  raids.length === 0 ? "No data" : raids.length === 1 ? raids[0]?.name || "Unknown Raid" : `${raids.length} raids`;
+const currentRaid =
+  (latestKill ? raids.find((raid) => (raid.name || "Unknown Raid") === latestKill.raidName) : undefined) ?? raids[0];
+const currentRaidProgress = currentRaid
+  ? getRaidProgress(currentRaid)
+  : { heroicBosses: 0, normalBosses: 0, killedBosses: 0, totalBosses: 0, unkilledBosses: 0 };
 const hasProgressionData = raids.some((raid) => Array.isArray(raid.bosses) && raid.bosses.length > 0);
 const getStatusClass = (status: DifficultyStatus) =>
   status === "Killed" ? "is-killed" : status === "Best Pull" ? "is-best-pull" : "is-no-data";
@@ -260,17 +291,13 @@ const getBossDifficultyRows = (boss: ProgressionBoss) => {
   </section>
 
   <section class="dashboard-grid progression-summary-grid">
-    <StatCard label="Current Tier" value={currentTier} />
+    <StatCard label="Current Raid" value={currentRaid?.name || "No data"} />
     <StatCard
-      label="Heroic Progress"
-      value={`${aggregateProgress.heroicKilledCount} / ${aggregateProgress.totalBosses}`}
-      detail="bosses killed"
+      label="Progress"
+      value={`${currentRaidProgress.killedBosses} / ${currentRaidProgress.totalBosses}`}
+      detail={getProgressBreakdown(currentRaidProgress)}
     />
-    <StatCard
-      label="Normal Only"
-      value={`${aggregateProgress.normalOnlyKilledCount} / ${aggregateProgress.totalBosses}`}
-      detail="bosses killed"
-    />
+    <StatCard label="Best Difficulty" value={getBestDifficultyLabel(currentRaidProgress)} />
     <StatCard
       label="Latest Kill"
       value={latestKill?.bossName ?? "None"}
@@ -282,7 +309,7 @@ const getBossDifficultyRows = (boss: ProgressionBoss) => {
     hasProgressionData ? (
       <section class="progression-raid-stack">
         {raids.map((raid) => {
-          const progress = getRaidEffectiveProgress(raid);
+          const progress = getRaidProgress(raid);
           const raidLatestKill = getRaidLatestKill(raid);
 
           return (
@@ -292,7 +319,9 @@ const getBossDifficultyRows = (boss: ProgressionBoss) => {
                   <p class="eyebrow">Raid</p>
                   <h2>{raid.name || "Unknown Raid"}</h2>
                   <p class="info-note">
-                    {`Heroic ${progress.heroicKilledCount} / ${progress.totalBosses}, Normal Only ${progress.normalOnlyKilledCount} / ${progress.totalBosses}`}
+                    Progress {progress.killedBosses} / {progress.totalBosses}{" "}
+                    <span aria-hidden="true">&middot;</span>{" "}
+                    {getProgressBreakdown(progress)}
                   </p>
                 </div>
                 <div class="progression-raid-latest">
