@@ -22,8 +22,10 @@ loadEnv({ path: ".env.local", override: false });
 loadEnv({ path: ".env", override: false });
 
 const guildId = Number(process.env.WCL_DEBUG_GUILD_ID ?? 619658);
+const guildName = process.env.WCL_DEBUG_GUILD_NAME ?? "Inept";
+const serverSlug = process.env.WCL_DEBUG_SERVER_SLUG ?? "grobbulus";
+const serverRegion = process.env.WCL_DEBUG_SERVER_REGION ?? "US";
 const zoneId = Number(process.env.WCL_DEBUG_ZONE_ID ?? 1010);
-const difficultyValues = [undefined, 3, 4];
 const tier5BossNames = [
   "Hydross the Unstable",
   "The Lurker Below",
@@ -36,14 +38,6 @@ const tier5BossNames = [
   "High Astromancer Solarian",
   "Kael'thas Sunstrider",
 ];
-
-const progressRaceQuery = `
-query GuildProgress($guildId: Int!, $zoneId: Int!, $difficulty: Int) {
-  progressRaceData {
-    progressRace(guildID: $guildId, zoneID: $zoneId, difficulty: $difficulty)
-  }
-}
-`;
 
 const introspectionQuery = `
 query ProgressSchema {
@@ -61,6 +55,14 @@ query ProgressSchema {
           }
         }
       }
+      type {
+        kind
+        name
+        ofType {
+          kind
+          name
+        }
+      }
     }
   }
   guildType: __type(name: "Guild") {
@@ -73,6 +75,37 @@ query ProgressSchema {
   }
 }
 `;
+
+const progressAttempts = [
+  {
+    label: "guildID zoneID difficulty 3 size 25",
+    args: { guildID: guildId, zoneID: zoneId, difficulty: 3, size: 25 },
+  },
+  {
+    label: "guildID zoneID difficulty 4 size 25",
+    args: { guildID: guildId, zoneID: zoneId, difficulty: 4, size: 25 },
+  },
+  {
+    label: "guildID zoneID size 25",
+    args: { guildID: guildId, zoneID: zoneId, size: 25 },
+  },
+  {
+    label: "guildID competitionID difficulty 3 size 25",
+    args: { guildID: guildId, competitionID: zoneId, difficulty: 3, size: 25 },
+  },
+  {
+    label: "guildID competitionID difficulty 4 size 25",
+    args: { guildID: guildId, competitionID: zoneId, difficulty: 4, size: 25 },
+  },
+  {
+    label: "guild/server zoneID difficulty 3 size 25",
+    args: { guildName, serverSlug, serverRegion, zoneID: zoneId, difficulty: 3, size: 25 },
+  },
+  {
+    label: "guild/server zoneID difficulty 4 size 25",
+    args: { guildName, serverSlug, serverRegion, zoneID: zoneId, difficulty: 4, size: 25 },
+  },
+];
 
 function cleanText(value: unknown) {
   return String(value ?? "").trim();
@@ -132,6 +165,35 @@ async function requestGraphQl<T>(accessToken: string, query: string, variables: 
   return parsed.data;
 }
 
+function getGraphQlType(value: unknown) {
+  if (typeof value === "number") {
+    return "Int";
+  }
+
+  if (typeof value === "boolean") {
+    return "Boolean";
+  }
+
+  return "String";
+}
+
+function buildProgressRaceQuery(args: Record<string, unknown>) {
+  const variableDefinitions = Object.entries(args)
+    .map(([name, value]) => `$${name}: ${getGraphQlType(value)}!`)
+    .join(", ");
+  const fieldArgs = Object.keys(args)
+    .map((name) => `${name}: $${name}`)
+    .join(", ");
+
+  return `
+query GuildProgress(${variableDefinitions}) {
+  progressRaceData {
+    progressRace(${fieldArgs})
+  }
+}
+`;
+}
+
 function collectObjects(value: unknown, output: Record<string, unknown>[] = []) {
   if (!value || typeof value !== "object") {
     return output;
@@ -188,16 +250,16 @@ async function run() {
   console.log("WCL guild progress schema snapshot");
   console.log(JSON.stringify(schema, null, 2).slice(0, 5000));
 
-  for (const difficulty of difficultyValues) {
+  for (const attempt of progressAttempts) {
     console.log("");
-    console.log(`WCL guild progress debug: guild ${guildId}, zone ${zoneId}, difficulty ${difficulty ?? "none"}`);
-    const data = await requestGraphQl<GuildProgressResponse>(accessToken, progressRaceQuery, {
-      guildId,
-      zoneId,
-      difficulty: difficulty ?? null,
-    });
+    console.log(`WCL guild progress debug: ${attempt.label}`);
 
-    summarizeProgressPayload(data.progressRaceData?.progressRace);
+    try {
+      const data = await requestGraphQl<GuildProgressResponse>(accessToken, buildProgressRaceQuery(attempt.args), attempt.args);
+      summarizeProgressPayload(data.progressRaceData?.progressRace);
+    } catch (error) {
+      console.log(`query failed: ${error instanceof Error ? error.message : String(error)}`);
+    }
   }
 }
 
