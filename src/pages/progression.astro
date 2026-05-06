@@ -5,7 +5,6 @@ import {
   getProgressBreakdown,
   getTierLatestKill,
   getTierProgress,
-  getTierRaids,
   progressionTiers,
   type ProgressionSeed,
 } from "../lib/progressionTiers";
@@ -33,13 +32,11 @@ const formatDate = (value?: string | null) => {
 };
 
 const tierSummaries = progressionTiers.map((tier) => {
-  const tierRaids = getTierRaids(tier, raids);
   const progress = getTierProgress(tier, raids);
   const tierLatestKill = getTierLatestKill(tier, raids);
 
   return {
     tier,
-    tierRaids,
     progress,
     latestKill: tierLatestKill,
   };
@@ -58,9 +55,8 @@ const tierSummaries = progressionTiers.map((tier) => {
     </div>
 
     <div class="progression-tier-grid">
-      {tierSummaries.map(({ tier, tierRaids, progress, latestKill: tierLatestKill }) => {
+      {tierSummaries.map(({ tier, progress, latestKill: tierLatestKill }) => {
         const hasData = progress.totalBosses > 0;
-        const raidSummary = tier.raidNames.length === 1 ? tier.raidNames[0] : `${tier.raidNames.length} raids`;
 
         return (
           <a class="progression-tier-card" href={`/progression/${tier.slug}`}>
@@ -74,25 +70,19 @@ const tierSummaries = progressionTiers.map((tier) => {
                       {getProgressBreakdown(progress)}
                     </>
                   ) : (
-                    "Not started"
+                    "No data"
                   )
                 }
               </h3>
-              {!hasData && <small>No data</small>}
-            </div>
-
-            <div class="progression-tier-raids">
-              <strong>{raidSummary}</strong>
-              {tier.raidNames.length > 1 && <small>{tier.raidNames.join(", ")}</small>}
             </div>
 
             <div class="progression-tier-meta">
-              <span>Latest Kill</span>
-              <strong>{tierLatestKill?.bossName ?? "None"}</strong>
+              <span>Final Progression Kill</span>
+              <strong>{tierLatestKill?.bossName ?? "No kills"}</strong>
               {tierLatestKill && <small>{tierLatestKill.difficultyName} - {formatDate(tierLatestKill.date)}</small>}
             </div>
 
-            <span class="progression-tier-link">{tierRaids.length > 0 ? "View tier" : "View empty tier"}</span>
+            <span class="progression-tier-link">View tier</span>
           </a>
         );
       })}
