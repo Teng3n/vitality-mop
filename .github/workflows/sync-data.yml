@@ -70,4 +70,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/data/*.json
           git commit -m "chore(data): sync guild data from Google Sheets"
+          git pull --rebase origin feature/guild-site-mvp
           git push
