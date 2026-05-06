@@ -415,11 +415,59 @@ function getFallbackGuildSource(): WclGuildSource {
   };
 }
 
+function getAuditedDefaultGuildSources(): WclGuildSource[] {
+  return [
+    {
+      guildName: "Vitality",
+      serverSlug: "raden",
+      serverName: "Raden",
+      region: "US",
+      label: "Vitality - Raden",
+      expansions: ["mop"],
+      tiers: ["tier-14", "tier-15", "tier-16"],
+    },
+    {
+      guildId: 482914,
+      guildName: "Might",
+      serverSlug: "fairbanks",
+      serverName: "Fairbanks",
+      region: "US",
+      label: "Might - Fairbanks",
+      expansions: ["classic", "tbc"],
+      tiers: ["classic-aq", "classic-bwl", "classic-mc-ony", "classic-naxx", "tbc-tier-4", "tbc-tier-5"],
+    },
+    {
+      guildId: 619658,
+      guildName: "Inept",
+      serverSlug: "grobbulus",
+      serverName: "Grobbulus",
+      region: "US",
+      label: "Inept - Grobbulus",
+      expansions: ["tbc", "wrath"],
+      tiers: ["tbc-sunwell", "tbc-tier-6", "wrath-tier-10", "wrath-tier-7", "wrath-tier-8", "wrath-tier-9"],
+    },
+    {
+      guildId: 738773,
+      guildName: "Inept",
+      serverSlug: "benediction",
+      serverName: "Benediction",
+      region: "US",
+      label: "Inept - Benediction",
+      expansions: ["cata"],
+      tiers: ["cata-tier-11", "cata-tier-12", "cata-tier-13"],
+    },
+  ];
+}
+
+function hasExplicitSingleGuildSourceConfig() {
+  return Boolean(cleanText(process.env.WCL_GUILD_NAME) || cleanText(process.env.WCL_SERVER_SLUG) || cleanText(process.env.WCL_REGION));
+}
+
 function getGuildSources(): WclGuildSource[] {
   const sourcesJson = cleanText(process.env.WCL_GUILD_SOURCES_JSON);
 
   if (!sourcesJson) {
-    return [getFallbackGuildSource()];
+    return hasExplicitSingleGuildSourceConfig() ? [getFallbackGuildSource()] : getAuditedDefaultGuildSources();
   }
 
   try {
@@ -432,12 +480,12 @@ function getGuildSources(): WclGuildSource[] {
       return sources;
     }
 
-    console.warn("WCL_GUILD_SOURCES_JSON did not contain any valid sources. Falling back to WCL_GUILD_NAME.");
+    console.warn("WCL_GUILD_SOURCES_JSON did not contain any valid sources. Using audited default WCL sources.");
   } catch (error) {
-    console.warn(`Could not parse WCL_GUILD_SOURCES_JSON. Falling back to WCL_GUILD_NAME. ${error instanceof Error ? error.message : ""}`);
+    console.warn(`Could not parse WCL_GUILD_SOURCES_JSON. Using audited default WCL sources. ${error instanceof Error ? error.message : ""}`);
   }
 
-  return [getFallbackGuildSource()];
+  return getAuditedDefaultGuildSources();
 }
 
 function toSourceSummary(source: WclGuildSource): WclSourceSummary {

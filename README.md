@@ -101,7 +101,7 @@ Optional GitHub Actions variables for Warcraft Logs:
 - `WCL_REGION`, default `US`
 - `WCL_REPORT_LIMIT`, default `20`, maximum `100`
 - `WCL_REPORT_PAGES`, default `25`, maximum `50`
-- `WCL_GUILD_SOURCES_JSON`, optional JSON array for multi-guild WCL sources. Sources can include optional `guildId`. When set, it replaces the single-source `WCL_GUILD_NAME`/`WCL_SERVER_SLUG`/`WCL_REGION` lookup.
+- `WCL_GUILD_SOURCES_JSON`, optional JSON array for multi-guild WCL sources. Sources can include optional `guildId`. When set and valid, it replaces the single-source `WCL_GUILD_NAME`/`WCL_SERVER_SLUG`/`WCL_REGION` lookup. If it is missing or malformed, the sync uses the audited default archive mapping below unless explicit single-guild vars are configured.
 
 Recommended `WCL_GUILD_SOURCES_JSON` from the Warcraft Logs guild history audit:
 
