@@ -6,7 +6,6 @@ import {
   getTierLatestKill,
   getTierProgress,
   getTierRaids,
-  getTierSourceLabels,
   progressionTiers,
   type ProgressionSeed,
 } from "../lib/progressionTiers";
@@ -29,6 +28,7 @@ const formatDate = (value?: string | null) => {
     month: "short",
     day: "numeric",
     year: "numeric",
+    timeZone: "UTC",
   }).format(date);
 };
 
@@ -36,14 +36,12 @@ const tierSummaries = progressionTiers.map((tier) => {
   const tierRaids = getTierRaids(tier, raids);
   const progress = getTierProgress(tier, raids);
   const tierLatestKill = getTierLatestKill(tier, raids);
-  const sourceLabels = getTierSourceLabels(tier, raids);
 
   return {
     tier,
     tierRaids,
     progress,
     latestKill: tierLatestKill,
-    sourceLabels,
   };
 });
 ---
@@ -60,9 +58,9 @@ const tierSummaries = progressionTiers.map((tier) => {
     </div>
 
     <div class="progression-tier-grid">
-      {tierSummaries.map(({ tier, tierRaids, progress, latestKill: tierLatestKill, sourceLabels }) => {
+      {tierSummaries.map(({ tier, tierRaids, progress, latestKill: tierLatestKill }) => {
         const hasData = progress.totalBosses > 0;
-        const sourceText = sourceLabels.length > 0 ? sourceLabels.join(", ") : "";
+        const raidSummary = tier.raidNames.length === 1 ? tier.raidNames[0] : `${tier.raidNames.length} raids`;
 
         return (
           <a class="progression-tier-card" href={`/progression/${tier.slug}`}>
@@ -83,20 +81,16 @@ const tierSummaries = progressionTiers.map((tier) => {
               {!hasData && <small>No data</small>}
             </div>
 
-            <p class="progression-tier-raids">{tier.raidNames.join(", ")}</p>
+            <div class="progression-tier-raids">
+              <strong>{raidSummary}</strong>
+              {tier.raidNames.length > 1 && <small>{tier.raidNames.join(", ")}</small>}
+            </div>
 
             <div class="progression-tier-meta">
               <span>Latest Kill</span>
               <strong>{tierLatestKill?.bossName ?? "None"}</strong>
               {tierLatestKill && <small>{tierLatestKill.difficultyName} - {formatDate(tierLatestKill.date)}</small>}
             </div>
-
-            {sourceText && (
-              <div class="progression-tier-meta">
-                <span>Source</span>
-                <strong>{sourceText}</strong>
-              </div>
-            )}
 
             <span class="progression-tier-link">{tierRaids.length > 0 ? "View tier" : "View empty tier"}</span>
           </a>

@@ -105,37 +105,109 @@ export const normalizeProgressionName = (value?: string | null) =>
     .replace(/[^a-z0-9]+/g, "")
     .trim();
 
-const throneOfThunderEncounterOrder = new Map<number, number>([
-  [51577, 1],
-  [51575, 2],
-  [51570, 3],
-  [51565, 4],
-  [51578, 5],
-  [51573, 6],
-  [51572, 7],
-  [51574, 8],
-  [51576, 9],
-  [51559, 10],
-  [51560, 11],
-  [51579, 12],
-  [51580, 13],
+const bossEncounterOrders = new Map<string, Map<number, number>>([
+  [
+    "mogushanvaults",
+    new Map([
+      [1395, 1],
+      [1390, 2],
+      [1434, 3],
+      [1436, 4],
+      [1500, 5],
+      [1407, 6],
+    ]),
+  ],
+  [
+    "heartoffear",
+    new Map([
+      [1507, 1],
+      [1504, 2],
+      [1463, 3],
+      [1498, 4],
+      [1499, 5],
+      [1501, 6],
+    ]),
+  ],
+  [
+    "terraceofendlessspring",
+    new Map([
+      [1409, 1],
+      [1505, 2],
+      [1506, 3],
+      [1431, 4],
+    ]),
+  ],
+  [
+    "throneofthunder",
+    new Map([
+      [51577, 1],
+      [51575, 2],
+      [51570, 3],
+      [51565, 4],
+      [51578, 5],
+      [51573, 6],
+      [51572, 7],
+      [51574, 8],
+      [51576, 9],
+      [51559, 10],
+      [51560, 11],
+      [51579, 12],
+      [51580, 13],
+    ]),
+  ],
 ]);
 
-const throneOfThunderNameOrder = new Map<string, number>([
-  ["jinrokhthebreaker", 1],
-  ["horridon", 2],
-  ["councilofelders", 3],
-  ["tortos", 4],
-  ["megaera", 5],
-  ["jikun", 6],
-  ["durumutheforgotten", 7],
-  ["primordius", 8],
-  ["darkanimus", 9],
-  ["ironqon", 10],
-  ["twinconsorts", 11],
-  ["twinempyreans", 11],
-  ["leishen", 12],
-  ["raden", 13],
+const bossNameOrders = new Map<string, Map<string, number>>([
+  [
+    "mogushanvaults",
+    new Map([
+      ["thestoneguard", 1],
+      ["fengtheaccursed", 2],
+      ["garajalthespiritbinder", 3],
+      ["thespiritkings", 4],
+      ["elegon", 5],
+      ["willoftheemperor", 6],
+    ]),
+  ],
+  [
+    "heartoffear",
+    new Map([
+      ["imperialvizierzorlok", 1],
+      ["bladelordtayak", 2],
+      ["garalon", 3],
+      ["windlordmeljarak", 4],
+      ["ambershaperunsok", 5],
+      ["grandempressshekzeer", 6],
+    ]),
+  ],
+  [
+    "terraceofendlessspring",
+    new Map([
+      ["protectorsoftheendless", 1],
+      ["tsulong", 2],
+      ["leishi", 3],
+      ["shaoffear", 4],
+    ]),
+  ],
+  [
+    "throneofthunder",
+    new Map([
+      ["jinrokhthebreaker", 1],
+      ["horridon", 2],
+      ["councilofelders", 3],
+      ["tortos", 4],
+      ["megaera", 5],
+      ["jikun", 6],
+      ["durumutheforgotten", 7],
+      ["primordius", 8],
+      ["darkanimus", 9],
+      ["ironqon", 10],
+      ["twinconsorts", 11],
+      ["twinempyreans", 11],
+      ["leishen", 12],
+      ["raden", 13],
+    ]),
+  ],
 ]);
 
 export const getDifficulty = (boss: ProgressionBoss, difficultyName: string): ProgressionDifficulty | undefined =>
@@ -240,6 +312,31 @@ export const getBestDifficultyLabel = (progress: RaidProgress) => {
 export const getDifficultyKillDate = (difficulty?: ProgressionDifficulty) =>
   difficulty?.latestKillDate || difficulty?.firstKillDate || "";
 
+export const getProgressionSummaryKillDate = (difficulty?: ProgressionDifficulty) =>
+  difficulty?.firstKillDate || difficulty?.latestKillDate || "";
+
+export const getBossBestKillRecord = (raid: ProgressionRaid, boss: ProgressionBoss): KillRecord | undefined => {
+  const difficultyName = getBestCompletedDifficulty(boss);
+
+  if (!difficultyName) {
+    return undefined;
+  }
+
+  const difficulty = getDifficulty(boss, difficultyName);
+  const date = getProgressionSummaryKillDate(difficulty);
+
+  if (!date) {
+    return undefined;
+  }
+
+  return {
+    raidName: raid.name || "Unknown Raid",
+    bossName: boss.name || "Unknown Boss",
+    difficultyName,
+    date,
+  };
+};
+
 export const getLatestKills = (sourceRaids: ProgressionRaid[]) => {
   const kills: KillRecord[] = [];
 
@@ -266,7 +363,19 @@ export const getLatestKills = (sourceRaids: ProgressionRaid[]) => {
   return kills.sort((a, b) => b.date.localeCompare(a.date));
 };
 
-export const getRaidLatestKill = (raid: ProgressionRaid) => getLatestKills([raid])[0];
+export const getRaidLatestKill = (raid: ProgressionRaid) => {
+  const bossesByProgressionOrder = getSortedBosses(raid);
+
+  for (let index = bossesByProgressionOrder.length - 1; index >= 0; index -= 1) {
+    const killRecord = getBossBestKillRecord(raid, bossesByProgressionOrder[index]);
+
+    if (killRecord) {
+      return killRecord;
+    }
+  }
+
+  return undefined;
+};
 
 export const getTierBySlug = (slug?: string) => progressionTiers.find((tier) => tier.slug === slug);
 
@@ -319,7 +428,19 @@ export const getProgressionSourceLabels = (seed: ProgressionSeed) => {
 export const getTierProgress = (tier: ProgressionTier, raids: ProgressionRaid[]) =>
   combineProgress(getTierRaids(tier, raids).map(getRaidProgress));
 
-export const getTierLatestKill = (tier: ProgressionTier, raids: ProgressionRaid[]) => getLatestKills(getTierRaids(tier, raids))[0];
+export const getTierLatestKill = (tier: ProgressionTier, raids: ProgressionRaid[]) => {
+  const tierRaids = getTierRaids(tier, raids);
+
+  for (let index = tierRaids.length - 1; index >= 0; index -= 1) {
+    const killRecord = getRaidLatestKill(tierRaids[index]);
+
+    if (killRecord) {
+      return killRecord;
+    }
+  }
+
+  return undefined;
+};
 
 export const getCurrentRaid = (raids: ProgressionRaid[]) => {
   const latestKill = getLatestKills(raids)[0];
@@ -340,15 +461,14 @@ export const getCurrentTierProgress = (raids: ProgressionRaid[]) => {
 };
 
 const getBossSortOrder = (raid: ProgressionRaid, boss: ProgressionBoss) => {
-  if (normalizeProgressionName(raid.name) !== "throneofthunder") {
-    return Number.POSITIVE_INFINITY;
+  const raidKey = normalizeProgressionName(raid.name);
+  const encounterOrder = bossEncounterOrders.get(raidKey);
+
+  if (typeof boss.encounterId === "number" && encounterOrder?.has(boss.encounterId)) {
+    return encounterOrder.get(boss.encounterId) ?? Number.POSITIVE_INFINITY;
   }
 
-  if (typeof boss.encounterId === "number" && throneOfThunderEncounterOrder.has(boss.encounterId)) {
-    return throneOfThunderEncounterOrder.get(boss.encounterId) ?? Number.POSITIVE_INFINITY;
-  }
-
-  return throneOfThunderNameOrder.get(normalizeProgressionName(boss.name)) ?? Number.POSITIVE_INFINITY;
+  return bossNameOrders.get(raidKey)?.get(normalizeProgressionName(boss.name)) ?? Number.POSITIVE_INFINITY;
 };
 
 export const getSortedBosses = (raid: ProgressionRaid) =>
