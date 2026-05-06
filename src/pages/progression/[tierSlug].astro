@@ -1,11 +1,7 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import ProgressionRaidSection from "../../components/ProgressionRaidSection.astro";
-import progressionSeed from "../../data/wclProgressionSeed.json";
+import ProgressionTierDetail from "../../components/ProgressionTierDetail.astro";
 import {
-  getTierRaids,
   progressionTiers,
-  type ProgressionSeed,
   type ProgressionTier,
 } from "../../lib/progressionTiers";
 
@@ -20,33 +16,6 @@ interface Props {
 }
 
 const { tier } = Astro.props as Props;
-const seed = progressionSeed as ProgressionSeed;
-const raids = Array.isArray(seed.raids) ? seed.raids : [];
-const tierRaids = getTierRaids(tier, raids);
 ---
 
-<Layout title={`${tier.name} Progression | Vitality`}>
-  <section class="page-header progression-header">
-    <p class="eyebrow">{tier.name}</p>
-  </section>
-
-  <a class="progression-back-link" href="/progression">Back to Progression</a>
-
-  {
-    tierRaids.length > 0 ? (
-      <section class="progression-raid-stack">
-        {tierRaids.map((raid) => (
-          <ProgressionRaidSection raid={raid} />
-        ))}
-      </section>
-    ) : (
-      <section class="panel progression-empty-panel">
-        <p class="eyebrow">{tier.name}</p>
-        <h2>No Warcraft Logs progression data has been synced for this tier yet.</h2>
-        <p class="info-note">
-          This tier includes {tier.raidNames.join(", ")}. Once synced logs include these raids, boss progression will appear here.
-        </p>
-      </section>
-    )
-  }
-</Layout>
+<ProgressionTierDetail tier={tier} />

@@ -70,6 +70,15 @@ export type ProgressionTier = {
   slug: string;
   name: string;
   raidNames: string[];
+  isPlaceholder?: boolean;
+};
+
+export type ProgressionExpansion = {
+  slug: string;
+  name: string;
+  shortName: string;
+  isPlaceholder?: boolean;
+  tiers: ProgressionTier[];
 };
 
 export const progressionTiers: ProgressionTier[] = [
@@ -87,6 +96,79 @@ export const progressionTiers: ProgressionTier[] = [
     slug: "tier-16",
     name: "Tier 16",
     raidNames: ["Siege of Orgrimmar"],
+  },
+];
+
+const getTierSortNumber = (slug: string) => Number(slug.replace("tier-", "")) || 0;
+
+export const progressionExpansions: ProgressionExpansion[] = [
+  {
+    slug: "mop",
+    name: "Mists of Pandaria Classic",
+    shortName: "MoP Classic",
+    tiers: [...progressionTiers].sort((a, b) => getTierSortNumber(b.slug) - getTierSortNumber(a.slug)),
+  },
+  {
+    slug: "cata",
+    name: "Cataclysm Classic",
+    shortName: "Cataclysm",
+    isPlaceholder: true,
+    tiers: [
+      { slug: "tier-13", name: "Tier 13", raidNames: ["Dragon Soul"], isPlaceholder: true },
+      { slug: "tier-12", name: "Tier 12", raidNames: ["Firelands"], isPlaceholder: true },
+      {
+        slug: "tier-11",
+        name: "Tier 11",
+        raidNames: ["Bastion of Twilight", "Blackwing Descent", "Throne of the Four Winds"],
+        isPlaceholder: true,
+      },
+    ],
+  },
+  {
+    slug: "wrath",
+    name: "Wrath of the Lich King Classic",
+    shortName: "Wrath",
+    isPlaceholder: true,
+    tiers: [
+      { slug: "tier-10", name: "Tier 10", raidNames: ["Icecrown Citadel"], isPlaceholder: true },
+      { slug: "tier-9", name: "Tier 9", raidNames: ["Trial of the Crusader"], isPlaceholder: true },
+      { slug: "tier-8", name: "Tier 8", raidNames: ["Ulduar"], isPlaceholder: true },
+      {
+        slug: "tier-7",
+        name: "Tier 7",
+        raidNames: ["Naxxramas", "Eye of Eternity", "Obsidian Sanctum"],
+        isPlaceholder: true,
+      },
+    ],
+  },
+  {
+    slug: "tbc",
+    name: "The Burning Crusade Classic",
+    shortName: "TBC",
+    isPlaceholder: true,
+    tiers: [
+      { slug: "sunwell", name: "Sunwell Plateau", raidNames: ["Sunwell Plateau"], isPlaceholder: true },
+      {
+        slug: "black-temple-hyjal",
+        name: "Black Temple / Hyjal",
+        raidNames: ["Black Temple", "Hyjal Summit"],
+        isPlaceholder: true,
+      },
+      { slug: "tier-5", name: "Tier 5", raidNames: ["Serpentshrine Cavern", "Tempest Keep"], isPlaceholder: true },
+      { slug: "tier-4", name: "Tier 4", raidNames: ["Karazhan", "Gruul", "Magtheridon"], isPlaceholder: true },
+    ],
+  },
+  {
+    slug: "classic",
+    name: "Classic Era",
+    shortName: "Classic",
+    isPlaceholder: true,
+    tiers: [
+      { slug: "naxxramas", name: "Naxxramas", raidNames: ["Naxxramas"], isPlaceholder: true },
+      { slug: "ahnqiraj", name: "Ahn'Qiraj", raidNames: ["Ahn'Qiraj"], isPlaceholder: true },
+      { slug: "blackwing-lair", name: "Blackwing Lair", raidNames: ["Blackwing Lair"], isPlaceholder: true },
+      { slug: "molten-core-onyxia", name: "Molten Core / Onyxia", raidNames: ["Molten Core", "Onyxia"], isPlaceholder: true },
+    ],
   },
 ];
 

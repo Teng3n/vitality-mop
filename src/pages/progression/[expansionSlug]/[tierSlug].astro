@@ -1,0 +1,27 @@
+---
+import ProgressionTierDetail from "../../../components/ProgressionTierDetail.astro";
+import {
+  progressionExpansions,
+  type ProgressionTier,
+} from "../../../lib/progressionTiers";
+
+export const getStaticPaths = () =>
+  progressionExpansions
+    .filter((expansion) => !expansion.isPlaceholder)
+    .flatMap((expansion) =>
+      expansion.tiers
+        .filter((tier) => !tier.isPlaceholder)
+        .map((tier) => ({
+          params: { expansionSlug: expansion.slug, tierSlug: tier.slug },
+          props: { tier },
+        })),
+    );
+
+interface Props {
+  tier: ProgressionTier;
+}
+
+const { tier } = Astro.props as Props;
+---
+
+<ProgressionTierDetail tier={tier} />

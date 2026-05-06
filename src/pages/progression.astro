@@ -5,7 +5,7 @@ import {
   getProgressBreakdown,
   getTierLatestKill,
   getTierProgress,
-  progressionTiers,
+  progressionExpansions,
   type ProgressionSeed,
 } from "../lib/progressionTiers";
 
@@ -31,11 +31,9 @@ const formatDate = (value?: string | null) => {
   }).format(date);
 };
 
-const getTierSortNumber = (slug: string) => Number(slug.replace("tier-", "")) || 0;
-
-const tierSummaries = [...progressionTiers]
-  .sort((a, b) => getTierSortNumber(b.slug) - getTierSortNumber(a.slug))
-  .map((tier) => {
+const expansionSummaries = progressionExpansions.map((expansion) => ({
+  expansion,
+  tiers: expansion.tiers.map((tier) => {
     const progress = getTierProgress(tier, raids);
     const tierLatestKill = getTierLatestKill(tier, raids);
 
@@ -44,7 +42,8 @@ const tierSummaries = [...progressionTiers]
       progress,
       latestKill: tierLatestKill,
     };
-  });
+  }),
+}));
 ---
 
 <Layout title="Progression | Vitality">
@@ -52,52 +51,71 @@ const tierSummaries = [...progressionTiers]
     <p class="eyebrow">Progression</p>
   </section>
 
-  <section class="progression-tier-stack">
-    <div class="section-heading">
-      <p class="eyebrow">Tier History</p>
-      <h2>MoP Raid Tiers</h2>
-    </div>
+  <div class="progression-expansion-stack">
+    {expansionSummaries.map(({ expansion, tiers }) => (
+      <section class={`panel progression-expansion-panel ${expansion.isPlaceholder ? "is-placeholder" : ""}`}>
+        <div class="progression-expansion-header">
+          <div>
+            <p class="eyebrow">{expansion.shortName}</p>
+            <h2>{expansion.name}</h2>
+          </div>
+          {expansion.isPlaceholder && <span>Coming soon</span>}
+        </div>
 
-    <div class="progression-tier-grid">
-      {tierSummaries.map(({ tier, progress, latestKill: tierLatestKill }) => {
-        const hasData = progress.totalBosses > 0;
-        const isComplete = hasData && progress.killedBosses === progress.totalBosses;
-        const completionLabel = progress.killedBosses > 0 && !isComplete ? "Progressed To" : "Completed";
-        const completionValue = tierLatestKill
-          ? `${tierLatestKill.bossName} ${tierLatestKill.difficultyName}`
-          : "Not started";
-        const raidNames = tier.raidNames.join(", ");
+        <div class="progression-tier-grid">
+          {tiers.map(({ tier, progress, latestKill: tierLatestKill }) => {
+            const hasData = progress.totalBosses > 0;
+            const isComplete = hasData && progress.killedBosses === progress.totalBosses;
+            const completionLabel = progress.killedBosses > 0 && !isComplete ? "Progressed To" : "Completed";
+            const completionValue = tierLatestKill
+              ? `${tierLatestKill.bossName} ${tierLatestKill.difficultyName}`
+              : "Not started";
+            const href = tier.isPlaceholder ? "" : `/progression/${expansion.slug}/${tier.slug}`;
+            const raidNames = tier.raidNames.join(", ");
+            const cardClass = `progression-tier-card ${tier.isPlaceholder ? "is-placeholder" : ""}`;
+            const cardContent = (
+              <>
+                <div class="progression-tier-card-head">
+                  <p class="eyebrow">{tier.name}</p>
+                  <p class="progression-tier-raids" title={raidNames}>{raidNames}</p>
+                </div>
 
-        return (
-          <a class="progression-tier-card" href={`/progression/${tier.slug}`}>
-            <div class="progression-tier-card-head">
-              <p class="eyebrow">{tier.name}</p>
-              <p class="progression-tier-raids" title={raidNames}>{raidNames}</p>
-            </div>
+                <div class="progression-tier-progress">
+                  <h3>{tier.isPlaceholder ? "Coming soon" : hasData ? `${progress.killedBosses} / ${progress.totalBosses}` : "No data"}</h3>
+                  {!tier.isPlaceholder && hasData && <small>{getProgressBreakdown(progress)}</small>}
+                </div>
 
-            <div class="progression-tier-progress">
-              <h3>
-                {
-                  hasData ? (
-                    `${progress.killedBosses} / ${progress.totalBosses}`
+                <div class="progression-tier-meta">
+                  {tier.isPlaceholder ? (
+                    <>
+                      <span>Status</span>
+                      <strong>No data yet</strong>
+                    </>
                   ) : (
-                    "No data"
-                  )
-                }
-              </h3>
-              {hasData && <small>{getProgressBreakdown(progress)}</small>}
-            </div>
+                    <>
+                      <span>{completionLabel}</span>
+                      <strong>{completionValue}</strong>
+                      {tierLatestKill && <small>{formatDate(tierLatestKill.date)}</small>}
+                    </>
+                  )}
+                </div>
 
-            <div class="progression-tier-meta">
-              <span>{completionLabel}</span>
-              <strong>{completionValue}</strong>
-              {tierLatestKill && <small>{formatDate(tierLatestKill.date)}</small>}
-            </div>
+                <span class="progression-tier-link">{tier.isPlaceholder ? "Coming soon" : "View tier"}</span>
+              </>
+            );
 
-            <span class="progression-tier-link">View tier</span>
-          </a>
-        );
-      })}
-    </div>
-  </section>
+            return href ? (
+              <a class={cardClass} href={href}>
+                {cardContent}
+              </a>
+            ) : (
+              <article class={cardClass}>
+                {cardContent}
+              </article>
+            );
+          })}
+        </div>
+      </section>
+    ))}
+  </div>
 </Layout>
