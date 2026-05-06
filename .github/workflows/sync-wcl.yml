@@ -1,19 +1,27 @@
-name: Sync guild data
+name: Sync Warcraft Logs data
 
 on:
-  schedule:
-    - cron: "*/15 * * * *"
   workflow_dispatch:
+  push:
+    branches:
+      - feature/guild-site-mvp
+    paths:
+      - ".github/workflows/sync-wcl.yml"
+      - ".github/workflows/sync-data.yml"
+      - "package.json"
+      - "package-lock.json"
+      - "scripts/sync-warcraft-logs.ts"
+      - "src/lib/progressionTiers.ts"
 
 permissions:
   contents: write
 
 concurrency:
-  group: sync-guild-data
+  group: sync-warcraft-logs-data
   cancel-in-progress: false
 
 jobs:
-  sync:
+  sync-wcl:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,43 +39,34 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Sync data from Google Sheets
-        run: npm run sync:data
+      - name: Sync Warcraft Logs data
+        run: npm run sync:wcl
         env:
-          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
-          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-          CALENDAR_RANGE: ${{ vars.CALENDAR_RANGE }}
-          LOOT_RANGE: ${{ vars.LOOT_RANGE }}
-          BENCH_RULES_RANGE: ${{ vars.BENCH_RULES_RANGE }}
-          CALENDAR_START_YEAR: ${{ vars.CALENDAR_START_YEAR }}
           WCL_CLIENT_ID: ${{ secrets.WCL_CLIENT_ID }}
           WCL_CLIENT_SECRET: ${{ secrets.WCL_CLIENT_SECRET }}
-          WCL_GUILD_NAME: ${{ vars.WCL_GUILD_NAME }}
-          WCL_SERVER_SLUG: ${{ vars.WCL_SERVER_SLUG }}
-          WCL_REGION: ${{ vars.WCL_REGION }}
-          WCL_REPORT_LIMIT: ${{ vars.WCL_REPORT_LIMIT }}
+          WCL_REPORT_LIMIT: ${{ vars.WCL_REPORT_LIMIT || 20 }}
           WCL_REPORT_PAGES: ${{ vars.WCL_REPORT_PAGES || 25 }}
           WCL_GUILD_SOURCES_JSON: >-
             ${{ vars.WCL_GUILD_SOURCES_JSON || '[{"guildName":"Vitality","serverSlug":"raden","region":"US","label":"Vitality - Raden","expansions":["mop"],"tiers":["tier-14","tier-15","tier-16"]},{"guildId":482914,"guildName":"Might","serverSlug":"fairbanks","region":"US","label":"Might - Fairbanks","expansions":["classic","tbc"],"tiers":["classic-mc-ony","classic-bwl","classic-aq","classic-naxx","tbc-tier-4","tbc-tier-5"]},{"guildId":619658,"guildName":"Inept","serverSlug":"grobbulus","region":"US","label":"Inept - Grobbulus","expansions":["tbc","wrath"],"tiers":["tbc-tier-6","tbc-sunwell","wrath-tier-7","wrath-tier-8","wrath-tier-9","wrath-tier-10"]},{"guildId":738773,"guildName":"Inept","serverSlug":"benediction","region":"US","label":"Inept - Benediction","expansions":["cata"],"tiers":["cata-tier-11","cata-tier-12","cata-tier-13"]}]' }}
 
-      - name: Check generated data changes
+      - name: Check WCL generated data changes
         id: changes
         shell: bash
         run: |
-          if git diff --quiet -- src/data/*.json; then
+          if git diff --quiet -- src/data/wclReports.json src/data/wclProgressionSeed.json src/data/wclRankings.json src/data/wclSyncMeta.json; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "No data changes detected."
+            echo "No Warcraft Logs data changes detected."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            git diff --stat -- src/data/*.json
+            git diff --stat -- src/data/wclReports.json src/data/wclProgressionSeed.json src/data/wclRankings.json src/data/wclSyncMeta.json
           fi
 
-      - name: Commit generated data
+      - name: Commit WCL generated data
         if: steps.changes.outputs.changed == 'true'
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/*.json
-          git commit -m "chore(data): sync guild data from Google Sheets"
+          git add src/data/wclReports.json src/data/wclProgressionSeed.json src/data/wclRankings.json src/data/wclSyncMeta.json
+          git commit -m "chore(data): sync Warcraft Logs archive data"
           git push

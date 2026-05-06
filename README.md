@@ -100,8 +100,50 @@ Optional GitHub Actions variables for Warcraft Logs:
 - `WCL_SERVER_SLUG`, default `raden`
 - `WCL_REGION`, default `US`
 - `WCL_REPORT_LIMIT`, default `20`, maximum `100`
-- `WCL_REPORT_PAGES`, default `10`, maximum `20`
+- `WCL_REPORT_PAGES`, default `25`, maximum `50`
 - `WCL_GUILD_SOURCES_JSON`, optional JSON array for multi-guild WCL sources. Sources can include optional `guildId`. When set, it replaces the single-source `WCL_GUILD_NAME`/`WCL_SERVER_SLUG`/`WCL_REGION` lookup.
+
+Recommended `WCL_GUILD_SOURCES_JSON` from the Warcraft Logs guild history audit:
+
+```json
+[
+  {
+    "guildName": "Vitality",
+    "serverSlug": "raden",
+    "region": "US",
+    "label": "Vitality - Raden",
+    "expansions": ["mop"],
+    "tiers": ["tier-14", "tier-15", "tier-16"]
+  },
+  {
+    "guildId": 482914,
+    "guildName": "Might",
+    "serverSlug": "fairbanks",
+    "region": "US",
+    "label": "Might - Fairbanks",
+    "expansions": ["classic", "tbc"],
+    "tiers": ["classic-mc-ony", "classic-bwl", "classic-aq", "classic-naxx", "tbc-tier-4", "tbc-tier-5"]
+  },
+  {
+    "guildId": 619658,
+    "guildName": "Inept",
+    "serverSlug": "grobbulus",
+    "region": "US",
+    "label": "Inept - Grobbulus",
+    "expansions": ["tbc", "wrath"],
+    "tiers": ["tbc-tier-6", "tbc-sunwell", "wrath-tier-7", "wrath-tier-8", "wrath-tier-9", "wrath-tier-10"]
+  },
+  {
+    "guildId": 738773,
+    "guildName": "Inept",
+    "serverSlug": "benediction",
+    "region": "US",
+    "label": "Inept - Benediction",
+    "expansions": ["cata"],
+    "tiers": ["cata-tier-11", "cata-tier-12", "cata-tier-13"]
+  }
+]
+```
 
 Calendar is the roster source of truth. Anyone listed as a player row in the Calendar range is treated as active roster and is used to generate `src/data/roster.json`, `src/data/calendar.json`, and `src/data/bench.json`.
 
@@ -260,13 +302,13 @@ Assumptions:
 
 - Warcraft Logs guild lookup uses `guildName`, `guildServerSlug`, and `guildServerRegion`.
 - The default guild is `Vitality` on `raden` in `US`.
-- `WCL_GUILD_SOURCES_JSON` can assign sources to MoP tiers. Current progression should use `Vitality - Raden` for Tier 14, Tier 15, and Tier 16.
+- `WCL_GUILD_SOURCES_JSON` can assign sources to expansion/tier groups. The audited mapping uses `Vitality - Raden` for MoP, `Might - Fairbanks` for Classic and early TBC, `Inept - Grobbulus` for late TBC and Wrath, and `Inept - Benediction` for Cataclysm.
 - If a source includes `guildId`, the sync first tries the Warcraft Logs `reportData.reports(guildID: ...)` query. If that query is rejected or unavailable, it falls back to `guildName`, `guildServerSlug`, and `guildServerRegion`.
 - When the same raid appears from multiple sources, the sync prefers the source whose configured `tiers` includes that raid's tier. If still ambiguous, it prefers the source with the newest report.
 - If one configured WCL source fails, the sync preserves existing JSON for that source when possible instead of wiping all WCL data.
-- The sync reads multiple report pages per source. The default `WCL_REPORT_LIMIT=20` and `WCL_REPORT_PAGES=10` can fetch up to 200 reports per source so older tier logs are less likely to be missed.
+- The sync reads multiple report pages per source. The default `WCL_REPORT_LIMIT=20` and `WCL_REPORT_PAGES=25` can fetch up to 500 reports per source so older tier logs are less likely to be missed.
 - Report fights use report-relative fight times when they are not already epoch timestamps.
-- Difficulty ID `3` is normalized to `Normal`; difficulty ID `4` is normalized to `Heroic`. Difficulty ID `5` is treated as `Mythic` if it ever appears, but it is not expected for current MoP Classic progression. The raw difficulty value is preserved as `rawDifficultyId`.
+- Difficulty IDs `1`, `2`, and `3` are normalized to `Normal`; difficulty ID `4` is normalized to `Heroic`. Difficulty ID `5` is treated as `Mythic` if it ever appears, but it is not expected for current MoP Classic progression. The raw difficulty value is preserved as `rawDifficultyId`.
 - Progression totals are based on bosses present in the synced recent reports. Unpulled bosses are not invented.
 - The default recent report limit is `20`.
 
@@ -285,11 +327,11 @@ WCL_GUILD_NAME=Vitality
 WCL_SERVER_SLUG=raden
 WCL_REGION=US
 WCL_REPORT_LIMIT=20
-WCL_REPORT_PAGES=10
-WCL_GUILD_SOURCES_JSON=[{"guildName":"Vitality","serverSlug":"raden","region":"US","label":"Vitality - Raden","tiers":["tier-14","tier-15","tier-16"]}]
+WCL_REPORT_PAGES=25
+WCL_GUILD_SOURCES_JSON=[{"guildName":"Vitality","serverSlug":"raden","region":"US","label":"Vitality - Raden","expansions":["mop"],"tiers":["tier-14","tier-15","tier-16"]},{"guildId":482914,"guildName":"Might","serverSlug":"fairbanks","region":"US","label":"Might - Fairbanks","expansions":["classic","tbc"],"tiers":["classic-mc-ony","classic-bwl","classic-aq","classic-naxx","tbc-tier-4","tbc-tier-5"]},{"guildId":619658,"guildName":"Inept","serverSlug":"grobbulus","region":"US","label":"Inept - Grobbulus","expansions":["tbc","wrath"],"tiers":["tbc-tier-6","tbc-sunwell","wrath-tier-7","wrath-tier-8","wrath-tier-9","wrath-tier-10"]},{"guildId":738773,"guildName":"Inept","serverSlug":"benediction","region":"US","label":"Inept - Benediction","expansions":["cata"],"tiers":["cata-tier-11","cata-tier-12","cata-tier-13"]}]
 ```
 
-Sources can include `guildId` when needed, but the current MoP progression source is `Vitality - Raden` for all tracked tiers.
+Sources can include `guildId` when needed. MoP stays on the current `Vitality - Raden` identity for all tracked MoP tiers.
 
 Run locally:
 

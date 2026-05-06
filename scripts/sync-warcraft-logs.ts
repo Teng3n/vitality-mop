@@ -56,6 +56,7 @@ type WclGuildSource = {
   serverName: string;
   region: string;
   label: string;
+  expansions: string[];
   tiers: string[];
 };
 
@@ -65,6 +66,7 @@ type WclSourceSummary = {
   serverSlug: string;
   region: string;
   label: string;
+  expansions: string[];
   tiers: string[];
 };
 
@@ -129,6 +131,8 @@ type ProgressionBoss = {
 type ProgressionRaid = {
   name: string;
   zoneId: number | null;
+  expansionSlug: string;
+  tierSlug: string;
   sourceGuildId?: number | null;
   sourceGuildName: string | null;
   sourceServerSlug: string | null;
@@ -197,6 +201,8 @@ type BossDraft = {
 type RaidDraft = {
   name: string;
   zoneId: number | null;
+  expansionSlug: string;
+  tierSlug: string;
   sourceGuildId?: number | null;
   sourceGuildName: string | null;
   sourceServerSlug: string | null;
@@ -217,6 +223,7 @@ loadEnv({ path: path.join(root, ".env"), override: false });
 
 const reportLimit = getReportLimit(process.env.WCL_REPORT_LIMIT);
 const reportPages = getReportPages(process.env.WCL_REPORT_PAGES);
+const defaultSourceExpansions = ["mop"];
 const defaultSourceTiers = ["tier-14", "tier-15", "tier-16"];
 const guildSources = getGuildSources();
 const primarySource = guildSources[0];
@@ -318,10 +325,10 @@ function getReportPages(value: unknown) {
   const parsed = Number(cleanText(value));
 
   if (!Number.isFinite(parsed) || parsed < 1) {
-    return 10;
+    return 25;
   }
 
-  return Math.min(Math.floor(parsed), 20);
+  return Math.min(Math.floor(parsed), 50);
 }
 
 function serverSlugToName(value: string) {
@@ -338,6 +345,14 @@ function normalizeSourceTiers(value: unknown) {
   }
 
   return [...new Set(value.map((tier) => cleanText(tier)).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+}
+
+function normalizeSourceExpansions(value: unknown) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return [...new Set(value.map((expansion) => cleanText(expansion)).filter(Boolean))].sort((a, b) => a.localeCompare(b));
 }
 
 function normalizeGuildId(value: unknown) {
@@ -378,6 +393,7 @@ function normalizeGuildSource(value: unknown, index: number): WclGuildSource | n
     serverName,
     region,
     label,
+    expansions: normalizeSourceExpansions(source.expansions),
     tiers: normalizeSourceTiers(source.tiers),
   };
 }
@@ -394,6 +410,7 @@ function getFallbackGuildSource(): WclGuildSource {
     serverName,
     region,
     label: cleanText(process.env.WCL_SOURCE_LABEL) || `${guildName} - ${serverName}`,
+    expansions: defaultSourceExpansions,
     tiers: defaultSourceTiers,
   };
 }
@@ -430,6 +447,7 @@ function toSourceSummary(source: WclGuildSource): WclSourceSummary {
     serverSlug: source.serverSlug,
     region: source.region,
     label: source.label,
+    expansions: source.expansions,
     tiers: source.tiers,
   };
 }
@@ -504,6 +522,8 @@ function normalizeDifficulty(value: number | string | null | undefined) {
 
   if (difficultyId !== null) {
     switch (difficultyId) {
+      case 1:
+      case 2:
       case 3:
         return { difficulty: "Normal", difficultyId, rawDifficultyId };
       case 4:
@@ -802,7 +822,7 @@ function sourceMatchesTier(source: WclGuildSource | undefined, tierSlug?: string
 }
 
 function chooseReportsForRaid(reports: WclReport[]) {
-  const tierSlug = getTierForRaidName(reports[0]?.zone.name)?.slug;
+  const tierSlug = reports.map(getReportTierSlug).find(Boolean);
   const preferred = reports.filter((report) => sourceMatchesTier(getConfiguredSourceByLabel(getReportSourceLabel(report)), tierSlug));
   const candidates = preferred.length > 0 ? preferred : reports;
   const grouped = new Map<string, WclReport[]>();
@@ -820,60 +840,139 @@ function chooseReportsForRaid(reports: WclReport[]) {
   })[0] ?? [];
 }
 
-const tier14RaidByEncounterName = new Map<string, string>([
-  ["thestoneguard", "Mogu'shan Vaults"],
-  ["fengtheaccursed", "Mogu'shan Vaults"],
-  ["garajalthespiritbinder", "Mogu'shan Vaults"],
-  ["thespiritkings", "Mogu'shan Vaults"],
-  ["elegon", "Mogu'shan Vaults"],
-  ["willoftheemperor", "Mogu'shan Vaults"],
-  ["imperialvizierzorlok", "Heart of Fear"],
-  ["bladelordtayak", "Heart of Fear"],
-  ["garalon", "Heart of Fear"],
-  ["windlordmeljarak", "Heart of Fear"],
-  ["ambershaperunsok", "Heart of Fear"],
-  ["grandempressshekzeer", "Heart of Fear"],
-  ["protectorsoftheendless", "Terrace of Endless Spring"],
-  ["tsulong", "Terrace of Endless Spring"],
-  ["leishi", "Terrace of Endless Spring"],
-  ["shaoffear", "Terrace of Endless Spring"],
-]);
+type RaidClassification = {
+  raidName: string;
+  expansionSlug: string;
+  tierSlug: string;
+};
 
-const raidAliases = new Map<string, string>([
-  ["mogushanvaults", "Mogu'shan Vaults"],
-  ["mogushanvault", "Mogu'shan Vaults"],
-  ["heartoffear", "Heart of Fear"],
-  ["terraceofendlessspring", "Terrace of Endless Spring"],
-  ["throneofthunder", "Throne of Thunder"],
-  ["siegeoforgrimmar", "Siege of Orgrimmar"],
-]);
+function addClassification(map: Map<string, RaidClassification[]>, key: string, classification: RaidClassification) {
+  const normalizedKey = normalizeProgressionName(key);
+  map.set(normalizedKey, [...(map.get(normalizedKey) ?? []), classification]);
+}
 
-function getCanonicalRaidName(zoneName: string, fightName: string) {
-  const normalizedZone = normalizeProgressionName(zoneName);
-  const normalizedFight = normalizeProgressionName(fightName);
-  const inferredRaid = tier14RaidByEncounterName.get(normalizedFight);
+const zoneClassifications = new Map<string, RaidClassification[]>();
+const encounterClassifications = new Map<string, RaidClassification[]>();
 
-  if (inferredRaid) {
-    return inferredRaid;
+function addRaidZone(raidName: string, expansionSlug: string, tierSlug: string, aliases: string[] = []) {
+  const classification = { raidName, expansionSlug, tierSlug };
+
+  for (const alias of [raidName, ...aliases]) {
+    addClassification(zoneClassifications, alias, classification);
   }
+}
 
-  for (const [encounterName, raidName] of tier14RaidByEncounterName) {
-    if (normalizedFight.includes(encounterName)) {
-      return raidName;
-    }
+function addRaidEncounters(raidName: string, expansionSlug: string, tierSlug: string, bosses: string[]) {
+  const classification = { raidName, expansionSlug, tierSlug };
+
+  for (const boss of bosses) {
+    addClassification(encounterClassifications, boss, classification);
   }
+}
 
-  const aliasedRaid = raidAliases.get(normalizedZone);
+addRaidZone("Molten Core", "classic", "classic-mc-ony");
+addRaidZone("Onyxia's Lair", "classic", "classic-mc-ony", ["Onyxia"]);
+addRaidZone("Blackwing Lair", "classic", "classic-bwl");
+addRaidZone("Ruins of Ahn'Qiraj", "classic", "classic-aq");
+addRaidZone("Temple of Ahn'Qiraj", "classic", "classic-aq", ["Ahn'Qiraj"]);
+addRaidZone("Naxxramas", "classic", "classic-naxx");
+addRaidZone("Karazhan", "tbc", "tbc-tier-4");
+addRaidZone("Gruul's Lair", "tbc", "tbc-tier-4", ["Gruul / Magtheridon", "Gruul"]);
+addRaidZone("Magtheridon's Lair", "tbc", "tbc-tier-4", ["Magtheridon"]);
+addRaidZone("Serpentshrine Cavern", "tbc", "tbc-tier-5", ["SSC / TK", "Serpentshrine Cavern / Tempest Keep"]);
+addRaidZone("Tempest Keep", "tbc", "tbc-tier-5", ["The Eye"]);
+addRaidZone("Mount Hyjal", "tbc", "tbc-tier-6", ["BT / Hyjal", "Black Temple / Hyjal", "Hyjal Summit"]);
+addRaidZone("Black Temple", "tbc", "tbc-tier-6");
+addRaidZone("Sunwell Plateau", "tbc", "tbc-sunwell");
+addRaidZone("Naxxramas", "wrath", "wrath-tier-7", ["Naxx / Sarth / Maly", "Naxxramas / Obsidian Sanctum / Eye of Eternity"]);
+addRaidZone("The Obsidian Sanctum", "wrath", "wrath-tier-7", ["Obsidian Sanctum"]);
+addRaidZone("The Eye of Eternity", "wrath", "wrath-tier-7", ["Eye of Eternity"]);
+addRaidZone("Ulduar", "wrath", "wrath-tier-8");
+addRaidZone("Trial of the Crusader", "wrath", "wrath-tier-9");
+addRaidZone("Onyxia's Lair", "wrath", "wrath-tier-9", ["Onyxia"]);
+addRaidZone("Icecrown Citadel", "wrath", "wrath-tier-10");
+addRaidZone("The Ruby Sanctum", "wrath", "wrath-tier-10", ["Ruby Sanctum"]);
+addRaidZone("Blackwing Descent", "cata", "cata-tier-11", ["TotFW / BWD / BoT", "Throne of the Four Winds / Blackwing Descent / Bastion of Twilight"]);
+addRaidZone("The Bastion of Twilight", "cata", "cata-tier-11", ["Bastion of Twilight"]);
+addRaidZone("Throne of the Four Winds", "cata", "cata-tier-11");
+addRaidZone("Firelands", "cata", "cata-tier-12");
+addRaidZone("Dragon Soul", "cata", "cata-tier-13");
+addRaidZone("Mogu'shan Vaults", "mop", "tier-14", ["Mogushan Vaults"]);
+addRaidZone("Heart of Fear", "mop", "tier-14");
+addRaidZone("Terrace of Endless Spring", "mop", "tier-14");
+addRaidZone("Throne of Thunder", "mop", "tier-15");
+addRaidZone("Siege of Orgrimmar", "mop", "tier-16");
 
-  if (aliasedRaid) {
-    return aliasedRaid;
-  }
+addRaidEncounters("Molten Core", "classic", "classic-mc-ony", ["Lucifron", "Magmadar", "Gehennas", "Garr", "Baron Geddon", "Shazzrah", "Sulfuron Harbinger", "Golemagg the Incinerator", "Majordomo Executus", "Ragnaros"]);
+addRaidEncounters("Onyxia's Lair", "classic", "classic-mc-ony", ["Onyxia"]);
+addRaidEncounters("Blackwing Lair", "classic", "classic-bwl", ["Razorgore the Untamed", "Vaelastrasz the Corrupt", "Broodlord Lashlayer", "Firemaw", "Ebonroc", "Flamegor", "Chromaggus", "Nefarian"]);
+addRaidEncounters("Ruins of Ahn'Qiraj", "classic", "classic-aq", ["Kurinnaxx", "General Rajaxx", "Moam", "Buru the Gorger", "Ayamiss the Hunter", "Ossirian the Unscarred"]);
+addRaidEncounters("Temple of Ahn'Qiraj", "classic", "classic-aq", ["The Prophet Skeram", "Silithid Royalty", "Battleguard Sartura", "Fankriss the Unyielding", "Viscidus", "Princess Huhuran", "Twin Emperors", "Ouro", "C'Thun"]);
+addRaidEncounters("Naxxramas", "classic", "classic-naxx", ["Anub'Rekhan", "Grand Widow Faerlina", "Maexxna", "Noth the Plaguebringer", "Heigan the Unclean", "Loatheb", "Instructor Razuvious", "Gothik the Harvester", "The Four Horsemen", "Patchwerk", "Grobbulus", "Gluth", "Thaddius", "Sapphiron", "Kel'Thuzad"]);
+addRaidEncounters("Karazhan", "tbc", "tbc-tier-4", ["Attumen the Huntsman", "Moroes", "Maiden of Virtue", "Opera Event", "The Curator", "Terestian Illhoof", "Shade of Aran", "Netherspite", "Chess Event", "Prince Malchezaar", "Nightbane"]);
+addRaidEncounters("Gruul's Lair", "tbc", "tbc-tier-4", ["High King Maulgar", "Gruul the Dragonkiller"]);
+addRaidEncounters("Magtheridon's Lair", "tbc", "tbc-tier-4", ["Magtheridon"]);
+addRaidEncounters("Serpentshrine Cavern", "tbc", "tbc-tier-5", ["Hydross the Unstable", "The Lurker Below", "Leotheras the Blind", "Fathom-Lord Karathress", "Morogrim Tidewalker", "Lady Vashj"]);
+addRaidEncounters("Tempest Keep", "tbc", "tbc-tier-5", ["Al'ar", "Void Reaver", "High Astromancer Solarian", "Kael'thas Sunstrider"]);
+addRaidEncounters("Mount Hyjal", "tbc", "tbc-tier-6", ["Rage Winterchill", "Anetheron", "Kaz'rogal", "Azgalor", "Archimonde"]);
+addRaidEncounters("Black Temple", "tbc", "tbc-tier-6", ["High Warlord Naj'entus", "Supremus", "Shade of Akama", "Teron Gorefiend", "Gurtogg Bloodboil", "Reliquary of Souls", "Mother Shahraz", "The Illidari Council", "Illidan Stormrage"]);
+addRaidEncounters("Sunwell Plateau", "tbc", "tbc-sunwell", ["Kalecgos", "Brutallus", "Felmyst", "Eredar Twins", "M'uru", "Kil'jaeden"]);
+addRaidEncounters("Naxxramas", "wrath", "wrath-tier-7", ["Anub'Rekhan", "Grand Widow Faerlina", "Maexxna", "Noth the Plaguebringer", "Heigan the Unclean", "Loatheb", "Instructor Razuvious", "Gothik the Harvester", "The Four Horsemen", "Patchwerk", "Grobbulus", "Gluth", "Thaddius", "Sapphiron", "Kel'Thuzad"]);
+addRaidEncounters("The Obsidian Sanctum", "wrath", "wrath-tier-7", ["Sartharion"]);
+addRaidEncounters("The Eye of Eternity", "wrath", "wrath-tier-7", ["Malygos"]);
+addRaidEncounters("Ulduar", "wrath", "wrath-tier-8", ["Flame Leviathan", "Ignis the Furnace Master", "Razorscale", "XT-002 Deconstructor", "Assembly of Iron", "Kologarn", "Auriaya", "Hodir", "Thorim", "Freya", "Mimiron", "General Vezax", "Yogg-Saron", "Algalon the Observer"]);
+addRaidEncounters("Trial of the Crusader", "wrath", "wrath-tier-9", ["Northrend Beasts", "Lord Jaraxxus", "Faction Champions", "Twin Val'kyr", "Anub'arak"]);
+addRaidEncounters("Onyxia's Lair", "wrath", "wrath-tier-9", ["Onyxia"]);
+addRaidEncounters("Icecrown Citadel", "wrath", "wrath-tier-10", ["Lord Marrowgar", "Lady Deathwhisper", "Gunship Battle", "Deathbringer Saurfang", "Festergut", "Rotface", "Professor Putricide", "Blood Prince Council", "Blood-Queen Lana'thel", "Valithria Dreamwalker", "Sindragosa", "The Lich King"]);
+addRaidEncounters("The Ruby Sanctum", "wrath", "wrath-tier-10", ["Saviana Ragefire", "Baltharus the Warborn", "General Zarithrian", "Halion"]);
+addRaidEncounters("Blackwing Descent", "cata", "cata-tier-11", ["Magmaw", "Omnotron Defense System", "Maloriak", "Atramedes", "Chimaeron", "Nefarian's End"]);
+addRaidEncounters("The Bastion of Twilight", "cata", "cata-tier-11", ["Halfus Wyrmbreaker", "Valiona & Theralion", "Ascendant Council", "Cho'gall", "Sinestra"]);
+addRaidEncounters("Throne of the Four Winds", "cata", "cata-tier-11", ["Conclave of Wind", "Al'Akir"]);
+addRaidEncounters("Firelands", "cata", "cata-tier-12", ["Beth'tilac", "Lord Rhyolith", "Alysrazor", "Shannox", "Baleroc", "Majordomo Staghelm", "Ragnaros"]);
+addRaidEncounters("Dragon Soul", "cata", "cata-tier-13", ["Morchok", "Warlord Zon'ozz", "Yor'sahj the Unsleeping", "Hagara the Stormbinder", "Ultraxion", "Warmaster Blackhorn", "Spine of Deathwing", "Madness of Deathwing"]);
+addRaidEncounters("Mogu'shan Vaults", "mop", "tier-14", ["The Stone Guard", "Feng the Accursed", "Gara'jal the Spiritbinder", "The Spirit Kings", "Elegon", "Will of the Emperor"]);
+addRaidEncounters("Heart of Fear", "mop", "tier-14", ["Imperial Vizier Zor'lok", "Blade Lord Ta'yak", "Garalon", "Wind Lord Mel'jarak", "Amber-Shaper Un'sok", "Grand Empress Shek'zeer"]);
+addRaidEncounters("Terrace of Endless Spring", "mop", "tier-14", ["Protectors of the Endless", "Tsulong", "Lei Shi", "Sha of Fear"]);
 
-  if (["hoftoes", "unknownzone"].includes(normalizedZone)) {
+function selectClassification(candidates: RaidClassification[] | undefined, sourceTiers: string[] = []) {
+  if (!candidates?.length) {
     return null;
   }
 
-  return zoneName;
+  return candidates.find((candidate) => sourceTiers.includes(candidate.tierSlug)) ?? candidates[0];
+}
+
+function getCanonicalRaidClassification(zoneName: string, fightName: string, sourceTiers: string[] = []) {
+  const normalizedFight = normalizeProgressionName(fightName);
+  const directFight = selectClassification(encounterClassifications.get(normalizedFight), sourceTiers);
+
+  if (directFight) {
+    return directFight;
+  }
+
+  for (const [encounterName, candidates] of encounterClassifications) {
+    if (normalizedFight.includes(encounterName)) {
+      const inferred = selectClassification(candidates, sourceTiers);
+
+      if (inferred) {
+        return inferred;
+      }
+    }
+  }
+
+  return selectClassification(zoneClassifications.get(normalizeProgressionName(zoneName)), sourceTiers);
+}
+
+function getReportTierSlug(report: WclReport) {
+  for (const fight of report.fights) {
+    const classification = getCanonicalRaidClassification(report.zone.name, fight.name, report.sourceTiers);
+
+    if (classification) {
+      return classification.tierSlug;
+    }
+  }
+
+  return getCanonicalRaidClassification(report.zone.name, "", report.sourceTiers)?.tierSlug ?? getTierForRaidName(report.zone.name)?.slug;
 }
 
 function createDifficultyDraft(): DifficultyDraft {
@@ -965,17 +1064,19 @@ function buildProgressionSeed(reportsData: WclReportsData): WclProgressionSeed {
           continue;
         }
 
-        const raidName = getCanonicalRaidName(report.zone.name, fight.name);
-        if (!raidName) {
+        const classification = getCanonicalRaidClassification(report.zone.name, fight.name, report.sourceTiers);
+        if (!classification) {
           continue;
         }
 
-        const raidKey = normalizeProgressionName(raidName) || `${report.zone.id ?? "unknown"}:${report.zone.name}`;
+        const raidKey = `${classification.tierSlug}:${normalizeProgressionName(classification.raidName) || `${report.zone.id ?? "unknown"}:${report.zone.name}`}`;
         const raid =
           raidDrafts.get(raidKey) ??
           ({
-            name: raidName,
+            name: classification.raidName,
             zoneId: report.zone.id,
+            expansionSlug: classification.expansionSlug,
+            tierSlug: classification.tierSlug,
             sourceGuildId: report.sourceGuildId,
             sourceGuildName: report.sourceGuildName,
             sourceServerSlug: report.sourceServerSlug,
@@ -1037,6 +1138,8 @@ function buildProgressionSeed(reportsData: WclReportsData): WclProgressionSeed {
       return {
         name: raid.name,
         zoneId: raid.zoneId,
+        expansionSlug: raid.expansionSlug,
+        tierSlug: raid.tierSlug,
         ...(raid.sourceGuildId ? { sourceGuildId: raid.sourceGuildId } : {}),
         sourceGuildName: raid.sourceGuildName,
         sourceServerSlug: raid.sourceServerSlug,

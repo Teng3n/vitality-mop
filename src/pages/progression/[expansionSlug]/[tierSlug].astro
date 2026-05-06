@@ -7,10 +7,8 @@ import {
 
 export const getStaticPaths = () =>
   progressionExpansions
-    .filter((expansion) => !expansion.isPlaceholder)
     .flatMap((expansion) =>
       expansion.tiers
-        .filter((tier) => !tier.isPlaceholder)
         .map((tier) => ({
           params: { expansionSlug: expansion.slug, tierSlug: tier.slug },
           props: { tier },

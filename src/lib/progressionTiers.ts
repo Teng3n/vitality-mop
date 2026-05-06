@@ -20,6 +20,8 @@ export type ProgressionBoss = {
 export type ProgressionRaid = {
   name?: string | null;
   zoneId?: number | null;
+  expansionSlug?: string | null;
+  tierSlug?: string | null;
   sourceGuildId?: number | null;
   sourceGuildName?: string | null;
   sourceServerSlug?: string | null;
@@ -35,6 +37,7 @@ export type ProgressionSource = {
   serverSlug?: string | null;
   region?: string | null;
   label?: string | null;
+  expansions?: string[] | null;
   tiers?: string[] | null;
 };
 
@@ -70,6 +73,7 @@ export type ProgressionTier = {
   slug: string;
   name: string;
   raidNames: string[];
+  raidAliases?: string[];
   isPlaceholder?: boolean;
 };
 
@@ -80,6 +84,101 @@ export type ProgressionExpansion = {
   isPlaceholder?: boolean;
   tiers: ProgressionTier[];
 };
+
+const classicProgressionTiers: ProgressionTier[] = [
+  {
+    slug: "classic-mc-ony",
+    name: "Molten Core / Onyxia",
+    raidNames: ["Molten Core", "Onyxia's Lair"],
+    raidAliases: ["Onyxia"],
+  },
+  {
+    slug: "classic-bwl",
+    name: "Blackwing Lair",
+    raidNames: ["Blackwing Lair"],
+  },
+  {
+    slug: "classic-aq",
+    name: "Ahn'Qiraj",
+    raidNames: ["Temple of Ahn'Qiraj", "Ruins of Ahn'Qiraj", "Ahn'Qiraj"],
+  },
+  {
+    slug: "classic-naxx",
+    name: "Naxxramas",
+    raidNames: ["Naxxramas"],
+  },
+];
+
+const tbcProgressionTiers: ProgressionTier[] = [
+  {
+    slug: "tbc-tier-4",
+    name: "Tier 4",
+    raidNames: ["Karazhan", "Gruul's Lair", "Magtheridon's Lair"],
+    raidAliases: ["Gruul / Magtheridon", "Gruul", "Magtheridon"],
+  },
+  {
+    slug: "tbc-tier-5",
+    name: "Tier 5",
+    raidNames: ["Serpentshrine Cavern", "Tempest Keep", "The Eye"],
+    raidAliases: ["SSC / TK", "Serpentshrine Cavern / Tempest Keep"],
+  },
+  {
+    slug: "tbc-tier-6",
+    name: "Tier 6",
+    raidNames: ["Mount Hyjal", "Black Temple", "Battle for Mount Hyjal"],
+    raidAliases: ["BT / Hyjal", "Black Temple / Hyjal", "Hyjal Summit"],
+  },
+  {
+    slug: "tbc-sunwell",
+    name: "Sunwell Plateau",
+    raidNames: ["Sunwell Plateau"],
+  },
+];
+
+const wrathProgressionTiers: ProgressionTier[] = [
+  {
+    slug: "wrath-tier-7",
+    name: "Tier 7",
+    raidNames: ["Naxxramas", "The Obsidian Sanctum", "The Eye of Eternity"],
+    raidAliases: ["Naxx / Sarth / Maly", "Naxxramas / Obsidian Sanctum / Eye of Eternity", "Obsidian Sanctum", "Eye of Eternity"],
+  },
+  {
+    slug: "wrath-tier-8",
+    name: "Tier 8",
+    raidNames: ["Ulduar"],
+  },
+  {
+    slug: "wrath-tier-9",
+    name: "Tier 9",
+    raidNames: ["Trial of the Crusader", "Onyxia's Lair"],
+    raidAliases: ["Onyxia"],
+  },
+  {
+    slug: "wrath-tier-10",
+    name: "Tier 10",
+    raidNames: ["Icecrown Citadel", "The Ruby Sanctum"],
+    raidAliases: ["Ruby Sanctum"],
+  },
+];
+
+const cataProgressionTiers: ProgressionTier[] = [
+  {
+    slug: "cata-tier-11",
+    name: "Tier 11",
+    raidNames: ["Blackwing Descent", "The Bastion of Twilight", "Throne of the Four Winds"],
+    raidAliases: ["TotFW / BWD / BoT", "Throne of the Four Winds / Blackwing Descent / Bastion of Twilight", "Bastion of Twilight"],
+  },
+  {
+    slug: "cata-tier-12",
+    name: "Tier 12",
+    raidNames: ["Firelands"],
+  },
+  {
+    slug: "cata-tier-13",
+    name: "Tier 13",
+    raidNames: ["Dragon Soul"],
+  },
+];
 
 export const progressionTiers: ProgressionTier[] = [
   {
@@ -99,78 +198,40 @@ export const progressionTiers: ProgressionTier[] = [
   },
 ];
 
-const getTierSortNumber = (slug: string) => Number(slug.replace("tier-", "")) || 0;
-
 export const progressionExpansions: ProgressionExpansion[] = [
   {
     slug: "mop",
     name: "Mists of Pandaria Classic",
     shortName: "MoP Classic",
-    tiers: [...progressionTiers].sort((a, b) => getTierSortNumber(b.slug) - getTierSortNumber(a.slug)),
+    tiers: [progressionTiers[2], progressionTiers[1], progressionTiers[0]],
   },
   {
     slug: "cata",
     name: "Cataclysm Classic",
     shortName: "Cataclysm",
-    isPlaceholder: true,
-    tiers: [
-      { slug: "tier-13", name: "Tier 13", raidNames: ["Dragon Soul"], isPlaceholder: true },
-      { slug: "tier-12", name: "Tier 12", raidNames: ["Firelands"], isPlaceholder: true },
-      {
-        slug: "tier-11",
-        name: "Tier 11",
-        raidNames: ["Bastion of Twilight", "Blackwing Descent", "Throne of the Four Winds"],
-        isPlaceholder: true,
-      },
-    ],
+    tiers: [cataProgressionTiers[2], cataProgressionTiers[1], cataProgressionTiers[0]],
   },
   {
     slug: "wrath",
     name: "Wrath of the Lich King Classic",
     shortName: "Wrath",
-    isPlaceholder: true,
-    tiers: [
-      { slug: "tier-10", name: "Tier 10", raidNames: ["Icecrown Citadel"], isPlaceholder: true },
-      { slug: "tier-9", name: "Tier 9", raidNames: ["Trial of the Crusader"], isPlaceholder: true },
-      { slug: "tier-8", name: "Tier 8", raidNames: ["Ulduar"], isPlaceholder: true },
-      {
-        slug: "tier-7",
-        name: "Tier 7",
-        raidNames: ["Naxxramas", "Eye of Eternity", "Obsidian Sanctum"],
-        isPlaceholder: true,
-      },
-    ],
+    tiers: [wrathProgressionTiers[3], wrathProgressionTiers[2], wrathProgressionTiers[1], wrathProgressionTiers[0]],
   },
   {
     slug: "tbc",
     name: "The Burning Crusade Classic",
     shortName: "TBC",
-    isPlaceholder: true,
-    tiers: [
-      { slug: "sunwell", name: "Sunwell Plateau", raidNames: ["Sunwell Plateau"], isPlaceholder: true },
-      {
-        slug: "black-temple-hyjal",
-        name: "Black Temple / Hyjal",
-        raidNames: ["Black Temple", "Hyjal Summit"],
-        isPlaceholder: true,
-      },
-      { slug: "tier-5", name: "Tier 5", raidNames: ["Serpentshrine Cavern", "Tempest Keep"], isPlaceholder: true },
-      { slug: "tier-4", name: "Tier 4", raidNames: ["Karazhan", "Gruul", "Magtheridon"], isPlaceholder: true },
-    ],
+    tiers: [tbcProgressionTiers[3], tbcProgressionTiers[2], tbcProgressionTiers[1], tbcProgressionTiers[0]],
   },
   {
     slug: "classic",
     name: "Classic Era",
     shortName: "Classic",
-    isPlaceholder: true,
-    tiers: [
-      { slug: "naxxramas", name: "Naxxramas", raidNames: ["Naxxramas"], isPlaceholder: true },
-      { slug: "ahnqiraj", name: "Ahn'Qiraj", raidNames: ["Ahn'Qiraj"], isPlaceholder: true },
-      { slug: "blackwing-lair", name: "Blackwing Lair", raidNames: ["Blackwing Lair"], isPlaceholder: true },
-      { slug: "molten-core-onyxia", name: "Molten Core / Onyxia", raidNames: ["Molten Core", "Onyxia"], isPlaceholder: true },
-    ],
+    tiers: [classicProgressionTiers[3], classicProgressionTiers[2], classicProgressionTiers[1], classicProgressionTiers[0]],
   },
 ];
+
+export const allProgressionTiers: ProgressionTier[] = progressionExpansions.flatMap((expansion) => expansion.tiers);
 
 const emptyProgress: RaidProgress = {
   heroicBosses: 0,
@@ -239,57 +300,42 @@ const bossEncounterOrders = new Map<string, Map<number, number>>([
   ],
 ]);
 
+const createBossOrder = (names: string[]) =>
+  new Map(names.map((name, index) => [normalizeProgressionName(name), index + 1]));
+
 const bossNameOrders = new Map<string, Map<string, number>>([
-  [
-    "mogushanvaults",
-    new Map([
-      ["thestoneguard", 1],
-      ["fengtheaccursed", 2],
-      ["garajalthespiritbinder", 3],
-      ["thespiritkings", 4],
-      ["elegon", 5],
-      ["willoftheemperor", 6],
-    ]),
-  ],
-  [
-    "heartoffear",
-    new Map([
-      ["imperialvizierzorlok", 1],
-      ["bladelordtayak", 2],
-      ["garalon", 3],
-      ["windlordmeljarak", 4],
-      ["ambershaperunsok", 5],
-      ["grandempressshekzeer", 6],
-    ]),
-  ],
-  [
-    "terraceofendlessspring",
-    new Map([
-      ["protectorsoftheendless", 1],
-      ["tsulong", 2],
-      ["leishi", 3],
-      ["shaoffear", 4],
-    ]),
-  ],
-  [
-    "throneofthunder",
-    new Map([
-      ["jinrokhthebreaker", 1],
-      ["horridon", 2],
-      ["councilofelders", 3],
-      ["tortos", 4],
-      ["megaera", 5],
-      ["jikun", 6],
-      ["durumutheforgotten", 7],
-      ["primordius", 8],
-      ["darkanimus", 9],
-      ["ironqon", 10],
-      ["twinconsorts", 11],
-      ["twinempyreans", 11],
-      ["leishen", 12],
-      ["raden", 13],
-    ]),
-  ],
+  ["moltencore", createBossOrder(["Lucifron", "Magmadar", "Gehennas", "Garr", "Baron Geddon", "Shazzrah", "Sulfuron Harbinger", "Golemagg the Incinerator", "Majordomo Executus", "Ragnaros"])],
+  ["onyxiaslair", createBossOrder(["Onyxia"])],
+  ["blackwinglair", createBossOrder(["Razorgore the Untamed", "Vaelastrasz the Corrupt", "Broodlord Lashlayer", "Firemaw", "Ebonroc", "Flamegor", "Chromaggus", "Nefarian"])],
+  ["ruinsofahnqiraj", createBossOrder(["Kurinnaxx", "General Rajaxx", "Moam", "Buru the Gorger", "Ayamiss the Hunter", "Ossirian the Unscarred"])],
+  ["templeofahnqiraj", createBossOrder(["The Prophet Skeram", "Silithid Royalty", "Battleguard Sartura", "Fankriss the Unyielding", "Viscidus", "Princess Huhuran", "Twin Emperors", "Ouro", "C'Thun"])],
+  ["ahnqiraj", createBossOrder(["The Prophet Skeram", "Silithid Royalty", "Battleguard Sartura", "Fankriss the Unyielding", "Viscidus", "Princess Huhuran", "Twin Emperors", "Ouro", "C'Thun"])],
+  ["naxxramas", createBossOrder(["Anub'Rekhan", "Grand Widow Faerlina", "Maexxna", "Noth the Plaguebringer", "Heigan the Unclean", "Loatheb", "Instructor Razuvious", "Gothik the Harvester", "The Four Horsemen", "Patchwerk", "Grobbulus", "Gluth", "Thaddius", "Sapphiron", "Kel'Thuzad"])],
+  ["karazhan", createBossOrder(["Attumen the Huntsman", "Moroes", "Maiden of Virtue", "Opera Event", "The Curator", "Terestian Illhoof", "Shade of Aran", "Netherspite", "Chess Event", "Prince Malchezaar", "Nightbane"])],
+  ["gruulslair", createBossOrder(["High King Maulgar", "Gruul the Dragonkiller"])],
+  ["magtheridonslair", createBossOrder(["Magtheridon"])],
+  ["serpentshrinecavern", createBossOrder(["Hydross the Unstable", "The Lurker Below", "Leotheras the Blind", "Fathom-Lord Karathress", "Morogrim Tidewalker", "Lady Vashj"])],
+  ["tempestkeep", createBossOrder(["Al'ar", "Void Reaver", "High Astromancer Solarian", "Kael'thas Sunstrider"])],
+  ["theeye", createBossOrder(["Al'ar", "Void Reaver", "High Astromancer Solarian", "Kael'thas Sunstrider"])],
+  ["mounthyjal", createBossOrder(["Rage Winterchill", "Anetheron", "Kaz'rogal", "Azgalor", "Archimonde"])],
+  ["battleformounthyjal", createBossOrder(["Rage Winterchill", "Anetheron", "Kaz'rogal", "Azgalor", "Archimonde"])],
+  ["blacktemple", createBossOrder(["High Warlord Naj'entus", "Supremus", "Shade of Akama", "Teron Gorefiend", "Gurtogg Bloodboil", "Reliquary of Souls", "Mother Shahraz", "The Illidari Council", "Illidan Stormrage"])],
+  ["sunwellplateau", createBossOrder(["Kalecgos", "Brutallus", "Felmyst", "Eredar Twins", "M'uru", "Kil'jaeden"])],
+  ["theobsidiansanctum", createBossOrder(["Sartharion"])],
+  ["theeyeofeternity", createBossOrder(["Malygos"])],
+  ["ulduar", createBossOrder(["Flame Leviathan", "Ignis the Furnace Master", "Razorscale", "XT-002 Deconstructor", "Assembly of Iron", "Kologarn", "Auriaya", "Hodir", "Thorim", "Freya", "Mimiron", "General Vezax", "Yogg-Saron", "Algalon the Observer"])],
+  ["trialofthecrusader", createBossOrder(["Northrend Beasts", "Lord Jaraxxus", "Faction Champions", "Twin Val'kyr", "Anub'arak"])],
+  ["icecrowncitadel", createBossOrder(["Lord Marrowgar", "Lady Deathwhisper", "Gunship Battle", "Deathbringer Saurfang", "Festergut", "Rotface", "Professor Putricide", "Blood Prince Council", "Blood-Queen Lana'thel", "Valithria Dreamwalker", "Sindragosa", "The Lich King"])],
+  ["therubysanctum", createBossOrder(["Saviana Ragefire", "Baltharus the Warborn", "General Zarithrian", "Halion"])],
+  ["blackwingdescent", createBossOrder(["Magmaw", "Omnotron Defense System", "Maloriak", "Atramedes", "Chimaeron", "Nefarian's End"])],
+  ["thebastionoftwilight", createBossOrder(["Halfus Wyrmbreaker", "Valiona & Theralion", "Ascendant Council", "Cho'gall", "Sinestra"])],
+  ["throneofthefourwinds", createBossOrder(["Conclave of Wind", "Al'Akir"])],
+  ["firelands", createBossOrder(["Beth'tilac", "Lord Rhyolith", "Alysrazor", "Shannox", "Baleroc", "Majordomo Staghelm", "Ragnaros"])],
+  ["dragonsoul", createBossOrder(["Morchok", "Warlord Zon'ozz", "Yor'sahj the Unsleeping", "Hagara the Stormbinder", "Ultraxion", "Warmaster Blackhorn", "Spine of Deathwing", "Madness of Deathwing"])],
+  ["mogushanvaults", createBossOrder(["The Stone Guard", "Feng the Accursed", "Gara'jal the Spiritbinder", "The Spirit Kings", "Elegon", "Will of the Emperor"])],
+  ["heartoffear", createBossOrder(["Imperial Vizier Zor'lok", "Blade Lord Ta'yak", "Garalon", "Wind Lord Mel'jarak", "Amber-Shaper Un'sok", "Grand Empress Shek'zeer"])],
+  ["terraceofendlessspring", createBossOrder(["Protectors of the Endless", "Tsulong", "Lei Shi", "Sha of Fear"])],
+  ["throneofthunder", createBossOrder(["Jin'rokh the Breaker", "Horridon", "Council of Elders", "Tortos", "Megaera", "Ji-Kun", "Durumu the Forgotten", "Primordius", "Dark Animus", "Iron Qon", "Twin Consorts", "Lei Shen", "Ra-den"])],
 ]);
 
 export const getDifficulty = (boss: ProgressionBoss, difficultyName: string): ProgressionDifficulty | undefined =>
@@ -459,17 +505,42 @@ export const getRaidLatestKill = (raid: ProgressionRaid) => {
   return undefined;
 };
 
-export const getTierBySlug = (slug?: string) => progressionTiers.find((tier) => tier.slug === slug);
+const getTierMatchNames = (tier: ProgressionTier) => [...tier.raidNames, ...(tier.raidAliases ?? [])];
+
+const getRaidConfiguredOrder = (tier: ProgressionTier, raidName?: string | null) => {
+  const normalizedRaidName = normalizeProgressionName(raidName);
+  const index = tier.raidNames.findIndex((tierRaidName) => normalizeProgressionName(tierRaidName) === normalizedRaidName);
+
+  return index === -1 ? Number.POSITIVE_INFINITY : index;
+};
+
+export const getTierBySlug = (slug?: string, expansionSlug?: string) => {
+  const tiers = expansionSlug
+    ? progressionExpansions.find((expansion) => expansion.slug === expansionSlug)?.tiers ?? []
+    : allProgressionTiers;
+
+  return tiers.find((tier) => tier.slug === slug);
+};
 
 export const getTierForRaidName = (raidName?: string | null) => {
   const normalizedRaidName = normalizeProgressionName(raidName);
 
-  return progressionTiers.find((tier) =>
-    tier.raidNames.some((tierRaidName) => normalizeProgressionName(tierRaidName) === normalizedRaidName),
+  return allProgressionTiers.find((tier) =>
+    getTierMatchNames(tier).some((tierRaidName) => normalizeProgressionName(tierRaidName) === normalizedRaidName),
   );
 };
 
 export const getTierRaids = (tier: ProgressionTier, raids: ProgressionRaid[]) => {
+  const taggedRaids = raids.filter((raid) => raid.tierSlug === tier.slug);
+
+  if (taggedRaids.length > 0) {
+    return taggedRaids.sort(
+      (a, b) =>
+        getRaidConfiguredOrder(tier, a.name) - getRaidConfiguredOrder(tier, b.name) ||
+        (a.name || "").localeCompare(b.name || ""),
+    );
+  }
+
   const raidByName = new Map(raids.map((raid) => [normalizeProgressionName(raid.name), raid]));
 
   return tier.raidNames
@@ -533,7 +604,7 @@ export const getCurrentRaid = (raids: ProgressionRaid[]) => {
 export const getCurrentTier = (raids: ProgressionRaid[]) => {
   const currentRaid = getCurrentRaid(raids);
 
-  return getTierForRaidName(currentRaid?.name) ?? progressionTiers[0];
+  return getTierBySlug(currentRaid?.tierSlug ?? undefined) ?? getTierForRaidName(currentRaid?.name) ?? progressionTiers[0];
 };
 
 export const getCurrentTierProgress = (raids: ProgressionRaid[]) => {
