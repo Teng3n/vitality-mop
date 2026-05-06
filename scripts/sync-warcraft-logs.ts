@@ -969,7 +969,8 @@ addRaidEncounters("Naxxramas", "wrath", "wrath-tier-7", ["Anub'Rekhan", "Grand W
 addRaidEncounters("The Obsidian Sanctum", "wrath", "wrath-tier-7", ["Sartharion"]);
 addRaidEncounters("The Eye of Eternity", "wrath", "wrath-tier-7", ["Malygos"]);
 addRaidEncounters("Ulduar", "wrath", "wrath-tier-8", ["Flame Leviathan", "Ignis the Furnace Master", "Razorscale", "XT-002 Deconstructor", "Assembly of Iron", "Kologarn", "Auriaya", "Hodir", "Thorim", "Freya", "Mimiron", "General Vezax", "Yogg-Saron", "Algalon the Observer"]);
-addRaidEncounters("Trial of the Crusader", "wrath", "wrath-tier-9", ["Northrend Beasts", "Lord Jaraxxus", "Faction Champions", "Twin Val'kyr", "Anub'arak"]);
+addRaidEncounters("Ulduar", "wrath", "wrath-tier-8", ["The Iron Council"]);
+addRaidEncounters("Trial of the Crusader", "wrath", "wrath-tier-9", ["Northrend Beasts", "Lord Jaraxxus", "Faction Champions", "Twin Val'kyr", "Val'kyr Twins", "Anub'arak"]);
 addRaidEncounters("Onyxia's Lair", "wrath", "wrath-tier-9", ["Onyxia"]);
 addRaidEncounters("Icecrown Citadel", "wrath", "wrath-tier-10", ["Lord Marrowgar", "Lady Deathwhisper", "Gunship Battle", "Deathbringer Saurfang", "Festergut", "Rotface", "Professor Putricide", "Blood Prince Council", "Blood-Queen Lana'thel", "Valithria Dreamwalker", "Sindragosa", "The Lich King"]);
 addRaidEncounters("The Ruby Sanctum", "wrath", "wrath-tier-10", ["Saviana Ragefire", "Baltharus the Warborn", "General Zarithrian", "Halion"]);
@@ -1006,6 +1007,10 @@ function getCanonicalRaidClassification(zoneName: string, fightName: string, sou
         return inferred;
       }
     }
+  }
+
+  if (normalizedFight) {
+    return null;
   }
 
   return selectClassification(zoneClassifications.get(normalizeProgressionName(zoneName)), sourceTiers);
@@ -1136,7 +1141,7 @@ function buildProgressionSeed(reportsData: WclReportsData): WclProgressionSeed {
         raidDrafts.set(raidKey, raid);
         raid.sourceLabels.add(getReportSourceLabel(report));
 
-        const bossKey = `${fight.encounterId}:${fight.name}`;
+        const bossKey = normalizeProgressionName(fight.name) || `${fight.encounterId}:${fight.name}`;
         const boss =
           raid.bosses.get(bossKey) ??
           ({
