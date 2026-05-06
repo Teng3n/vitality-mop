@@ -246,12 +246,14 @@ The script:
 - Queries the Classic GraphQL endpoint at `https://classic.warcraftlogs.com/api/v2/client`.
 - Reads recent guild reports for either `WCL_GUILD_SOURCES_JSON` sources or the fallback `WCL_GUILD_NAME`, `WCL_SERVER_SLUG`, and `WCL_REGION`.
 - Extracts report metadata, zone data, and report fight data.
-- Writes deterministic JSON to `src/data/wclReports.json`, `src/data/wclProgressionSeed.json`, and `src/data/wclRankings.json`.
+- Supplements report/fight data with WCL guild progress data when the report list misses historical progression kills.
+- Writes deterministic JSON to `src/data/wclReports.json`, `src/data/wclGuildProgress.json`, `src/data/wclProgressionSeed.json`, and `src/data/wclRankings.json`.
 - Updates `src/data/wclSyncMeta.json` only when the WCL report/progression/ranking JSON actually changes.
 
 Generated Warcraft Logs files:
 
 - `src/data/wclReports.json`: recent reports with fight metadata.
+- `src/data/wclGuildProgress.json`: guild progress records used to supplement historical kills when report/fight sync is incomplete.
 - `src/data/wclProgressionSeed.json`: raid/boss/difficulty seed data for progression pages.
 - `src/data/wclRankings.json`: ranking data when available, or a safe null fallback when the queried API shape does not expose guild zone rankings.
 - `src/data/wclSyncMeta.json`: last successful WCL data-changing sync metadata.
@@ -298,6 +300,16 @@ query GuildReports($guildName: String!, $serverSlug: String!, $serverRegion: Str
 }
 ```
 
+The guild progress supplement uses WCL's `progressRaceData.progressRace` field for focused historical gaps. The current supplement is for guild `619658` and progress zone `1010`, which WCL uses for the TBC Tier 5 SSC/TK guild progress page:
+
+```graphql
+query GuildProgressRace($guildId: Int!, $zoneId: Int!, $difficulty: Int!, $size: Int!) {
+  progressRaceData {
+    progressRace(guildID: $guildId, zoneID: $zoneId, difficulty: $difficulty, size: $size)
+  }
+}
+```
+
 Assumptions:
 
 - Warcraft Logs guild lookup uses `guildName`, `guildServerSlug`, and `guildServerRegion`.
@@ -305,6 +317,7 @@ Assumptions:
 - `WCL_GUILD_SOURCES_JSON` can assign sources to expansion/tier groups. The audited mapping uses `Vitality - Raden` for MoP, `Might - Fairbanks` for Classic and early TBC, `Inept - Grobbulus` for late TBC and Wrath, and `Inept - Benediction` for Cataclysm.
 - If a source includes `guildId`, the sync first tries the Warcraft Logs `reportData.reports(guildID: ...)` query. If that query is rejected or unavailable, it falls back to `guildName`, `guildServerSlug`, and `guildServerRegion`.
 - When a tier appears in multiple configured sources, the sync merges those source reports into one progression result. This is intentional for split tiers such as `tbc-tier-5`.
+- TBC Tier 5 also uses WCL guild progress zone `1010` for `Inept - Grobbulus` when report/fight data is missing. Guild progress confirms only boss completion data, so it supplements missing kills without replacing richer report/fight data.
 - When the same raid appears from sources that are not both configured for its tier, the sync prefers configured tier sources and falls back to the newest available source only if no configured source is present.
 - If one configured WCL source fails, the sync preserves existing JSON for that source when possible instead of wiping all WCL data.
 - The sync reads multiple report pages per source. The default `WCL_REPORT_LIMIT=20` and `WCL_REPORT_PAGES=25` can fetch up to 500 reports per source so older tier logs are less likely to be missed.

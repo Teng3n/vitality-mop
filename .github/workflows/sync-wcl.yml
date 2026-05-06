@@ -53,12 +53,12 @@ jobs:
         id: changes
         shell: bash
         run: |
-          if git diff --quiet -- src/data/wclReports.json src/data/wclProgressionSeed.json src/data/wclRankings.json src/data/wclSyncMeta.json; then
+          if git diff --quiet -- src/data/wclReports.json src/data/wclGuildProgress.json src/data/wclProgressionSeed.json src/data/wclRankings.json src/data/wclSyncMeta.json; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No Warcraft Logs data changes detected."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            git diff --stat -- src/data/wclReports.json src/data/wclProgressionSeed.json src/data/wclRankings.json src/data/wclSyncMeta.json
+            git diff --stat -- src/data/wclReports.json src/data/wclGuildProgress.json src/data/wclProgressionSeed.json src/data/wclRankings.json src/data/wclSyncMeta.json
           fi
 
       - name: Commit WCL generated data
@@ -67,7 +67,13 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/wclReports.json src/data/wclProgressionSeed.json src/data/wclRankings.json src/data/wclSyncMeta.json
+          git add src/data/wclReports.json src/data/wclGuildProgress.json src/data/wclProgressionSeed.json src/data/wclRankings.json src/data/wclSyncMeta.json
           git commit -m "chore(data): sync Warcraft Logs archive data"
-          git pull --rebase origin feature/guild-site-mvp
-          git push
+          for attempt in 1 2 3; do
+            git pull --rebase origin feature/guild-site-mvp
+            if git push; then
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1

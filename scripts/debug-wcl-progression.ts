@@ -32,6 +32,26 @@ type WclReportsData = {
   reports?: WclReport[] | null;
 };
 
+type WclGuildProgressRecord = {
+  bossName?: string | null;
+  raidName?: string | null;
+  status?: string | null;
+  firstKillDate?: string | null;
+  sourceLabel?: string | null;
+  progressZoneId?: number | null;
+};
+
+type WclGuildProgressData = {
+  targets?: Array<{
+    guildId?: number | null;
+    sourceLabel?: string | null;
+    zoneId?: number | null;
+    tierSlug?: string | null;
+    killedCount?: number | null;
+    records?: WclGuildProgressRecord[] | null;
+  }> | null;
+};
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const tier5Sources = ["Might - Fairbanks", "Inept - Grobbulus"];
 const tier5ZoneMatchers = [/Tempest Keep/i, /The Eye/i, /TK/i, /SSC \/ TK/i, /Serpentshrine Cavern/i];
@@ -48,6 +68,12 @@ const tier5BossSearchTerms = [...sscBosses, ...tkBosses, "Kael'thas"];
 
 function readJson<T>(relativePath: string): T {
   return JSON.parse(fs.readFileSync(path.join(root, relativePath), "utf8")) as T;
+}
+
+function readJsonIfExists<T>(relativePath: string): T | null {
+  const filePath = path.join(root, relativePath);
+
+  return fs.existsSync(filePath) ? (JSON.parse(fs.readFileSync(filePath, "utf8")) as T) : null;
 }
 
 function unique(values: Array<string | null | undefined>) {
@@ -187,8 +213,39 @@ function printTier5Debug(allReports: WclReport[]) {
   console.log(`Kael'thas kill=true anywhere: ${kaelHits.some((hit) => hit.kill) ? "yes" : "no"}`);
 }
 
+function printTier5GuildProgressDebug(guildProgressData: WclGuildProgressData | null) {
+  console.log("");
+  console.log("TBC Tier 5 guild progress supplement");
+
+  const targets = (guildProgressData?.targets ?? []).filter((target) => target.tierSlug === "tbc-tier-5");
+
+  if (targets.length === 0) {
+    console.log("No Tier 5 guild progress supplement data found.");
+    return;
+  }
+
+  for (const target of targets) {
+    const records = target.records ?? [];
+    const killedRecords = records.filter((record) => record.status === "Killed");
+
+    console.log(
+      `- ${target.sourceLabel ?? "Unknown source"} guild ${target.guildId ?? "unknown"} zone ${
+        target.zoneId ?? "unknown"
+      }: ${killedRecords.length} killed record(s), WCL killedCount ${target.killedCount ?? "unknown"}`,
+    );
+
+    for (const bossName of [...sscBosses, ...tkBosses]) {
+      const record = records.find((candidate) => candidate.bossName === bossName);
+      console.log(
+        `  - ${bossName}: ${record ? record.status ?? "Unknown" : "Missing"}${record?.firstKillDate ? ` at ${record.firstKillDate}` : ""}`,
+      );
+    }
+  }
+}
+
 const reportsData = readJson<WclReportsData>("src/data/wclReports.json");
 const progressionSeed = readJson<ProgressionSeed>("src/data/wclProgressionSeed.json");
+const guildProgressData = readJsonIfExists<WclGuildProgressData>("src/data/wclGuildProgress.json");
 const reports = reportsData.reports ?? [];
 const raids = progressionSeed.raids ?? [];
 
@@ -209,6 +266,7 @@ for (const expansion of progressionExpansions) {
 }
 
 printTier5Debug(reports);
+printTier5GuildProgressDebug(guildProgressData);
 
 console.log("");
 console.log("MoP Tier 15 checks");

@@ -26,6 +26,8 @@ const guildName = process.env.WCL_DEBUG_GUILD_NAME ?? "Inept";
 const serverSlug = process.env.WCL_DEBUG_SERVER_SLUG ?? "grobbulus";
 const serverRegion = process.env.WCL_DEBUG_SERVER_REGION ?? "US";
 const zoneId = Number(process.env.WCL_DEBUG_ZONE_ID ?? 1010);
+const difficulty = Number(process.env.WCL_DEBUG_DIFFICULTY ?? 3);
+const size = Number(process.env.WCL_DEBUG_SIZE ?? 25);
 const tier5BossNames = [
   "Hydross the Unstable",
   "The Lurker Below",
@@ -39,33 +41,9 @@ const tier5BossNames = [
   "Kael'thas Sunstrider",
 ];
 
-const introspectionQuery = `
+const progressArgsQuery = `
 query ProgressSchema {
   progressRaceDataType: __type(name: "ProgressRaceData") {
-    fields {
-      name
-      args {
-        name
-        type {
-          kind
-          name
-          ofType {
-            kind
-            name
-          }
-        }
-      }
-      type {
-        kind
-        name
-        ofType {
-          kind
-          name
-        }
-      }
-    }
-  }
-  guildType: __type(name: "Guild") {
     fields {
       name
       args {
@@ -76,39 +54,35 @@ query ProgressSchema {
 }
 `;
 
-const progressAttempts = [
-  {
-    label: "guildID zoneID difficulty 3 size 25",
-    args: { guildID: guildId, zoneID: zoneId, difficulty: 3, size: 25 },
-  },
-  {
-    label: "guildID zoneID difficulty 4 size 25",
-    args: { guildID: guildId, zoneID: zoneId, difficulty: 4, size: 25 },
-  },
-  {
-    label: "guildID zoneID size 25",
-    args: { guildID: guildId, zoneID: zoneId, size: 25 },
-  },
-  {
-    label: "guildID competitionID difficulty 3 size 25",
-    args: { guildID: guildId, competitionID: zoneId, difficulty: 3, size: 25 },
-  },
-  {
-    label: "guildID competitionID difficulty 4 size 25",
-    args: { guildID: guildId, competitionID: zoneId, difficulty: 4, size: 25 },
-  },
-  {
-    label: "guild/server zoneID difficulty 3 size 25",
-    args: { guildName, serverSlug, serverRegion, zoneID: zoneId, difficulty: 3, size: 25 },
-  },
-  {
-    label: "guild/server zoneID difficulty 4 size 25",
-    args: { guildName, serverSlug, serverRegion, zoneID: zoneId, difficulty: 4, size: 25 },
-  },
-];
+const progressRaceQuery = `
+query GuildProgressRace($guildId: Int!, $zoneId: Int!, $difficulty: Int!, $size: Int!) {
+  progressRaceData {
+    progressRace(guildID: $guildId, zoneID: $zoneId, difficulty: $difficulty, size: $size)
+  }
+}
+`;
 
 function cleanText(value: unknown) {
   return String(value ?? "").trim();
+}
+
+function toNumber(value: unknown) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function toIsoString(value: unknown) {
+  const parsed = toNumber(value);
+
+  if (parsed === null || parsed <= 0) {
+    return null;
+  }
+
+  return new Date(parsed).toISOString();
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
 
 async function requestAccessToken() {
@@ -165,35 +139,6 @@ async function requestGraphQl<T>(accessToken: string, query: string, variables: 
   return parsed.data;
 }
 
-function getGraphQlType(value: unknown) {
-  if (typeof value === "number") {
-    return "Int";
-  }
-
-  if (typeof value === "boolean") {
-    return "Boolean";
-  }
-
-  return "String";
-}
-
-function buildProgressRaceQuery(args: Record<string, unknown>) {
-  const variableDefinitions = Object.entries(args)
-    .map(([name, value]) => `$${name}: ${getGraphQlType(value)}!`)
-    .join(", ");
-  const fieldArgs = Object.keys(args)
-    .map((name) => `${name}: $${name}`)
-    .join(", ");
-
-  return `
-query GuildProgress(${variableDefinitions}) {
-  progressRaceData {
-    progressRace(${fieldArgs})
-  }
-}
-`;
-}
-
 function collectObjects(value: unknown, output: Record<string, unknown>[] = []) {
   if (!value || typeof value !== "object") {
     return output;
@@ -217,26 +162,32 @@ function collectObjects(value: unknown, output: Record<string, unknown>[] = []) 
   return output;
 }
 
-function summarizeProgressPayload(payload: unknown) {
-  const json = JSON.stringify(payload);
-  const objects = collectObjects(payload);
-  const topLevelKeys = payload && typeof payload === "object" && !Array.isArray(payload) ? Object.keys(payload as Record<string, unknown>) : [];
+function findProgressGuildPayload(payload: unknown) {
+  const candidates = collectObjects(payload).filter((objectValue) => Array.isArray(objectValue.encounters));
 
-  console.log(`payload type: ${Array.isArray(payload) ? "array" : typeof payload}`);
-  console.log(`payload bytes: ${json.length}`);
-  console.log(`top-level keys: ${topLevelKeys.join(", ") || "none"}`);
-  console.log(`objects scanned: ${objects.length}`);
+  return (
+    candidates.find((candidate) => toNumber(candidate.id) === guildId) ??
+    candidates.find((candidate) => cleanText(candidate.name).toLowerCase() === guildName.toLowerCase()) ??
+    candidates[0] ??
+    null
+  );
+}
 
-  for (const bossName of tier5BossNames) {
-    const matchingObjects = objects.filter((objectValue) => JSON.stringify(objectValue).includes(bossName));
-    const killishObjects = matchingObjects.filter((objectValue) => /kill|defeat|complete/i.test(JSON.stringify(objectValue)));
+function getEncounterRows(payload: Record<string, unknown>) {
+  const encounters = Array.isArray(payload.encounters) ? payload.encounters.filter(isRecord) : [];
 
-    console.log(`${bossName}: ${matchingObjects.length} object(s), ${killishObjects.length} kill/progress-ish object(s)`);
+  return tier5BossNames.map((bossName) => {
+    const encounter = encounters.find((candidate) => cleanText(candidate.name) === bossName);
 
-    for (const objectValue of matchingObjects.slice(0, 2)) {
-      console.log(JSON.stringify(objectValue, null, 2).slice(0, 1200));
-    }
-  }
+    return {
+      bossName,
+      found: Boolean(encounter),
+      killed: encounter?.isKilled === true,
+      killedAt: toIsoString(encounter?.killedAtTimestamp),
+      bestPercent: toNumber(encounter?.bestPercent),
+      pulls: toNumber(encounter?.pullCount),
+    };
+  });
 }
 
 async function run() {
@@ -246,20 +197,37 @@ async function run() {
     return;
   }
 
-  const schema = await requestGraphQl<Record<string, unknown>>(accessToken, introspectionQuery, {});
-  console.log("WCL guild progress schema snapshot");
-  console.log(JSON.stringify(schema, null, 2).slice(0, 5000));
+  const schema = await requestGraphQl<Record<string, unknown>>(accessToken, progressArgsQuery, {});
+  const progressRaceField = (schema.progressRaceDataType as { fields?: Array<{ name?: string; args?: Array<{ name?: string }> }> } | undefined)?.fields?.find(
+    (field) => field.name === "progressRace",
+  );
+  console.log(`WCL progressRace args: ${progressRaceField?.args?.map((arg) => arg.name).join(", ") || "unknown"}`);
+  console.log(`WCL guild progress debug: guild ${guildId} (${guildName} - ${serverSlug}, ${serverRegion}), zone ${zoneId}, difficulty ${difficulty}, size ${size}`);
 
-  for (const attempt of progressAttempts) {
-    console.log("");
-    console.log(`WCL guild progress debug: ${attempt.label}`);
+  const data = await requestGraphQl<GuildProgressResponse>(accessToken, progressRaceQuery, {
+    guildId,
+    zoneId,
+    difficulty,
+    size,
+  });
+  const payload = findProgressGuildPayload(data.progressRaceData?.progressRace);
 
-    try {
-      const data = await requestGraphQl<GuildProgressResponse>(accessToken, buildProgressRaceQuery(attempt.args), attempt.args);
-      summarizeProgressPayload(data.progressRaceData?.progressRace);
-    } catch (error) {
-      console.log(`query failed: ${error instanceof Error ? error.message : String(error)}`);
-    }
+  if (!payload) {
+    console.log("No guild progress encounter payload was returned.");
+    return;
+  }
+
+  console.log(`Guild: ${cleanText(payload.name) || guildName}`);
+  console.log(`Killed count: ${toNumber(payload.killedCount) ?? "unknown"}`);
+  console.log("");
+  console.log("Boss progress");
+
+  for (const row of getEncounterRows(payload)) {
+    console.log(
+      `- ${row.bossName}: ${row.found ? (row.killed ? "Killed" : "Not killed") : "Missing"}${
+        row.killedAt ? ` at ${row.killedAt}` : ""
+      }${row.bestPercent !== null ? `, best ${row.bestPercent}%` : ""}${row.pulls !== null ? `, pulls ${row.pulls}` : ""}`,
+    );
   }
 }
 

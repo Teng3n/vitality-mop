@@ -170,6 +170,7 @@ type WclSyncMeta = {
   sources: WclSourceSummary[];
   reportsSynced: number;
   fightsSynced: number;
+  guildProgressRecordsSynced: number;
 };
 
 type WclRankingsData = {
@@ -185,6 +186,64 @@ type WclRankingsData = {
     realm: number | null;
     faction: number | null;
   };
+};
+
+type WclGuildProgressQueryData = {
+  progressRaceData?: {
+    progressRace?: unknown;
+  } | null;
+};
+
+type WclGuildProgressTarget = {
+  guildId: number;
+  guildName: string;
+  serverSlug: string;
+  region: string;
+  sourceLabel: string;
+  zoneId: number;
+  zoneName: string;
+  expansionSlug: string;
+  tierSlug: string;
+  difficulty: string;
+  difficultyId: number;
+  size: number;
+};
+
+type WclGuildProgressRecord = {
+  bossName: string;
+  encounterId: number | null;
+  raidName: string;
+  expansionSlug: string;
+  tierSlug: string;
+  difficulty: string;
+  difficultyId: number;
+  rawDifficultyId: number;
+  status: "Killed" | "Best Pull";
+  firstKillDate: string | null;
+  latestKillDate: string | null;
+  bestPercent: number | null;
+  pulls: number;
+  kills: number;
+  reportCode: string | null;
+  reportUrl: string | null;
+  sourceGuildId: number;
+  sourceGuildName: string;
+  sourceServerSlug: string;
+  sourceRegion: string;
+  sourceLabel: string;
+  progressZoneId: number;
+  progressZoneName: string;
+};
+
+type WclGuildProgressTargetResult = WclGuildProgressTarget & {
+  available: boolean;
+  reason: string | null;
+  killedCount: number | null;
+  records: WclGuildProgressRecord[];
+};
+
+type WclGuildProgressData = {
+  targets: WclGuildProgressTargetResult[];
 };
 
 type DifficultyDraft = ProgressionDifficulty & {
@@ -303,6 +362,15 @@ query GuildReportsByGuildId($guildId: Int!, $limit: Int!, $page: Int!) {
       current_page
       last_page
     }
+  }
+}
+`;
+
+// WCL guild progress pages use progressRaceData.progressRace. This is a compact boss-progress query, not an event/cast query.
+const guildProgressRaceQuery = `
+query GuildProgressRace($guildId: Int!, $zoneId: Int!, $difficulty: Int!, $size: Int!) {
+  progressRaceData {
+    progressRace(guildID: $guildId, zoneID: $zoneId, difficulty: $difficulty, size: $size)
   }
 }
 `;
@@ -814,7 +882,274 @@ async function fetchGuildReportsPages(
           compareNullableIsoDates(b.startTime, a.startTime) ||
           a.sourceLabel.localeCompare(b.sourceLabel) ||
           a.code.localeCompare(b.code),
+    ),
+  };
+}
+
+function getGuildProgressTargets(): WclGuildProgressTarget[] {
+  const tier5Source = guildSources.find((source) => source.guildId === 619658 && source.tiers.includes("tbc-tier-5"));
+
+  if (!tier5Source?.guildId) {
+    return [];
+  }
+
+  return [
+    {
+      guildId: tier5Source.guildId,
+      guildName: tier5Source.guildName,
+      serverSlug: tier5Source.serverSlug,
+      region: tier5Source.region,
+      sourceLabel: tier5Source.label,
+      // WCL Classic guild progress zone 1010 is the TBC Tier 5 SSC/TK progress page.
+      zoneId: 1010,
+      zoneName: "TBC Tier 5",
+      expansionSlug: "tbc",
+      tierSlug: "tbc-tier-5",
+      difficulty: "Normal",
+      difficultyId: 3,
+      size: 25,
+    },
+  ];
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function collectProgressObjects(value: unknown, output: Record<string, unknown>[] = []) {
+  if (!value || typeof value !== "object") {
+    return output;
+  }
+
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      collectProgressObjects(item, output);
+    }
+
+    return output;
+  }
+
+  const objectValue = value as Record<string, unknown>;
+  output.push(objectValue);
+
+  for (const item of Object.values(objectValue)) {
+    collectProgressObjects(item, output);
+  }
+
+  return output;
+}
+
+function findProgressGuildPayload(payload: unknown, target: WclGuildProgressTarget) {
+  const candidates = collectProgressObjects(payload).filter((objectValue) => Array.isArray(objectValue.encounters));
+
+  return (
+    candidates.find((candidate) => toNumber(candidate.id) === target.guildId) ??
+    candidates.find((candidate) => cleanText(candidate.name).toLowerCase() === target.guildName.toLowerCase()) ??
+    candidates[0] ??
+    null
+  );
+}
+
+function getProgressEncounterName(encounter: Record<string, unknown>) {
+  return cleanText(encounter.name ?? encounter.encounterName ?? encounter.shortName);
+}
+
+function getProgressReportCode(encounter: Record<string, unknown>) {
+  const nestedReport = isRecord(encounter.report) ? encounter.report : null;
+  const code = cleanText(encounter.reportCode ?? encounter.reportID ?? nestedReport?.code);
+
+  return code || null;
+}
+
+function getProgressReportUrl(encounter: Record<string, unknown>, reportCode: string | null) {
+  const nestedReport = isRecord(encounter.report) ? encounter.report : null;
+  const url = cleanText(encounter.reportUrl ?? encounter.reportURL ?? nestedReport?.url);
+
+  if (url) {
+    return url;
+  }
+
+  return reportCode ? `${reportUrlBase}/${reportCode}` : null;
+}
+
+function normalizeProgressRecord(encounter: Record<string, unknown>, target: WclGuildProgressTarget): WclGuildProgressRecord | null {
+  const bossName = getProgressEncounterName(encounter);
+
+  if (!bossName) {
+    return null;
+  }
+
+  const classification = getCanonicalRaidClassification(target.zoneName, bossName, [target.tierSlug]);
+
+  if (!classification || classification.tierSlug !== target.tierSlug) {
+    return null;
+  }
+
+  const isKilled = encounter.isKilled === true || cleanText(encounter.status).toLowerCase() === "killed";
+  const killDate = toIsoString(encounter.killedAtTimestamp ?? encounter.killTimestamp ?? encounter.firstKillTimestamp);
+  const bestPercent = normalizePercentage(encounter.bestPercent ?? encounter.bestPercentage);
+  const reportCode = getProgressReportCode(encounter);
+
+  if (!isKilled && bestPercent === null) {
+    return null;
+  }
+
+  return {
+    bossName,
+    encounterId: toNumber(encounter.id ?? encounter.encounterID ?? encounter.encounterId),
+    raidName: classification.raidName,
+    expansionSlug: classification.expansionSlug,
+    tierSlug: classification.tierSlug,
+    difficulty: target.difficulty,
+    difficultyId: target.difficultyId,
+    rawDifficultyId: target.difficultyId,
+    status: isKilled ? "Killed" : "Best Pull",
+    firstKillDate: isKilled ? killDate : null,
+    latestKillDate: isKilled ? killDate : null,
+    bestPercent: isKilled ? 0 : bestPercent,
+    pulls: Math.max(0, Math.floor(toNumber(encounter.pullCount ?? encounter.pulls) ?? 0)),
+    kills: isKilled ? 1 : 0,
+    reportCode,
+    reportUrl: getProgressReportUrl(encounter, reportCode),
+    sourceGuildId: target.guildId,
+    sourceGuildName: target.guildName,
+    sourceServerSlug: target.serverSlug,
+    sourceRegion: target.region,
+    sourceLabel: target.sourceLabel,
+    progressZoneId: target.zoneId,
+    progressZoneName: target.zoneName,
+  };
+}
+
+function dedupeProgressRecords(records: WclGuildProgressRecord[]) {
+  const byKey = new Map<string, WclGuildProgressRecord>();
+
+  for (const record of records) {
+    const key = `${record.tierSlug}:${normalizeProgressionName(record.raidName)}:${normalizeProgressionName(record.bossName)}:${record.difficulty}`;
+    const previous = byKey.get(key);
+
+    if (!previous) {
+      byKey.set(key, record);
+      continue;
+    }
+
+    const firstKillDate = [previous.firstKillDate, record.firstKillDate].filter(Boolean).sort()[0] ?? null;
+    const latestKillDate = [previous.latestKillDate, record.latestKillDate].filter(Boolean).sort().at(-1) ?? null;
+
+    byKey.set(key, {
+      ...previous,
+      status: previous.status === "Killed" || record.status === "Killed" ? "Killed" : "Best Pull",
+      firstKillDate,
+      latestKillDate,
+      bestPercent:
+        previous.status === "Killed" || record.status === "Killed"
+          ? 0
+          : [previous.bestPercent, record.bestPercent].filter((value): value is number => typeof value === "number").sort((a, b) => a - b)[0] ?? null,
+      pulls: Math.max(previous.pulls, record.pulls),
+      kills: Math.max(previous.kills, record.kills),
+      reportCode: firstKillDate === record.firstKillDate ? record.reportCode : previous.reportCode,
+      reportUrl: firstKillDate === record.firstKillDate ? record.reportUrl : previous.reportUrl,
+    });
+  }
+
+  return [...byKey.values()].sort(
+    (a, b) =>
+      a.tierSlug.localeCompare(b.tierSlug) ||
+      a.raidName.localeCompare(b.raidName) ||
+      a.bossName.localeCompare(b.bossName) ||
+      a.difficulty.localeCompare(b.difficulty),
+  );
+}
+
+async function fetchGuildProgressTarget(accessToken: string, target: WclGuildProgressTarget): Promise<WclGuildProgressTargetResult> {
+  const data = await requestGraphQl<WclGuildProgressQueryData>(accessToken, guildProgressRaceQuery, {
+    guildId: target.guildId,
+    zoneId: target.zoneId,
+    difficulty: target.difficultyId,
+    size: target.size,
+  });
+  const payload = data.progressRaceData?.progressRace;
+  const guildPayload = findProgressGuildPayload(payload, target);
+
+  if (!guildPayload) {
+    return {
+      ...target,
+      available: false,
+      reason: "Warcraft Logs progressRace did not return an encounter list for this guild.",
+      killedCount: null,
+      records: [],
+    };
+  }
+
+  const records = dedupeProgressRecords(
+    ((guildPayload.encounters as unknown[]) ?? [])
+      .filter(isRecord)
+      .map((encounter) => normalizeProgressRecord(encounter, target))
+      .filter((record): record is WclGuildProgressRecord => Boolean(record)),
+  );
+
+  return {
+    ...target,
+    available: true,
+    reason: null,
+    killedCount: toNumber(guildPayload.killedCount),
+    records,
+  };
+}
+
+function emptyGuildProgressData(): WclGuildProgressData {
+  return { targets: [] };
+}
+
+function getExistingGuildProgressTarget(existing: WclGuildProgressData | null, target: WclGuildProgressTarget) {
+  return existing?.targets.find(
+    (result) =>
+      result.guildId === target.guildId &&
+      result.zoneId === target.zoneId &&
+      result.tierSlug === target.tierSlug &&
+      result.difficultyId === target.difficultyId,
+  );
+}
+
+async function fetchGuildProgressData(
+  accessToken: string,
+  existingData: WclGuildProgressData | null,
+): Promise<{ data: WclGuildProgressData; failedTargets: WclGuildProgressTarget[] }> {
+  const targets = getGuildProgressTargets();
+  const results: WclGuildProgressTargetResult[] = [];
+  const failedTargets: WclGuildProgressTarget[] = [];
+
+  for (const target of targets) {
+    console.log(`Syncing WCL guild progress: ${target.sourceLabel} zone ${target.zoneId} (${target.tierSlug})`);
+
+    try {
+      const result = await fetchGuildProgressTarget(accessToken, target);
+      console.log(`Fetched ${result.records.length} guild progress record(s) from ${target.sourceLabel} zone ${target.zoneId}.`);
+      results.push(result);
+    } catch (error) {
+      failedTargets.push(target);
+      console.error(`WCL guild progress failed for ${target.sourceLabel} zone ${target.zoneId}: ${error instanceof Error ? error.message : String(error)}`);
+
+      const preserved = getExistingGuildProgressTarget(existingData, target);
+
+      if (preserved) {
+        results.push(preserved);
+        console.error(`Preserving ${preserved.records.length} existing guild progress record(s) for ${target.sourceLabel} zone ${target.zoneId}.`);
+      }
+    }
+  }
+
+  return {
+    data: {
+      targets: results.sort(
+        (a, b) =>
+          a.sourceLabel.localeCompare(b.sourceLabel) ||
+          a.zoneId - b.zoneId ||
+          a.tierSlug.localeCompare(b.tierSlug) ||
+          a.difficulty.localeCompare(b.difficulty),
       ),
+    },
+    failedTargets,
   };
 }
 
@@ -1133,6 +1468,112 @@ function updateProgressionDifficulty(difficulty: DifficultyDraft, fight: WclFigh
   }
 }
 
+function updateProgressionDifficultyFromGuildProgress(difficulty: DifficultyDraft, record: WclGuildProgressRecord) {
+  if (difficulty.difficultyId === null) {
+    difficulty.difficultyId = record.difficultyId;
+  }
+
+  if (difficulty.rawDifficultyId === null) {
+    difficulty.rawDifficultyId = record.rawDifficultyId;
+  }
+
+  difficulty.pulls = Math.max(difficulty.pulls, record.pulls);
+
+  if (record.status === "Killed") {
+    const killDate = record.firstKillDate ?? record.latestKillDate;
+    const killSortTime = getDateSortTime(killDate);
+
+    difficulty.status = "Killed";
+    difficulty.kills = Math.max(difficulty.kills, record.kills || 1);
+    difficulty.bestPercent = 0;
+
+    if (killSortTime !== null && (difficulty.firstKillSortTime === null || killSortTime < difficulty.firstKillSortTime)) {
+      difficulty.firstKillSortTime = killSortTime;
+      difficulty.firstKillDate = killDate;
+      difficulty.reportCode = record.reportCode;
+      difficulty.reportUrl = record.reportUrl;
+    }
+
+    if (killSortTime !== null && (difficulty.latestKillSortTime === null || killSortTime > difficulty.latestKillSortTime)) {
+      difficulty.latestKillSortTime = killSortTime;
+      difficulty.latestKillDate = killDate;
+    }
+
+    return;
+  }
+
+  if (difficulty.status === "Killed" || record.bestPercent === null) {
+    return;
+  }
+
+  if (difficulty.bestPercent === null || record.bestPercent < difficulty.bestPercent) {
+    difficulty.bestPercent = record.bestPercent;
+    difficulty.reportCode = record.reportCode;
+    difficulty.reportUrl = record.reportUrl;
+  }
+}
+
+function getOrCreateRaidDraft(
+  raidDrafts: Map<string, RaidDraft>,
+  classification: RaidClassification,
+  source: Pick<WclGuildProgressRecord, "sourceGuildId" | "sourceGuildName" | "sourceServerSlug" | "sourceRegion" | "sourceLabel">,
+) {
+  const raidKey = `${classification.tierSlug}:${normalizeProgressionName(classification.raidName)}`;
+  const raid =
+    raidDrafts.get(raidKey) ??
+    ({
+      name: classification.raidName,
+      zoneId: null,
+      expansionSlug: classification.expansionSlug,
+      tierSlug: classification.tierSlug,
+      sourceGuildId: source.sourceGuildId,
+      sourceGuildName: source.sourceGuildName,
+      sourceServerSlug: source.sourceServerSlug,
+      sourceRegion: source.sourceRegion,
+      sourceLabel: source.sourceLabel,
+      sourceLabels: new Set<string>(),
+      bosses: new Map<string, BossDraft>(),
+    } satisfies RaidDraft);
+  raidDrafts.set(raidKey, raid);
+  raid.sourceLabels.add(source.sourceLabel);
+
+  return raid;
+}
+
+function applyGuildProgressSupplement(raidDrafts: Map<string, RaidDraft>, guildProgressData: WclGuildProgressData) {
+  for (const target of guildProgressData.targets) {
+    for (const record of target.records) {
+      if (record.status !== "Killed") {
+        continue;
+      }
+
+      const classification = {
+        raidName: record.raidName,
+        expansionSlug: record.expansionSlug,
+        tierSlug: record.tierSlug,
+      };
+      const raid = getOrCreateRaidDraft(raidDrafts, classification, record);
+      const bossKey = normalizeProgressionName(record.bossName) || `${record.encounterId ?? "unknown"}:${record.bossName}`;
+      const boss =
+        raid.bosses.get(bossKey) ??
+        ({
+          name: record.bossName,
+          encounterId: record.encounterId,
+          difficulties: new Map<string, DifficultyDraft>(),
+        } satisfies BossDraft);
+      raid.bosses.set(bossKey, boss);
+
+      if (boss.encounterId === null && record.encounterId !== null) {
+        boss.encounterId = record.encounterId;
+      }
+
+      const difficulty = boss.difficulties.get(record.difficulty) ?? createDifficultyDraft();
+      boss.difficulties.set(record.difficulty, difficulty);
+      updateProgressionDifficultyFromGuildProgress(difficulty, record);
+    }
+  }
+}
+
 function getSourceLabelsForTier(tierSlug: string) {
   return guildSources
     .filter((source) => source.tiers.includes(tierSlug))
@@ -1186,7 +1627,7 @@ function ensureTbcTier5Coverage(raidDrafts: Map<string, RaidDraft>) {
   }
 }
 
-function buildProgressionSeed(reportsData: WclReportsData): WclProgressionSeed {
+function buildProgressionSeed(reportsData: WclReportsData, guildProgressData: WclGuildProgressData = emptyGuildProgressData()): WclProgressionSeed {
   const raidDrafts = new Map<string, RaidDraft>();
   const reportsByRaid = new Map<string, WclReport[]>();
 
@@ -1247,6 +1688,7 @@ function buildProgressionSeed(reportsData: WclReportsData): WclProgressionSeed {
     }
   }
 
+  applyGuildProgressSupplement(raidDrafts, guildProgressData);
   ensureTbcTier5Coverage(raidDrafts);
 
   const raids = [...raidDrafts.values()]
@@ -1314,7 +1756,7 @@ function buildProgressionSeed(reportsData: WclReportsData): WclProgressionSeed {
   };
 }
 
-function buildSyncMeta(reportsData: WclReportsData): WclSyncMeta {
+function buildSyncMeta(reportsData: WclReportsData, guildProgressData: WclGuildProgressData): WclSyncMeta {
   return {
     lastWclSync: new Date().toISOString(),
     source: sourceName,
@@ -1326,6 +1768,7 @@ function buildSyncMeta(reportsData: WclReportsData): WclSyncMeta {
     sources: guildSources.map(toSourceSummary),
     reportsSynced: reportsData.reports.length,
     fightsSynced: reportsData.reports.reduce((sum, report) => sum + report.fights.length, 0),
+    guildProgressRecordsSynced: guildProgressData.targets.reduce((sum, target) => sum + target.records.length, 0),
   };
 }
 
@@ -1382,6 +1825,7 @@ async function runWarcraftLogsSync() {
 
   const existingReportsData = await readJsonIfExists<WclReportsData>("src/data/wclReports.json");
   const existingReports = (existingReportsData?.reports ?? []).map((report) => normalizeExistingReportSource(report));
+  const existingGuildProgressData = await readJsonIfExists<WclGuildProgressData>("src/data/wclGuildProgress.json");
   const existingReportsBySource = new Map<string, WclReport[]>();
   const reportsBySource = new Map<string, WclReport[]>();
   const failedSources: WclGuildSource[] = [];
@@ -1416,18 +1860,22 @@ async function runWarcraftLogsSync() {
   }
 
   const reportsData = combineSourceReports(reportsBySource);
+  const { data: guildProgressData, failedTargets: failedGuildProgressTargets } = await fetchGuildProgressData(accessToken, existingGuildProgressData);
   if (reportsData.reports.length === 0 && existingReports.length > 0) {
     console.error("Warcraft Logs sources returned no reports. Preserving existing Warcraft Logs JSON files.");
     return;
   }
 
-  const progressionSeed = buildProgressionSeed(reportsData);
+  const progressionSeed = buildProgressionSeed(reportsData, guildProgressData);
   const rankingsData = buildRankingsFallback(progressionSeed);
-  const sourceFiles = [
+  const sourceFiles: Array<{ path: string; data: unknown }> = [
     { path: "src/data/wclReports.json", data: reportsData },
     { path: "src/data/wclProgressionSeed.json", data: progressionSeed },
     { path: "src/data/wclRankings.json", data: rankingsData },
   ];
+  if (guildProgressData.targets.length > 0 || existingGuildProgressData) {
+    sourceFiles.splice(1, 0, { path: "src/data/wclGuildProgress.json", data: guildProgressData });
+  }
   const changedSourceFiles: string[] = [];
   const changedFiles: string[] = [];
 
@@ -1445,7 +1893,7 @@ async function runWarcraftLogsSync() {
   }
 
   if (changedSourceFiles.length > 0) {
-    const syncMeta = buildSyncMeta(reportsData);
+    const syncMeta = buildSyncMeta(reportsData, guildProgressData);
 
     if (await jsonWouldChange("src/data/wclSyncMeta.json", syncMeta)) {
       await writeJson("src/data/wclSyncMeta.json", syncMeta);
@@ -1459,10 +1907,18 @@ async function runWarcraftLogsSync() {
   if (failedSources.length > 0) {
     console.log(`Failed sources preserved when possible: ${failedSources.map((source) => source.label).join(", ")}`);
   }
+  if (failedGuildProgressTargets.length > 0) {
+    console.log(
+      `Failed guild progress targets preserved when possible: ${failedGuildProgressTargets
+        .map((target) => `${target.sourceLabel} zone ${target.zoneId}`)
+        .join(", ")}`,
+    );
+  }
   console.log(`Report limit: ${reportLimit}`);
   console.log(`Report pages: ${reportPages}`);
   console.log(`Reports synced: ${reportsData.reports.length}`);
   console.log(`Fights synced: ${reportsData.reports.reduce((sum, report) => sum + report.fights.length, 0)}`);
+  console.log(`Guild progress records synced: ${guildProgressData.targets.reduce((sum, target) => sum + target.records.length, 0)}`);
   console.log(`Files changed: ${changedFiles.length}`);
 
   if (changedFiles.length > 0) {
