@@ -982,6 +982,8 @@ addRaidEncounters("Dragon Soul", "cata", "cata-tier-13", ["Morchok", "Warlord Zo
 addRaidEncounters("Mogu'shan Vaults", "mop", "tier-14", ["The Stone Guard", "Feng the Accursed", "Gara'jal the Spiritbinder", "The Spirit Kings", "Elegon", "Will of the Emperor"]);
 addRaidEncounters("Heart of Fear", "mop", "tier-14", ["Imperial Vizier Zor'lok", "Blade Lord Ta'yak", "Garalon", "Wind Lord Mel'jarak", "Amber-Shaper Un'sok", "Grand Empress Shek'zeer"]);
 addRaidEncounters("Terrace of Endless Spring", "mop", "tier-14", ["Protectors of the Endless", "Tsulong", "Lei Shi", "Sha of Fear"]);
+addRaidEncounters("Throne of Thunder", "mop", "tier-15", ["Jin'rokh the Breaker", "Horridon", "Council of Elders", "Tortos", "Megaera", "Ji-Kun", "Durumu the Forgotten", "Primordius", "Dark Animus", "Iron Qon", "Twin Consorts", "Twin Empyreans", "Lei Shen", "Ra-den"]);
+addRaidEncounters("Siege of Orgrimmar", "mop", "tier-16", ["Immerseus", "The Fallen Protectors", "Norushen", "Sha of Pride", "Galakras", "Iron Juggernaut", "Kor'kron Dark Shaman", "General Nazgrim", "Malkorok", "Spoils of Pandaria", "Thok the Bloodthirsty", "Siegecrafter Blackfuse", "Paragons of the Klaxxi", "Garrosh Hellscream"]);
 
 function selectClassification(candidates: RaidClassification[] | undefined, sourceTiers: string[] = []) {
   if (!candidates?.length) {
