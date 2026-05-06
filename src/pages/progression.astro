@@ -31,16 +31,20 @@ const formatDate = (value?: string | null) => {
   }).format(date);
 };
 
-const tierSummaries = progressionTiers.map((tier) => {
-  const progress = getTierProgress(tier, raids);
-  const tierLatestKill = getTierLatestKill(tier, raids);
+const getTierSortNumber = (slug: string) => Number(slug.replace("tier-", "")) || 0;
 
-  return {
-    tier,
-    progress,
-    latestKill: tierLatestKill,
-  };
-});
+const tierSummaries = [...progressionTiers]
+  .sort((a, b) => getTierSortNumber(b.slug) - getTierSortNumber(a.slug))
+  .map((tier) => {
+    const progress = getTierProgress(tier, raids);
+    const tierLatestKill = getTierLatestKill(tier, raids);
+
+    return {
+      tier,
+      progress,
+      latestKill: tierLatestKill,
+    };
+  });
 ---
 
 <Layout title="Progression | Vitality">
@@ -57,32 +61,37 @@ const tierSummaries = progressionTiers.map((tier) => {
     <div class="progression-tier-grid">
       {tierSummaries.map(({ tier, progress, latestKill: tierLatestKill }) => {
         const hasData = progress.totalBosses > 0;
+        const isComplete = hasData && progress.killedBosses === progress.totalBosses;
+        const completionLabel = progress.killedBosses > 0 && !isComplete ? "Progressed To" : "Completed";
+        const completionValue = tierLatestKill
+          ? `${tierLatestKill.bossName} ${tierLatestKill.difficultyName}`
+          : "Not started";
         const raidNames = tier.raidNames.join(", ");
 
         return (
           <a class="progression-tier-card" href={`/progression/${tier.slug}`}>
             <div class="progression-tier-card-head">
               <p class="eyebrow">{tier.name}</p>
+              <p class="progression-tier-raids" title={raidNames}>{raidNames}</p>
+            </div>
+
+            <div class="progression-tier-progress">
               <h3>
                 {
                   hasData ? (
-                    <>
-                      {progress.killedBosses} / {progress.totalBosses} <span aria-hidden="true">&middot;</span>{" "}
-                      {getProgressBreakdown(progress)}
-                    </>
+                    `${progress.killedBosses} / ${progress.totalBosses}`
                   ) : (
                     "No data"
                   )
                 }
               </h3>
+              {hasData && <small>{getProgressBreakdown(progress)}</small>}
             </div>
 
-            <p class="progression-tier-raids" title={raidNames}>{raidNames}</p>
-
             <div class="progression-tier-meta">
-              <span>Final Progression Kill</span>
-              <strong>{tierLatestKill?.bossName ?? "No kills"}</strong>
-              {tierLatestKill && <small>{tierLatestKill.difficultyName} - {formatDate(tierLatestKill.date)}</small>}
+              <span>{completionLabel}</span>
+              <strong>{completionValue}</strong>
+              {tierLatestKill && <small>{formatDate(tierLatestKill.date)}</small>}
             </div>
 
             <span class="progression-tier-link">View tier</span>
