@@ -254,14 +254,6 @@ export const progressionExpansions: ProgressionExpansion[] = [
 
 export const allProgressionTiers: ProgressionTier[] = progressionExpansions.flatMap((expansion) => expansion.tiers);
 
-const emptyProgress: RaidProgress = {
-  heroicBosses: 0,
-  normalBosses: 0,
-  killedBosses: 0,
-  totalBosses: 0,
-  unkilledBosses: 0,
-};
-
 export const normalizeProgressionName = (value?: string | null) =>
   String(value ?? "")
     .toLowerCase()
@@ -455,35 +447,6 @@ export const isTierUnreleased = (tier?: ProgressionTier | null) => tier?.release
 export const getProgressBreakdownForTier = (progress: RaidProgress, tier?: ProgressionTier | null) =>
   tierDisplaysDifficulties(tier) ? getProgressBreakdown(progress) : "";
 
-export const formatProgressForTier = (progress: RaidProgress, tier?: ProgressionTier | null) => {
-  if (isTierUnreleased(tier)) {
-    return "Unreleased";
-  }
-
-  if (progress.totalBosses === 0) {
-    return "No data";
-  }
-
-  const breakdown = getProgressBreakdownForTier(progress, tier);
-
-  return breakdown ? `${progress.killedBosses} / ${progress.totalBosses} · ${breakdown}` : `${progress.killedBosses} / ${progress.totalBosses}`;
-};
-
-export const getBestDifficultyLabel = (progress: RaidProgress) => {
-  if (progress.heroicBosses > 0) {
-    return "Heroic";
-  }
-
-  if (progress.normalBosses > 0) {
-    return "Normal";
-  }
-
-  return "No kills";
-};
-
-export const getDifficultyKillDate = (difficulty?: ProgressionDifficulty) =>
-  difficulty?.latestKillDate || difficulty?.firstKillDate || "";
-
 export const getProgressionSummaryKillDate = (difficulty?: ProgressionDifficulty) =>
   difficulty?.firstKillDate || difficulty?.latestKillDate || "";
 
@@ -507,32 +470,6 @@ export const getBossBestKillRecord = (raid: ProgressionRaid, boss: ProgressionBo
     difficultyName,
     date,
   };
-};
-
-export const getLatestKills = (sourceRaids: ProgressionRaid[]) => {
-  const kills: KillRecord[] = [];
-
-  for (const raid of sourceRaids) {
-    const raidName = raid.name || "Unknown Raid";
-
-    for (const boss of raid.bosses ?? []) {
-      const bossName = boss.name || "Unknown Boss";
-
-      for (const [difficultyName, difficulty] of Object.entries(boss.difficulties ?? {})) {
-        if (getDifficultyStatus(difficulty) !== "Killed") {
-          continue;
-        }
-
-        const date = getDifficultyKillDate(difficulty);
-
-        if (date) {
-          kills.push({ raidName, bossName, difficultyName, date });
-        }
-      }
-    }
-  }
-
-  return kills.sort((a, b) => b.date.localeCompare(a.date));
 };
 
 export const getRaidLatestKill = (raid: ProgressionRaid) => {
@@ -592,36 +529,6 @@ export const getTierRaids = (tier: ProgressionTier, raids: ProgressionRaid[]) =>
     .filter((raid): raid is ProgressionRaid => Boolean(raid));
 };
 
-export const getRaidSourceLabels = (raid?: ProgressionRaid | null) => {
-  const labels = [
-    ...(Array.isArray(raid?.sourceLabels) ? raid.sourceLabels : []),
-    raid?.sourceLabel,
-  ]
-    .map((label) => String(label ?? "").trim())
-    .filter(Boolean);
-
-  return [...new Set(labels)];
-};
-
-export const getTierSourceLabels = (tier: ProgressionTier, raids: ProgressionRaid[]) => [
-  ...new Set(getTierRaids(tier, raids).flatMap(getRaidSourceLabels)),
-];
-
-export const getProgressionSourceLabels = (seed: ProgressionSeed) => {
-  const sourceLabels = (seed.sources ?? [])
-    .map((source) => String(source?.label ?? "").trim())
-    .filter(Boolean);
-
-  if (sourceLabels.length > 0) {
-    return [...new Set(sourceLabels)];
-  }
-
-  const guild = String(seed.guild?.name ?? "").trim();
-  const server = String(seed.guild?.server ?? "").trim();
-
-  return guild && server ? [`${guild} - ${server}`] : [];
-};
-
 export const getTierProgress = (tier: ProgressionTier, raids: ProgressionRaid[]) =>
   combineProgress(getTierRaids(tier, raids).map(getRaidProgress));
 
@@ -649,24 +556,6 @@ export const formatKillRecordBossLabel = (killRecord?: KillRecord, tier?: Progre
   }
 
   return tierDisplaysDifficulties(tier) ? `${killRecord.bossName} ${killRecord.difficultyName}` : killRecord.bossName;
-};
-
-export const getCurrentRaid = (raids: ProgressionRaid[]) => {
-  const latestKill = getLatestKills(raids)[0];
-
-  return (latestKill ? raids.find((raid) => (raid.name || "Unknown Raid") === latestKill.raidName) : undefined) ?? raids[0];
-};
-
-export const getCurrentTier = (raids: ProgressionRaid[]) => {
-  const currentRaid = getCurrentRaid(raids);
-
-  return getTierBySlug(currentRaid?.tierSlug ?? undefined) ?? getTierForRaidName(currentRaid?.name) ?? progressionTiers[0];
-};
-
-export const getCurrentTierProgress = (raids: ProgressionRaid[]) => {
-  const tier = getCurrentTier(raids);
-
-  return tier ? getTierProgress(tier, raids) : emptyProgress;
 };
 
 const getBossSortOrder = (raid: ProgressionRaid, boss: ProgressionBoss) => {

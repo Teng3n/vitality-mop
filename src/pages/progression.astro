@@ -3,13 +3,14 @@ import Layout from "../layouts/Layout.astro";
 import progressionSeed from "../data/wclProgressionSeed.json";
 import {
   formatKillRecordBossLabel,
-  formatProgressForTier,
   getProgressBreakdownForTier,
   getTierProgressionKill,
   getTierProgress,
   isTierUnreleased,
   progressionExpansions,
+  type RaidProgress,
   type ProgressionSeed,
+  type ProgressionTier,
 } from "../lib/progressionTiers";
 
 const seed = progressionSeed as ProgressionSeed;
@@ -32,6 +33,18 @@ const formatDate = (value?: string | null) => {
     year: "numeric",
     timeZone: "UTC",
   }).format(date);
+};
+
+const formatProgressValue = (progress: RaidProgress, tier: ProgressionTier) => {
+  if (isTierUnreleased(tier)) {
+    return "Unreleased";
+  }
+
+  if (progress.totalBosses === 0) {
+    return "No data";
+  }
+
+  return `${progress.killedBosses} / ${progress.totalBosses}`;
 };
 
 const expansionSummaries = progressionExpansions.map((expansion) => ({
@@ -84,7 +97,7 @@ const expansionSummaries = progressionExpansions.map((expansion) => ({
                 </div>
 
                 <div class="progression-tier-progress">
-                  <h3>{tier.isPlaceholder ? "Coming soon" : formatProgressForTier(progress, tier).split(" · ")[0]}</h3>
+                  <h3>{tier.isPlaceholder ? "Coming soon" : formatProgressValue(progress, tier)}</h3>
                   {!tier.isPlaceholder && hasData && breakdown && <small>{breakdown}</small>}
                 </div>
 

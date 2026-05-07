@@ -328,7 +328,7 @@ Assumptions:
 - The sync reads multiple report pages per source. The default `WCL_REPORT_LIMIT=20` and `WCL_REPORT_PAGES=25` can fetch up to 500 reports per source so older tier logs are less likely to be missed.
 - Report fights use report-relative fight times when they are not already epoch timestamps.
 - Difficulty IDs `1`, `2`, and `3` are normalized to `Normal`; difficulty ID `4` is normalized to `Heroic`. Difficulty ID `5` is treated as `Mythic` if it ever appears, but it is not expected for current MoP Classic progression. The raw difficulty value is preserved as `rawDifficultyId`.
-- Progression totals are based on bosses present in the synced recent reports. Unpulled bosses are not invented.
+- Progression kill counts come from synced WCL reports and guild progress data. Configured boss lists can show unsynced bosses as `No Data`, but kills are not invented.
 - The default recent report limit is `20`.
 
 Example `.env.local` shape:

@@ -183,10 +183,6 @@ main {
   line-height: 1.05;
 }
 
-.progression-sync-note {
-  font-size: 0.95rem !important;
-}
-
 .officer-client-heading {
   padding: 30px 0 6px;
 }
@@ -1770,30 +1766,9 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   background: linear-gradient(90deg, var(--jade), var(--gold));
 }
 
-.progression-summary-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.progression-summary-grid .stat-card {
-  min-height: 118px;
-  padding: 16px;
-}
-
-.progression-summary-grid .stat-card strong {
-  align-self: center;
-  overflow-wrap: anywhere;
-  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
-  line-height: 1.1;
-}
-
 .progression-raid-stack {
   display: grid;
   gap: 16px;
-}
-
-.progression-tier-stack {
-  display: grid;
-  gap: 14px;
 }
 
 .progression-expansion-stack {
@@ -2474,7 +2449,6 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .card-grid,
   .calendar-filter,
   .progression-boss-grid,
-  .progression-summary-grid,
   .raid-card-grid,
   .raid-week-grid,
   .next-raid-grid,
@@ -2530,7 +2504,6 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .profile-overview,
   .officer-tools-grid,
   .progression-boss-grid,
-  .progression-summary-grid,
   .two-column,
   .resource-list {
     grid-template-columns: 1fr;
