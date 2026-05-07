@@ -1,19 +1,17 @@
-name: Sync guild data
+name: Sync all guild data
 
 on:
-  schedule:
-    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: sync-guild-data
+  group: sync-all-guild-data
   cancel-in-progress: false
 
 jobs:
-  sync:
+  sync-all:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,8 +29,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Sync data from Google Sheets
-        run: npm run sync:sheets
+      - name: Sync Google Sheets and Warcraft Logs data
+        run: npm run sync:all
         env:
           GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
@@ -40,45 +38,33 @@ jobs:
           LOOT_RANGE: ${{ vars.LOOT_RANGE }}
           BENCH_RULES_RANGE: ${{ vars.BENCH_RULES_RANGE }}
           CALENDAR_START_YEAR: ${{ vars.CALENDAR_START_YEAR }}
+          WCL_CLIENT_ID: ${{ secrets.WCL_CLIENT_ID }}
+          WCL_CLIENT_SECRET: ${{ secrets.WCL_CLIENT_SECRET }}
+          WCL_REPORT_LIMIT: ${{ vars.WCL_REPORT_LIMIT || 20 }}
+          WCL_REPORT_PAGES: ${{ vars.WCL_REPORT_PAGES || 25 }}
+          WCL_GUILD_SOURCES_JSON: >-
+            ${{ vars.WCL_GUILD_SOURCES_JSON || '[{"guildName":"Vitality","serverSlug":"raden","region":"US","label":"Vitality - Raden","expansions":["mop"],"tiers":["tier-14","tier-15","tier-16"]},{"guildId":482914,"guildName":"Might","serverSlug":"fairbanks","region":"US","label":"Might - Fairbanks","expansions":["classic","tbc"],"tiers":["classic-mc-ony","classic-bwl","classic-aq","classic-naxx","tbc-tier-4","tbc-tier-5"]},{"guildId":619658,"guildName":"Inept","serverSlug":"grobbulus","region":"US","label":"Inept - Grobbulus","expansions":["tbc","wrath"],"tiers":["tbc-tier-5","tbc-tier-6","tbc-sunwell","wrath-tier-7","wrath-tier-8","wrath-tier-9","wrath-tier-10"]},{"guildId":738773,"guildName":"Inept","serverSlug":"benediction","region":"US","label":"Inept - Benediction","expansions":["cata"],"tiers":["cata-tier-11","cata-tier-12","cata-tier-13"]}]' }}
 
       - name: Check generated data changes
         id: changes
         shell: bash
         run: |
-          SHEET_DATA_FILES=(
-            src/data/roster.json
-            src/data/calendar.json
-            src/data/lootHistory.json
-            src/data/lootSummary.json
-            src/data/bench.json
-            src/data/benchRules.json
-            src/data/syncMeta.json
-          )
-          if git diff --quiet -- "${SHEET_DATA_FILES[@]}"; then
+          if git diff --quiet -- src/data/*.json; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No data changes detected."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            git diff --stat -- "${SHEET_DATA_FILES[@]}"
+            git diff --stat -- src/data/*.json
           fi
 
       - name: Commit generated data
         if: steps.changes.outputs.changed == 'true'
         shell: bash
         run: |
-          SHEET_DATA_FILES=(
-            src/data/roster.json
-            src/data/calendar.json
-            src/data/lootHistory.json
-            src/data/lootSummary.json
-            src/data/bench.json
-            src/data/benchRules.json
-            src/data/syncMeta.json
-          )
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "${SHEET_DATA_FILES[@]}"
-          git commit -m "chore(data): sync guild data from Google Sheets"
+          git add src/data/*.json
+          git commit -m "chore(data): sync all guild data"
           for attempt in 1 2 3; do
             git pull --rebase origin feature/guild-site-mvp
             if git push; then

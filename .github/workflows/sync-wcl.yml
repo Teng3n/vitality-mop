@@ -7,9 +7,6 @@ on:
       - feature/guild-site-mvp
     paths:
       - ".github/workflows/sync-wcl.yml"
-      - ".github/workflows/sync-data.yml"
-      - "package.json"
-      - "package-lock.json"
       - "scripts/sync-warcraft-logs.ts"
       - "src/lib/progressionTiers.ts"
 

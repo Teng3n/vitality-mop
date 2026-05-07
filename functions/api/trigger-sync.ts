@@ -16,13 +16,38 @@ interface PagesContext {
   env: Env;
 }
 
-const GITHUB_DISPATCH_URL =
-  "https://api.github.com/repos/Teng3n/vitality-mop/actions/workflows/sync-data.yml/dispatches";
+type SyncType = "sheets" | "wcl" | "all";
+
+const SYNC_WORKFLOWS: Record<SyncType, { workflowFile: string; successMessage: string }> = {
+  sheets: {
+    workflowFile: "sync-data.yml",
+    successMessage: "Guild data sync workflow triggered.",
+  },
+  wcl: {
+    workflowFile: "sync-wcl.yml",
+    successMessage: "Warcraft Logs sync workflow triggered.",
+  },
+  all: {
+    workflowFile: "sync-all.yml",
+    successMessage: "Full sync workflow triggered.",
+  },
+};
+const GITHUB_WORKFLOW_DISPATCH_BASE_URL = "https://api.github.com/repos/Teng3n/vitality-mop/actions/workflows";
 const WORKFLOW_REF = "feature/guild-site-mvp";
 const COOLDOWN_MS = 60_000;
 const SYNC_ERROR_MESSAGE = "Unable to trigger sync workflow.";
 
-let lastTriggerAt = 0;
+const lastTriggerAtByType = new Map<SyncType, number>();
+
+const getSyncType = (body: unknown): SyncType | null => {
+  if (!body || typeof body !== "object" || !("syncType" in body)) {
+    return "sheets";
+  }
+
+  const syncType = String((body as { syncType?: unknown }).syncType ?? "").trim().toLowerCase();
+
+  return syncType === "sheets" || syncType === "wcl" || syncType === "all" ? syncType : null;
+};
 
 const logGitHubDispatchFailure = (status: number, body: string) => {
   console.error("[trigger-sync] GitHub workflow dispatch failed.", {
@@ -55,6 +80,13 @@ export const onRequest = async ({ request, env }: PagesContext) => {
   }
 
   const body = await safeParseJson(request);
+  const syncType = getSyncType(body);
+
+  if (!syncType) {
+    return jsonResponse({ ok: false, message: "Invalid sync type." }, 400);
+  }
+
+  const workflow = SYNC_WORKFLOWS[syncType];
   const password =
     body && typeof body === "object" && "password" in body && typeof body.password === "string"
       ? body.password
@@ -68,6 +100,7 @@ export const onRequest = async ({ request, env }: PagesContext) => {
   }
 
   const now = Date.now();
+  const lastTriggerAt = lastTriggerAtByType.get(syncType) ?? 0;
 
   if (now - lastTriggerAt < COOLDOWN_MS) {
     return jsonResponse({ ok: false, message: "Sync was triggered recently. Try again shortly." }, 429);
@@ -76,7 +109,7 @@ export const onRequest = async ({ request, env }: PagesContext) => {
   let githubResponse: Response;
 
   try {
-    githubResponse = await fetch(GITHUB_DISPATCH_URL, {
+    githubResponse = await fetch(`${GITHUB_WORKFLOW_DISPATCH_BASE_URL}/${workflow.workflowFile}/dispatches`, {
       method: "POST",
       headers: {
         Accept: "application/vnd.github+json",
@@ -96,6 +129,8 @@ export const onRequest = async ({ request, env }: PagesContext) => {
 
   console.info("[trigger-sync] GitHub workflow dispatch response status.", {
     status: githubResponse.status,
+    syncType,
+    workflow: workflow.workflowFile,
   });
 
   if (githubResponse.status !== 204) {
@@ -105,9 +140,9 @@ export const onRequest = async ({ request, env }: PagesContext) => {
 
   console.info("[trigger-sync] GitHub workflow dispatch returned 204.");
 
-  lastTriggerAt = Date.now();
+  lastTriggerAtByType.set(syncType, Date.now());
 
   console.info("[trigger-sync] Returning successful sync trigger response.");
 
-  return jsonResponse({ ok: true, message: "Sync workflow triggered." });
+  return jsonResponse({ ok: true, message: workflow.successMessage });
 };

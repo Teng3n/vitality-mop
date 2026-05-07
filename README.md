@@ -21,8 +21,10 @@ Optional local data sync:
 ```bash
 cp .env.example .env.local
 # Fill in GOOGLE_SHEET_ID, GOOGLE_SERVICE_ACCOUNT_JSON, and CALENDAR_START_YEAR.
+npm run sync:sheets
+
 # Optional: fill in WCL_CLIENT_ID and WCL_CLIENT_SECRET to sync Warcraft Logs data.
-npm run sync:data
+npm run sync:wcl
 ```
 
 ## GitHub Workflow
@@ -44,9 +46,9 @@ Connect Cloudflare Pages to the GitHub repository and use these build settings:
 - Build command: `npm run build`
 - Output directory: `dist`
 - Node version: current LTS
-- Environment variables: none required for the static pages. The optional footer Sync Data button requires the Cloudflare Pages Function variables documented below.
+- Environment variables: none required for the static pages. The optional Officer Tools sync buttons require the Cloudflare Pages Function variables documented below.
 
-The public pages use Astro static output and do not require Cloudflare Workers, D1, KV, R2, auth, or live browser-side Google Sheets access. The manual Sync Data trigger is implemented as a Cloudflare Pages Function so GitHub credentials stay server-side.
+The public pages use Astro static output and do not require Cloudflare Workers, D1, KV, R2, auth, or live browser-side Google Sheets access. The manual officer sync trigger is implemented as a Cloudflare Pages Function so GitHub credentials stay server-side.
 
 ## Data Updates
 
@@ -58,19 +60,22 @@ Current public site data lives in:
 - `src/data/lootHistory.json`
 - `src/data/bench.json`
 - `src/data/benchRules.json`
+- `src/data/syncMeta.json`
 - `src/data/wclReports.json`
+- `src/data/wclGuildProgress.json`
 - `src/data/wclProgressionSeed.json`
+- `src/data/wclRankings.json`
 - `src/data/wclSyncMeta.json`
 
 ## Automated data sync
 
-The site is still static. Runtime visitors never fetch Google Sheets or Warcraft Logs directly, and the Google Sheet does not need to be public. Instead, GitHub Actions authenticates to the private sheet with a Google service account, optionally authenticates to Warcraft Logs with OAuth client credentials, regenerates the JSON files in `src/data`, commits only real JSON changes, and Cloudflare Pages redeploys from that GitHub commit.
+The site is still static. Runtime visitors never fetch Google Sheets or Warcraft Logs directly, and the Google Sheet does not need to be public. Instead, GitHub Actions has separate server-side workflows for routine Google Sheet data and Warcraft Logs progression archive data. Each workflow regenerates the relevant JSON files in `src/data`, commits only real JSON changes, and Cloudflare Pages redeploys from that GitHub commit.
 
 Pipeline:
 
 ```text
 Private Google Sheet Calendar + History + Bench Rules tabs -> Google Sheets API -> scripts/sync-google-sheets.ts -> src/data/*.json -> GitHub commit -> Cloudflare Pages deploy
-Warcraft Logs API v2 reports + fights -> scripts/sync-warcraft-logs.ts -> src/data/wcl*.json -> same GitHub commit guard
+Warcraft Logs API v2 reports + fights -> scripts/sync-warcraft-logs.ts -> src/data/wcl*.json -> separate GitHub commit guard
 ```
 
 Required GitHub Actions secrets:
@@ -238,7 +243,7 @@ Built-in Bench Suggestion behavior:
 
 ### Warcraft Logs sync
 
-Warcraft Logs sync is optional and static. It uses Warcraft Logs API v2 during the data sync only. No browser/client code calls Warcraft Logs directly.
+Warcraft Logs sync is optional and static. It uses Warcraft Logs API v2 during the server-side WCL sync script only. No browser/client code calls Warcraft Logs directly.
 
 The script:
 
@@ -347,16 +352,24 @@ WCL_GUILD_SOURCES_JSON=[{"guildName":"Vitality","serverSlug":"raden","region":"U
 
 Sources can include `guildId` when needed. MoP stays on the current `Vitality - Raden` identity for all tracked MoP tiers.
 
-Run locally:
+Run only Google Sheets locally:
 
 ```bash
-npm run sync:data
+npm run sync:sheets
 ```
+
+`npm run sync:data` is kept as a sheets-only alias for existing local habits and does not run Warcraft Logs.
 
 Run only Warcraft Logs locally:
 
 ```bash
 npm run sync:wcl
+```
+
+Run both Google Sheets and Warcraft Logs locally:
+
+```bash
+npm run sync:all
 ```
 
 Build after syncing:
@@ -365,24 +378,32 @@ Build after syncing:
 npm run build:with-data
 ```
 
-The workflow lives at `.github/workflows/sync-data.yml`. It runs every 15 minutes via UTC cron and can also be triggered manually from GitHub:
+The routine Google Sheets workflow lives at `.github/workflows/sync-data.yml`. It runs every 15 minutes via UTC cron and can also be triggered manually from GitHub:
 
 1. Open the repository on GitHub.
 2. Go to **Actions**.
 3. Select **Sync guild data**.
 4. Click **Run workflow**.
 
-The workflow intentionally avoids unnecessary Cloudflare builds:
+The routine workflow intentionally avoids unnecessary Cloudflare builds:
 
-- It runs `npm run sync:data`.
-- It checks `git diff --quiet -- src/data/*.json`.
+- It runs `npm run sync:sheets`.
+- It checks only the Google Sheets generated JSON files.
 - If there are no generated JSON changes, it prints `No data changes detected.` and exits successfully.
-- If there are changes, it stages and commits only `src/data/*.json`.
-- Sync metadata timestamps are updated only when the underlying generated data changed. A scheduled no-change run does not update `syncMeta.json` or `wclSyncMeta.json`.
+- If there are changes, it stages and commits only the sheet-generated JSON files.
+- Sheet sync metadata timestamps are updated only when the underlying generated sheet data changed. A scheduled no-change run does not update `syncMeta.json`.
 
-## Manual Sync Data button
+Warcraft Logs archive sync lives at `.github/workflows/sync-wcl.yml`. It can be triggered manually from GitHub and runs `npm run sync:wcl`. It is separate from the routine Google Sheets sync so normal officer data refreshes do not query the historical Warcraft Logs archive.
 
-The footer includes a small `Sync Data` button that calls the Cloudflare Pages Function at `/api/trigger-sync`. The Function verifies a password server-side and then triggers the GitHub Actions workflow dispatch for `.github/workflows/sync-data.yml` on `feature/guild-site-mvp`.
+Full sync lives at `.github/workflows/sync-all.yml`. It can be triggered manually from GitHub and runs `npm run sync:all` when both Google Sheets and Warcraft Logs should be refreshed together.
+
+## Officer sync buttons
+
+Officer Tools includes separate sync buttons that call the Cloudflare Pages Function at `/api/trigger-sync`. The Function verifies a password server-side and then triggers the correct GitHub Actions workflow dispatch on `feature/guild-site-mvp`.
+
+- **Sync Guild Data** posts `syncType: "sheets"` and triggers `.github/workflows/sync-data.yml`. It refreshes roster, calendar, bench, bench rules, and loot from Google Sheets only.
+- **Sync Warcraft Logs** posts `syncType: "wcl"` and triggers `.github/workflows/sync-wcl.yml`. It refreshes progression archive data only.
+- The API also accepts `syncType: "all"` for `.github/workflows/sync-all.yml`, but the normal officer guild data button does not use it.
 
 Cloudflare Pages environment variables:
 
@@ -410,13 +431,15 @@ Generated files:
 - `src/data/benchRules.json`
 - `src/data/syncMeta.json`
 - `src/data/wclReports.json`
+- `src/data/wclGuildProgress.json`
 - `src/data/wclProgressionSeed.json`
+- `src/data/wclRankings.json`
 - `src/data/wclSyncMeta.json`
 
 Troubleshooting:
 
 - Missing `GOOGLE_SHEET_ID` or `GOOGLE_SERVICE_ACCOUNT_JSON`: add the required repository secret in GitHub.
-- Missing `WCL_CLIENT_ID` or `WCL_CLIENT_SECRET`: Warcraft Logs sync is skipped and existing WCL JSON is preserved.
+- Missing `WCL_CLIENT_ID` or `WCL_CLIENT_SECRET`: Warcraft Logs sync is skipped and existing WCL JSON is preserved. Routine Google Sheets sync does not require WCL credentials.
 - Warcraft Logs API error: check the Action logs for the safe HTTP/GraphQL error. Existing WCL JSON is preserved.
 - Inaccessible sheet: confirm the sheet is shared with the service account email as Viewer.
 - Wrong range: set `CALENDAR_RANGE` or `LOOT_RANGE` to the correct tab and columns.
@@ -471,8 +494,8 @@ src/
   pages/            Static route pages
   styles/           Global CSS
 functions/
-  api/trigger-sync.ts  Cloudflare Pages Function for manual data sync
+  api/trigger-sync.ts  Cloudflare Pages Function for manual officer sync triggers
 public/             Static assets and Cloudflare Pages headers
 ```
 
-The only dynamic endpoint is the manual Sync Data trigger in `functions/api/trigger-sync.ts`.
+The only dynamic endpoint is the manual officer sync trigger in `functions/api/trigger-sync.ts`.

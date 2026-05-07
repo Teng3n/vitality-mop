@@ -6,13 +6,15 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "build:with-data": "npm run sync:data && npm run build",
+    "build:with-data": "npm run sync:all && npm run build",
     "preview": "astro preview",
     "check": "astro check",
     "audit:wcl-guild-history": "tsx scripts/audit-warcraft-logs-guild-history.ts",
     "debug:wcl-guild-progress": "tsx scripts/debug-wcl-guild-progress.ts",
     "debug:wcl-progression": "tsx scripts/debug-wcl-progression.ts",
-    "sync:data": "tsx scripts/sync-google-sheets.ts && npm run sync:wcl",
+    "sync:sheets": "tsx scripts/sync-google-sheets.ts",
+    "sync:data": "npm run sync:sheets",
+    "sync:all": "npm run sync:sheets && npm run sync:wcl",
     "sync:wcl": "tsx scripts/sync-warcraft-logs.ts"
   },
   "dependencies": {

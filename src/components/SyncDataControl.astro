@@ -1,5 +1,7 @@
 <div class="sync-trigger" data-sync-control>
-  <button class="sync-trigger-button" type="button" data-sync-trigger>Sync Data</button>
+  <button class="sync-trigger-button" type="button" data-sync-trigger data-sync-type="sheets">
+    Sync Guild Data
+  </button>
   <span class="sync-trigger-status" data-sync-trigger-status aria-live="polite"></span>
 </div>
 
@@ -9,6 +11,7 @@
   for (const syncControl of syncControls) {
     const syncButton = syncControl.querySelector<HTMLButtonElement>("[data-sync-trigger]");
     const syncStatus = syncControl.querySelector<HTMLElement>("[data-sync-trigger-status]");
+    const defaultButtonText = syncButton?.textContent?.trim() ?? "Sync Guild Data";
     let syncRequestInFlight = false;
 
     syncButton?.addEventListener("click", async () => {
@@ -32,7 +35,7 @@
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({}),
+          body: JSON.stringify({ syncType: syncButton.dataset.syncType ?? "sheets" }),
         });
         const responseText = await response.text();
         let result: { ok?: boolean; message?: string } | undefined;
@@ -62,7 +65,7 @@
       } finally {
         syncRequestInFlight = false;
         syncButton.disabled = false;
-        syncButton.textContent = "Sync Data";
+        syncButton.textContent = defaultButtonText;
       }
     });
   }

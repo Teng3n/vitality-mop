@@ -47,13 +47,30 @@ import Layout from "../../layouts/Layout.astro";
               <p class="eyebrow">Sync Guild Data</p>
               <h2>Sync Guild Data</h2>
               <p class="info-note">
-                Pull the latest Google Sheet data through GitHub Actions. Cloudflare redeploys only when data changes.
+                Refresh roster, calendar, bench, and loot from Google Sheets.
               </p>
             </div>
 
             <div class="officer-tool-actions">
               <div class="sync-trigger" data-sync-control>
-                <button class="sync-trigger-button" type="button" data-sync-trigger>Sync Data</button>
+                <button class="sync-trigger-button" type="button" data-sync-trigger data-sync-type="sheets">Sync Guild Data</button>
+                <span class="sync-trigger-status" data-sync-trigger-status aria-live="polite"></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel officer-tool-card">
+            <div class="section-heading">
+              <p class="eyebrow">Warcraft Logs</p>
+              <h2>Sync Warcraft Logs</h2>
+              <p class="info-note">
+                Refresh progression data from Warcraft Logs.
+              </p>
+            </div>
+
+            <div class="officer-tool-actions">
+              <div class="sync-trigger" data-sync-control>
+                <button class="sync-trigger-button" type="button" data-sync-trigger data-sync-type="wcl">Sync Warcraft Logs</button>
                 <span class="sync-trigger-status" data-sync-trigger-status aria-live="polite"></span>
               </div>
             </div>
@@ -93,58 +110,63 @@ import Layout from "../../layouts/Layout.astro";
       </section>
     `;
 
-    bindSyncDataControl();
+    bindSyncControls();
     bindBenchSuggestionTool();
   };
 
-  const bindSyncDataControl = () => {
-    const syncControl = toolsRoot?.querySelector<HTMLElement>("[data-sync-control]");
-    const syncButton = syncControl?.querySelector<HTMLButtonElement>("[data-sync-trigger]");
-    const syncStatus = syncControl?.querySelector<HTMLElement>("[data-sync-trigger-status]");
-    let syncRequestInFlight = false;
+  const bindSyncControls = () => {
+    const syncControls = toolsRoot?.querySelectorAll<HTMLElement>("[data-sync-control]") ?? [];
 
-    syncButton?.addEventListener("click", async () => {
-      if (syncRequestInFlight) {
-        return;
-      }
+    syncControls.forEach((syncControl) => {
+      const syncButton = syncControl.querySelector<HTMLButtonElement>("[data-sync-trigger]");
+      const syncStatus = syncControl.querySelector<HTMLElement>("[data-sync-trigger-status]");
+      const syncType = syncButton?.dataset.syncType ?? "sheets";
+      const defaultButtonText = syncButton?.textContent ?? "Sync";
+      let syncRequestInFlight = false;
 
-      syncRequestInFlight = true;
-      syncButton.disabled = true;
-      syncButton.textContent = "Syncing...";
+      syncButton?.addEventListener("click", async () => {
+        if (syncRequestInFlight) {
+          return;
+        }
 
-      if (syncStatus) {
-        syncStatus.textContent = "";
-        syncStatus.dataset.state = "";
-      }
-
-      try {
-        const response = await fetch("/api/trigger-sync", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({}),
-        });
-        const result = await parseJsonResponse<{ ok?: boolean; message?: string }>(response);
-        const isSuccess = response.ok && result?.ok === true;
-        const message = isSuccess
-          ? (result?.message ?? "Sync workflow triggered.")
-          : (result?.message ?? "Unable to trigger sync workflow.");
+        syncRequestInFlight = true;
+        syncButton.disabled = true;
+        syncButton.textContent = "Syncing...";
 
         if (syncStatus) {
-          syncStatus.textContent = message;
-          syncStatus.dataset.state = isSuccess ? "success" : "error";
+          syncStatus.textContent = "";
+          syncStatus.dataset.state = "";
         }
-      } catch {
-        if (syncStatus) {
-          syncStatus.textContent = "Unable to trigger sync workflow.";
-          syncStatus.dataset.state = "error";
+
+        try {
+          const response = await fetch("/api/trigger-sync", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ syncType }),
+          });
+          const result = await parseJsonResponse<{ ok?: boolean; message?: string }>(response);
+          const isSuccess = response.ok && result?.ok === true;
+          const message = isSuccess
+            ? (result?.message ?? "Sync workflow triggered.")
+            : (result?.message ?? "Unable to trigger sync workflow.");
+
+          if (syncStatus) {
+            syncStatus.textContent = message;
+            syncStatus.dataset.state = isSuccess ? "success" : "error";
+          }
+        } catch {
+          if (syncStatus) {
+            syncStatus.textContent = "Unable to trigger sync workflow.";
+            syncStatus.dataset.state = "error";
+          }
+        } finally {
+          syncRequestInFlight = false;
+          syncButton.disabled = false;
+          syncButton.textContent = defaultButtonText;
         }
-      } finally {
-        syncRequestInFlight = false;
-        syncButton.disabled = false;
-        syncButton.textContent = "Sync Data";
-      }
+      });
     });
   };
 
