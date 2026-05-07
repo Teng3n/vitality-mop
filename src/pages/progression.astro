@@ -2,9 +2,12 @@
 import Layout from "../layouts/Layout.astro";
 import progressionSeed from "../data/wclProgressionSeed.json";
 import {
-  getProgressBreakdown,
-  getTierLatestKill,
+  formatKillRecordBossLabel,
+  formatProgressForTier,
+  getProgressBreakdownForTier,
+  getTierProgressionKill,
   getTierProgress,
+  isTierUnreleased,
   progressionExpansions,
   type ProgressionSeed,
 } from "../lib/progressionTiers";
@@ -35,12 +38,12 @@ const expansionSummaries = progressionExpansions.map((expansion) => ({
   expansion,
   tiers: expansion.tiers.map((tier) => {
     const progress = getTierProgress(tier, raids);
-    const tierLatestKill = getTierLatestKill(tier, raids);
+    const tierProgressionKill = getTierProgressionKill(tier, raids);
 
     return {
       tier,
       progress,
-      latestKill: tierLatestKill,
+      progressionKill: tierProgressionKill,
     };
   }),
 }));
@@ -63,16 +66,17 @@ const expansionSummaries = progressionExpansions.map((expansion) => ({
         </div>
 
         <div class="progression-tier-grid">
-          {tiers.map(({ tier, progress, latestKill: tierLatestKill }) => {
+          {tiers.map(({ tier, progress, progressionKill: tierProgressionKill }) => {
+            const isUnreleased = isTierUnreleased(tier);
             const hasData = progress.totalBosses > 0;
             const isComplete = hasData && progress.killedBosses === progress.totalBosses;
-            const completionLabel = progress.killedBosses > 0 && !isComplete ? "Progressed To" : "Completed";
-            const completionValue = tierLatestKill
-              ? `${tierLatestKill.bossName} ${tierLatestKill.difficultyName}`
-              : "Not started";
+            const completionLabel = isUnreleased ? "Status" : progress.killedBosses > 0 && !isComplete ? "Progressed To" : "Completed";
+            const completionValue = isUnreleased ? "Unreleased" : tierProgressionKill ? formatDate(tierProgressionKill.date) : "No kills";
+            const completionDetail = tierProgressionKill ? formatKillRecordBossLabel(tierProgressionKill, tier) : "";
             const href = tier.isPlaceholder ? "" : `/progression/${expansion.slug}/${tier.slug}`;
             const raidNames = tier.raidNames.join(", ");
             const cardClass = `progression-tier-card ${tier.isPlaceholder ? "is-placeholder" : ""}`;
+            const breakdown = getProgressBreakdownForTier(progress, tier);
             const cardContent = (
               <>
                 <div class="progression-tier-card-head">
@@ -81,8 +85,8 @@ const expansionSummaries = progressionExpansions.map((expansion) => ({
                 </div>
 
                 <div class="progression-tier-progress">
-                  <h3>{tier.isPlaceholder ? "Coming soon" : hasData ? `${progress.killedBosses} / ${progress.totalBosses}` : "No data"}</h3>
-                  {!tier.isPlaceholder && hasData && <small>{getProgressBreakdown(progress)}</small>}
+                  <h3>{tier.isPlaceholder ? "Coming soon" : formatProgressForTier(progress, tier).split(" · ")[0]}</h3>
+                  {!tier.isPlaceholder && hasData && breakdown && <small>{breakdown}</small>}
                 </div>
 
                 <div class="progression-tier-meta">
@@ -95,7 +99,7 @@ const expansionSummaries = progressionExpansions.map((expansion) => ({
                     <>
                       <span>{completionLabel}</span>
                       <strong>{completionValue}</strong>
-                      {tierLatestKill && <small>{formatDate(tierLatestKill.date)}</small>}
+                      {completionDetail && <small>{completionDetail}</small>}
                     </>
                   )}
                 </div>

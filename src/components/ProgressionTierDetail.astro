@@ -4,6 +4,7 @@ import ProgressionRaidSection from "./ProgressionRaidSection.astro";
 import progressionSeed from "../data/wclProgressionSeed.json";
 import {
   getTierRaids,
+  isTierUnreleased,
   type ProgressionSeed,
   type ProgressionTier,
 } from "../lib/progressionTiers";
@@ -16,6 +17,7 @@ const { tier } = Astro.props as Props;
 const seed = progressionSeed as ProgressionSeed;
 const raids = Array.isArray(seed.raids) ? seed.raids : [];
 const tierRaids = getTierRaids(tier, raids);
+const unreleased = isTierUnreleased(tier);
 ---
 
 <Layout title={`${tier.name} Progression | Vitality`}>
@@ -29,15 +31,17 @@ const tierRaids = getTierRaids(tier, raids);
     tierRaids.length > 0 ? (
       <section class="progression-raid-stack">
         {tierRaids.map((raid) => (
-          <ProgressionRaidSection raid={raid} />
+          <ProgressionRaidSection raid={raid} tier={tier} />
         ))}
       </section>
     ) : (
       <section class="panel progression-empty-panel">
         <p class="eyebrow">{tier.name}</p>
-        <h2>No Warcraft Logs progression data has been synced for this tier yet.</h2>
+        <h2>{unreleased ? "Unreleased" : "No Warcraft Logs progression data has been synced for this tier yet."}</h2>
         <p class="info-note">
-          This tier includes {tier.raidNames.join(", ")}. Once synced logs include these raids, boss progression will appear here.
+          {unreleased
+            ? `${tier.raidNames.join(", ")} has not been released yet.`
+            : `This tier includes ${tier.raidNames.join(", ")}. Once synced logs include these raids, boss progression will appear here.`}
         </p>
       </section>
     )

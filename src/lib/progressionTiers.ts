@@ -75,6 +75,8 @@ export type ProgressionTier = {
   raidNames: string[];
   raidAliases?: string[];
   isPlaceholder?: boolean;
+  displayDifficulties: Array<"Normal" | "Heroic">;
+  releaseStatus?: "released" | "unreleased";
 };
 
 export type ProgressionExpansion = {
@@ -91,21 +93,25 @@ const classicProgressionTiers: ProgressionTier[] = [
     name: "Molten Core / Onyxia",
     raidNames: ["Molten Core", "Onyxia's Lair"],
     raidAliases: ["Onyxia"],
+    displayDifficulties: [],
   },
   {
     slug: "classic-bwl",
     name: "Blackwing Lair",
     raidNames: ["Blackwing Lair"],
+    displayDifficulties: [],
   },
   {
     slug: "classic-aq",
     name: "Ahn'Qiraj",
     raidNames: ["Temple of Ahn'Qiraj", "Ruins of Ahn'Qiraj", "Ahn'Qiraj"],
+    displayDifficulties: [],
   },
   {
     slug: "classic-naxx",
     name: "Naxxramas",
     raidNames: ["Naxxramas"],
+    displayDifficulties: [],
   },
 ];
 
@@ -115,23 +121,27 @@ const tbcProgressionTiers: ProgressionTier[] = [
     name: "Tier 4",
     raidNames: ["Karazhan", "Gruul's Lair", "Magtheridon's Lair"],
     raidAliases: ["Gruul / Magtheridon", "Gruul", "Magtheridon"],
+    displayDifficulties: [],
   },
   {
     slug: "tbc-tier-5",
     name: "Tier 5",
     raidNames: ["Serpentshrine Cavern", "Tempest Keep", "The Eye"],
     raidAliases: ["SSC / TK", "Serpentshrine Cavern / Tempest Keep", "Serpentshrine Cavern / The Eye"],
+    displayDifficulties: [],
   },
   {
     slug: "tbc-tier-6",
     name: "Tier 6",
     raidNames: ["Mount Hyjal", "Black Temple", "Battle for Mount Hyjal"],
     raidAliases: ["BT / Hyjal", "Black Temple / Hyjal", "Hyjal Summit"],
+    displayDifficulties: [],
   },
   {
     slug: "tbc-sunwell",
     name: "Sunwell Plateau",
     raidNames: ["Sunwell Plateau"],
+    displayDifficulties: [],
   },
 ];
 
@@ -141,23 +151,27 @@ const wrathProgressionTiers: ProgressionTier[] = [
     name: "Tier 7",
     raidNames: ["Naxxramas", "The Obsidian Sanctum", "The Eye of Eternity"],
     raidAliases: ["Naxx / Sarth / Maly", "Naxxramas / Obsidian Sanctum / Eye of Eternity", "Obsidian Sanctum", "Eye of Eternity"],
+    displayDifficulties: [],
   },
   {
     slug: "wrath-tier-8",
     name: "Tier 8",
     raidNames: ["Ulduar"],
+    displayDifficulties: [],
   },
   {
     slug: "wrath-tier-9",
     name: "Tier 9",
     raidNames: ["Trial of the Crusader", "Onyxia's Lair"],
     raidAliases: ["Onyxia"],
+    displayDifficulties: ["Normal", "Heroic"],
   },
   {
     slug: "wrath-tier-10",
     name: "Tier 10",
     raidNames: ["Icecrown Citadel", "The Ruby Sanctum"],
     raidAliases: ["Ruby Sanctum"],
+    displayDifficulties: ["Normal", "Heroic"],
   },
 ];
 
@@ -167,16 +181,19 @@ const cataProgressionTiers: ProgressionTier[] = [
     name: "Tier 11",
     raidNames: ["Blackwing Descent", "The Bastion of Twilight", "Throne of the Four Winds"],
     raidAliases: ["TotFW / BWD / BoT", "Throne of the Four Winds / Blackwing Descent / Bastion of Twilight", "Bastion of Twilight"],
+    displayDifficulties: ["Normal", "Heroic"],
   },
   {
     slug: "cata-tier-12",
     name: "Tier 12",
     raidNames: ["Firelands"],
+    displayDifficulties: ["Normal", "Heroic"],
   },
   {
     slug: "cata-tier-13",
     name: "Tier 13",
     raidNames: ["Dragon Soul"],
+    displayDifficulties: ["Normal", "Heroic"],
   },
 ];
 
@@ -185,16 +202,20 @@ export const progressionTiers: ProgressionTier[] = [
     slug: "tier-14",
     name: "Tier 14",
     raidNames: ["Mogu'shan Vaults", "Heart of Fear", "Terrace of Endless Spring"],
+    displayDifficulties: ["Normal", "Heroic"],
   },
   {
     slug: "tier-15",
     name: "Tier 15",
     raidNames: ["Throne of Thunder"],
+    displayDifficulties: ["Normal", "Heroic"],
   },
   {
     slug: "tier-16",
     name: "Tier 16",
     raidNames: ["Siege of Orgrimmar"],
+    displayDifficulties: ["Normal", "Heroic"],
+    releaseStatus: "unreleased",
   },
 ];
 
@@ -426,6 +447,28 @@ export const getProgressBreakdown = (progress: RaidProgress) => {
   return "No kills";
 };
 
+export const tierDisplaysDifficulties = (tier?: ProgressionTier | null) =>
+  Array.isArray(tier?.displayDifficulties) && tier.displayDifficulties.length > 0;
+
+export const isTierUnreleased = (tier?: ProgressionTier | null) => tier?.releaseStatus === "unreleased";
+
+export const getProgressBreakdownForTier = (progress: RaidProgress, tier?: ProgressionTier | null) =>
+  tierDisplaysDifficulties(tier) ? getProgressBreakdown(progress) : "";
+
+export const formatProgressForTier = (progress: RaidProgress, tier?: ProgressionTier | null) => {
+  if (isTierUnreleased(tier)) {
+    return "Unreleased";
+  }
+
+  if (progress.totalBosses === 0) {
+    return "No data";
+  }
+
+  const breakdown = getProgressBreakdownForTier(progress, tier);
+
+  return breakdown ? `${progress.killedBosses} / ${progress.totalBosses} · ${breakdown}` : `${progress.killedBosses} / ${progress.totalBosses}`;
+};
+
 export const getBestDifficultyLabel = (progress: RaidProgress) => {
   if (progress.heroicBosses > 0) {
     return "Heroic";
@@ -594,6 +637,18 @@ export const getTierLatestKill = (tier: ProgressionTier, raids: ProgressionRaid[
   }
 
   return undefined;
+};
+
+export const getRaidProgressionKill = getRaidLatestKill;
+
+export const getTierProgressionKill = getTierLatestKill;
+
+export const formatKillRecordBossLabel = (killRecord?: KillRecord, tier?: ProgressionTier | null) => {
+  if (!killRecord) {
+    return "";
+  }
+
+  return tierDisplaysDifficulties(tier) ? `${killRecord.bossName} ${killRecord.difficultyName}` : killRecord.bossName;
 };
 
 export const getCurrentRaid = (raids: ProgressionRaid[]) => {

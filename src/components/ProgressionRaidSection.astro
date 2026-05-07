@@ -1,22 +1,28 @@
 ---
 import {
+  formatKillRecordBossLabel,
+  getBestCompletedDifficulty,
   getDifficulty,
   getDifficultyStatus,
-  getProgressBreakdown,
-  getRaidLatestKill,
+  getProgressBreakdownForTier,
+  getRaidProgressionKill,
   getRaidProgress,
   getSortedBosses,
+  isTierUnreleased,
+  tierDisplaysDifficulties,
   type DifficultyStatus,
   type ProgressionBoss,
   type ProgressionDifficulty,
   type ProgressionRaid,
+  type ProgressionTier,
 } from "../lib/progressionTiers";
 
 interface Props {
   raid: ProgressionRaid;
+  tier: ProgressionTier;
 }
 
-const { raid } = Astro.props;
+const { raid, tier } = Astro.props;
 
 const formatDate = (value?: string | null) => {
   if (!value) {
@@ -51,19 +57,46 @@ const getStatusClass = (status: DifficultyStatus) =>
 const getDifficultyMeta = (difficulty?: ProgressionDifficulty) => {
   const status = getDifficultyStatus(difficulty);
   const firstKillDate = formatDate(difficulty?.firstKillDate);
-  const latestKillDate = formatDate(difficulty?.latestKillDate);
   const bestPercent = status === "Best Pull" ? formatPercent(difficulty?.bestPercent) : "";
 
   return {
     status,
     firstKillDate,
-    latestKillDate,
     bestPercent,
     reportUrl: difficulty?.reportUrl || "",
   };
 };
 
+const getBestPullMeta = (boss: ProgressionBoss) => {
+  const candidates = Object.values(boss.difficulties ?? {})
+    .map((difficulty) => getDifficultyMeta(difficulty))
+    .filter((meta) => meta.status === "Best Pull");
+
+  return candidates.sort((a, b) => {
+    const aPercent = Number.parseFloat(a.bestPercent) || Number.POSITIVE_INFINITY;
+    const bPercent = Number.parseFloat(b.bestPercent) || Number.POSITIVE_INFINITY;
+
+    return aPercent - bPercent;
+  })[0];
+};
+
+const getSingleDifficultyRows = (boss: ProgressionBoss) => {
+  const bestDifficultyName = getBestCompletedDifficulty(boss);
+
+  if (bestDifficultyName) {
+    return [{ name: "", meta: getDifficultyMeta(getDifficulty(boss, bestDifficultyName)) }];
+  }
+
+  const bestPullMeta = getBestPullMeta(boss);
+
+  return [{ name: "", meta: bestPullMeta ?? getDifficultyMeta(undefined) }];
+};
+
 const getBossDifficultyRows = (boss: ProgressionBoss) => {
+  if (!tierDisplaysDifficulties(tier)) {
+    return getSingleDifficultyRows(boss);
+  }
+
   const normalMeta = getDifficultyMeta(getDifficulty(boss, "Normal"));
   const heroicMeta = getDifficultyMeta(getDifficulty(boss, "Heroic"));
 
@@ -93,7 +126,13 @@ const getBossDifficultyRows = (boss: ProgressionBoss) => {
 };
 
 const progress = getRaidProgress(raid);
-const latestKill = getRaidLatestKill(raid);
+const progressionKill = getRaidProgressionKill(raid);
+const isUnreleased = isTierUnreleased(tier);
+const isComplete = progress.totalBosses > 0 && progress.killedBosses === progress.totalBosses;
+const raidProgressBreakdown = getProgressBreakdownForTier(progress, tier);
+const progressionLabel = isUnreleased ? "Status" : progress.killedBosses > 0 && !isComplete ? "Progressed To" : "Completed";
+const progressionValue = isUnreleased ? "Unreleased" : progressionKill ? formatKillRecordBossLabel(progressionKill, tier) : "No kills";
+const progressionDate = progressionKill ? formatDate(progressionKill.date) : "";
 ---
 
 <section class="panel progression-raid-panel">
@@ -102,14 +141,19 @@ const latestKill = getRaidLatestKill(raid);
       <p class="eyebrow">Raid</p>
       <h2>{raid.name || "Unknown Raid"}</h2>
       <p class="info-note">
-        Progress {progress.killedBosses} / {progress.totalBosses} <span aria-hidden="true">&middot;</span>{" "}
-        {getProgressBreakdown(progress)}
+        Progress {progress.killedBosses} / {progress.totalBosses}
+        {raidProgressBreakdown && (
+          <>
+            {" "}<span aria-hidden="true">&middot;</span>{" "}
+            {raidProgressBreakdown}
+          </>
+        )}
       </p>
     </div>
     <div class="progression-raid-latest">
-      <span>Latest Kill</span>
-      <strong>{latestKill?.bossName ?? "None"}</strong>
-      {latestKill && <small>{latestKill.difficultyName} - {formatDate(latestKill.date)}</small>}
+      <span>{progressionLabel}</span>
+      <strong>{progressionValue}</strong>
+      {progressionDate && <small>{progressionDate}</small>}
     </div>
   </div>
 
@@ -123,21 +167,15 @@ const latestKill = getRaidLatestKill(raid);
           {difficultyRows.map(({ name: difficultyName, meta }) => (
             <section class="progression-difficulty">
               <div class="progression-difficulty-head">
-                <span>{difficultyName}</span>
+                {difficultyName && <span>{difficultyName}</span>}
                 <strong class={`progression-status ${getStatusClass(meta.status)}`}>{meta.status}</strong>
               </div>
 
               <dl class="progression-detail-list">
                 {meta.firstKillDate && (
                   <div>
-                    <dt>First kill</dt>
+                    <dt>First Kill</dt>
                     <dd>{meta.firstKillDate}</dd>
-                  </div>
-                )}
-                {meta.latestKillDate && (
-                  <div>
-                    <dt>Latest kill</dt>
-                    <dd>{meta.latestKillDate}</dd>
                   </div>
                 )}
                 {meta.bestPercent && (
