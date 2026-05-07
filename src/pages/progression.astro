@@ -59,8 +59,7 @@ const expansionSummaries = progressionExpansions.map((expansion) => ({
       <section class={`panel progression-expansion-panel ${expansion.isPlaceholder ? "is-placeholder" : ""}`}>
         <div class="progression-expansion-header">
           <div>
-            <p class="eyebrow">{expansion.shortName}</p>
-            <h2>{expansion.name}</h2>
+            <p class="eyebrow">{expansion.name}</p>
           </div>
           {expansion.isPlaceholder && <span>Coming soon</span>}
         </div>

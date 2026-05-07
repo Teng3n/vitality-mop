@@ -223,31 +223,31 @@ export const progressionExpansions: ProgressionExpansion[] = [
   {
     slug: "mop",
     name: "Mists of Pandaria Classic",
-    shortName: "MoP Classic",
+    shortName: "Mists of Pandaria Classic",
     tiers: [progressionTiers[2], progressionTiers[1], progressionTiers[0]],
   },
   {
     slug: "cata",
     name: "Cataclysm Classic",
-    shortName: "Cataclysm",
+    shortName: "Cataclysm Classic",
     tiers: [cataProgressionTiers[2], cataProgressionTiers[1], cataProgressionTiers[0]],
   },
   {
     slug: "wrath",
     name: "Wrath of the Lich King Classic",
-    shortName: "Wrath",
+    shortName: "Wrath of the Lich King Classic",
     tiers: [wrathProgressionTiers[3], wrathProgressionTiers[2], wrathProgressionTiers[1], wrathProgressionTiers[0]],
   },
   {
     slug: "tbc",
     name: "The Burning Crusade Classic",
-    shortName: "TBC",
+    shortName: "The Burning Crusade Classic",
     tiers: [tbcProgressionTiers[3], tbcProgressionTiers[2], tbcProgressionTiers[1], tbcProgressionTiers[0]],
   },
   {
     slug: "classic",
-    name: "Classic Era",
-    shortName: "Classic",
+    name: "Vanilla Classic",
+    shortName: "Vanilla Classic",
     tiers: [classicProgressionTiers[3], classicProgressionTiers[2], classicProgressionTiers[1], classicProgressionTiers[0]],
   },
 ];
