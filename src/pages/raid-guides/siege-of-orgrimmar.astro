@@ -1,0 +1,744 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+type RoleKey = "tanks" | "healers" | "dps" | "everyone" | "heroic";
+
+type BossGuide = {
+  name: string;
+  slug: string;
+  phase: string;
+  sections: Record<RoleKey, string[]>;
+  wipes: string[];
+  reminder: string;
+};
+
+const roleMeta: Record<RoleKey, { label: string; badge: string }> = {
+  tanks: { label: "Tanks", badge: "T" },
+  healers: { label: "Healers", badge: "H" },
+  dps: { label: "DPS", badge: "D" },
+  everyone: { label: "Everyone", badge: "All" },
+  heroic: { label: "Heroic Differences", badge: "Heroic" },
+};
+
+const roleOrder: RoleKey[] = ["tanks", "healers", "dps", "everyone", "heroic"];
+
+const bossGuides: BossGuide[] = [
+  {
+    name: "Immerseus",
+    slug: "immerseus",
+    phase: "Split, cleanse, repeat",
+    sections: {
+      tanks: [
+        "Swap after Corrosive Blast and keep the cone pointed away from the raid.",
+        "Move early for Swirl and keep the boss centered so sectors stay readable.",
+        "Call tank cooldowns if a swap is delayed or the active tank is clipped by puddles.",
+      ],
+      healers: [
+        "During Split, hard heal Contaminated Puddles before they reach the boss.",
+        "Assign healers to sectors so friendly puddles are not double-covered or missed.",
+        "Top players before Swirl and before heavy Sha Puddle cleanup.",
+      ],
+      dps: [
+        "On boss phase, burn Immerseus while staying spread and clear of Sha pools.",
+        "During Split, kill hostile puddles quickly, then help slow or stun late ones.",
+        "Ranged should cover far sectors rather than chasing through the room.",
+      ],
+      everyone: [
+        "Stay spread, dodge Swirl, and do not stand in Sha pools.",
+        "Handle your assigned sector during Split. Missed puddles extend the fight.",
+        "Use personals if trapped between Swirl and puddle impact zones.",
+      ],
+      heroic: [
+        "Swelling Corruption turns uncontrolled boss damage into extra add pressure.",
+        "DPS should pace attacks during high corruption stacks and swap hard to spawned adds.",
+        "Plan sector assignments before pull. Heroic punishes puddle leaks much harder.",
+      ],
+    },
+    wipes: [
+      "Corrosive Blast pointed through the raid.",
+      "Too many hostile puddles reaching Immerseus during Split.",
+      "DPS tunneling during Swelling Corruption and spawning unplanned adds.",
+    ],
+    reminder: "Spread by sector. Tanks face boss away. Kill black puddles, heal blue puddles, dodge Swirl, and pace damage on heroic corruption.",
+  },
+  {
+    name: "Fallen Protectors",
+    slug: "fallen-protectors",
+    phase: "Council with health pushes",
+    sections: {
+      tanks: [
+        "Keep Rook and He controlled and avoid dragging cleaves through the raid.",
+        "Call Desperate Measures pushes so two bosses do not transition together.",
+        "Pick up spawned adds immediately during Rook and He transitions.",
+      ],
+      healers: [
+        "Prepare for Calamity and heavy damage during Desperate Measures.",
+        "Stabilize Garrote and poison targets without overcommitting dispels.",
+        "During Sun's transition, get the raid inside the protective field quickly.",
+      ],
+      dps: [
+        "Balance boss health and stop damage if a second transition is about to overlap.",
+        "Kill Desperate Measures adds in the called order before returning to bosses.",
+        "Interrupt and stun dangerous adds when available.",
+      ],
+      everyone: [
+        "Do not stand in poison, brew trails, or Sha ground effects.",
+        "Stack inside Sun's barrier during Dark Meditation.",
+        "Watch boss health. Controlled pushes are the fight.",
+      ],
+      heroic: [
+        "Mark of Anguish must be passed cleanly to assigned players, usually tanks or immunities.",
+        "Bane and add overlaps make sloppy dispels and loose adds lethal.",
+        "Use stricter health stops before every Desperate Measures push.",
+      ],
+    },
+    wipes: [
+      "Two bosses entering Desperate Measures at the same time.",
+      "Raid missing Sun's barrier during Dark Meditation.",
+      "Mark of Anguish passed randomly or held too long.",
+    ],
+    reminder: "Balance all three bosses. Stop before bad overlaps. Barrier for Sun, kill transition adds, and pass Mark cleanly on heroic.",
+  },
+  {
+    name: "Norushen",
+    slug: "norushen",
+    phase: "Purify players, kill Amalgam",
+    sections: {
+      tanks: [
+        "Swap the Amalgam before stacks become dangerous and pick up Manifestations fast.",
+        "Send tanks into trials on a schedule so trial adds do not leak upstairs.",
+        "Face adds away and keep the boss stable for ranged cleave.",
+      ],
+      healers: [
+        "Send healers into trials early enough to unlock full healing throughput.",
+        "Cover raid damage when Manifestations die and corruption orbs are soaked.",
+        "Top trial players before they rejoin if raid damage is about to spike.",
+      ],
+      dps: [
+        "Prioritize purifying strong DPS first, then burn Amalgam with low corruption.",
+        "Kill Manifestations and Essences before they snowball raid damage.",
+        "Inside trials, kill your assigned adds cleanly. Do not waste the portal.",
+      ],
+      everyone: [
+        "Use orbs only when assigned. Random orb clicks break the purification order.",
+        "Avoid beams and ground effects while keeping adds stacked for cleave.",
+        "Call when you are purified so the next player can enter.",
+      ],
+      heroic: [
+        "Corruption management is tighter and add damage ramps faster.",
+        "Assignments matter more than raw boss damage. Do not skip trial order.",
+        "Keep cooldowns for late Amalgam damage when the raid is stressed.",
+      ],
+    },
+    wipes: [
+      "Unpurified DPS tunneling boss and hitting the enrage wall.",
+      "Manifestations left alive too long.",
+      "Players taking portals out of order.",
+    ],
+    reminder: "Follow portal order. Purify priority DPS, kill adds, soak assigned orbs, then burn Amalgam once corruption is under control.",
+  },
+  {
+    name: "Sha of Pride",
+    slug: "sha-of-pride",
+    phase: "Pride control and prison checks",
+    sections: {
+      tanks: [
+        "Swap on Wounded Pride and avoid taking avoidable Pride while tanking.",
+        "Keep Sha centered so prisons, rifts, and projections are reachable.",
+        "Call for a taunt if the active tank is about to be hit while debuffed.",
+      ],
+      healers: [
+        "Save raid cooldowns for Swelling Pride and late Pride overlaps.",
+        "Dispels should be controlled. Do not trigger extra Pride at bad times.",
+        "Watch prison targets and players who soak rifts or fail projections.",
+      ],
+      dps: [
+        "Kill Reflections quickly and swap to Manifestations immediately.",
+        "Interrupt Manifestations and help close rifts when assigned.",
+        "Push the boss only when Pride levels and prison teams are stable.",
+      ],
+      everyone: [
+        "Break prisons instantly. Pre-assign corners.",
+        "Stand in your Projection marker before it expires.",
+        "Close rifts when assigned and avoid reaching 100 Pride.",
+      ],
+      heroic: [
+        "Banishment sends players into a separate realm. Assigned players must exit cleanly.",
+        "Without clean Pride control, Swelling Pride overlaps become unrecoverable.",
+        "Treat every prison and projection as mandatory, not optional.",
+      ],
+    },
+    wipes: [
+      "Prison targets left trapped through raid damage.",
+      "Players missing Projection and feeding Pride.",
+      "Manifestations free-casting or staying alive too long.",
+    ],
+    reminder: "Manage Pride. Break prisons, stand in projections, close assigned rifts, interrupt adds, and cooldown every Swelling Pride.",
+  },
+  {
+    name: "Galakras",
+    slug: "galakras",
+    phase: "Towers, waves, then dragon burn",
+    sections: {
+      tanks: [
+        "One tank anchors ground waves while the other helps tower teams as assigned.",
+        "Pick up Bonecrushers, Shamans, and tower mini-bosses immediately.",
+        "In phase two, keep Galakras stable while the raid handles Flames.",
+      ],
+      healers: [
+        "Assign one healer per tower team and keep ground team covered during split pressure.",
+        "Prepare cooldowns for tower mini-bosses and phase two Flame impacts.",
+        "Watch NPC damage. Dead friendly NPCs can derail the pull.",
+      ],
+      dps: [
+        "Priority is Bonecrusher, Shaman, Banner, Demolisher, then wave cleanup.",
+        "Tower groups move fast, clear the top, and use cannons together.",
+        "In phase two, burn Galakras while handling Flames correctly.",
+      ],
+      everyone: [
+        "Interrupt Chain Heal and stun dangerous adds.",
+        "Do not let Bonecrushers reach friendly NPCs.",
+        "Use both cannons together to bring Galakras down.",
+      ],
+      heroic: [
+        "Tower and ground assignments need tighter timing because waves overlap harder.",
+        "Phase two Flames punish poor spacing. Keep the path organized.",
+        "Use cooldowns for late wave plus tower overlaps rather than saving everything for the dragon.",
+      ],
+    },
+    wipes: [
+      "Bonecrushers killing friendly NPCs.",
+      "Tower team falling behind and delaying cannons.",
+      "Phase two Flames crossing the raid without assigned handling.",
+    ],
+    reminder: "Kill priority adds, clear towers on time, fire both cannons together, then handle Flames while burning Galakras.",
+  },
+  {
+    name: "Iron Juggernaut",
+    slug: "iron-juggernaut",
+    phase: "Assault phase into Siege phase",
+    sections: {
+      tanks: [
+        "Swap on Ignite Armor and use cooldowns for mine stomps.",
+        "Keep the boss positioned so Shock Pulse knockbacks do not launch people into hazards.",
+        "During Siege phase, soak Crawler Mines with major mitigation.",
+      ],
+      healers: [
+        "Prepare for Shock Pulse, mine detonations, and Siege phase raid damage.",
+        "Keep mine soakers topped before they step in.",
+        "Use throughput cooldowns when movement and knockbacks overlap.",
+      ],
+      dps: [
+        "Maintain boss damage while dodging laser, mortars, sawblades, and oil.",
+        "Help call mine locations, but do not stomp unless assigned.",
+        "Use movement tools to recover after Shock Pulse.",
+      ],
+      everyone: [
+        "Spread enough to make ground effects readable.",
+        "Dodge every avoidable projectile. This fight is a personal responsibility check.",
+        "Pre-position before Shock Pulse so the knockback is safe.",
+      ],
+      heroic: [
+        "Crawler Mines and Siege phase overlaps are much less forgiving.",
+        "Assign mine soakers before pull and call backups.",
+        "Use raid cooldowns for Shock Pulse chains, not after people are already dead.",
+      ],
+    },
+    wipes: [
+      "Unsoaked Crawler Mines.",
+      "Players knocked into fire, oil, or mines by Shock Pulse.",
+      "Tanks swapping late and carrying too many Ignite Armor stacks.",
+    ],
+    reminder: "Swap Ignite Armor, dodge ground effects, pre-position for Shock Pulse, and only assigned players stomp mines with cooldowns.",
+  },
+  {
+    name: "Kor'kron Dark Shaman",
+    slug: "korkron-dark-shaman",
+    phase: "Shared-health shaman split",
+    sections: {
+      tanks: [
+        "Use the planned split. Do not drag bosses through Ashen Wall or Foul Geyser zones.",
+        "Pick up wolves or slime spawns quickly and keep frontal effects away from the raid.",
+        "Call swaps and externals before Froststorm Strike or high-stack moments.",
+      ],
+      healers: [
+        "Track Toxic Mist, Falling Ash, Iron Prison, and movement overlaps.",
+        "Top Iron Prison targets before detonation and call personals.",
+        "Keep healers split with the boss groups so no side is uncovered.",
+      ],
+      dps: [
+        "Cleave bosses only when safe. Survival and clean positioning beat greedy padding.",
+        "Kill dangerous adds quickly, especially slimes that reach the raid.",
+        "Move early from Ashen Wall, Foul Stream, tornadoes, and Falling Ash.",
+      ],
+      everyone: [
+        "Stay spread for targeted lines and do not trap the raid with walls.",
+        "Call Iron Prison on yourself and use a personal before it expires.",
+        "Keep moving paths clean. This fight gets worse as space disappears.",
+      ],
+      heroic: [
+        "Iron Prison requires players to be near full health or use mitigation before it expires.",
+        "Extra wolf and ability pressure makes the split strategy much safer than stacking both bosses.",
+        "Late fight space is the real enrage. Drop mechanics deliberately.",
+      ],
+    },
+    wipes: [
+      "Iron Prison targets not topped or not using personals.",
+      "Ashen Wall cutting off the raid path.",
+      "Slimes or wolves reaching healers and ranged.",
+    ],
+    reminder: "Use the split. Drop walls cleanly, call Iron Prison, top prison targets, kill adds, and move early for Falling Ash.",
+  },
+  {
+    name: "General Nazgrim",
+    slug: "general-nazgrim",
+    phase: "Adds and rage control",
+    sections: {
+      tanks: [
+        "Swap on Sundering Blow and keep Nazgrim away from loose adds.",
+        "Face him safely and move him out of Ravager paths when needed.",
+        "Help lock down adds during Defensive Stance instead of feeding boss rage.",
+      ],
+      healers: [
+        "Expect War Song and add-target damage to create sudden spikes.",
+        "Call if Assassins or Snipers pressure the backline.",
+        "Do not panic-heal through avoidable Ravager damage. Make players move.",
+      ],
+      dps: [
+        "Stop or heavily reduce boss damage during Defensive Stance.",
+        "Add priority is Shaman, Arcweaver, Assassin, Sniper, then everything else.",
+        "Kill banners immediately and interrupt Arcweaver casts.",
+      ],
+      everyone: [
+        "Do not stand in Ravager or Heroic Shockwave lines.",
+        "Watch boss stance. Defensive Stance is add cleanup time.",
+        "Call Assassin fixates and help peel them.",
+      ],
+      heroic: [
+        "Snipers and Assassin pressure are more punishing, so backline awareness matters.",
+        "Rage mistakes become boss abilities. Defensive Stance discipline is mandatory.",
+        "Assign interrupts and stuns before pull.",
+      ],
+    },
+    wipes: [
+      "DPS feeding rage into Defensive Stance.",
+      "Warshaman heals or Arcweaver casts getting through.",
+      "Backline deaths to Assassin, Sniper, or Ravager.",
+    ],
+    reminder: "Watch stance. Stop boss in Defensive, kill Shaman and Arcweaver, interrupt everything, and dodge Ravager.",
+  },
+  {
+    name: "Malkorok",
+    slug: "malkorok",
+    phase: "Shield management and soak check",
+    sections: {
+      tanks: [
+        "Swap on Fatal Strike and keep the boss steady for quadrant assignments.",
+        "Aim Arcing Smash patterns clearly and call the safe zone before Breath.",
+        "Plan cooldowns for Blood Rage or assigned solo-soak strategy.",
+      ],
+      healers: [
+        "Build Ancient Barrier shields early. Raw health bars are misleading here.",
+        "Top shields after every Imploding Energy and before Blood Rage.",
+        "Track Displaced Energy on heroic and call safe dispel timing.",
+      ],
+      dps: [
+        "Maintain boss damage while soaking assigned Imploding Energy zones.",
+        "Use personals if your shield is low before a soak.",
+        "Do not chase meters through Arcing Smash or Breath zones.",
+      ],
+      everyone: [
+        "Assigned players must soak purple Imploding Energy circles.",
+        "Remember Arcing Smash locations. Breath hits the previous smash zones.",
+        "Stay spread enough for mechanics but close enough for healing coverage.",
+      ],
+      heroic: [
+        "Displaced Energy explodes on expiration or dispel. Move out before it is removed.",
+        "Living Corruption and orb control can ruin space if ignored.",
+        "Shield tracking is mandatory. Low shield plus soak equals death.",
+      ],
+    },
+    wipes: [
+      "Missed Imploding Energy soaks.",
+      "Raid forgetting Arcing Smash locations before Breath.",
+      "Displaced Energy dispelled inside the raid.",
+    ],
+    reminder: "Build shields, soak purple circles, remember smash zones, dodge Breath, and move out with Displaced Energy on heroic.",
+  },
+  {
+    name: "Spoils of Pandaria",
+    slug: "spoils-of-pandaria",
+    phase: "Two teams, crates, energy",
+    sections: {
+      tanks: [
+        "One tank per side. Open crates at the assigned pace, not all at once.",
+        "Control large crate mobs and face dangerous casts away from the group.",
+        "Call when your side has enough energy to pull the lever.",
+      ],
+      healers: [
+        "Expect uneven damage spikes when large crates open.",
+        "Dispel and stabilize players hit by bombs, sparks, and cleaves.",
+        "Communicate if your side needs to slow crate openings.",
+      ],
+      dps: [
+        "Interrupt dangerous casts and swap to Sparks or priority crate mobs.",
+        "Use cooldowns for large crates, not low-value small crates.",
+        "Do not pad while your side is behind on energy.",
+      ],
+      everyone: [
+        "Stay on your assigned side and call if a crate was opened by mistake.",
+        "Avoid bombs, frontal cleaves, pools, and Spark explosions.",
+        "Click the lever only when your room is cleared and the call is made.",
+      ],
+      heroic: [
+        "Timer pressure is tighter and Sparks must die before they explode.",
+        "Crate order should be scripted by room. Improvising costs pulls.",
+        "Each side needs its own interrupt and stun plan.",
+      ],
+    },
+    wipes: [
+      "Opening too many crates at once.",
+      "Unstable Sparks exploding in the group.",
+      "One side reaching energy while the other side falls behind.",
+    ],
+    reminder: "Stay split. Open crates on pace, kill Sparks and priority mobs, interrupt casts, and pull levers only on call.",
+  },
+  {
+    name: "Thok the Bloodthirsty",
+    slug: "thok-the-bloodthirsty",
+    phase: "Stack, kite, release prisoners",
+    sections: {
+      tanks: [
+        "Swap on breath stacks and move Thok cleanly between stack and kite phases.",
+        "Pick up Jailers quickly and help control the path during fixate.",
+        "Call cooldowns before high Screech stacks or dangerous breath overlaps.",
+      ],
+      healers: [
+        "Ramp healing as Screech gets faster. Plan raid cooldown order before pull.",
+        "Top the fixate target and anyone clipped during kiting.",
+        "Prepare for each prisoner element to change the damage profile.",
+      ],
+      dps: [
+        "Burn hard while stacked, then swap to Jailer immediately.",
+        "Keep damage on Thok during kite phase without cutting off the fixate path.",
+        "Use stuns and slows on bats or adds when they appear.",
+      ],
+      everyone: [
+        "Stack tightly until the call to break. Then spread and respect the kite lane.",
+        "Do not stand in front of Thok during breaths.",
+        "Fixate target leads Thok on the planned route. Do not panic turn through the raid.",
+      ],
+      heroic: [
+        "Each prisoner phase is more punishing. Decide release order before pull.",
+        "Bats and poison/frost/fire overlaps require fast swaps and cooldown discipline.",
+        "Fixate mistakes usually kill multiple people, so the kite path must stay clear.",
+      ],
+    },
+    wipes: [
+      "Breaking stack too early or too late.",
+      "Fixate path dragged through the raid.",
+      "Jailer or bats ignored while healers are already stressed.",
+    ],
+    reminder: "Stack for Screech, break on call, kill Jailer, release assigned prisoner, and keep the fixate path clear.",
+  },
+  {
+    name: "Siegecrafter Blackfuse",
+    slug: "siegecrafter-blackfuse",
+    phase: "Conveyor belt priority fight",
+    sections: {
+      tanks: [
+        "Swap on Electrostatic Charge and use high stacks to kill Shredders quickly.",
+        "Tank Shredders away from the raid and away from bad ground effects.",
+        "Keep Blackfuse steady so sawblades, lasers, and mines stay predictable.",
+      ],
+      healers: [
+        "Assign coverage for belt teams and ground team separately.",
+        "Prepare cooldowns for Overload, magnet, mine chaos, and late weapon overlaps.",
+        "Top belt players before they leave if the ground team is under pressure.",
+      ],
+      dps: [
+        "Belt team kills the called weapon only. Do not split damage.",
+        "Ground team prioritizes mines, Shredder timing, and boss damage in that order.",
+        "Use slows, roots, and stuns on mines before they reach the raid.",
+      ],
+      everyone: [
+        "Dodge sawblades, lasers, missile circles, and magnet movement.",
+        "Respect belt assignments. Missing one weapon can decide the pull.",
+        "Call if mines are loose or a belt player misses the pipe.",
+      ],
+      heroic: [
+        "Overcharged weapons overlap with normal weapons, so the belt kill order must be scripted.",
+        "Crawler Mines are far more dangerous. Assign control before pull.",
+        "Late fight is execution, not improvisation. Keep comms clear.",
+      ],
+    },
+    wipes: [
+      "Wrong weapon killed or belt team missing a cycle.",
+      "Crawler Mines reaching the raid.",
+      "Shredder alive too long and overlapping the next tank cycle.",
+    ],
+    reminder: "Belt team kills the called weapon. Tanks kill Shredders with Charge stacks. Ground team controls mines and dodges every pattern.",
+  },
+  {
+    name: "Paragons of the Klaxxi",
+    slug: "paragons-of-the-klaxxi",
+    phase: "Nine bosses, three active",
+    sections: {
+      tanks: [
+        "Pick up newly active Paragons immediately and keep dangerous cleaves faced away.",
+        "Call swaps for tank debuffs and move bosses according to the kill order.",
+        "Keep active bosses separated or stacked only when the strategy calls for it.",
+      ],
+      healers: [
+        "Track targeted mechanics like Aim, toxins, parasites, and strong tank spikes.",
+        "Save cooldowns for overlaps from newly activated Paragons.",
+        "Call when a target needs externals rather than letting mechanics chain-kill players.",
+      ],
+      dps: [
+        "Follow the kill order exactly. Do not split unless assigned.",
+        "Swap to parasites, bloods, amber, or other priority spawns immediately.",
+        "Use stolen Paragon abilities if assigned. They are progression tools, not toys.",
+      ],
+      everyone: [
+        "Handle your assigned personal mechanic before returning to boss damage.",
+        "Spread or stack for Aim, Fiery Edge, toxin, and amber calls as assigned.",
+        "Listen for new active bosses. The fight changes after every kill.",
+      ],
+      heroic: [
+        "Ability overlaps are tighter and personal mistakes snowball quickly.",
+        "Pre-assign responses for Aim, Mesmerize, parasites, amber, and toxin colors.",
+        "Keep the kill order visible. Losing discipline late wastes long pulls.",
+      ],
+    },
+    wipes: [
+      "Raid splitting damage away from the kill target.",
+      "Priority adds or amber effects ignored.",
+      "Players not reacting when a new Paragon becomes active.",
+    ],
+    reminder: "Follow kill order. Three active at a time. Swap to priority mechanics, use assigned Paragon powers, and reset comms after each kill.",
+  },
+  {
+    name: "Garrosh Hellscream",
+    slug: "garrosh-hellscream",
+    phase: "Adds, transitions, empowered finale",
+    sections: {
+      tanks: [
+        "Swap on Gripping Despair and keep Garrosh positioned for weapon and add control.",
+        "Pick up Warbringers and transition adds quickly.",
+        "In later phases, separate empowered adds so they do not chain-buff each other.",
+      ],
+      healers: [
+        "Plan cooldowns for Whirling Corruption, Empowered Whirling, and transition bursts.",
+        "Stabilize mind-controlled players without killing them.",
+        "Keep tanks covered during high Despair stacks and add pickups.",
+      ],
+      dps: [
+        "Kill Desecrated Weapons and mind controls immediately.",
+        "During transitions, kill adds fast and avoid Annihilate.",
+        "In empowered phases, kill spawned adds separately and return to boss cleanly.",
+      ],
+      everyone: [
+        "Stack, spread, and move exactly on calls. This fight punishes late movement.",
+        "Interrupt and break mind controls without cleaving players down.",
+        "Use personals for Whirling and transition mistakes.",
+      ],
+      heroic: [
+        "Heroic adds a final phase with Malice, Bombardment, and Iron Star handling.",
+        "Empowered Whirling adds must be controlled and killed apart.",
+        "Assign Malice soaks and movement before pull. The last phase is scripted execution.",
+      ],
+    },
+    wipes: [
+      "Mind controls not interrupted or broken quickly.",
+      "Empowered Whirling adds stacked together and buffing each other.",
+      "Transition deaths to Annihilate or late movement.",
+    ],
+    reminder: "Kill weapons and MCs instantly. Move for transitions, spread for Whirling, separate empowered adds, and execute heroic Malice assignments.",
+  },
+];
+
+const totalSections = bossGuides.length * 7;
+---
+
+<Layout title="Siege of Orgrimmar Raid Notes | Vitality">
+  <section class="page-header raid-guide-header" id="top">
+    <p class="eyebrow">Raid Guides</p>
+    <h1>Siege of Orgrimmar</h1>
+    <p>PTR and progression notes tuned for raid-leading from a second monitor.</p>
+  </section>
+
+  <section class="panel raid-guide-overview">
+    <div>
+      <p class="eyebrow">Tier 16 Prep</p>
+      <h2>Fast calls, role checks, and wipe points</h2>
+      <p class="info-note">
+        Static raid-leader notes for all 14 Siege bosses. Use the boss jump list, copy pull reminders, and scan role cards during progression.
+      </p>
+    </div>
+    <div class="raid-guide-stats" aria-label="Guide summary">
+      <span><strong>{bossGuides.length}</strong> bosses</span>
+      <span><strong>{totalSections}</strong> callout blocks</span>
+      <span><strong>Heroic</strong> flagged</span>
+    </div>
+  </section>
+
+  <div class="raid-guide-scroll-progress" aria-hidden="true">
+    <span data-guide-progress></span>
+  </div>
+
+  <div class="raid-guide-layout">
+    <aside class="panel raid-guide-boss-nav" aria-label="Siege of Orgrimmar boss navigation">
+      <div class="raid-guide-nav-heading">
+        <p class="eyebrow">Jump To Boss</p>
+        <span data-guide-current>1 / {bossGuides.length}</span>
+      </div>
+      <nav>
+        {bossGuides.map((boss, index) => (
+          <a href={`#${boss.slug}`} data-boss-nav-link={boss.slug}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            {boss.name}
+          </a>
+        ))}
+      </nav>
+    </aside>
+
+    <div class="raid-guide-boss-stack">
+      {bossGuides.map((boss, index) => (
+        <article class="panel raid-guide-boss-card" id={boss.slug} data-boss-section={boss.slug}>
+          <header class="raid-guide-boss-header">
+            <div>
+              <p class="eyebrow">Boss {index + 1}</p>
+              <h2>{boss.name}</h2>
+              <p>{boss.phase}</p>
+            </div>
+            <a class="raid-guide-top-link" href="#top">Top</a>
+          </header>
+
+          <div class="raid-guide-section-grid">
+            {roleOrder.map((role) => (
+              <section class={`raid-guide-role-card ${role === "heroic" ? "is-heroic" : ""}`}>
+                <div class="raid-guide-role-heading">
+                  <span class="raid-guide-role-badge">{roleMeta[role].badge}</span>
+                  <h3>{roleMeta[role].label}</h3>
+                </div>
+                <ul>
+                  {boss.sections[role].map((item) => <li>{item}</li>)}
+                </ul>
+              </section>
+            ))}
+
+            <section class="raid-guide-role-card is-warning">
+              <div class="raid-guide-role-heading">
+                <span class="raid-guide-role-badge">!</span>
+                <h3>Common Wipes</h3>
+              </div>
+              <ul>
+                {boss.wipes.map((item) => <li>{item}</li>)}
+              </ul>
+            </section>
+          </div>
+
+          <section class="raid-guide-pull-reminder">
+            <div>
+              <p class="eyebrow">15-Second Pull Reminder</p>
+              <p>{boss.reminder}</p>
+            </div>
+            <button type="button" data-copy-reminder data-copy-text={boss.reminder}>
+              Copy
+            </button>
+          </section>
+        </article>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const bossSections = Array.from(document.querySelectorAll<HTMLElement>("[data-boss-section]"));
+  const bossLinks = new Map(
+    Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-boss-nav-link]")).map((link) => [
+      link.dataset.bossNavLink ?? "",
+      link,
+    ]),
+  );
+  const currentBoss = document.querySelector<HTMLElement>("[data-guide-current]");
+  const progressBar = document.querySelector<HTMLElement>("[data-guide-progress]");
+  const copyButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-copy-reminder]"));
+
+  const setActiveBoss = (id: string) => {
+    bossLinks.forEach((link, linkId) => {
+      link.toggleAttribute("aria-current", linkId === id);
+    });
+
+    const index = bossSections.findIndex((section) => section.id === id);
+
+    if (currentBoss && index >= 0) {
+      currentBoss.textContent = `${index + 1} / ${bossSections.length}`;
+    }
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+      if (visible?.target instanceof HTMLElement) {
+        setActiveBoss(visible.target.id);
+      }
+    },
+    {
+      rootMargin: "-18% 0px -65% 0px",
+      threshold: [0.1, 0.35, 0.6],
+    },
+  );
+
+  bossSections.forEach((section) => observer.observe(section));
+
+  let ticking = false;
+  const updateScrollProgress = () => {
+    if (!progressBar) {
+      return;
+    }
+
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+    progressBar.style.transform = `scaleX(${progress})`;
+    ticking = false;
+  };
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateScrollProgress);
+        ticking = true;
+      }
+    },
+    { passive: true },
+  );
+  updateScrollProgress();
+  setActiveBoss(bossSections[0]?.id ?? "");
+
+  copyButtons.forEach((button) => {
+    const defaultLabel = button.textContent ?? "Copy";
+
+    button.addEventListener("click", async () => {
+      const text = button.dataset.copyText ?? "";
+
+      try {
+        await navigator.clipboard.writeText(text);
+        button.textContent = "Copied";
+        button.dataset.state = "success";
+      } catch {
+        button.textContent = "Copy failed";
+        button.dataset.state = "error";
+      }
+
+      window.setTimeout(() => {
+        button.textContent = defaultLabel;
+        button.dataset.state = "";
+      }, 1800);
+    });
+  });
+</script>

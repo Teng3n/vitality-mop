@@ -25,6 +25,14 @@ const navItems: NavItem[] = [
   { href: "/", label: "Home" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/progression", label: "Progression" },
+  {
+    href: "/raid-guides/siege-of-orgrimmar",
+    label: "Raid Guides",
+    matchPrefix: "/raid-guides",
+    children: [
+      { href: "/raid-guides/siege-of-orgrimmar", label: "Siege of Orgrimmar" },
+    ],
+  },
   { href: "/bench", label: "Bench" },
   { href: "/roster", label: "Roster" },
   { href: "/calendar", label: "Calendar" },
