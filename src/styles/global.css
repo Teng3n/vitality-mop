@@ -2260,9 +2260,37 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   text-decoration: none;
 }
 
+.raid-guide-boss-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.raid-guide-copy-button {
+  border: 1px solid rgba(111, 207, 151, 0.38);
+  border-radius: 6px;
+  padding: 6px 10px;
+  background: rgba(111, 207, 151, 0.08);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
 .raid-guide-top-link:hover,
-.raid-guide-top-link:focus-visible {
+.raid-guide-top-link:focus-visible,
+.raid-guide-copy-button:hover,
+.raid-guide-copy-button:focus-visible {
   color: #d8bb73;
+}
+
+.raid-guide-copy-button[data-state="success"] {
+  color: var(--jade);
+}
+
+.raid-guide-copy-button[data-state="error"] {
+  color: #ee9a8e;
 }
 
 .raid-guide-section-grid {
@@ -2884,13 +2912,13 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
     grid-template-columns: 1fr;
   }
 
-  .raid-guide-boss-header,
-  .raid-guide-pull-reminder {
+  .raid-guide-boss-header {
     align-items: stretch;
     flex-direction: column;
   }
 
-  .raid-guide-pull-reminder button {
+  .raid-guide-boss-actions,
+  .raid-guide-copy-button {
     width: 100%;
   }
 
@@ -2906,7 +2934,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .raid-guide-scroll-progress,
   .raid-guide-boss-nav,
   .raid-guide-top-link,
-  .raid-guide-pull-reminder button {
+  .raid-guide-copy-button {
     display: none !important;
   }
 

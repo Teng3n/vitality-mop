@@ -7,10 +7,7 @@ type RoleKey = "tanks" | "healers" | "dps" | "everyone" | "heroic";
 type BossGuide = {
   name: string;
   slug: string;
-  phase: string;
   sections: Record<RoleKey, string[]>;
-  wipes: string[];
-  reminder: string;
 };
 
 const roleMeta: Record<RoleKey, { label: string; badge: string }> = {
@@ -25,7 +22,21 @@ const roleOrder: RoleKey[] = ["tanks", "healers", "dps", "everyone", "heroic"];
 
 const bossGuides: BossGuide[] = siegeOfOrgrimmarBossGuides;
 
-const totalSections = bossGuides.length * 7;
+const totalSections = bossGuides.length * roleOrder.length;
+
+const getBossCopyText = (boss: BossGuide) =>
+  [
+    boss.name,
+    ...roleOrder.flatMap((role) => {
+      const items = boss.sections[role];
+
+      if (items.length === 0) {
+        return [];
+      }
+
+      return [roleMeta[role].label, ...items.map((item) => `- ${item}`)];
+    }),
+  ].join("\n");
 ---
 
 <Layout title="Siege of Orgrimmar Raid Notes | Vitality">
@@ -38,9 +49,9 @@ const totalSections = bossGuides.length * 7;
   <section class="panel raid-guide-overview">
     <div>
       <p class="eyebrow">Tier 16 Prep</p>
-      <h2>Fast calls, role checks, and wipe points</h2>
+      <h2>Fast calls and role checks</h2>
       <p class="info-note">
-        Static raid-leader notes for all 14 Siege bosses. Use the boss jump list, copy pull reminders, and scan role cards during progression.
+        Static raid-leader notes for all 14 Siege bosses. Use the boss jump list, copy boss notes, and scan role cards during progression.
       </p>
     </div>
     <div class="raid-guide-stats" aria-label="Guide summary">
@@ -77,9 +88,13 @@ const totalSections = bossGuides.length * 7;
             <div>
               <p class="eyebrow">Boss {index + 1}</p>
               <h2>{boss.name}</h2>
-              <p>{boss.phase}</p>
             </div>
-            <a class="raid-guide-top-link" href="#top">Top</a>
+            <div class="raid-guide-boss-actions">
+              <button type="button" class="raid-guide-copy-button" data-copy-notes data-copy-text={getBossCopyText(boss)}>
+                Copy notes
+              </button>
+              <a class="raid-guide-top-link" href="#top">Top</a>
+            </div>
           </header>
 
           <div class="raid-guide-section-grid">
@@ -94,27 +109,7 @@ const totalSections = bossGuides.length * 7;
                 </ul>
               </section>
             ))}
-
-            <section class="raid-guide-role-card is-warning">
-              <div class="raid-guide-role-heading">
-                <span class="raid-guide-role-badge">!</span>
-                <h3>Common Wipes</h3>
-              </div>
-              <ul>
-                {boss.wipes.map((item) => <li>{item}</li>)}
-              </ul>
-            </section>
           </div>
-
-          <section class="raid-guide-pull-reminder">
-            <div>
-              <p class="eyebrow">15-Second Pull Reminder</p>
-              <p>{boss.reminder}</p>
-            </div>
-            <button type="button" data-copy-reminder data-copy-text={boss.reminder}>
-              Copy
-            </button>
-          </section>
         </article>
       ))}
     </div>
@@ -131,7 +126,7 @@ const totalSections = bossGuides.length * 7;
   );
   const currentBoss = document.querySelector<HTMLElement>("[data-guide-current]");
   const progressBar = document.querySelector<HTMLElement>("[data-guide-progress]");
-  const copyButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-copy-reminder]"));
+  const copyButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-copy-notes]"));
 
   const setActiveBoss = (id: string) => {
     bossLinks.forEach((link, linkId) => {
