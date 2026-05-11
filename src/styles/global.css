@@ -2311,6 +2311,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 }
 
 .raid-guide-role-card.is-heroic {
+  grid-column: 1 / -1;
   border-color: rgba(200, 155, 60, 0.45);
   background: rgba(200, 155, 60, 0.08);
 }

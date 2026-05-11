@@ -173,8 +173,8 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Intercept Flames of Galakrond in Phase Two."
       ],
       heroic: [
-        "Towers are unlocked by friendly NPCs instead of opening automatically.",
-        "Dragonmaw Grunts try to kill the friendly NPCs opening the towers.",
+        "Heroic adds friendly NPCs that unlock the towers instead of the towers opening automatically.",
+        "Protect the tower-opening NPCs from Dragonmaw Grunts.",
         "If a tower-opening NPC dies, a new NPC spawns and tower-opening progress restarts.",
         "Assign DPS players to protect the NPC opening the next tower."
       ]
@@ -203,8 +203,9 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "If targeted by Cutter Laser, do not kite it into Explosive Tar."
       ],
       heroic: [
-        "Ricochet is added during Assault Phase.",
-        "Avoid Ricochet as it moves around the area.",
+        "Heroic adds Ricochet during Assault Phase.",
+        "Ricochet creates fast-moving sawblades near ranged players.",
+        "Ranged players spread slightly so Ricochet sawblades hit fewer players.",
         "Mortar Barrage is added during Siege Phase.",
         "Mortar Barrage marks random ground near the boss with red circles.",
         "Players targeted by Cutter Laser during the Siege Phase stack strategy must move out of the raid quickly."
@@ -453,9 +454,10 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
       ],
       heroic: [
         "Skeer summons one additional Blood.",
-        "Amber Scorpion players must use Prey on an Amber Parasite to exit the form or die.",
+        "Rik'kal's Amber Scorpion players must use Prey on an Amber Parasite to exit the form or die.",
         "Hisek gains Rapid Fire.",
         "Korven's Encase in Amber block cannot be killed by raid members.",
+        "Kaz'tik's Mesmerize still requires breaking the active Hungry Kunchong quickly.",
         "Iyyokuk's Fiery Edge links each target to two other players and selects more targets.",
         "Xaril triggers orange, purple, and green Toxic Injection effects instead of red, blue, and yellow.",
         "Kil'ruk gains Reave, pulling players toward him during the channel.",

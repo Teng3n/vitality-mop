@@ -22,8 +22,6 @@ const roleOrder: RoleKey[] = ["tanks", "healers", "dps", "everyone", "heroic"];
 
 const bossGuides: BossGuide[] = siegeOfOrgrimmarBossGuides;
 
-const totalSections = bossGuides.length * roleOrder.length;
-
 const getBossCopyText = (boss: BossGuide) =>
   [
     boss.name,
@@ -43,22 +41,6 @@ const getBossCopyText = (boss: BossGuide) =>
   <section class="page-header raid-guide-header" id="top">
     <p class="eyebrow">Raid Guides</p>
     <h1>Siege of Orgrimmar</h1>
-    <p>PTR and progression notes tuned for raid-leading from a second monitor.</p>
-  </section>
-
-  <section class="panel raid-guide-overview">
-    <div>
-      <p class="eyebrow">Tier 16 Prep</p>
-      <h2>Fast calls and role checks</h2>
-      <p class="info-note">
-        Static raid-leader notes for all 14 Siege bosses. Use the boss jump list, copy boss notes, and scan role cards during progression.
-      </p>
-    </div>
-    <div class="raid-guide-stats" aria-label="Guide summary">
-      <span><strong>{bossGuides.length}</strong> bosses</span>
-      <span><strong>{totalSections}</strong> callout blocks</span>
-      <span><strong>Heroic</strong> flagged</span>
-    </div>
   </section>
 
   <div class="raid-guide-scroll-progress" aria-hidden="true">
