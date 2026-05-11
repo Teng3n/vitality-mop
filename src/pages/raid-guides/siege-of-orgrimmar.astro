@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import { siegeOfOrgrimmarBossGuides } from "../../data/siegeOfOrgrimmarGuide";
 
-type RoleKey = "tanks" | "healers" | "dps" | "everyone" | "heroic";
+type RoleKey = "tanks" | "healers" | "dps" | "everyone" | "heroic" | "quick";
 
 type BossGuide = {
   name: string;
@@ -16,9 +16,10 @@ const roleMeta: Record<RoleKey, { label: string; badge: string }> = {
   dps: { label: "DPS", badge: "D" },
   everyone: { label: "Everyone", badge: "All" },
   heroic: { label: "Heroic Differences", badge: "Heroic" },
+  quick: { label: "TL;DR Strategy", badge: "TL;DR" },
 };
 
-const roleOrder: RoleKey[] = ["tanks", "healers", "dps", "everyone", "heroic"];
+const roleOrder: RoleKey[] = ["tanks", "healers", "dps", "everyone", "heroic", "quick"];
 
 const bossGuides: BossGuide[] = siegeOfOrgrimmarBossGuides;
 
@@ -81,7 +82,7 @@ const getBossCopyText = (boss: BossGuide) =>
 
           <div class="raid-guide-section-grid">
             {roleOrder.map((role) => (
-              <section class={`raid-guide-role-card ${role === "heroic" ? "is-heroic" : ""}`}>
+              <section class={`raid-guide-role-card ${role === "heroic" ? "is-heroic" : ""} ${role === "quick" ? "is-quick" : ""}`}>
                 <div class="raid-guide-role-heading">
                   <span class="raid-guide-role-badge">{roleMeta[role].badge}</span>
                   <h3>{roleMeta[role].label}</h3>

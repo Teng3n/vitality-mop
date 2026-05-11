@@ -1,4 +1,4 @@
-type RoleKey = "tanks" | "healers" | "dps" | "everyone" | "heroic";
+type RoleKey = "tanks" | "healers" | "dps" | "everyone" | "heroic" | "quick";
 
 export type SiegeBossGuide = {
   name: string;
@@ -38,6 +38,12 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Kill Congealed Sha adds quickly.",
         "A tank should pick up Congealed Sha adds.",
         "Sha Pool appears in the center during Split and grows when puddles reach it."
+      ],
+      quick: [
+        "Spread around the room during the Immerseus phase.",
+        "DPS kill Sha Puddles and healers heal Contaminated Puddles during Split.",
+        "Handled puddles remove corruption; puddles that reach the center deal raid damage.",
+        "On Heroic, attacks into Swelling Corruption spawn Congealed Sha adds that must be tanked and killed."
       ]
     }
   },
@@ -76,6 +82,12 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Debilitation from Mark of Anguish reduces armor by 80% for 4 minutes.",
         "Sun's Calamity deals 10% more maximum-health damage with each cast until Sun enters Desperate Measures.",
         "Use a Mark of Anguish pass rotation instead of letting one tank hold it indefinitely."
+      ],
+      quick: [
+        "Push one Protector into Desperate Measures at a time.",
+        "During Rook's Desperate Measures, kill the three adds.",
+        "During He's Desperate Measures, pass Mark of Anguish safely.",
+        "During Sun's Desperate Measures, stack in Meditative Field and heal Dark Meditation."
       ]
     }
   },
@@ -105,6 +117,12 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Heroic adds no new mechanics.",
         "Enemies have increased health and damage.",
         "The Normal-mode strategy remains unchanged."
+      ],
+      quick: [
+        "Send players through their role tests to remove corruption.",
+        "Kill active adds and soak Residual Corruption only when assigned.",
+        "Intercept Essence projectiles and avoid Blind Hatred.",
+        "Heroic keeps the same mechanics with higher health and damage."
       ]
     }
   },
@@ -141,6 +159,12 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Unstable Corruption creates Rifts of Corruption throughout the room.",
         "Close Rifts of Corruption only when not affected by Weakened Resolve.",
         "Do not close a Rift while affected by Mark of Arrogance."
+      ],
+      quick: [
+        "Avoid unnecessary Pride gains and react to Swelling Pride based on Pride level.",
+        "Free Corrupted Prison targets and kill Manifestations and Reflections quickly.",
+        "Dispel Mark of Arrogance only with Gift of the Titans.",
+        "On Heroic, kill Corrupted Fragments and close Rifts only when safe."
       ]
     }
   },
@@ -163,7 +187,8 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Kill Kor'kron Demolishers.",
         "Kill Healing Tide Totems.",
         "Send assigned players to tower mini-bosses.",
-        "Use Anti-Air Turrets against Proto-Drakes."
+        "Use Anti-Air Turrets against Proto-Drakes.",
+        "Fire both Anti-Air Turrets at Galakras at roughly the same time to start Phase Two."
       ],
       everyone: [
         "Avoid Arcing Smash.",
@@ -177,6 +202,12 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Protect the tower-opening NPCs from Dragonmaw Grunts.",
         "If a tower-opening NPC dies, a new NPC spawns and tower-opening progress restarts.",
         "Assign DPS players to protect the NPC opening the next tower."
+      ],
+      quick: [
+        "Clear add waves, kill Demolishers quickly, and send assigned players up each tower.",
+        "Use the first Anti-Air Turret on Proto-Drakes.",
+        "When both towers are controlled, fire both turrets at Galakras at roughly the same time.",
+        "In Phase Two, intercept Flames of Galakrond and burn the boss."
       ]
     }
   },
@@ -209,6 +240,12 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Mortar Barrage is added during Siege Phase.",
         "Mortar Barrage marks random ground near the boss with red circles.",
         "Players targeted by Cutter Laser during the Siege Phase stack strategy must move out of the raid quickly."
+      ],
+      quick: [
+        "In Assault Phase, tank swap on Flame Vents and detonate assigned Crawler Mines.",
+        "Avoid Borer Drill and Mortar Cannon ground effects.",
+        "In Siege Phase, survive Seismic Activity, Shock Pulse, Cutter Laser, and Explosive Tar.",
+        "On Heroic, Ricochet sawblades are Assault-only and Mortar Barrage is Siege-only."
       ]
     }
   },
@@ -248,7 +285,15 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Wavebinder Kardris gains Iron Prison at 95% health.",
         "Iron Prison deals 100% of the target's maximum health as Physical damage when it expires.",
         "Iron Prison targets need full health plus a defensive cooldown or absorption effect before expiration.",
-        "Spread at least 3 yards for Iron Tomb."
+        "Spread at least 3 yards for Iron Tomb.",
+        "Icy Veins recommends separating Earthbreaker Haromm and Wavebinder Kardris as far apart as possible for the more accessible Heroic strategy.",
+        "The Heroic split strategy uses 3 tanks because Haromm still requires tank swaps while Kardris is far away."
+      ],
+      quick: [
+        "On Normal, kill the mounts, tank the bosses together for cleave, and move hazards away from the raid.",
+        "Kill or kite Foul Slimes and avoid Foul Stream, Falling Ash, Ashen Wall, Toxic Storms, and Tornadoes.",
+        "On Heroic, split Haromm and Kardris far apart with 3 tanks.",
+        "Heroic targets must survive Iron Prison, spread for Iron Tomb, and use raid cooldowns for Falling Ash."
       ]
     }
   },
@@ -284,6 +329,12 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Kor'kron Snipers use Hunter's Mark on random non-tank players.",
         "Sniper targets should face the Sniper away from the raid to reduce Multi-Shot damage.",
         "Heroic add waves contain 3 adds instead of 2."
+      ],
+      quick: [
+        "Prioritize adds over Nazgrim.",
+        "Kill Banners and Healing Tide Totems immediately.",
+        "Interrupt add casts, dispel Earth Shield, and stop attacking Nazgrim during Defensive Stance.",
+        "On Heroic, handle Snipers and Execute tank hits."
       ]
     }
   },
@@ -313,6 +364,12 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Living Corruption reduces movement and casting speed within 8 yards by 75%.",
         "Kill Living Corruption adds quickly.",
         "Displaced Energy also roots its target during Blood Rage."
+      ],
+      quick: [
+        "Build and preserve Ancient Miasma shields.",
+        "Spread for Might of the Kor'kron and soak assigned Imploding Energy.",
+        "Track Arcing Smash locations, then avoid Breath of Y'Shaarj in those locations.",
+        "Stack during Blood Rage; on Heroic, avoid Orbs and kill Living Corruption adds."
       ]
     }
   },
@@ -348,6 +405,12 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Supernova must not finish casting.",
         "Ranged DPS should switch to Unstable Sparks immediately.",
         "Heroic crate planning should minimize Unstable Spark spawns."
+      ],
+      quick: [
+        "Clear enough crates in each active quadrant to power the room.",
+        "Pick up spawned enemies and move them out of healing or damage void zones.",
+        "Handle Set to Blow away from the raid's occupied area.",
+        "On Heroic, kill Unstable Sparks before Supernova finishes."
       ]
     }
   },
@@ -374,7 +437,7 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Avoid standing in front of Thok.",
         "Avoid standing behind Thok.",
         "If focused during Phase Two, kite Thok in a predictable direction.",
-        "Avoid fiery void zones during the Montak Phase One."
+        "Avoid fiery void zones during the fire prisoner phase."
       ],
       heroic: [
         "Captive Cave Bats join during the second Phase One after the second Deafening Screech.",
@@ -384,6 +447,12 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Avoid the Starved Yeti's path.",
         "Thok heals when he kills an NPC during Phase Two.",
         "The Fixate target takes damage during Phase Two."
+      ],
+      quick: [
+        "In Phase One, stack for healing, avoid Thok's head and tail, and tank swap.",
+        "In Phase Two, kill the Kor'kron Jailer and kite Fixate predictably.",
+        "Each opened prison changes the next Phase One mechanics.",
+        "Avoid fire void zones during the fire prisoner phase and kill ice tombs during the frost prisoner phase."
       ]
     }
   },
@@ -419,6 +488,12 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Overcharged Missile Turrets summon three Missile Turret NPCs that must be killed in sequence.",
         "Overcharged Laser Turrets create three concentric fire rings with safe gaps.",
         "Matter Purification Beam gaps on the north-western conveyor belt change position."
+      ],
+      quick: [
+        "Tank swap on Blackfuse and Automated Shredders.",
+        "Keep Automated Shredders at least 35 yards from Blackfuse and kill Crawler Mines.",
+        "Send assigned players to the north-western conveyor belt to kill the chosen weapon.",
+        "Avoid sawblades, Superheated void zones, and Shockwave Missile waves; on Heroic, plan for one Overcharged weapon each wave."
       ]
     }
   },
@@ -462,6 +537,12 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Xaril triggers orange, purple, and green Toxic Injection effects instead of red, blue, and yellow.",
         "Kil'ruk gains Reave, pulling players toward him during the channel.",
         "Active Paragons gain 8% increased damage every 50 seconds instead of gaining damage when another Paragon dies."
+      ],
+      quick: [
+        "Kill one active Paragon at a time and do not cleave secondary Paragons.",
+        "Swap quickly to amber blocks, Hungry Kunchongs, Bloods, and Amber Parasites.",
+        "Soak Aim in a line and break Mesmerize by damaging the active Hungry Kunchong.",
+        "On Heroic, named Paragons add Rapid Fire, Reave, an unkillable Encase in Amber block, extra toxin handling, and steady damage pressure."
       ]
     }
   },
@@ -483,6 +564,7 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
       dps: [
         "Kill Farseer Wolf Riders as soon as they appear.",
         "DoT and kill Desecrated Weapons in Phase One.",
+        "In Phase Two and Three, ignore Desecrated Weapons and focus Garrosh while weapons are positioned away from the raid.",
         "Damage mind-controlled players.",
         "Kill Minions of Y'Shaarj away from other Minions."
       ],
@@ -502,6 +584,12 @@ export const siegeOfOrgrimmarBossGuides: SiegeBossGuide[] = [
         "Minions of Y'Shaarj gain energy from melee attacks and cast Empowering Corruption at 100 energy.",
         "Heroic adds Phase Four in Stormwind after Garrosh reaches 0% health.",
         "Phase Four includes Malice, Bombardment, Iron Star checks, and Manifest Rage."
+      ],
+      quick: [
+        "In Phase One, kill Wolf Riders, DoT and kill Desecrated Weapons, and avoid Iron Stars.",
+        "In transition realms, kill adds, stand near them as they die, and avoid Annihilate.",
+        "In Phase Two and Three, ignore Desecrated Weapons, focus Garrosh, and handle Touch of Y'Shaarj and Whirling Corruption.",
+        "On Heroic, complete the fixed transition order and survive Phase Four checks."
       ]
     }
   }
