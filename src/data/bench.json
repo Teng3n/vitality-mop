@@ -1,5 +1,11 @@
 [
   {
+    "player": "Runicbeard",
+    "totalBenchCount": 6,
+    "lastBenched": "2026-05-11",
+    "notes": "Scheduled: 2025-12-14, 2025-12-15, 2026-03-23, 2026-04-19, 2026-04-20, 2026-05-11"
+  },
+  {
     "player": "Yellock",
     "totalBenchCount": 6,
     "lastBenched": "2026-03-16",
@@ -10,12 +16,6 @@
     "totalBenchCount": 5,
     "lastBenched": "2026-04-13",
     "notes": "Scheduled: 2026-01-26, 2026-03-08, 2026-03-09, 2026-04-12, 2026-04-13"
-  },
-  {
-    "player": "Runicbeard",
-    "totalBenchCount": 5,
-    "lastBenched": "2026-04-20",
-    "notes": "Scheduled: 2025-12-14, 2025-12-15, 2026-03-23, 2026-04-19, 2026-04-20"
   },
   {
     "player": "Shrynx",
@@ -82,6 +82,12 @@
     "totalBenchCount": 2,
     "lastBenched": "2026-05-04",
     "notes": "Scheduled: 2026-02-23, 2026-05-04"
+  },
+  {
+    "player": "Drchicken",
+    "totalBenchCount": 2,
+    "lastBenched": "2026-05-11",
+    "notes": "Scheduled: 2026-05-10, 2026-05-11"
   },
   {
     "player": "Fae",
