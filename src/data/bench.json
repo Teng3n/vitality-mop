@@ -42,12 +42,6 @@
     "notes": "Scheduled: 2026-01-25, 2026-01-26, 2026-04-19, 2026-04-20"
   },
   {
-    "player": "Nagafish",
-    "totalBenchCount": 4,
-    "lastBenched": "2026-03-23",
-    "notes": "Scheduled: 2026-02-08, 2026-02-09, 2026-03-22, 2026-03-23"
-  },
-  {
     "player": "Noctuahati",
     "totalBenchCount": 4,
     "lastBenched": "2026-04-13",
@@ -90,18 +84,6 @@
     "notes": "Scheduled: 2026-05-10, 2026-05-11"
   },
   {
-    "player": "Imincolombia",
-    "totalBenchCount": 2,
-    "lastBenched": "2026-05-18",
-    "notes": "Scheduled: 2026-05-17, 2026-05-18"
-  },
-  {
-    "player": "Kaiysz",
-    "totalBenchCount": 2,
-    "lastBenched": "2026-05-18",
-    "notes": "Scheduled: 2026-05-17, 2026-05-18"
-  },
-  {
     "player": "Kubara",
     "totalBenchCount": 2,
     "lastBenched": "2026-02-02",
@@ -112,12 +94,6 @@
     "totalBenchCount": 2,
     "lastBenched": "2026-02-16",
     "notes": "Scheduled: 2026-02-15, 2026-02-16"
-  },
-  {
-    "player": "Volkswórgen",
-    "totalBenchCount": 2,
-    "lastBenched": "2026-05-18",
-    "notes": "Scheduled: 2026-05-17, 2026-05-18"
   },
   {
     "player": "Kali",

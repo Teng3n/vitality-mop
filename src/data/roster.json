@@ -60,12 +60,6 @@
     "role": "Ranged DPS"
   },
   {
-    "character": "Imincolombia",
-    "class": "Monk",
-    "spec": "Mistweaver",
-    "role": "Healer"
-  },
-  {
     "character": "June",
     "class": "Monk",
     "spec": "Windwalker",
@@ -120,22 +114,10 @@
     "role": "Ranged DPS"
   },
   {
-    "character": "Nagafish",
-    "class": "Rogue",
-    "spec": "Subtlety",
-    "role": "Melee DPS"
-  },
-  {
     "character": "Noctuahati",
     "class": "Druid",
     "spec": "Balance",
     "role": "Ranged DPS"
-  },
-  {
-    "character": "Noxw",
-    "class": "Warrior",
-    "spec": "Arms",
-    "role": "Melee DPS"
   },
   {
     "character": "Oswaldmosley",
