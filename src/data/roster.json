@@ -3,168 +3,196 @@
     "character": "Arrowqt",
     "class": "Hunter",
     "spec": "Survival",
-    "role": "Ranged DPS"
+    "role": "Ranged DPS",
+    "realm": "Raden"
   },
   {
     "character": "Aurumai",
     "class": "Shaman",
     "spec": "Elemental",
-    "role": "Ranged DPS"
+    "role": "Ranged DPS",
+    "realm": "Raden"
   },
   {
     "character": "Balsnack",
     "class": "Druid",
     "spec": "Balance",
-    "role": "Ranged DPS"
+    "role": "Ranged DPS",
+    "realm": "Lei Shen"
   },
   {
     "character": "Bannedpex",
     "class": "Druid",
     "spec": "Feral",
-    "role": "Melee DPS"
+    "role": "Melee DPS",
+    "realm": "Raden"
   },
   {
     "character": "Cabbage",
     "class": "Warlock",
     "spec": "Affliction",
-    "role": "Ranged DPS"
+    "role": "Ranged DPS",
+    "realm": "Raden"
   },
   {
     "character": "Cardinalcrzy",
     "class": "Priest",
     "spec": "Discipline",
-    "role": "Healer"
+    "role": "Healer",
+    "realm": "Raden"
   },
   {
     "character": "Chonkars",
     "class": "Warrior",
     "spec": "Arms",
-    "role": "Melee DPS"
+    "role": "Melee DPS",
+    "realm": "Raden"
   },
   {
     "character": "Deéz",
     "class": "Death Knight",
     "spec": "Unholy",
-    "role": "Melee DPS"
+    "role": "Melee DPS",
+    "realm": "Raden"
   },
   {
     "character": "Drchicken",
     "class": "Priest",
     "spec": "Discipline",
-    "role": "Healer"
+    "role": "Healer",
+    "realm": "Raden"
   },
   {
     "character": "Fae",
     "class": "Paladin",
     "spec": "Holy",
-    "role": "Healer"
+    "role": "Healer",
+    "realm": "Raden"
   },
   {
     "character": "Foggy",
     "class": "Warlock",
     "spec": "Affliction",
-    "role": "Ranged DPS"
+    "role": "Ranged DPS",
+    "realm": "Raden"
   },
   {
     "character": "June",
     "class": "Monk",
     "spec": "Windwalker",
-    "role": "Melee DPS"
+    "role": "Melee DPS",
+    "realm": "Raden"
   },
   {
     "character": "Kaiysz",
     "class": "Paladin",
     "spec": "Retribution",
-    "role": "Melee DPS"
+    "role": "Melee DPS",
+    "realm": "Lei Shen"
   },
   {
     "character": "Kali",
     "class": "Warrior",
     "spec": "Arms",
-    "role": "Melee DPS"
+    "role": "Melee DPS",
+    "realm": "Raden"
   },
   {
     "character": "Karkan",
     "class": "Paladin",
     "spec": "Protection",
-    "role": "Tank"
+    "role": "Tank",
+    "realm": "Raden"
   },
   {
     "character": "Kubara",
     "class": "Shaman",
     "spec": "Restoration",
-    "role": "Healer"
+    "role": "Healer",
+    "realm": "Raden"
   },
   {
     "character": "Kuradelh",
     "class": "Hunter",
     "spec": "Survival",
-    "role": "Ranged DPS"
+    "role": "Ranged DPS",
+    "realm": "Raden"
   },
   {
     "character": "Lexou",
     "class": "Shaman",
     "spec": "Elemental",
-    "role": "Ranged DPS"
+    "role": "Ranged DPS",
+    "realm": "Raden"
   },
   {
     "character": "Marz",
     "class": "Mage",
     "spec": "Fire",
-    "role": "Ranged DPS"
+    "role": "Ranged DPS",
+    "realm": "Raden"
   },
   {
     "character": "Maverickdog",
     "class": "Hunter",
     "spec": "Survival",
-    "role": "Ranged DPS"
+    "role": "Ranged DPS",
+    "realm": "Raden"
   },
   {
     "character": "Noctuahati",
     "class": "Druid",
     "spec": "Balance",
-    "role": "Ranged DPS"
+    "role": "Ranged DPS",
+    "realm": "Pagle"
   },
   {
     "character": "Oswaldmosley",
     "class": "Death Knight",
     "spec": "Unholy",
-    "role": "Melee DPS"
+    "role": "Melee DPS",
+    "realm": "Raden"
   },
   {
     "character": "Runicbeard",
     "class": "Death Knight",
     "spec": "Frost",
-    "role": "Melee DPS"
+    "role": "Melee DPS",
+    "realm": "Raden"
   },
   {
     "character": "Shrynx",
     "class": "Mage",
     "spec": "Fire",
-    "role": "Ranged DPS"
+    "role": "Ranged DPS",
+    "realm": "Raden"
   },
   {
     "character": "Teehee",
     "class": "Mage",
     "spec": "Fire",
-    "role": "Ranged DPS"
+    "role": "Ranged DPS",
+    "realm": "Raden"
   },
   {
     "character": "Tengen",
     "class": "Warrior",
     "spec": "Protection",
-    "role": "Tank"
+    "role": "Tank",
+    "realm": "Raden"
   },
   {
     "character": "Volkswórgen",
     "class": "Rogue",
     "spec": "Subtlety",
-    "role": "Melee DPS"
+    "role": "Melee DPS",
+    "realm": "Raden"
   },
   {
     "character": "Yellock",
     "class": "Warlock",
     "spec": "Affliction",
-    "role": "Ranged DPS"
+    "role": "Ranged DPS",
+    "realm": "Lei Shen"
   }
 ]
