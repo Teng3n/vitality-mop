@@ -18,6 +18,7 @@ interface RosterRow {
   class: string;
   spec: string;
   role: string;
+  realm?: string;
 }
 
 interface RaidDate {
@@ -149,6 +150,7 @@ const calendarRosterColumns: ColumnSpec[] = [
   { key: "class", aliases: ["class"], required: true },
   { key: "spec", aliases: ["spec", "specialization"], required: true },
   { key: "role", aliases: ["role"], required: false },
+  { key: "realm", aliases: ["realm", "server"], required: false },
 ];
 
 const lootColumns: ColumnSpec[] = [
@@ -761,6 +763,7 @@ function parseCalendar(rows: SheetRow[], existingRaidDates: RaidDate[] = []) {
     }
 
     const role = getCell(row, header.indexes.role) || deriveRole(className, spec, name);
+    const realm = getCell(row, header.indexes.realm);
     const schedule = Object.fromEntries(
       dateColumns
         .map((column) => {
@@ -776,6 +779,7 @@ function parseCalendar(rows: SheetRow[], existingRaidDates: RaidDate[] = []) {
       class: className,
       spec,
       role,
+      ...(realm ? { realm } : {}),
     });
     players.push({
       rank: asNumber(getCell(row, header.indexes.rank)) || rowOffset + 1,

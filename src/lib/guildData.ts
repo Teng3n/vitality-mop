@@ -4,6 +4,7 @@ import lootHistory from "../data/lootHistory.json";
 import lootSummary from "../data/lootSummary.json";
 import roster from "../data/roster.json";
 import { cleanPlayerName, getPlayerProfileHref, getPlayerSlug, normalizePlayerName } from "./playerNames";
+import { getWarcraftLogsCharacterUrl, getWarcraftLogsSearchUrl } from "./warcraftLogs";
 
 export const RAID_NAME = "Throne of Thunder";
 export const MAIN_SPEC_LOOT_TYPES = new Set(["best in slot", "major upgrade", "minor upgrade", "bonus loot"]);
@@ -16,6 +17,7 @@ interface RosterRow {
   class: string;
   spec: string;
   role: string;
+  realm?: string;
 }
 
 interface CalendarSummary {
@@ -175,6 +177,7 @@ export const formatDateLabel = (isoDate: string) => dateByIso.get(isoDate)?.labe
 export const players: Player[] = rosterRows
   .map((row) => {
     const name = cleanPlayerName(row.character);
+    const realm = row.realm?.trim() ?? "";
 
     return {
       slug: getPlayerSlug(name),
@@ -185,7 +188,8 @@ export const players: Player[] = rosterRows
       status: "Active roster" as const,
       officer: officerNames.has(normalizePlayerName(name)),
       trial: false,
-      warcraftLogsUrl: `https://classic.warcraftlogs.com/search/?term=${encodeURIComponent(name)}`,
+      warcraftLogsUrl: getWarcraftLogsSearchUrl(name),
+      warcraftLogsDirectUrl: realm ? getWarcraftLogsCharacterUrl(name, realm) : undefined,
       href: getPlayerProfileHref(name),
     };
   })

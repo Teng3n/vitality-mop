@@ -159,6 +159,7 @@ Expected Calendar columns:
 - `Class` is required.
 - `Spec` or `Specialization` is required.
 - `Role` is optional. If missing, role is derived from Class + Spec.
+- `Realm` or `Server` is optional. Use it for characters off the guild realm, for example `Lei Shen`; player profiles prefer this roster realm when building direct Warcraft Logs links.
 - Raid date columns come after the roster columns, usually with `CALENDAR_RANGE=Calendar!A:ZZ`.
 - Date headers can be `May 03`, `May 04`, `Jun 01`, `2026-05-03`, or `May 03, 2026`.
 - If date headers do not include years and no existing calendar JSON can preserve the year mapping, set `CALENDAR_START_YEAR`, for example `2026`.

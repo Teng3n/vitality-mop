@@ -12,6 +12,7 @@ interface RosterMember {
   class: string;
   spec: string;
   role: string;
+  realm?: string;
 }
 
 interface LootSummaryRow {
@@ -209,7 +210,7 @@ export const getPlayerProfile = (name: string): PlayerProfile => {
     rosterMember ? "Active roster profile." : "Not currently listed on the active roster.",
     "Officer/private notes are not exposed on the site.",
   ];
-  const realm = lootSummaryRow.realm || recentLoot.find((row) => row.realm)?.realm || "";
+  const realm = rosterMember?.realm || lootSummaryRow.realm || recentLoot.find((row) => row.realm)?.realm || "";
   const sortedBenchHistory = benchHistory.sort(
     (a, b) => parseIsoDate(b.isoDate).getTime() - parseIsoDate(a.isoDate).getTime(),
   );
