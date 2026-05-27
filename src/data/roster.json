@@ -77,6 +77,13 @@
     "realm": "Raden"
   },
   {
+    "character": "Gambatte",
+    "class": "Rogue",
+    "spec": "Subtlety",
+    "role": "Melee DPS",
+    "realm": "Raden"
+  },
+  {
     "character": "June",
     "class": "Monk",
     "spec": "Windwalker",
@@ -158,6 +165,13 @@
     "class": "Death Knight",
     "spec": "Unholy",
     "role": "Melee DPS",
+    "realm": "Raden"
+  },
+  {
+    "character": "Rebbec",
+    "class": "Shaman",
+    "spec": "Restoration",
+    "role": "Healer",
     "realm": "Raden"
   },
   {

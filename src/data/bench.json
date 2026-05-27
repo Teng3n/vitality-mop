@@ -1,21 +1,21 @@
 [
   {
     "player": "Runicbeard",
-    "totalBenchCount": 6,
-    "lastBenched": "2026-05-11",
-    "notes": "Scheduled: 2025-12-14, 2025-12-15, 2026-03-23, 2026-04-19, 2026-04-20, 2026-05-11"
+    "totalBenchCount": 8,
+    "lastBenched": "2026-06-08",
+    "notes": "Scheduled: 2025-12-14, 2025-12-15, 2026-03-23, 2026-04-19, 2026-04-20, 2026-05-11, 2026-06-07, 2026-06-08"
   },
   {
     "player": "Yellock",
-    "totalBenchCount": 6,
-    "lastBenched": "2026-03-16",
-    "notes": "Scheduled: 2025-12-21, 2025-12-22, 2026-02-01, 2026-02-02, 2026-03-15, 2026-03-16"
+    "totalBenchCount": 8,
+    "lastBenched": "2026-06-08",
+    "notes": "Scheduled: 2025-12-21, 2025-12-22, 2026-02-01, 2026-02-02, 2026-03-15, 2026-03-16, 2026-06-07, 2026-06-08"
   },
   {
     "player": "Deéz",
-    "totalBenchCount": 5,
-    "lastBenched": "2026-04-13",
-    "notes": "Scheduled: 2026-01-26, 2026-03-08, 2026-03-09, 2026-04-12, 2026-04-13"
+    "totalBenchCount": 7,
+    "lastBenched": "2026-06-08",
+    "notes": "Scheduled: 2026-01-26, 2026-03-08, 2026-03-09, 2026-04-12, 2026-04-13, 2026-06-07, 2026-06-08"
   },
   {
     "player": "Shrynx",
@@ -54,6 +54,12 @@
     "notes": "Scheduled: 2026-02-01, 2026-02-02"
   },
   {
+    "player": "Balsnack",
+    "totalBenchCount": 2,
+    "lastBenched": "2026-06-08",
+    "notes": "Scheduled: 2026-06-07, 2026-06-08"
+  },
+  {
     "player": "Cardinalcrzy",
     "totalBenchCount": 2,
     "lastBenched": "2026-05-04",
@@ -70,6 +76,12 @@
     "totalBenchCount": 2,
     "lastBenched": "2026-03-09",
     "notes": "Scheduled: 2026-03-08, 2026-03-09"
+  },
+  {
+    "player": "Gambatte",
+    "totalBenchCount": 2,
+    "lastBenched": "2026-06-08",
+    "notes": "Scheduled: 2026-06-07, 2026-06-08"
   },
   {
     "player": "Kubara",
