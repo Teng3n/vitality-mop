@@ -2484,23 +2484,26 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
-  border: 1px solid rgba(200, 155, 60, 0.72);
-  border-radius: 6px;
-  background: rgba(200, 155, 60, 0.12);
-  color: #d8bb73;
-  font-size: 0.72rem;
-  font-weight: 1000;
-  letter-spacing: 0.04em;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(9, 13, 11, 0.32);
   text-decoration: none;
+  transition:
+    filter 140ms ease,
+    transform 140ms ease;
+}
+
+.warcraft-logs-link img {
+  display: block;
+  width: 34px;
+  height: 34px;
 }
 
 .warcraft-logs-link:hover,
 .warcraft-logs-link:focus-visible {
-  border-color: rgba(111, 207, 151, 0.72);
-  color: var(--jade);
-  background: rgba(111, 207, 151, 0.1);
+  filter: brightness(1.14);
+  transform: translateY(-1px);
 }
 
 .profile-meta {
@@ -2585,16 +2588,10 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   gap: 18px;
 }
 
-.profile-loot-tier-head {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.profile-loot-tier-head h3 {
-  margin: 4px 0 0;
-  font-size: 1.45rem;
+.profile-loot-row-status {
+  display: block;
+  margin-bottom: 10px;
+  text-align: right;
 }
 
 .profile-loot-stat-list {
@@ -3171,7 +3168,6 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   .toolbar,
   .next-raid-heading,
   .raid-window-toolbar,
-  .profile-loot-tier-head,
   .site-footer,
   .status-legend,
   .section-heading.inline {

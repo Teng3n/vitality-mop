@@ -85,7 +85,7 @@ const getTickX = (index: number, timelineLength: number) =>
           aria-label={`View ${profile.character} on Warcraft Logs`}
           title="View on Warcraft Logs"
         >
-          WCL
+          <img src="/warcraft-logs-icon.svg" alt="" width="34" height="34" loading="lazy" />
         </a>
       </div>
       <p class="muted">{profile.rosterStatus}</p>
@@ -180,13 +180,6 @@ const getTickX = (index: number, timelineLength: number) =>
       {
         profile.lootByTier.map((tier) => (
           <div data-tier-panel={tier.tierSlug} hidden={tier.tierSlug !== selectedLootTierSlug}>
-            <div class="profile-loot-tier-head">
-              <div>
-                <p class="eyebrow">{tier.isCurrent ? "Current Tier" : "Tier View"}</p>
-                <h3>{tier.tierLabel}</h3>
-              </div>
-            </div>
-
             <ul class="profile-loot-stat-list">
               {lootBucketKeys.map((key) => (
                 <li style={`--loot-color: ${lootBucketColors[key]}`}>
@@ -213,13 +206,6 @@ const getTickX = (index: number, timelineLength: number) =>
 
           return (
             <div data-tier-panel={tier.tierSlug} hidden={tier.tierSlug !== selectedLootTierSlug}>
-              <div class="profile-loot-tier-head">
-                <div>
-                  <p class="eyebrow">{tier.isCurrent ? "Current Tier" : "Tier View"}</p>
-                  <h3>{tier.tierLabel}</h3>
-                </div>
-              </div>
-
               {timeline.length > 0 ? (
                 <div
                   class="loot-timeline-chart"
@@ -343,13 +329,7 @@ const getTickX = (index: number, timelineLength: number) =>
         profile.lootByTier.map((tier) => {
           return (
             <div data-tier-panel={tier.tierSlug} hidden={tier.tierSlug !== selectedLootTierSlug}>
-            <div class="profile-loot-tier-head">
-              <div>
-                <p class="eyebrow">{tier.isCurrent ? "Current Tier" : "Tier View"}</p>
-                <h3>{tier.tierLabel}</h3>
-              </div>
-              <span class="muted" data-profile-loot-page-status>{tier.recentLoot.length} rows</span>
-            </div>
+            <span class="muted profile-loot-row-status" data-profile-loot-page-status>{tier.recentLoot.length} rows</span>
 
             <div class="table-shell profile-loot-table-shell">
               <table class="data-table profile-loot-history-table" data-profile-loot-table data-page-size={lootHistoryPageSize}>
