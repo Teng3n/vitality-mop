@@ -29,6 +29,7 @@ const activeRosterPayload = activeRosterPlayers.map((player) => ({
   className: player.className,
   spec: player.spec,
   role: player.role,
+  realm: player.realm,
 }));
 const getCalendarStatusPlayer = (name: string) => {
   const rosterPlayer = getPlayerByName(name);
@@ -40,6 +41,7 @@ const getCalendarStatusPlayer = (name: string) => {
     className: rosterPlayer?.className ?? getPlayerClass(name),
     spec: rosterPlayer?.spec,
     role: rosterPlayer?.role,
+    realm: rosterPlayer?.realm,
     color: getPlayerClassColor(name),
     href: getPlayerProfileHref(cleanedName),
     activeRoster: Boolean(rosterPlayer),
@@ -146,6 +148,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     className?: string;
     spec?: string;
     role?: string;
+    realm?: string;
     color?: string;
     href?: string;
     activeRoster?: boolean;
@@ -285,7 +288,17 @@ const raidPayload = calendar.raidDates.map((date) => ({
   };
   const copyFeedbackDefault = "Click to copy names";
   const copyFeedbackTimers = new WeakMap<HTMLElement, number>();
-  const playersToPlainText = (players: DashboardPlayer[]) => players.map((player) => player.name).join("\n");
+  const homeRealmKey = normalizeKey("Raden");
+  const getInviteName = (player: DashboardPlayer) => {
+    const realm = player.realm?.trim();
+
+    if (!realm || normalizeKey(realm) === homeRealmKey) {
+      return player.name;
+    }
+
+    return `${player.name}-${realm.replace(/\s+/g, "")}`;
+  };
+  const playersToPlainText = (players: DashboardPlayer[]) => players.map(getInviteName).join("\n");
   const isInteractiveTarget = (target: EventTarget | null) =>
     target instanceof Element &&
     Boolean(target.closest("a, button, input, select, textarea, summary, [data-tooltip]"));

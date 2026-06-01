@@ -83,6 +83,7 @@ export interface Player {
   className: string;
   spec: string;
   role: string;
+  realm?: string;
   status: "Active roster";
   officer: boolean;
   trial: boolean;
@@ -185,6 +186,7 @@ export const players: Player[] = rosterRows
       className: row.class,
       spec: row.spec,
       role: row.role,
+      realm,
       status: "Active roster" as const,
       officer: officerNames.has(normalizePlayerName(name)),
       trial: false,
