@@ -2,7 +2,6 @@
 import Layout from "../../layouts/Layout.astro";
 import StatCard from "../../components/StatCard.astro";
 import {
-  countsTowardTierLootTotal,
   lootBucketColors,
   lootBucketLabels,
   type LootBucketKey,
@@ -21,6 +20,7 @@ const { profile } = Astro.props as { profile: PlayerProfile };
 const classSpec = [profile.className, profile.spec].filter(Boolean).join(" / ") || "Class and spec not listed";
 const benchHistoryRows = profile.benchHistory.slice(0, 10);
 const lootBucketKeys: LootBucketKey[] = ["bis", "major", "minor", "offspec", "bonusRolls"];
+const lootHistoryPageSize = 25;
 const chartWidth = 940;
 const chartHeight = 280;
 const chartPadding = { top: 20, right: 26, bottom: 42, left: 42 };
@@ -53,11 +53,6 @@ const getTimelineTicks = (timeline: LootTimelinePoint[]) => {
 };
 const getTickX = (index: number, timelineLength: number) =>
   chartPadding.left + (index / Math.max(timelineLength - 1, 1)) * chartInnerWidth;
-const getTierRows = (tier: PlayerProfile["lootByTier"][number]) => {
-  const countedRows = tier.recentLoot.filter((row) => countsTowardTierLootTotal(row.type)).slice(0, 12);
-  const otherRows = tier.recentLoot.filter((row) => !countsTowardTierLootTotal(row.type)).slice(0, 12);
-  return [...countedRows, ...otherRows];
-};
 ---
 
 <Layout title={`${profile.character} | Vitality`}>
@@ -69,7 +64,19 @@ const getTierRows = (tier: PlayerProfile["lootByTier"][number]) => {
   <section class="panel profile-overview">
     <div>
       <p class="eyebrow">Character</p>
-      <h2 class="profile-character player-name" style={getPlayerNameStyle(profile.character)}>{profile.character}</h2>
+      <div class="profile-character-heading">
+        <h2 class="profile-character player-name" style={getPlayerNameStyle(profile.character)}>{profile.character}</h2>
+        <a
+          class="warcraft-logs-link"
+          href={profile.warcraftLogsDirectUrl ?? profile.warcraftLogsUrl}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`View ${profile.character} on Warcraft Logs`}
+          title="View on Warcraft Logs"
+        >
+          WCL
+        </a>
+      </div>
       <p class="muted">{profile.rosterStatus}</p>
     </div>
     <dl class="profile-meta">
@@ -94,42 +101,6 @@ const getTierRows = (tier: PlayerProfile["lootByTier"][number]) => {
   <section class="content-grid two-column">
     <article class="panel">
       <div class="section-heading">
-        <p class="eyebrow">Attendance</p>
-        <h2>Calendar Summary</h2>
-      </div>
-      <ul class="clean-list profile-list">
-        <li><span>Bench</span><strong>{profile.attendance.bench}</strong></li>
-        <li><span>Out</span><strong>{profile.attendance.out}</strong></li>
-        <li><span>Late</span><strong>{profile.attendance.late}</strong></li>
-        <li><span>MIA</span><strong>{profile.attendance.mia}</strong></li>
-      </ul>
-    </article>
-
-    <article class="panel">
-      <div class="section-heading">
-        <p class="eyebrow">Bench</p>
-        <h2>Upcoming Bench Dates</h2>
-      </div>
-      {
-        profile.upcomingBenchDates.length > 0 ? (
-          <ul class="clean-list profile-list">
-            {profile.upcomingBenchDates.map((date) => (
-              <li>
-                <span>{date.label}</span>
-                <strong>{date.isoDate}</strong>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p class="info-note">No upcoming bench dates listed.</p>
-        )
-      }
-    </article>
-  </section>
-
-  <section class="content-grid two-column">
-    <article class="panel">
-      <div class="section-heading">
         <p class="eyebrow">Loot</p>
         <h2>Loot Summary</h2>
       </div>
@@ -144,56 +115,40 @@ const getTierRows = (tier: PlayerProfile["lootByTier"][number]) => {
     </article>
 
     <article class="panel">
-      <div class="section-heading">
-        <p class="eyebrow">Notes</p>
-        <h2>Status & Links</h2>
+      <div class="section-heading inline">
+        <div>
+          <p class="eyebrow">Bench</p>
+          <h2>Bench Rotation</h2>
+        </div>
+        <div class="profile-bench-count">
+          <span>Total</span>
+          <strong>{profile.benchHistory.length}</strong>
+        </div>
       </div>
-      <ul class="clean-list">
-        {profile.notes.map((note) => <li>{note}</li>)}
-      </ul>
-      <div class="profile-actions">
-        <a class="resource-link" href={profile.warcraftLogsDirectUrl ?? profile.warcraftLogsUrl} target="_blank" rel="noreferrer">
-          <span>View on Warcraft Logs</span>
-          <small>{profile.warcraftLogsDirectUrl ? "Open character profile" : "Search this character"}</small>
-        </a>
-      </div>
+      {
+        benchHistoryRows.length > 0 ? (
+          <ul class="clean-list profile-list">
+            {benchHistoryRows.map((date) => (
+              <li>
+                <span>{date.label}</span>
+                <strong>{date.isoDate}</strong>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="info-note">No bench history listed.</p>
+        )
+      }
     </article>
   </section>
 
-  <section class="panel">
-    <div class="section-heading inline">
-      <div>
-        <p class="eyebrow">Bench</p>
-        <h2>Bench Rotation</h2>
-      </div>
-      <div class="profile-bench-count">
-        <span>Total Bench Count</span>
-        <strong>{profile.benchHistory.length + profile.upcomingBenchDates.length}</strong>
-      </div>
-    </div>
-    {
-      benchHistoryRows.length > 0 ? (
-        <ul class="clean-list profile-list">
-          {benchHistoryRows.map((date) => (
-            <li>
-              <span>{date.label}</span>
-              <strong>{date.isoDate}</strong>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p class="info-note">No bench history listed.</p>
-      )
-    }
-  </section>
-
-  <section class="panel profile-loot-panel" data-profile-loot-tabs>
+  <section class="panel profile-loot-panel" data-profile-tier-tabs>
     <div class="section-heading inline">
       <div>
         <p class="eyebrow">Loot</p>
         <h2>Loot Timeline</h2>
       </div>
-      <div class="tier-tab-buttons" role="tablist" aria-label="Loot tiers">
+      <div class="tier-tab-buttons" role="tablist" aria-label="Loot timeline tiers">
         {
           profile.lootByTier.map((tier) => (
             <button
@@ -201,11 +156,11 @@ const getTierRows = (tier: PlayerProfile["lootByTier"][number]) => {
               class="tier-tab-button"
               role="tab"
               aria-selected={tier.isCurrent ? "true" : "false"}
-              data-profile-loot-tab={tier.tierSlug}
+              data-tier-tab={tier.tierSlug}
             >
               {tier.shortLabel}
             </button>
-          ))
+          ))}
         }
       </div>
     </div>
@@ -214,22 +169,14 @@ const getTierRows = (tier: PlayerProfile["lootByTier"][number]) => {
       profile.lootByTier.map((tier) => {
         const timeline = tier.timeline;
         const timelineMax = getTimelineMax(timeline);
-        const recentLootRows = getTierRows(tier);
-        const otherLootRows = tier.recentLoot.filter((row) => !countsTowardTierLootTotal(row.type));
 
         return (
-          <div data-profile-loot-panel={tier.tierSlug} hidden={!tier.isCurrent}>
+          <div data-tier-panel={tier.tierSlug} hidden={!tier.isCurrent}>
             <div class="profile-loot-tier-head">
               <div>
                 <p class="eyebrow">{tier.isCurrent ? "Current Tier" : "Tier View"}</p>
                 <h3>{tier.tierLabel}</h3>
               </div>
-              {otherLootRows.length > 0 && (
-                <label class="check-field">
-                  <input type="checkbox" data-profile-loot-toggle />
-                  <span>Show all loot</span>
-                </label>
-              )}
             </div>
 
             <ul class="profile-loot-stat-list">
@@ -303,33 +250,101 @@ const getTierRows = (tier: PlayerProfile["lootByTier"][number]) => {
             ) : (
               <p class="info-note">No loot timeline for this tier yet.</p>
             )}
+          </div>
+        );
+      })
+    }
+  </section>
+
+  <section class="panel profile-loot-panel" data-profile-tier-tabs>
+    <div class="section-heading inline">
+      <div>
+        <p class="eyebrow">Loot</p>
+        <h2>Loot History</h2>
+      </div>
+      <div class="tier-tab-buttons" role="tablist" aria-label="Loot history tiers">
+        {
+          profile.lootByTier.map((tier) => (
+            <button
+              type="button"
+              class="tier-tab-button"
+              role="tab"
+              aria-selected={tier.isCurrent ? "true" : "false"}
+              data-tier-tab={tier.tierSlug}
+            >
+              {tier.shortLabel}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    {
+      profile.lootByTier.map((tier) => {
+        return (
+          <div data-tier-panel={tier.tierSlug} hidden={!tier.isCurrent}>
+            <div class="profile-loot-tier-head">
+              <div>
+                <p class="eyebrow">{tier.isCurrent ? "Current Tier" : "Tier View"}</p>
+                <h3>{tier.tierLabel}</h3>
+              </div>
+              <span class="muted" data-profile-loot-page-status>{tier.recentLoot.length} rows</span>
+            </div>
 
             <div class="table-shell profile-loot-table-shell">
-              <table class="data-table">
+              <table class="data-table profile-loot-history-table" data-profile-loot-table data-page-size={lootHistoryPageSize}>
                 <thead>
                   <tr>
-                    <th>Date</th>
-                    <th>Item</th>
-                    <th>Boss</th>
-                    <th>Instance</th>
-                    <th>Type</th>
+                    <th aria-sort="descending">
+                      <button class="sort-button" type="button" data-profile-sort-key="date" data-sort-type="text">
+                        <span>Date</span>
+                        <span class="sort-indicator" aria-hidden="true"></span>
+                      </button>
+                    </th>
+                    <th>
+                      <button class="sort-button" type="button" data-profile-sort-key="item" data-sort-type="text">
+                        <span>Item</span>
+                        <span class="sort-indicator" aria-hidden="true"></span>
+                      </button>
+                    </th>
+                    <th>
+                      <button class="sort-button" type="button" data-profile-sort-key="boss" data-sort-type="text">
+                        <span>Boss</span>
+                        <span class="sort-indicator" aria-hidden="true"></span>
+                      </button>
+                    </th>
+                    <th>
+                      <button class="sort-button" type="button" data-profile-sort-key="instance" data-sort-type="text">
+                        <span>Instance</span>
+                        <span class="sort-indicator" aria-hidden="true"></span>
+                      </button>
+                    </th>
+                    <th>
+                      <button class="sort-button" type="button" data-profile-sort-key="type" data-sort-type="text">
+                        <span>Type</span>
+                        <span class="sort-indicator" aria-hidden="true"></span>
+                      </button>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {recentLootRows.length > 0 ? (
-                    recentLootRows.map((row) => {
-                      const isCounted = countsTowardTierLootTotal(row.type);
-
-                      return (
-                        <tr data-profile-loot-row data-counted-loot={String(isCounted)} hidden={!isCounted}>
-                          <td data-label="Date">{row.date}</td>
-                          <td data-label="Item">{row.item}</td>
-                          <td data-label="Boss">{row.boss}</td>
-                          <td data-label="Instance">{row.instance}</td>
-                          <td data-label="Type">{row.type}</td>
-                        </tr>
-                      );
-                    })
+                  {tier.recentLoot.length > 0 ? (
+                    tier.recentLoot.map((row) => (
+                      <tr
+                        data-profile-loot-row
+                        data-sort-date={row.date}
+                        data-sort-item={row.item}
+                        data-sort-boss={row.boss}
+                        data-sort-instance={row.instance}
+                        data-sort-type={row.type}
+                      >
+                        <td data-label="Date">{row.date}</td>
+                        <td data-label="Item">{row.item}</td>
+                        <td data-label="Boss">{row.boss}</td>
+                        <td data-label="Instance">{row.instance}</td>
+                        <td data-label="Type">{row.type}</td>
+                      </tr>
+                    ))
                   ) : (
                     <tr>
                       <td colspan={5}>No loot listed for this tier.</td>
@@ -338,6 +353,13 @@ const getTierRows = (tier: PlayerProfile["lootByTier"][number]) => {
                 </tbody>
               </table>
             </div>
+            {tier.recentLoot.length > lootHistoryPageSize && (
+              <div class="profile-loot-pagination">
+                <button class="filter-button is-subtle" type="button" data-profile-page-prev>Previous</button>
+                <span class="muted" data-profile-page-label></span>
+                <button class="filter-button is-subtle" type="button" data-profile-page-next>Next</button>
+              </div>
+            )}
           </div>
         );
       })
@@ -346,36 +368,115 @@ const getTierRows = (tier: PlayerProfile["lootByTier"][number]) => {
 </Layout>
 
 <script>
-  document.querySelectorAll<HTMLElement>("[data-profile-loot-tabs]").forEach((root) => {
-    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-profile-loot-tab]"));
-    const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-profile-loot-panel]"));
+  document.querySelectorAll<HTMLElement>("[data-profile-tier-tabs]").forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-tier-tab]"));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-tier-panel]"));
 
     tabs.forEach((tab) => {
       tab.addEventListener("click", () => {
-        const targetTier = tab.dataset.profileLootTab;
+        const targetTier = tab.dataset.tierTab;
 
         tabs.forEach((item) => {
           item.setAttribute("aria-selected", String(item === tab));
         });
 
         panels.forEach((panel) => {
-          panel.hidden = panel.dataset.profileLootPanel !== targetTier;
+          panel.hidden = panel.dataset.tierPanel !== targetTier;
         });
       });
     });
   });
 
-  document.querySelectorAll<HTMLInputElement>("[data-profile-loot-toggle]").forEach((toggle) => {
-    const panel = toggle.closest("[data-profile-loot-panel]");
-    const rows = Array.from(panel?.querySelectorAll<HTMLTableRowElement>("[data-profile-loot-row]") ?? []);
+  const compareText = (first: string, second: string) => first.localeCompare(second, undefined, { sensitivity: "base" });
 
-    const updateRows = () => {
-      for (const row of rows) {
-        row.hidden = row.dataset.countedLoot !== "true" && !toggle.checked;
+  document.querySelectorAll<HTMLTableElement>("[data-profile-loot-table]").forEach((table) => {
+    const container = table.closest<HTMLElement>("[data-tier-panel]");
+    const tbody = table.tBodies[0];
+    const headers = Array.from(table.tHead?.rows[0]?.cells ?? []);
+    const pageSize = Number(table.dataset.pageSize ?? 25);
+    const pageLabel = container?.querySelector<HTMLElement>("[data-profile-page-label]");
+    const pageStatus = container?.querySelector<HTMLElement>("[data-profile-loot-page-status]");
+    const previousButton = container?.querySelector<HTMLButtonElement>("[data-profile-page-prev]");
+    const nextButton = container?.querySelector<HTMLButtonElement>("[data-profile-page-next]");
+    let rows = Array.from(tbody.querySelectorAll<HTMLTableRowElement>("[data-profile-loot-row]"));
+    let currentPage = 0;
+    let sortKey = "date";
+    let sortDirection: "ascending" | "descending" = "descending";
+
+    const updatePagination = () => {
+      const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
+      currentPage = Math.min(currentPage, pageCount - 1);
+      const start = currentPage * pageSize;
+      const end = start + pageSize;
+
+      rows.forEach((row, index) => {
+        row.hidden = index < start || index >= end;
+      });
+
+      if (pageLabel) {
+        pageLabel.textContent = rows.length > 0 ? `Page ${currentPage + 1} of ${pageCount}` : "";
+      }
+
+      if (pageStatus) {
+        const firstVisible = rows.length === 0 ? 0 : start + 1;
+        const lastVisible = Math.min(end, rows.length);
+        pageStatus.textContent = rows.length > pageSize ? `${firstVisible}-${lastVisible} of ${rows.length} rows` : `${rows.length} rows`;
+      }
+
+      if (previousButton) {
+        previousButton.disabled = currentPage === 0;
+      }
+
+      if (nextButton) {
+        nextButton.disabled = currentPage >= pageCount - 1;
       }
     };
 
-    toggle.addEventListener("change", updateRows);
-    updateRows();
+    const sortRows = () => {
+      const multiplier = sortDirection === "ascending" ? 1 : -1;
+
+      rows = rows.sort((first, second) => {
+        const firstValue = first.dataset[`sort${sortKey.charAt(0).toUpperCase()}${sortKey.slice(1)}`] ?? "";
+        const secondValue = second.dataset[`sort${sortKey.charAt(0).toUpperCase()}${sortKey.slice(1)}`] ?? "";
+        const comparison = compareText(firstValue, secondValue);
+
+        if (comparison !== 0) {
+          return comparison * multiplier;
+        }
+
+        return compareText(first.dataset.sortDate ?? "", second.dataset.sortDate ?? "") * -1;
+      });
+
+      tbody.append(...rows);
+      currentPage = 0;
+      updatePagination();
+    };
+
+    headers.forEach((header) => {
+      const button = header.querySelector<HTMLButtonElement>("[data-profile-sort-key]");
+
+      button?.addEventListener("click", () => {
+        const nextSortKey = button.dataset.profileSortKey ?? "date";
+        sortDirection = sortKey === nextSortKey && sortDirection === "ascending" ? "descending" : "ascending";
+        sortKey = nextSortKey;
+
+        headers.forEach((item) => item.removeAttribute("aria-sort"));
+        header.setAttribute("aria-sort", sortDirection);
+        sortRows();
+      });
+    });
+
+    previousButton?.addEventListener("click", () => {
+      currentPage = Math.max(0, currentPage - 1);
+      updatePagination();
+    });
+
+    nextButton?.addEventListener("click", () => {
+      const pageCount = Math.max(1, Math.ceil(rows.length / pageSize));
+      currentPage = Math.min(pageCount - 1, currentPage + 1);
+      updatePagination();
+    });
+
+    updatePagination();
   });
 </script>

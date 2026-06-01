@@ -54,18 +54,18 @@ export const currentLootTierSlug = "throne-of-thunder";
 
 export const lootTiers: LootTier[] = [
   {
-    slug: "throne-of-thunder",
-    label: "Throne of Thunder",
-    shortLabel: "ToT",
-    instanceIncludes: ["Throne of Thunder"],
-    showArchiveNav: true,
-  },
-  {
     slug: "siege-of-orgrimmar",
     label: "Siege of Orgrimmar",
     shortLabel: "SoO",
     instanceIncludes: ["Siege of Orgrimmar"],
     showArchiveNav: false,
+  },
+  {
+    slug: "throne-of-thunder",
+    label: "Throne of Thunder",
+    shortLabel: "ToT",
+    instanceIncludes: ["Throne of Thunder"],
+    showArchiveNav: true,
   },
 ];
 
