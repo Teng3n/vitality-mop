@@ -20,7 +20,9 @@ const { profile } = Astro.props as { profile: PlayerProfile };
 const classSpec = [profile.className, profile.spec].filter(Boolean).join(" / ") || "Class and spec not listed";
 const benchHistoryRows = profile.benchHistory.slice(0, 10);
 const lootBucketKeys: LootBucketKey[] = ["bis", "major", "minor", "offspec", "bonusRolls"];
+const defaultVisibleLootBuckets = new Set<LootBucketKey>(["bis", "major", "minor"]);
 const lootHistoryPageSize = 25;
+const selectedLootTierSlug = profile.lootByTier[0]?.tierSlug;
 const chartWidth = 940;
 const chartHeight = 280;
 const chartPadding = { top: 20, right: 26, bottom: 42, left: 42 };
@@ -151,36 +153,33 @@ const getTickX = (index: number, timelineLength: number) =>
     </article>
   </section>
 
-  <section class="panel profile-loot-panel" data-profile-tier-tabs>
-    <div class="section-heading inline">
-      <div>
-        <p class="eyebrow">Loot</p>
-        <h2>Loot Timeline</h2>
+  <div class="profile-tier-content" data-profile-tier-tabs>
+    <section class="panel profile-loot-panel">
+      <div class="section-heading inline">
+        <div>
+          <p class="eyebrow">Loot</p>
+          <h2>Tier Summary</h2>
+        </div>
+        <div class="tier-tab-buttons" role="tablist" aria-label="Player loot tiers">
+          {
+            profile.lootByTier.map((tier) => (
+              <button
+                type="button"
+                class="tier-tab-button"
+                role="tab"
+                aria-selected={tier.tierSlug === selectedLootTierSlug ? "true" : "false"}
+                data-tier-tab={tier.tierSlug}
+              >
+                {tier.shortLabel}
+              </button>
+            ))
+          }
+        </div>
       </div>
-      <div class="tier-tab-buttons" role="tablist" aria-label="Loot timeline tiers">
-        {
-          profile.lootByTier.map((tier) => (
-            <button
-              type="button"
-              class="tier-tab-button"
-              role="tab"
-              aria-selected={tier.isCurrent ? "true" : "false"}
-              data-tier-tab={tier.tierSlug}
-            >
-              {tier.shortLabel}
-            </button>
-          ))}
-        }
-      </div>
-    </div>
 
-    {
-      profile.lootByTier.map((tier) => {
-        const timeline = tier.timeline;
-        const timelineMax = getTimelineMax(timeline);
-
-        return (
-          <div data-tier-panel={tier.tierSlug} hidden={!tier.isCurrent}>
+      {
+        profile.lootByTier.map((tier) => (
+          <div data-tier-panel={tier.tierSlug} hidden={tier.tierSlug !== selectedLootTierSlug}>
             <div class="profile-loot-tier-head">
               <div>
                 <p class="eyebrow">{tier.isCurrent ? "Current Tier" : "Tier View"}</p>
@@ -196,145 +195,154 @@ const getTickX = (index: number, timelineLength: number) =>
                 </li>
               ))}
             </ul>
+          </div>
+        ))
+      }
+    </section>
 
-            {timeline.length > 0 ? (
-              <div
-                class="loot-timeline-chart"
-                aria-label={`${tier.tierLabel} weekly loot received timeline`}
-                data-loot-chart
-                data-chart-width={chartWidth}
-                data-chart-height={chartHeight}
-              >
-                <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} role="img">
-                  <line
-                    x1={chartPadding.left}
-                    y1={chartPadding.top + chartInnerHeight}
-                    x2={chartPadding.left + chartInnerWidth}
-                    y2={chartPadding.top + chartInnerHeight}
-                    class="loot-chart-axis"
-                  />
-                  <line
-                    x1={chartPadding.left}
-                    y1={chartPadding.top}
-                    x2={chartPadding.left}
-                    y2={chartPadding.top + chartInnerHeight}
-                    class="loot-chart-axis"
-                  />
-                  <text x={chartPadding.left - 10} y={chartPadding.top + 5} class="loot-chart-label" text-anchor="end">
-                    {timelineMax}
-                  </text>
-                  <text x={chartPadding.left - 10} y={chartPadding.top + chartInnerHeight + 4} class="loot-chart-label" text-anchor="end">
-                    0
-                  </text>
-                  {getTimelineTicks(timeline).map((tick) => (
-                    <>
-                      <line
-                        x1={getTickX(tick.index, timeline.length)}
-                        y1={chartPadding.top + chartInnerHeight}
-                        x2={getTickX(tick.index, timeline.length)}
-                        y2={chartPadding.top + chartInnerHeight + 6}
-                        class="loot-chart-axis"
-                      />
-                      <text
-                        x={getTickX(tick.index, timeline.length)}
-                        y={chartPadding.top + chartInnerHeight + 24}
-                        class="loot-chart-label"
-                        text-anchor="middle"
-                      >
-                        {tick.label}
-                      </text>
-                    </>
-                  ))}
-                  {lootBucketKeys.map((key) => (
-                    <polyline
-                      points={getTimelinePoints(timeline, key)}
-                      fill="none"
-                      stroke={lootBucketColors[key]}
-                      stroke-width="3"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      data-loot-series
-                      data-loot-key={key}
-                    />
-                  ))}
-                  {lootBucketKeys.map((key) =>
-                    timeline.map((point, index) => {
-                      const chartPoint = getTimelinePointPosition(timeline, key, index);
-                      const tooltipText = `${point.label}: ${chartPoint.value} ${lootBucketLabels[key]}`;
+    <section class="panel profile-loot-panel">
+      <div class="section-heading">
+        <p class="eyebrow">Loot</p>
+        <h2>Loot Timeline</h2>
+      </div>
 
-                      return (
-                        <circle
-                          class="loot-chart-point"
-                          cx={chartPoint.x}
-                          cy={chartPoint.y}
-                          r="5"
-                          fill={lootBucketColors[key]}
-                          data-loot-point
-                          data-loot-key={key}
-                          data-loot-week={point.label}
-                          data-loot-value={chartPoint.value}
-                          data-loot-bucket={lootBucketLabels[key]}
-                          data-tooltip-x={chartPoint.x}
-                          data-tooltip-y={chartPoint.y}
-                          tabindex="0"
-                        >
-                          <title>{tooltipText}</title>
-                        </circle>
-                      );
-                    }),
-                  )}
-                </svg>
-                <div class="loot-chart-tooltip" data-loot-chart-tooltip hidden></div>
-                <div class="loot-chart-legend">
-                  {lootBucketKeys.map((key) => (
-                    <button
-                      type="button"
-                      class="loot-chart-legend-toggle"
-                      style={`--loot-color: ${lootBucketColors[key]}`}
-                      data-loot-toggle={key}
-                      aria-pressed="true"
-                    >
-                      <span>{lootBucketLabels[key]}</span>
-                    </button>
-                  ))}
+      {
+        profile.lootByTier.map((tier) => {
+          const timeline = tier.timeline;
+          const timelineMax = getTimelineMax(timeline);
+
+          return (
+            <div data-tier-panel={tier.tierSlug} hidden={tier.tierSlug !== selectedLootTierSlug}>
+              <div class="profile-loot-tier-head">
+                <div>
+                  <p class="eyebrow">{tier.isCurrent ? "Current Tier" : "Tier View"}</p>
+                  <h3>{tier.tierLabel}</h3>
                 </div>
               </div>
-            ) : (
-              <p class="info-note">No loot timeline for this tier yet.</p>
-            )}
-          </div>
-        );
-      })
-    }
-  </section>
 
-  <section class="panel profile-loot-panel" data-profile-tier-tabs>
-    <div class="section-heading inline">
-      <div>
+              {timeline.length > 0 ? (
+                <div
+                  class="loot-timeline-chart"
+                  aria-label={`${tier.tierLabel} weekly loot received timeline`}
+                  data-loot-chart
+                  data-chart-width={chartWidth}
+                  data-chart-height={chartHeight}
+                >
+                  <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} role="img">
+                    <line
+                      x1={chartPadding.left}
+                      y1={chartPadding.top + chartInnerHeight}
+                      x2={chartPadding.left + chartInnerWidth}
+                      y2={chartPadding.top + chartInnerHeight}
+                      class="loot-chart-axis"
+                    />
+                    <line
+                      x1={chartPadding.left}
+                      y1={chartPadding.top}
+                      x2={chartPadding.left}
+                      y2={chartPadding.top + chartInnerHeight}
+                      class="loot-chart-axis"
+                    />
+                    <text x={chartPadding.left - 10} y={chartPadding.top + 5} class="loot-chart-label" text-anchor="end">
+                      {timelineMax}
+                    </text>
+                    <text x={chartPadding.left - 10} y={chartPadding.top + chartInnerHeight + 4} class="loot-chart-label" text-anchor="end">
+                      0
+                    </text>
+                    {getTimelineTicks(timeline).map((tick) => (
+                      <>
+                        <line
+                          x1={getTickX(tick.index, timeline.length)}
+                          y1={chartPadding.top + chartInnerHeight}
+                          x2={getTickX(tick.index, timeline.length)}
+                          y2={chartPadding.top + chartInnerHeight + 6}
+                          class="loot-chart-axis"
+                        />
+                        <text
+                          x={getTickX(tick.index, timeline.length)}
+                          y={chartPadding.top + chartInnerHeight + 24}
+                          class="loot-chart-label"
+                          text-anchor="middle"
+                        >
+                          {tick.label}
+                        </text>
+                      </>
+                    ))}
+                    {lootBucketKeys.map((key) => (
+                      <polyline
+                        points={getTimelinePoints(timeline, key)}
+                        fill="none"
+                        stroke={lootBucketColors[key]}
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        data-loot-series
+                        data-loot-key={key}
+                        data-loot-hidden={!defaultVisibleLootBuckets.has(key) ? "true" : undefined}
+                      />
+                    ))}
+                    {lootBucketKeys.map((key) =>
+                      timeline.map((point, index) => {
+                        const chartPoint = getTimelinePointPosition(timeline, key, index);
+                        const tooltipText = `${point.label}: ${chartPoint.value} ${lootBucketLabels[key]}`;
+
+                        return (
+                          <circle
+                            class="loot-chart-point"
+                            cx={chartPoint.x}
+                            cy={chartPoint.y}
+                            r="5"
+                            fill={lootBucketColors[key]}
+                            data-loot-point
+                            data-loot-key={key}
+                            data-loot-week={point.label}
+                            data-loot-value={chartPoint.value}
+                            data-loot-bucket={lootBucketLabels[key]}
+                            data-tooltip-x={chartPoint.x}
+                            data-tooltip-y={chartPoint.y}
+                            data-loot-hidden={!defaultVisibleLootBuckets.has(key) ? "true" : undefined}
+                            tabindex={defaultVisibleLootBuckets.has(key) ? "0" : "-1"}
+                          >
+                            <title>{tooltipText}</title>
+                          </circle>
+                        );
+                      }),
+                    )}
+                  </svg>
+                  <div class="loot-chart-tooltip" data-loot-chart-tooltip hidden></div>
+                  <div class="loot-chart-legend">
+                    {lootBucketKeys.map((key) => (
+                      <button
+                        type="button"
+                        class="loot-chart-legend-toggle"
+                        style={`--loot-color: ${lootBucketColors[key]}`}
+                        data-loot-toggle={key}
+                        aria-pressed={defaultVisibleLootBuckets.has(key) ? "true" : "false"}
+                      >
+                        <span>{lootBucketLabels[key]}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <p class="info-note">No loot timeline for this tier yet.</p>
+              )}
+            </div>
+          );
+        })
+      }
+    </section>
+
+    <section class="panel profile-loot-panel">
+      <div class="section-heading">
         <p class="eyebrow">Loot</p>
         <h2>Loot History</h2>
       </div>
-      <div class="tier-tab-buttons" role="tablist" aria-label="Loot history tiers">
-        {
-          profile.lootByTier.map((tier) => (
-            <button
-              type="button"
-              class="tier-tab-button"
-              role="tab"
-              aria-selected={tier.isCurrent ? "true" : "false"}
-              data-tier-tab={tier.tierSlug}
-            >
-              {tier.shortLabel}
-            </button>
-          ))
-        }
-      </div>
-    </div>
 
-    {
-      profile.lootByTier.map((tier) => {
-        return (
-          <div data-tier-panel={tier.tierSlug} hidden={!tier.isCurrent}>
+      {
+        profile.lootByTier.map((tier) => {
+          return (
+            <div data-tier-panel={tier.tierSlug} hidden={tier.tierSlug !== selectedLootTierSlug}>
             <div class="profile-loot-tier-head">
               <div>
                 <p class="eyebrow">{tier.isCurrent ? "Current Tier" : "Tier View"}</p>
@@ -414,9 +422,10 @@ const getTickX = (index: number, timelineLength: number) =>
             )}
           </div>
         );
-      })
-    }
-  </section>
+        })
+      }
+    </section>
+  </div>
 </Layout>
 
 <script>
@@ -482,6 +491,10 @@ const getTickX = (index: number, timelineLength: number) =>
 
         chart.querySelectorAll<SVGElement>(`[data-loot-key="${key}"]`).forEach((seriesItem) => {
           seriesItem.dataset.lootHidden = String(!nextIsActive);
+
+          if (seriesItem instanceof SVGCircleElement) {
+            seriesItem.tabIndex = nextIsActive ? 0 : -1;
+          }
         });
 
         if (!nextIsActive) {

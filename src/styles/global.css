@@ -2575,6 +2575,11 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   margin-top: 14px;
 }
 
+.profile-tier-content {
+  display: grid;
+  gap: 18px;
+}
+
 .profile-loot-panel {
   display: grid;
   gap: 18px;
