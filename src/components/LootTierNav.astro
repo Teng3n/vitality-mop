@@ -1,0 +1,29 @@
+---
+import {
+  getCurrentLootTier,
+  getLootHistoryHref,
+  getLootSummaryHref,
+  lootTiers,
+  type LootTier,
+} from "../lib/lootTiers";
+
+interface Props {
+  activeTier: LootTier;
+  view: "summary" | "history";
+}
+
+const { activeTier, view } = Astro.props;
+const currentTier = getCurrentLootTier();
+const getHref = (tier: LootTier) => (view === "summary" ? getLootSummaryHref(tier) : getLootHistoryHref(tier));
+---
+
+<nav class="tier-tabs" aria-label="Loot tier view">
+  {
+    lootTiers.map((tier) => (
+      <a href={getHref(tier)} aria-current={tier.slug === activeTier.slug ? "page" : undefined}>
+        <span>{tier.label}</span>
+        {tier.slug === currentTier.slug && <small>Current</small>}
+      </a>
+    ))
+  }
+</nav>

@@ -1,6 +1,7 @@
 ---
 import fs from "node:fs";
 import path from "node:path";
+import { getArchivedLootTiers, getLootSummaryHref } from "../lib/lootTiers";
 import "../styles/global.css";
 
 interface Props {
@@ -11,6 +12,7 @@ type SyncMeta = {
 };
 
 const { title = "Vitality" } = Astro.props;
+const archivedLootTiers = getArchivedLootTiers();
 type NavChild = {
   href: string;
   label: string;
@@ -36,8 +38,16 @@ const navItems: NavItem[] = [
   { href: "/bench", label: "Bench" },
   { href: "/roster", label: "Roster" },
   { href: "/calendar", label: "Calendar" },
-  { href: "/loot", label: "Loot Summary" },
-  { href: "/loot/history", label: "Loot History" },
+  {
+    href: "/loot",
+    label: "Loot",
+    matchPrefix: "/loot",
+    children: [
+      { href: "/loot", label: "Summary" },
+      { href: "/loot/history", label: "History" },
+      ...archivedLootTiers.map((tier) => ({ href: getLootSummaryHref(tier), label: tier.label })),
+    ],
+  },
   {
     href: "/officer/tools",
     label: "Officer",

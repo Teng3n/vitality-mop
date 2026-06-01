@@ -1,13 +1,19 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import DataTable from "../../components/DataTable.astro";
-import LootTierNav from "../../components/LootTierNav.astro";
-import PageHeader from "../../components/PageHeader.astro";
-import StatCard from "../../components/StatCard.astro";
-import { activeRosterPlayers } from "../../lib/guildData";
-import { getCurrentLootTier, getLootSummaryForTier } from "../../lib/lootTiers";
+import Layout from "../../../layouts/Layout.astro";
+import DataTable from "../../../components/DataTable.astro";
+import LootTierNav from "../../../components/LootTierNav.astro";
+import PageHeader from "../../../components/PageHeader.astro";
+import StatCard from "../../../components/StatCard.astro";
+import { activeRosterPlayers } from "../../../lib/guildData";
+import { getLootSummaryForTier, lootTiers, type LootTier } from "../../../lib/lootTiers";
 
-const activeTier = getCurrentLootTier();
+export const getStaticPaths = () =>
+  lootTiers.map((tier) => ({
+    params: { tierSlug: tier.slug },
+    props: { activeTier: tier },
+  }));
+
+const { activeTier } = Astro.props as { activeTier: LootTier };
 const summaryRows = getLootSummaryForTier(activeTier.slug);
 const rows: Record<string, unknown>[] = summaryRows.map((row) => ({ ...row }));
 const activeRows = summaryRows.filter((row) => row.activeRoster);
@@ -22,6 +28,7 @@ const columns = [
   { key: "bonusRolls", label: "Bonus Rolls", align: "right", sortable: true, sortType: "number" },
   { key: "total", label: "Total", align: "right", sortable: true, sortType: "number" },
 ] satisfies Array<{ key: string; label: string; align?: "left" | "center" | "right"; sortable?: boolean; sortType?: "text" | "number" }>;
+
 ---
 
 <Layout title={`Loot Summary | ${activeTier.label} | Vitality`}>

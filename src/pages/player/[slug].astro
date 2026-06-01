@@ -1,7 +1,13 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import StatCard from "../../components/StatCard.astro";
-import { countsTowardMainSpecTotal } from "../../lib/guildData";
+import {
+  countsTowardTierLootTotal,
+  lootBucketColors,
+  lootBucketLabels,
+  type LootBucketKey,
+  type LootTimelinePoint,
+} from "../../lib/lootTiers";
 import { getPlayerNameStyle } from "../../lib/playerStyles";
 import { getPlayerProfiles, type PlayerProfile } from "../../lib/playerProfiles";
 
@@ -14,9 +20,44 @@ export const getStaticPaths = () =>
 const { profile } = Astro.props as { profile: PlayerProfile };
 const classSpec = [profile.className, profile.spec].filter(Boolean).join(" / ") || "Class and spec not listed";
 const benchHistoryRows = profile.benchHistory.slice(0, 10);
-const countedLootRows = profile.recentLoot.filter((row) => countsTowardMainSpecTotal(row.type)).slice(0, 12);
-const otherLootRows = profile.recentLoot.filter((row) => !countsTowardMainSpecTotal(row.type)).slice(0, 12);
-const recentLootRows = [...countedLootRows, ...otherLootRows];
+const lootBucketKeys: LootBucketKey[] = ["bis", "major", "minor", "offspec", "bonusRolls"];
+const chartWidth = 940;
+const chartHeight = 280;
+const chartPadding = { top: 20, right: 26, bottom: 42, left: 42 };
+const chartInnerWidth = chartWidth - chartPadding.left - chartPadding.right;
+const chartInnerHeight = chartHeight - chartPadding.top - chartPadding.bottom;
+const getTimelineMax = (timeline: LootTimelinePoint[]) =>
+  Math.max(1, ...timeline.flatMap((point) => lootBucketKeys.map((key) => point[key])));
+const getTimelinePoints = (timeline: LootTimelinePoint[], key: LootBucketKey) => {
+  const maxValue = getTimelineMax(timeline);
+  const denominator = Math.max(timeline.length - 1, 1);
+
+  return timeline
+    .map((point, index) => {
+      const x = chartPadding.left + (index / denominator) * chartInnerWidth;
+      const y = chartPadding.top + chartInnerHeight - (point[key] / maxValue) * chartInnerHeight;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(" ");
+};
+const getTimelineTicks = (timeline: LootTimelinePoint[]) => {
+  if (timeline.length <= 6) {
+    return timeline.map((point, index) => ({ ...point, index }));
+  }
+
+  const lastIndex = timeline.length - 1;
+  const step = Math.ceil(timeline.length / 6);
+  return timeline
+    .map((point, index) => ({ ...point, index }))
+    .filter((point) => point.index === 0 || point.index === lastIndex || point.index % step === 0);
+};
+const getTickX = (index: number, timelineLength: number) =>
+  chartPadding.left + (index / Math.max(timelineLength - 1, 1)) * chartInnerWidth;
+const getTierRows = (tier: PlayerProfile["lootByTier"][number]) => {
+  const countedRows = tier.recentLoot.filter((row) => countsTowardTierLootTotal(row.type)).slice(0, 12);
+  const otherRows = tier.recentLoot.filter((row) => !countsTowardTierLootTotal(row.type)).slice(0, 12);
+  return [...countedRows, ...otherRows];
+};
 ---
 
 <Layout title={`${profile.character} | Vitality`}>
@@ -146,63 +187,186 @@ const recentLootRows = [...countedLootRows, ...otherLootRows];
     }
   </section>
 
-  <section class="panel">
+  <section class="panel profile-loot-panel" data-profile-loot-tabs>
     <div class="section-heading inline">
       <div>
-        <p class="eyebrow">Recent Loot</p>
-        <h2>Latest Awards</h2>
+        <p class="eyebrow">Loot</p>
+        <h2>Loot Timeline</h2>
       </div>
-      {
-        otherLootRows.length > 0 && (
-          <label class="check-field">
-            <input type="checkbox" data-profile-loot-toggle />
-            <span>Show all loot</span>
-          </label>
-        )
-      }
+      <div class="tier-tab-buttons" role="tablist" aria-label="Loot tiers">
+        {
+          profile.lootByTier.map((tier) => (
+            <button
+              type="button"
+              class="tier-tab-button"
+              role="tab"
+              aria-selected={tier.isCurrent ? "true" : "false"}
+              data-profile-loot-tab={tier.tierSlug}
+            >
+              {tier.shortLabel}
+            </button>
+          ))
+        }
+      </div>
     </div>
-    <div class="table-shell">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Item</th>
-            <th>Boss</th>
-            <th>Instance</th>
-            <th>Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            recentLootRows.length > 0 ? (
-              recentLootRows.map((row) => {
-                const isCounted = countsTowardMainSpecTotal(row.type);
 
-                return (
-                  <tr data-profile-loot-row data-counted-loot={String(isCounted)} hidden={!isCounted}>
-                    <td data-label="Date">{row.date}</td>
-                    <td data-label="Item">{row.item}</td>
-                    <td data-label="Boss">{row.boss}</td>
-                    <td data-label="Instance">{row.instance}</td>
-                    <td data-label="Type">{row.type}</td>
-                  </tr>
-                );
-              })
+    {
+      profile.lootByTier.map((tier) => {
+        const timeline = tier.timeline;
+        const timelineMax = getTimelineMax(timeline);
+        const recentLootRows = getTierRows(tier);
+        const otherLootRows = tier.recentLoot.filter((row) => !countsTowardTierLootTotal(row.type));
+
+        return (
+          <div data-profile-loot-panel={tier.tierSlug} hidden={!tier.isCurrent}>
+            <div class="profile-loot-tier-head">
+              <div>
+                <p class="eyebrow">{tier.isCurrent ? "Current Tier" : "Tier View"}</p>
+                <h3>{tier.tierLabel}</h3>
+              </div>
+              {otherLootRows.length > 0 && (
+                <label class="check-field">
+                  <input type="checkbox" data-profile-loot-toggle />
+                  <span>Show all loot</span>
+                </label>
+              )}
+            </div>
+
+            <ul class="profile-loot-stat-list">
+              {lootBucketKeys.map((key) => (
+                <li style={`--loot-color: ${lootBucketColors[key]}`}>
+                  <span>{lootBucketLabels[key]}</span>
+                  <strong>{tier.lootSummary[key]}</strong>
+                </li>
+              ))}
+            </ul>
+
+            {timeline.length > 0 ? (
+              <div class="loot-timeline-chart" aria-label={`${tier.tierLabel} cumulative loot timeline`}>
+                <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} role="img">
+                  <line
+                    x1={chartPadding.left}
+                    y1={chartPadding.top + chartInnerHeight}
+                    x2={chartPadding.left + chartInnerWidth}
+                    y2={chartPadding.top + chartInnerHeight}
+                    class="loot-chart-axis"
+                  />
+                  <line
+                    x1={chartPadding.left}
+                    y1={chartPadding.top}
+                    x2={chartPadding.left}
+                    y2={chartPadding.top + chartInnerHeight}
+                    class="loot-chart-axis"
+                  />
+                  <text x={chartPadding.left - 10} y={chartPadding.top + 5} class="loot-chart-label" text-anchor="end">
+                    {timelineMax}
+                  </text>
+                  <text x={chartPadding.left - 10} y={chartPadding.top + chartInnerHeight + 4} class="loot-chart-label" text-anchor="end">
+                    0
+                  </text>
+                  {getTimelineTicks(timeline).map((tick) => (
+                    <>
+                      <line
+                        x1={getTickX(tick.index, timeline.length)}
+                        y1={chartPadding.top + chartInnerHeight}
+                        x2={getTickX(tick.index, timeline.length)}
+                        y2={chartPadding.top + chartInnerHeight + 6}
+                        class="loot-chart-axis"
+                      />
+                      <text
+                        x={getTickX(tick.index, timeline.length)}
+                        y={chartPadding.top + chartInnerHeight + 24}
+                        class="loot-chart-label"
+                        text-anchor="middle"
+                      >
+                        {tick.label}
+                      </text>
+                    </>
+                  ))}
+                  {lootBucketKeys.map((key) => (
+                    <polyline
+                      points={getTimelinePoints(timeline, key)}
+                      fill="none"
+                      stroke={lootBucketColors[key]}
+                      stroke-width="3"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  ))}
+                </svg>
+                <div class="loot-chart-legend">
+                  {lootBucketKeys.map((key) => (
+                    <span style={`--loot-color: ${lootBucketColors[key]}`}>{lootBucketLabels[key]}</span>
+                  ))}
+                </div>
+              </div>
             ) : (
-              <tr>
-                <td colspan={5}>No recent loot listed.</td>
-              </tr>
-            )
-          }
-        </tbody>
-      </table>
-    </div>
+              <p class="info-note">No loot timeline for this tier yet.</p>
+            )}
+
+            <div class="table-shell profile-loot-table-shell">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Item</th>
+                    <th>Boss</th>
+                    <th>Instance</th>
+                    <th>Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentLootRows.length > 0 ? (
+                    recentLootRows.map((row) => {
+                      const isCounted = countsTowardTierLootTotal(row.type);
+
+                      return (
+                        <tr data-profile-loot-row data-counted-loot={String(isCounted)} hidden={!isCounted}>
+                          <td data-label="Date">{row.date}</td>
+                          <td data-label="Item">{row.item}</td>
+                          <td data-label="Boss">{row.boss}</td>
+                          <td data-label="Instance">{row.instance}</td>
+                          <td data-label="Type">{row.type}</td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colspan={5}>No loot listed for this tier.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
+      })
+    }
   </section>
 </Layout>
 
 <script>
+  document.querySelectorAll<HTMLElement>("[data-profile-loot-tabs]").forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-profile-loot-tab]"));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-profile-loot-panel]"));
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const targetTier = tab.dataset.profileLootTab;
+
+        tabs.forEach((item) => {
+          item.setAttribute("aria-selected", String(item === tab));
+        });
+
+        panels.forEach((panel) => {
+          panel.hidden = panel.dataset.profileLootPanel !== targetTier;
+        });
+      });
+    });
+  });
+
   document.querySelectorAll<HTMLInputElement>("[data-profile-loot-toggle]").forEach((toggle) => {
-    const panel = toggle.closest(".panel");
+    const panel = toggle.closest("[data-profile-loot-panel]");
     const rows = Array.from(panel?.querySelectorAll<HTMLTableRowElement>("[data-profile-loot-row]") ?? []);
 
     const updateRows = () => {
