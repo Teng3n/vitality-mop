@@ -36,12 +36,6 @@
     "notes": "Scheduled: 2026-02-01, 2026-02-02, 2026-06-21, 2026-06-22"
   },
   {
-    "player": "Balsnack",
-    "totalBenchCount": 4,
-    "lastBenched": "2026-06-22",
-    "notes": "Scheduled: 2026-06-07, 2026-06-08, 2026-06-21, 2026-06-22"
-  },
-  {
     "player": "Bannedpex",
     "totalBenchCount": 4,
     "lastBenched": "2026-01-26",
@@ -52,6 +46,12 @@
     "totalBenchCount": 4,
     "lastBenched": "2026-04-13",
     "notes": "Scheduled: 2026-02-15, 2026-02-16, 2026-04-12, 2026-04-13"
+  },
+  {
+    "player": "Balsnack",
+    "totalBenchCount": 2,
+    "lastBenched": "2026-06-08",
+    "notes": "Scheduled: 2026-06-07, 2026-06-08"
   },
   {
     "player": "Cardinalcrzy",
