@@ -88,7 +88,6 @@ export const lootBucketColors: Record<LootBucketKey, string> = {
 const lootHistoryRows = lootHistory as LootHistoryRow[];
 const rosterRows = roster as RosterRow[];
 const activeRosterNames = new Set(rosterRows.map((row) => normalizePlayerName(row.character)));
-const bucketKeys: LootBucketKey[] = ["bis", "major", "minor", "offspec", "bonusRolls"];
 const currentLootTier = lootTiers.find((tier) => tier.slug === currentLootTierSlug) ?? lootTiers[0];
 
 const normalizeText = (value: string) => value.trim().toLocaleLowerCase();
@@ -102,10 +101,21 @@ const getWeekStart = (isoDate: string) => {
   const date = parseIsoDate(isoDate);
   return toIsoDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay()));
 };
+const addWeeks = (weekStart: string, weeks: number) => {
+  const date = parseIsoDate(weekStart);
+  return toIsoDate(new Date(date.getFullYear(), date.getMonth(), date.getDate() + weeks * 7));
+};
 const formatWeekLabel = (weekStart: string) => {
   const date = parseIsoDate(weekStart);
   return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(date);
 };
+const getEmptyLootBuckets = (): Record<LootBucketKey, number> => ({
+  bis: 0,
+  major: 0,
+  minor: 0,
+  offspec: 0,
+  bonusRolls: 0,
+});
 
 const getEmptySummary = (player: string, award?: LootHistoryRow): LootSummaryRow => ({
   player,
@@ -221,10 +231,16 @@ export const getPlayerLootAwardsForTier = (playerName: string, tierSlug = curren
 };
 
 export const getPlayerLootTimeline = (playerName: string, tierSlug = currentLootTierSlug, weekLimit = 26) => {
-  const awards = [...getPlayerLootAwardsForTier(playerName, tierSlug)].sort((a, b) => a.date.localeCompare(b.date));
+  const tierAwards = getLootAwardsForTier(tierSlug).sort((a, b) => a.date.localeCompare(b.date));
+  const normalizedPlayerName = normalizePlayerName(playerName);
+  const playerAwards = tierAwards.filter((award) => normalizePlayerName(award.player) === normalizedPlayerName);
   const weeklyBuckets = new Map<string, Record<LootBucketKey, number>>();
 
-  for (const award of awards) {
+  if (tierAwards.length === 0) {
+    return [];
+  }
+
+  for (const award of playerAwards) {
     const bucket = getLootBucket(award.type);
 
     if (!bucket) {
@@ -232,29 +248,32 @@ export const getPlayerLootTimeline = (playerName: string, tierSlug = currentLoot
     }
 
     const weekStart = getWeekStart(award.date);
-    const week = weeklyBuckets.get(weekStart) ?? { bis: 0, major: 0, minor: 0, offspec: 0, bonusRolls: 0 };
+    const week = weeklyBuckets.get(weekStart) ?? getEmptyLootBuckets();
     week[bucket] += 1;
     weeklyBuckets.set(weekStart, week);
   }
 
-  const selectedWeeks = [...weeklyBuckets.keys()].sort((a, b) => a.localeCompare(b)).slice(-weekLimit);
-  const totals: Record<LootBucketKey, number> = { bis: 0, major: 0, minor: 0, offspec: 0, bonusRolls: 0 };
+  const firstWeek = getWeekStart(tierAwards[0].date);
+  const lastWeek = getWeekStart(tierAwards[tierAwards.length - 1].date);
+  const tierWeeks: string[] = [];
 
-  return selectedWeeks.map((weekStart): LootTimelinePoint => {
-    const week = weeklyBuckets.get(weekStart) ?? { bis: 0, major: 0, minor: 0, offspec: 0, bonusRolls: 0 };
-
-    for (const key of bucketKeys) {
-      totals[key] += week[key];
+  for (let weekStart = firstWeek; weekStart <= lastWeek; weekStart = addWeeks(weekStart, 1)) {
+    tierWeeks.push(weekStart);
+    if (tierWeeks.length > weekLimit) {
+      tierWeeks.shift();
     }
+  }
 
+  return tierWeeks.map((weekStart): LootTimelinePoint => {
+    const week = weeklyBuckets.get(weekStart) ?? getEmptyLootBuckets();
     return {
       weekStart,
       label: formatWeekLabel(weekStart),
-      bis: totals.bis,
-      major: totals.major,
-      minor: totals.minor,
-      offspec: totals.offspec,
-      bonusRolls: totals.bonusRolls,
+      bis: week.bis,
+      major: week.major,
+      minor: week.minor,
+      offspec: week.offspec,
+      bonusRolls: week.bonusRolls,
     };
   });
 };
