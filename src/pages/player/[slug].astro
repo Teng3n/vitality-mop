@@ -40,6 +40,15 @@ const getTimelinePoints = (timeline: LootTimelinePoint[], key: LootBucketKey) =>
     })
     .join(" ");
 };
+const getTimelinePointPosition = (timeline: LootTimelinePoint[], key: LootBucketKey, index: number) => {
+  const point = timeline[index];
+  const maxValue = getTimelineMax(timeline);
+  const denominator = Math.max(timeline.length - 1, 1);
+  const x = chartPadding.left + (index / denominator) * chartInnerWidth;
+  const y = chartPadding.top + chartInnerHeight - (point[key] / maxValue) * chartInnerHeight;
+
+  return { x, y, value: point[key] };
+};
 const getTimelineTicks = (timeline: LootTimelinePoint[]) => {
   if (timeline.length <= 6) {
     return timeline.map((point, index) => ({ ...point, index }));
@@ -189,7 +198,13 @@ const getTickX = (index: number, timelineLength: number) =>
             </ul>
 
             {timeline.length > 0 ? (
-              <div class="loot-timeline-chart" aria-label={`${tier.tierLabel} weekly loot received timeline`}>
+              <div
+                class="loot-timeline-chart"
+                aria-label={`${tier.tierLabel} weekly loot received timeline`}
+                data-loot-chart
+                data-chart-width={chartWidth}
+                data-chart-height={chartHeight}
+              >
                 <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} role="img">
                   <line
                     x1={chartPadding.left}
@@ -238,12 +253,49 @@ const getTickX = (index: number, timelineLength: number) =>
                       stroke-width="3"
                       stroke-linecap="round"
                       stroke-linejoin="round"
+                      data-loot-series
+                      data-loot-key={key}
                     />
                   ))}
+                  {lootBucketKeys.map((key) =>
+                    timeline.map((point, index) => {
+                      const chartPoint = getTimelinePointPosition(timeline, key, index);
+                      const tooltipText = `${point.label}: ${chartPoint.value} ${lootBucketLabels[key]}`;
+
+                      return (
+                        <circle
+                          class="loot-chart-point"
+                          cx={chartPoint.x}
+                          cy={chartPoint.y}
+                          r="5"
+                          fill={lootBucketColors[key]}
+                          data-loot-point
+                          data-loot-key={key}
+                          data-loot-week={point.label}
+                          data-loot-value={chartPoint.value}
+                          data-loot-bucket={lootBucketLabels[key]}
+                          data-tooltip-x={chartPoint.x}
+                          data-tooltip-y={chartPoint.y}
+                          tabindex="0"
+                        >
+                          <title>{tooltipText}</title>
+                        </circle>
+                      );
+                    }),
+                  )}
                 </svg>
+                <div class="loot-chart-tooltip" data-loot-chart-tooltip hidden></div>
                 <div class="loot-chart-legend">
                   {lootBucketKeys.map((key) => (
-                    <span style={`--loot-color: ${lootBucketColors[key]}`}>{lootBucketLabels[key]}</span>
+                    <button
+                      type="button"
+                      class="loot-chart-legend-toggle"
+                      style={`--loot-color: ${lootBucketColors[key]}`}
+                      data-loot-toggle={key}
+                      aria-pressed="true"
+                    >
+                      <span>{lootBucketLabels[key]}</span>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -388,6 +440,56 @@ const getTickX = (index: number, timelineLength: number) =>
   });
 
   const compareText = (first: string, second: string) => first.localeCompare(second, undefined, { sensitivity: "base" });
+
+  document.querySelectorAll<HTMLElement>("[data-loot-chart]").forEach((chart) => {
+    const tooltip = chart.querySelector<HTMLElement>("[data-loot-chart-tooltip]");
+    const chartWidth = Number(chart.dataset.chartWidth ?? 940);
+    const chartHeight = Number(chart.dataset.chartHeight ?? 280);
+
+    const showTooltip = (point: SVGCircleElement) => {
+      if (!tooltip || point.dataset.lootHidden === "true") {
+        return;
+      }
+
+      const x = Number(point.dataset.tooltipX ?? 0);
+      const y = Number(point.dataset.tooltipY ?? 0);
+      tooltip.textContent = `${point.dataset.lootWeek}: ${point.dataset.lootValue} ${point.dataset.lootBucket}`;
+      tooltip.style.left = `${(x / chartWidth) * 100}%`;
+      tooltip.style.top = `${(y / chartHeight) * 100}%`;
+      tooltip.hidden = false;
+    };
+
+    const hideTooltip = () => {
+      if (tooltip) {
+        tooltip.hidden = true;
+      }
+    };
+
+    chart.querySelectorAll<SVGCircleElement>("[data-loot-point]").forEach((point) => {
+      point.addEventListener("pointerenter", () => showTooltip(point));
+      point.addEventListener("pointerleave", hideTooltip);
+      point.addEventListener("focus", () => showTooltip(point));
+      point.addEventListener("blur", hideTooltip);
+    });
+
+    chart.querySelectorAll<HTMLButtonElement>("[data-loot-toggle]").forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        const key = toggle.dataset.lootToggle;
+        const isActive = toggle.getAttribute("aria-pressed") === "true";
+        const nextIsActive = !isActive;
+
+        toggle.setAttribute("aria-pressed", String(nextIsActive));
+
+        chart.querySelectorAll<SVGElement>(`[data-loot-key="${key}"]`).forEach((seriesItem) => {
+          seriesItem.dataset.lootHidden = String(!nextIsActive);
+        });
+
+        if (!nextIsActive) {
+          hideTooltip();
+        }
+      });
+    });
+  });
 
   document.querySelectorAll<HTMLTableElement>("[data-profile-loot-table]").forEach((table) => {
     const container = table.closest<HTMLElement>("[data-tier-panel]");

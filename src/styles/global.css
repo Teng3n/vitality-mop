@@ -2626,6 +2626,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 }
 
 .loot-timeline-chart {
+  position: relative;
   display: grid;
   gap: 10px;
   overflow: hidden;
@@ -2652,27 +2653,91 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   font-weight: 800;
 }
 
+.loot-chart-point {
+  cursor: pointer;
+  outline: none;
+  stroke: rgba(9, 13, 11, 0.8);
+  stroke-width: 2;
+  transition:
+    opacity 140ms ease,
+    stroke 140ms ease,
+    stroke-width 140ms ease;
+}
+
+.loot-chart-point:hover,
+.loot-chart-point:focus-visible {
+  stroke: var(--text);
+  stroke-width: 4;
+}
+
+[data-loot-hidden="true"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loot-chart-tooltip {
+  position: absolute;
+  z-index: 2;
+  max-width: 190px;
+  transform: translate(-50%, calc(-100% - 10px));
+  border: 1px solid rgba(111, 207, 151, 0.56);
+  border-radius: 6px;
+  padding: 6px 9px;
+  background: rgba(8, 12, 10, 0.95);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 900;
+  line-height: 1.25;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
 .loot-chart-legend {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
-.loot-chart-legend span {
+.loot-chart-legend-toggle {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  border: 1px solid rgba(43, 58, 49, 0.9);
+  border-radius: 6px;
+  padding: 7px 9px;
+  background: rgba(23, 33, 27, 0.68);
   color: var(--muted);
   font-size: 0.8rem;
   font-weight: 800;
+  cursor: pointer;
+  transition:
+    border-color 140ms ease,
+    color 140ms ease,
+    opacity 140ms ease;
 }
 
-.loot-chart-legend span::before {
+.loot-chart-legend-toggle::before {
   content: "";
   width: 16px;
   height: 3px;
   border-radius: 999px;
   background: var(--loot-color);
+}
+
+.loot-chart-legend-toggle:hover,
+.loot-chart-legend-toggle:focus-visible,
+.loot-chart-legend-toggle[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--loot-color), transparent 28%);
+  color: var(--text);
+}
+
+.loot-chart-legend-toggle[aria-pressed="false"] {
+  opacity: 0.45;
+}
+
+.loot-chart-legend-toggle[aria-pressed="false"]::before {
+  background: var(--muted);
 }
 
 .profile-loot-table-shell {
