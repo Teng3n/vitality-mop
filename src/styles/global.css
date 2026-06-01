@@ -2583,8 +2583,10 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   gap: 18px;
 }
 
-.profile-bench-panel {
-  grid-column: 1 / -1;
+.profile-attendance-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .profile-loot-panel {

@@ -102,15 +102,15 @@ const getTickX = (index: number, timelineLength: number) =>
     </dl>
   </section>
 
-  <section class="dashboard-grid">
-    <StatCard label="Bench" value={profile.attendance.bench} detail="Bench marks" />
-    <StatCard label="Out" value={profile.attendance.out} detail="Out marks" />
-    <StatCard label="Late" value={profile.attendance.late} detail="Late marks" />
-    <StatCard label="MIA" value={profile.attendance.mia} detail="MIA marks" />
-  </section>
-
   <section class="content-grid two-column">
-    <article class="panel profile-bench-panel">
+    <div class="profile-attendance-grid" aria-label="Attendance summary">
+      <StatCard label="Bench" value={profile.attendance.bench} detail="Bench marks" />
+      <StatCard label="Out" value={profile.attendance.out} detail="Out marks" />
+      <StatCard label="Late" value={profile.attendance.late} detail="Late marks" />
+      <StatCard label="MIA" value={profile.attendance.mia} detail="MIA marks" />
+    </div>
+
+    <article class="panel">
       <div class="section-heading inline">
         <div>
           <p class="eyebrow">Bench</p>
