@@ -22,6 +22,8 @@ interface Props {
 }
 
 const { calendar } = Astro.props;
+const raidAssignmentsUrl =
+  "https://docs.google.com/spreadsheets/d/15uYhQreGJ27JX_kjAdtExjsf-Dao2jXnC5o0s2ZwFMA/edit?usp=sharing";
 const activeRosterCount = activeRosterPlayers.length;
 const activeRosterPayload = activeRosterPlayers.map((player) => ({
   slug: player.slug,
@@ -70,7 +72,12 @@ const raidPayload = calendar.raidDates.map((date) => ({
       <p class="eyebrow">Raider Dashboard</p>
       <h2>Raid Readiness</h2>
     </div>
-    <span class="muted">Next raid: <span data-next-raid-date>Upcoming raid</span></span>
+    <div class="next-raid-heading-actions">
+      <span class="muted">Next raid: <span data-next-raid-date>Upcoming raid</span></span>
+      <a class="filter-button is-subtle" href={raidAssignmentsUrl} target="_blank" rel="noopener noreferrer">
+        Raid Assignments
+      </a>
+    </div>
   </div>
 
   <div class="next-raid-grid">
