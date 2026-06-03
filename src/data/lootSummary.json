@@ -7,8 +7,19 @@
     "major": 10,
     "minor": 14,
     "offspec": 7,
-    "bonusRolls": 17,
+    "bonusRolls": 19,
     "total": 36
+  },
+  {
+    "player": "Kubara",
+    "realm": "Raden",
+    "characterRealm": "Kubara-Raden",
+    "bis": 24,
+    "major": 7,
+    "minor": 1,
+    "offspec": 1,
+    "bonusRolls": 13,
+    "total": 32
   },
   {
     "player": "Tengen",
@@ -16,21 +27,10 @@
     "characterRealm": "Tengen-Raden",
     "bis": 11,
     "major": 7,
-    "minor": 13,
+    "minor": 14,
     "offspec": 10,
     "bonusRolls": 8,
-    "total": 31
-  },
-  {
-    "player": "Kubara",
-    "realm": "Raden",
-    "characterRealm": "Kubara-Raden",
-    "bis": 22,
-    "major": 7,
-    "minor": 1,
-    "offspec": 1,
-    "bonusRolls": 13,
-    "total": 30
+    "total": 32
   },
   {
     "player": "Marz",
@@ -40,7 +40,7 @@
     "major": 15,
     "minor": 3,
     "offspec": 0,
-    "bonusRolls": 12,
+    "bonusRolls": 14,
     "total": 29
   },
   {
@@ -55,14 +55,25 @@
     "total": 28
   },
   {
+    "player": "Lexou",
+    "realm": "Raden",
+    "characterRealm": "Lexou-Raden",
+    "bis": 17,
+    "major": 6,
+    "minor": 3,
+    "offspec": 17,
+    "bonusRolls": 19,
+    "total": 26
+  },
+  {
     "player": "Aurumai",
     "realm": "Raden",
     "characterRealm": "Aurumai-Raden",
     "bis": 10,
     "major": 8,
     "minor": 7,
-    "offspec": 13,
-    "bonusRolls": 16,
+    "offspec": 14,
+    "bonusRolls": 17,
     "total": 25
   },
   {
@@ -77,14 +88,25 @@
     "total": 25
   },
   {
+    "player": "Cardinalcrzy",
+    "realm": "Raden",
+    "characterRealm": "Cardinalcrzy-Raden",
+    "bis": 11,
+    "major": 5,
+    "minor": 9,
+    "offspec": 8,
+    "bonusRolls": 10,
+    "total": 25
+  },
+  {
     "player": "Drchicken",
     "realm": "Raden",
     "characterRealm": "Drchicken-Raden",
     "bis": 13,
     "major": 6,
     "minor": 6,
-    "offspec": 6,
-    "bonusRolls": 13,
+    "offspec": 7,
+    "bonusRolls": 14,
     "total": 25
   },
   {
@@ -99,17 +121,6 @@
     "total": 25
   },
   {
-    "player": "Cardinalcrzy",
-    "realm": "Raden",
-    "characterRealm": "Cardinalcrzy-Raden",
-    "bis": 11,
-    "major": 5,
-    "minor": 8,
-    "offspec": 8,
-    "bonusRolls": 10,
-    "total": 24
-  },
-  {
     "player": "June",
     "realm": "Raden",
     "characterRealm": "June-Raden",
@@ -118,17 +129,6 @@
     "minor": 4,
     "offspec": 0,
     "bonusRolls": 15,
-    "total": 24
-  },
-  {
-    "player": "Lexou",
-    "realm": "Raden",
-    "characterRealm": "Lexou-Raden",
-    "bis": 15,
-    "major": 6,
-    "minor": 3,
-    "offspec": 17,
-    "bonusRolls": 19,
     "total": 24
   },
   {
@@ -149,8 +149,8 @@
     "bis": 13,
     "major": 2,
     "minor": 8,
-    "offspec": 2,
-    "bonusRolls": 12,
+    "offspec": 3,
+    "bonusRolls": 13,
     "total": 23
   },
   {
@@ -160,8 +160,8 @@
     "bis": 12,
     "major": 7,
     "minor": 3,
-    "offspec": 10,
-    "bonusRolls": 13,
+    "offspec": 12,
+    "bonusRolls": 14,
     "total": 22
   },
   {
@@ -172,7 +172,7 @@
     "major": 8,
     "minor": 2,
     "offspec": 0,
-    "bonusRolls": 12,
+    "bonusRolls": 14,
     "total": 22
   },
   {
@@ -182,9 +182,20 @@
     "bis": 15,
     "major": 6,
     "minor": 1,
-    "offspec": 25,
+    "offspec": 26,
     "bonusRolls": 5,
     "total": 22
+  },
+  {
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "bis": 10,
+    "major": 7,
+    "minor": 4,
+    "offspec": 18,
+    "bonusRolls": 7,
+    "total": 21
   },
   {
     "player": "Teehee",
@@ -196,17 +207,6 @@
     "offspec": 2,
     "bonusRolls": 13,
     "total": 21
-  },
-  {
-    "player": "Fae",
-    "realm": "Raden",
-    "characterRealm": "Fae-Raden",
-    "bis": 9,
-    "major": 7,
-    "minor": 4,
-    "offspec": 16,
-    "bonusRolls": 7,
-    "total": 20
   },
   {
     "player": "Runicbeard",
@@ -237,8 +237,8 @@
     "bis": 13,
     "major": 3,
     "minor": 2,
-    "offspec": 15,
-    "bonusRolls": 13,
+    "offspec": 16,
+    "bonusRolls": 14,
     "total": 18
   },
   {
@@ -267,23 +267,34 @@
     "player": "Kuradelh",
     "realm": "Raden",
     "characterRealm": "Kuradelh-Raden",
-    "bis": 9,
+    "bis": 10,
     "major": 4,
     "minor": 2,
     "offspec": 0,
-    "bonusRolls": 14,
-    "total": 15
+    "bonusRolls": 15,
+    "total": 16
   },
   {
     "player": "Deéz",
     "realm": "Raden",
     "characterRealm": "Deéz-Raden",
-    "bis": 8,
+    "bis": 9,
     "major": 4,
     "minor": 2,
     "offspec": 0,
     "bonusRolls": 7,
-    "total": 14
+    "total": 15
+  },
+  {
+    "player": "Niblainelock",
+    "realm": "Raden",
+    "characterRealm": "Niblainelock-Raden",
+    "bis": 5,
+    "major": 8,
+    "minor": 2,
+    "offspec": 0,
+    "bonusRolls": 3,
+    "total": 15
   },
   {
     "player": "Arrowqt",
@@ -300,12 +311,12 @@
     "player": "Foggy",
     "realm": "Raden",
     "characterRealm": "Foggy-Raden",
-    "bis": 3,
+    "bis": 4,
     "major": 5,
     "minor": 4,
     "offspec": 0,
-    "bonusRolls": 11,
-    "total": 12
+    "bonusRolls": 12,
+    "total": 13
   },
   {
     "player": "Meloni",
@@ -330,15 +341,15 @@
     "total": 12
   },
   {
-    "player": "Niblainelock",
-    "realm": "Raden",
-    "characterRealm": "Niblainelock-Raden",
-    "bis": 3,
-    "major": 4,
-    "minor": 2,
-    "offspec": 0,
+    "player": "Balsnack",
+    "realm": "LeiShen",
+    "characterRealm": "Balsnack-LeiShen",
+    "bis": 7,
+    "major": 0,
+    "minor": 3,
+    "offspec": 4,
     "bonusRolls": 3,
-    "total": 9
+    "total": 10
   },
   {
     "player": "Jackiedark",
@@ -374,17 +385,6 @@
     "total": 5
   },
   {
-    "player": "Balsnack",
-    "realm": "LeiShen",
-    "characterRealm": "Balsnack-LeiShen",
-    "bis": 2,
-    "major": 0,
-    "minor": 2,
-    "offspec": 1,
-    "bonusRolls": 2,
-    "total": 4
-  },
-  {
     "player": "Kaiysz",
     "realm": "LeiShen",
     "characterRealm": "Kaiysz-LeiShen",
@@ -392,8 +392,19 @@
     "major": 0,
     "minor": 1,
     "offspec": 2,
-    "bonusRolls": 6,
+    "bonusRolls": 7,
     "total": 4
+  },
+  {
+    "player": "Koulikov",
+    "realm": "Raden",
+    "characterRealm": "Koulikov-Raden",
+    "bis": 1,
+    "major": 1,
+    "minor": 1,
+    "offspec": 0,
+    "bonusRolls": 2,
+    "total": 3
   },
   {
     "player": "Lëy",
@@ -418,17 +429,6 @@
     "total": 2
   },
   {
-    "player": "Koulikov",
-    "realm": "Raden",
-    "characterRealm": "Koulikov-Raden",
-    "bis": 0,
-    "major": 1,
-    "minor": 1,
-    "offspec": 0,
-    "bonusRolls": 2,
-    "total": 2
-  },
-  {
     "player": "Volkswórgen",
     "realm": "Raden",
     "characterRealm": "Volkswórgen-Raden",
@@ -443,11 +443,44 @@
     "player": "Chonkars",
     "realm": "Raden",
     "characterRealm": "Chonkars-Raden",
-    "bis": 0,
+    "bis": 1,
     "major": 0,
     "minor": 0,
     "offspec": 0,
     "bonusRolls": 3,
+    "total": 1
+  },
+  {
+    "player": "Gambatte",
+    "realm": "Raden",
+    "characterRealm": "Gambatte-Raden",
+    "bis": 1,
+    "major": 0,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 1,
+    "total": 1
+  },
+  {
+    "player": "Rebbec",
+    "realm": "Raden",
+    "characterRealm": "Rebbec-Raden",
+    "bis": 0,
+    "major": 1,
+    "minor": 0,
+    "offspec": 1,
+    "bonusRolls": 4,
+    "total": 1
+  },
+  {
+    "player": "Balgrif",
+    "realm": "LeiShen",
+    "characterRealm": "Balgrif-LeiShen",
+    "bis": 0,
+    "major": 0,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 1,
     "total": 0
   }
 ]

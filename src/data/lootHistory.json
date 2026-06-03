@@ -1,5 +1,1745 @@
 [
   {
+    "date": "2026-06-01",
+    "player": "Aurumai",
+    "realm": "Raden",
+    "characterRealm": "Aurumai-Raden",
+    "item": "Jingling Fetishgirdle",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Black Night Thundercloak",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Detonation Cord",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Ra-den's Contemplative Loop",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Robes of Nova",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Kubara",
+    "realm": "Raden",
+    "characterRealm": "Kubara-Raden",
+    "item": "Ra-den's Evolving Signet",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Balgrif",
+    "realm": "LeiShen",
+    "characterRealm": "Balgrif-LeiShen",
+    "item": "Black Night Thundercloak",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Karkan",
+    "realm": "Raden",
+    "characterRealm": "Karkan-Raden",
+    "item": "Carapace of the Core",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Rebbec",
+    "realm": "Raden",
+    "characterRealm": "Rebbec-Raden",
+    "item": "Ra-den's Evolving Signet",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Deéz",
+    "realm": "Raden",
+    "characterRealm": "Deéz-Raden",
+    "item": "Uroe, Harbinger of Terror",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Gloves of the Maimed Vizier",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Foggy",
+    "realm": "Raden",
+    "characterRealm": "Foggy-Raden",
+    "item": "Lei Shen's Orb of Command",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Kubara",
+    "realm": "Raden",
+    "characterRealm": "Kubara-Raden",
+    "item": "Soul Prism of Lei Shen",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Lexou",
+    "realm": "Raden",
+    "characterRealm": "Lexou-Raden",
+    "item": "Ultimate Protection of the Emperor",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Soul Barrier",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Soul Prism of Lei Shen",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Karkan",
+    "realm": "Raden",
+    "characterRealm": "Karkan-Raden",
+    "item": "Doomed Crown of Lei Shen",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Kuradelh",
+    "realm": "Raden",
+    "characterRealm": "Kuradelh-Raden",
+    "item": "Rune of Re-Origination",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Chest of the Crackling Conqueror",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Chest of the Crackling Conqueror",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Helm of the Crackling Protector",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Helm of the Crackling Protector",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Helm of the Crackling Protector",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Rebbec",
+    "realm": "Raden",
+    "characterRealm": "Rebbec-Raden",
+    "item": "Chest of the Crackling Protector",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Cha-Ye's Essence of Brilliance",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Crown of the Golden Golem",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Moonjade Necklace",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Shoulders of the Crackling Protector",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Shoulders of the Crackling Protector",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Shoulders of the Crackling Vanquisher",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Greatshield of the Gloaming",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Qon's Flaming Scimitar",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Rein-Binder's Fists",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "item": "Band of the Scaled Tyrant",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Lexou",
+    "realm": "Raden",
+    "characterRealm": "Lexou-Raden",
+    "item": "Shield of Twinned Despair",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Volkswórgen",
+    "realm": "Raden",
+    "characterRealm": "Volkswórgen-Raden",
+    "item": "Anima-Ringed Fingers",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Volkswórgen",
+    "realm": "Raden",
+    "characterRealm": "Volkswórgen-Raden",
+    "item": "Leggings of the Malformed Sapling",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Clear-Mind Helm",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Metabolically Boosted Shoulderplates",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "item": "Primordius' Talisman of Rage",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Lexou",
+    "realm": "Raden",
+    "characterRealm": "Lexou-Raden",
+    "item": "Ro'shak's Remembrance",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Links of the Disintegrator",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Ritual Dagger of the Mind's Eye",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Treads of the Blind Eye",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Treads of the Blind Eye",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Iceshatter Gauntlets",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Gambatte",
+    "realm": "Raden",
+    "characterRealm": "Gambatte-Raden",
+    "item": "Quadra-Head Brooch",
+    "boss": "Twin Empyreans",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Niblainelock",
+    "realm": "Raden",
+    "characterRealm": "Niblainelock-Raden",
+    "item": "Frostborn Wristwraps",
+    "boss": "Twin Empyreans",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Hydraskull Choker",
+    "boss": "Twin Empyreans",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Ice-Scored Treads",
+    "boss": "Twin Empyreans",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Maverickdog",
+    "realm": "Raden",
+    "characterRealm": "Maverickdog-Raden",
+    "item": "Grips of Cinderflesh",
+    "boss": "Twin Empyreans",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Yellock",
+    "realm": "LeiShen",
+    "characterRealm": "Yellock-LeiShen",
+    "item": "Fetish of the Hydra",
+    "boss": "Twin Empyreans",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Rebbec",
+    "realm": "Raden",
+    "characterRealm": "Rebbec-Raden",
+    "item": "Passionfire Choker",
+    "boss": "Twin Empyreans",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Maverickdog",
+    "realm": "Raden",
+    "characterRealm": "Maverickdog-Raden",
+    "item": "Chest of the Crackling Protector",
+    "boss": "Dark Animus",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-01",
+    "player": "Kaiysz",
+    "realm": "LeiShen",
+    "characterRealm": "Kaiysz-LeiShen",
+    "item": "Legplates of the Dark Parasite",
+    "boss": "Durumu the Forgotten",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Rebbec",
+    "realm": "Raden",
+    "characterRealm": "Rebbec-Raden",
+    "item": "Breath of the Hydra",
+    "boss": "Megaera",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Gambatte",
+    "realm": "Raden",
+    "characterRealm": "Gambatte-Raden",
+    "item": "Poisonblood Bladeshoulders",
+    "boss": "Megaera",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Marz",
+    "realm": "Raden",
+    "characterRealm": "Marz-Raden",
+    "item": "Megaera's Shining Eye",
+    "boss": "Megaera",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Zerat, Malakk's Soulburning Greatsword",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Kuradelh",
+    "realm": "Raden",
+    "characterRealm": "Kuradelh-Raden",
+    "item": "Kura-Kura, Kazra'jin's Skullcleaver",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Maverickdog",
+    "realm": "Raden",
+    "characterRealm": "Maverickdog-Raden",
+    "item": "Jalak's Maelstrom Staff",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Teehee",
+    "realm": "Raden",
+    "characterRealm": "Teehee-Raden",
+    "item": "Soulblade of the Breaking Storm",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Gauntlets of the Crackling Protector",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Gauntlets of the Crackling Vanquisher",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Gauntlets of the Crackling Vanquisher",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Legguards of Scintillating Scales",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Lost Shoulders of Fire",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Quakestompers",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Robes of Static Bursts",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Spearman's Jingling Leggings",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Spearman's Jingling Leggings",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Tortos' Shellseizers",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Wastewalker's Sandblasted Drape",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Aurumai",
+    "realm": "Raden",
+    "characterRealm": "Aurumai-Raden",
+    "item": "Dinomancer's Spiritbinding Spire",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Bloodlord's Bloodsoaked Legplates",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Marz",
+    "realm": "Raden",
+    "characterRealm": "Marz-Raden",
+    "item": "Crystal-Claw Gloves",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Niblainelock",
+    "realm": "Raden",
+    "characterRealm": "Niblainelock-Raden",
+    "item": "Jin'rokh's Dreamshard",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Niblainelock",
+    "realm": "Raden",
+    "characterRealm": "Niblainelock-Raden",
+    "item": "Sign of the Bloodied God",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Oswaldmosley",
+    "realm": "Raden",
+    "characterRealm": "Oswaldmosley-Raden",
+    "item": "Armplates of the Vanquished Abomination",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Shoulderguards of Centripetal Destruction",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Rebbec",
+    "realm": "Raden",
+    "characterRealm": "Rebbec-Raden",
+    "item": "Gaze of Gara'jal",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Teehee",
+    "realm": "Raden",
+    "characterRealm": "Teehee-Raden",
+    "item": "Stonegaze Hood",
+    "boss": "Tortos",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Rebbec",
+    "realm": "Raden",
+    "characterRealm": "Rebbec-Raden",
+    "item": "Horridon's Last Gasp",
+    "boss": "Horridon",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-05-31",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Vine Gloves of the Monkey",
+    "boss": "Jin'rokh the Breaker",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Aurumai",
+    "realm": "Raden",
+    "characterRealm": "Aurumai-Raden",
+    "item": "White Snow Skycloak",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Balsnack",
+    "realm": "LeiShen",
+    "characterRealm": "Balsnack-LeiShen",
+    "item": "Girdle of Night and Day",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Bannedpex",
+    "realm": "Raden",
+    "characterRealm": "Bannedpex-Raden",
+    "item": "Soul Barrier",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Cardinalcrzy",
+    "realm": "Raden",
+    "characterRealm": "Cardinalcrzy-Raden",
+    "item": "Treads of Delicate Fascia",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Sabatons of the Superior Being",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Dam'ren's Frozen Footguards",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Fingers of the Night",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Iron Qon's Boot Knife",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Shan-Dun, Breaker of Hope",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Torall, Rod of the Shattered Throne",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "item": "Ultimate Protection of the Emperor",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Kaiysz",
+    "realm": "LeiShen",
+    "characterRealm": "Kaiysz-LeiShen",
+    "item": "Torall, Rod of the Shattered Throne",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Noctuahati",
+    "realm": "Pagle",
+    "characterRealm": "Noctuahati-Pagle",
+    "item": "Lightning-Imbued Chalice",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Volkswórgen",
+    "realm": "Raden",
+    "characterRealm": "Volkswórgen-Raden",
+    "item": "Voice of the Quilen",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Balsnack",
+    "realm": "LeiShen",
+    "characterRealm": "Balsnack-LeiShen",
+    "item": "Helm of the Crackling Vanquisher",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Balsnack",
+    "realm": "LeiShen",
+    "characterRealm": "Balsnack-LeiShen",
+    "item": "Helm of the Crackling Vanquisher",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Balsnack",
+    "realm": "LeiShen",
+    "characterRealm": "Balsnack-LeiShen",
+    "item": "Shoulders of the Crackling Vanquisher",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Bannedpex",
+    "realm": "Raden",
+    "characterRealm": "Bannedpex-Raden",
+    "item": "Shoulders of the Crackling Vanquisher",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Chains of Counted Souls",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Helm of the Crackling Vanquisher",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Moonjade Necklace",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Scales of Shaped Flesh",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Shoulders of the Crackling Protector",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Niblainelock",
+    "realm": "Raden",
+    "characterRealm": "Niblainelock-Raden",
+    "item": "Robes of Nova",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Foggy",
+    "realm": "Raden",
+    "characterRealm": "Foggy-Raden",
+    "item": "Starburner Robes",
+    "boss": "Ra-den",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Noctuahati",
+    "realm": "Pagle",
+    "characterRealm": "Noctuahati-Pagle",
+    "item": "Forgotten Mantle of the Sun",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Yellock",
+    "realm": "LeiShen",
+    "characterRealm": "Yellock-LeiShen",
+    "item": "Legwraps of Cardinality",
+    "boss": "Lei Shen",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Aurumai",
+    "realm": "Raden",
+    "characterRealm": "Aurumai-Raden",
+    "item": "Passionfire Choker",
+    "boss": "Twin Empyreans",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Balsnack",
+    "realm": "LeiShen",
+    "characterRealm": "Balsnack-LeiShen",
+    "item": "Cha-Ye's Essence of Brilliance",
+    "boss": "Dark Animus",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Chest of the Crackling Vanquisher",
+    "boss": "Dark Animus",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Niblainelock",
+    "realm": "Raden",
+    "characterRealm": "Niblainelock-Raden",
+    "item": "Cha-Ye's Essence of Brilliance",
+    "boss": "Dark Animus",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Niblainelock",
+    "realm": "Raden",
+    "characterRealm": "Niblainelock-Raden",
+    "item": "Chest of the Crackling Conqueror",
+    "boss": "Dark Animus",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Immaculate Spellblade of the Seer",
+    "boss": "Dark Animus",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Sky-Shaper Staff of the Feverflare",
+    "boss": "Dark Animus",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Volkswórgen",
+    "realm": "Raden",
+    "characterRealm": "Volkswórgen-Raden",
+    "item": "Hand of the Dark Animus",
+    "boss": "Dark Animus",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Balsnack",
+    "realm": "LeiShen",
+    "characterRealm": "Balsnack-LeiShen",
+    "item": "Anima-Ringed Fingers",
+    "boss": "Dark Animus",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Koulikov",
+    "realm": "Raden",
+    "characterRealm": "Koulikov-Raden",
+    "item": "Chest of the Crackling Protector",
+    "boss": "Dark Animus",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Balsnack",
+    "realm": "LeiShen",
+    "characterRealm": "Balsnack-LeiShen",
+    "item": "Horridon's Last Gasp",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Balsnack",
+    "realm": "LeiShen",
+    "characterRealm": "Balsnack-LeiShen",
+    "item": "Inscribed Bag of Hydra-Spawn",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Balsnack",
+    "realm": "LeiShen",
+    "characterRealm": "Balsnack-LeiShen",
+    "item": "Ritual Dagger of the Mind's Eye",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Amun-Thoth, Sul's Spiritrending Talons",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Durumu's Baleful Gaze",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Greatshield of the Gloaming",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Jin'rokh's Dreamshard",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Megaera's Poisoned Fang",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Ritual Dagger of the Mind's Eye",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Spark of Zandalar",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Spark of Zandalar",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Stolen Relic of Zuldazar",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Talisman of Bloodlust",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Tortos' Discarded Shell",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Oswaldmosley",
+    "realm": "Raden",
+    "characterRealm": "Oswaldmosley-Raden",
+    "item": "Band of the Scaled Tyrant",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Volkswórgen",
+    "realm": "Raden",
+    "characterRealm": "Volkswórgen-Raden",
+    "item": "Shattered Tortoiseshell Longbow",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Balsnack",
+    "realm": "LeiShen",
+    "characterRealm": "Balsnack-LeiShen",
+    "item": "Gauntlets of the Crackling Vanquisher",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Abandoned Zandalari Greatbelt",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Black Blood Legplates",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Cloudbreaker Greatbelt",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Crystal-Claw Gloves",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Featherflight Belt",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Leggings of the Crackling Conqueror",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Leggings of the Crackling Protector",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Leggings of the Crackling Protector",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Legguards of Scintillating Scales",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Legplates of Re-Emergence",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Legplates of the Dark Parasite",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Plated Toothbreaker Girdle",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Spearman's Jingling Leggings",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Treads of the Blind Eye",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "item": "Refreshing Abalone Girdle",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Aurumai",
+    "realm": "Raden",
+    "characterRealm": "Aurumai-Raden",
+    "item": "Gaze of Gara'jal",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Aurumai",
+    "realm": "Raden",
+    "characterRealm": "Aurumai-Raden",
+    "item": "Pinionfeather Greatcloak",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Balsnack",
+    "realm": "LeiShen",
+    "characterRealm": "Balsnack-LeiShen",
+    "item": "Horridon's Tusk Fragment",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Bracers of Constant Implosion",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Clear-Mind Helm",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Frostborn Wristwraps",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Gauntlets of the Crackling Conqueror",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Gauntlets of the Crackling Conqueror",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Gaze of Gara'jal",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Ionized Yojamban Carapace",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Megaera's Shining Eye",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Puncture-Proof Greathelm",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Robes of Static Bursts",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Rot-Proof Greatplate",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Shoulderguards of Centripetal Destruction",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Shoulderguards of Centripetal Destruction",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Marz",
+    "realm": "Raden",
+    "characterRealm": "Marz-Raden",
+    "item": "Pinionfeather Greatcloak",
+    "boss": "Primordius",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Transmog"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Bannedpex",
+    "realm": "Raden",
+    "characterRealm": "Bannedpex-Raden",
+    "item": "Leggings of the Crackling Vanquisher",
+    "boss": "Ji-Kun",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-05-26",
+    "player": "Marz",
+    "realm": "Raden",
+    "characterRealm": "Marz-Raden",
+    "item": "Leggings of the Crackling Vanquisher",
+    "boss": "Ji-Kun",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-05-25",
+    "player": "Maverickdog",
+    "realm": "Raden",
+    "characterRealm": "Maverickdog-Raden",
+    "item": "Gaze of Gara'jal",
+    "boss": "Council of Elders",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-05-25",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Engraved Dagger of the Zephyr",
+    "boss": "Horridon",
+    "instance": "Throne of Thunder-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
     "date": "2026-05-18",
     "player": "Balsnack",
     "realm": "LeiShen",
