@@ -1,8 +1,8 @@
 import bench from "../data/bench.json";
 import calendar from "../data/calendar.json";
-import lootHistory from "../data/lootHistory.json";
 import lootSummary from "../data/lootSummary.json";
 import roster from "../data/roster.json";
+import { allLootHistoryRows } from "./lootTiers";
 import { cleanPlayerName, getPlayerProfileHref, getPlayerSlug, normalizePlayerName } from "./playerNames";
 import { getWarcraftLogsCharacterUrl, getWarcraftLogsSearchUrl } from "./warcraftLogs";
 
@@ -150,7 +150,7 @@ export interface BenchSummary {
 const rosterRows = roster as RosterRow[];
 const calendarData = calendar as unknown as CalendarData;
 const lootSummaryRows = lootSummary as LootSummaryRow[];
-const lootHistoryRows = lootHistory as LootHistoryRow[];
+const lootHistoryRows = allLootHistoryRows as LootHistoryRow[];
 const benchRows = bench as BenchRow[];
 const officerNames = new Set(["tengen", "drchicken", "karkan"]);
 const isoDatePattern = /\d{4}-\d{2}-\d{2}/g;

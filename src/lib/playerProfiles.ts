@@ -1,10 +1,10 @@
 import bench from "../data/bench.json";
 import calendar from "../data/calendar.json";
-import lootHistory from "../data/lootHistory.json";
 import lootSummary from "../data/lootSummary.json";
 import roster from "../data/roster.json";
 import { raidNights, type RaidNight, type StatusPlayer } from "./guildData";
 import {
+  allLootHistoryRows,
   currentLootTierSlug,
   getPlayerLootAwardsForTier,
   getPlayerLootSummaryForTier,
@@ -107,7 +107,7 @@ export interface PlayerProfile {
 
 const rosterRows = roster as unknown as RosterMember[];
 const lootSummaryRows = lootSummary as unknown as LootSummaryRow[];
-const lootHistoryRows = lootHistory as unknown as LootHistoryRow[];
+const lootHistoryRows = allLootHistoryRows as unknown as LootHistoryRow[];
 const benchRows = bench as unknown as BenchRow[];
 const calendarData = calendar as unknown as CalendarData;
 

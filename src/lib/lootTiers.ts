@@ -1,4 +1,5 @@
 import lootHistory from "../data/lootHistory.json";
+import archivedThroneOfThunderLootHistory from "../data/lootArchive/throneOfThunderHistory.json";
 import roster from "../data/roster.json";
 import { cleanPlayerName, normalizePlayerName } from "./playerNames";
 
@@ -50,7 +51,7 @@ interface RosterRow {
   character: string;
 }
 
-export const currentLootTierSlug = "throne-of-thunder";
+export const currentLootTierSlug = "siege-of-orgrimmar";
 
 export const lootTiers: LootTier[] = [
   {
@@ -85,7 +86,24 @@ export const lootBucketColors: Record<LootBucketKey, string> = {
   bonusRolls: "#b997f7",
 };
 
-const lootHistoryRows = lootHistory as LootHistoryRow[];
+const getLootHistoryKey = (row: LootHistoryRow) =>
+  [
+    row.date,
+    normalizePlayerName(row.player),
+    row.characterRealm ?? "",
+    row.item,
+    row.boss,
+    row.instance,
+    row.type,
+  ].join("|");
+
+const liveLootHistoryRows = lootHistory as LootHistoryRow[];
+const liveLootHistoryKeys = new Set(liveLootHistoryRows.map(getLootHistoryKey));
+const archivedLootHistoryRows = (archivedThroneOfThunderLootHistory as LootHistoryRow[]).filter(
+  (row) => !liveLootHistoryKeys.has(getLootHistoryKey(row)),
+);
+
+export const allLootHistoryRows = [...archivedLootHistoryRows, ...liveLootHistoryRows];
 const rosterRows = roster as RosterRow[];
 const activeRosterNames = new Set(rosterRows.map((row) => normalizePlayerName(row.character)));
 const currentLootTier = lootTiers.find((tier) => tier.slug === currentLootTierSlug) ?? lootTiers[0];
@@ -152,7 +170,7 @@ export const getLootTierForAward = (award: LootHistoryRow) =>
 export const getLootAwardsForTier = (tierSlug = currentLootTierSlug) => {
   const tier = getLootTierBySlug(tierSlug);
 
-  return lootHistoryRows
+  return allLootHistoryRows
     .filter((award) => getLootTierForAward(award)?.slug === tier.slug)
     .map((award) => ({ ...award, player: cleanPlayerName(award.player) }))
     .sort((a, b) => b.date.localeCompare(a.date));
