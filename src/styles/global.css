@@ -3167,6 +3167,129 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   margin: 0;
 }
 
+.bis-list-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.bis-class-tabs,
+.bis-spec-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.bis-tab {
+  flex: 0 0 auto;
+  border: 1px solid rgba(43, 58, 49, 0.86);
+  border-radius: 8px;
+  padding: 8px 11px;
+  background: rgba(17, 23, 20, 0.72);
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.bis-tab.is-spec {
+  padding: 7px 10px;
+  font-size: 0.78rem;
+}
+
+.bis-tab:hover,
+.bis-tab:focus-visible,
+.bis-tab[aria-selected="true"] {
+  border-color: rgba(200, 155, 60, 0.58);
+  background: rgba(200, 155, 60, 0.12);
+  color: var(--text);
+  outline: none;
+}
+
+.bis-class-panel,
+.bis-spec-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.bis-spec-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bis-spec-heading h3 {
+  margin: 0;
+}
+
+.bis-spec-heading span {
+  border: 1px solid rgba(43, 58, 49, 0.8);
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.bis-paper-doll-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
+  gap: 10px;
+}
+
+.bis-slot-card {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-height: 128px;
+  border: 1px solid rgba(43, 58, 49, 0.78);
+  border-radius: 8px;
+  padding: 11px;
+  background: rgba(17, 23, 20, 0.72);
+}
+
+.bis-slot-card[data-empty="true"] {
+  border-color: rgba(174, 184, 173, 0.22);
+  background: rgba(174, 184, 173, 0.05);
+}
+
+.bis-slot-card h4 {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.bis-slot-card ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bis-slot-card li {
+  display: grid;
+  gap: 2px;
+}
+
+.bis-slot-card strong {
+  color: var(--text);
+  font-size: 0.86rem;
+  line-height: 1.25;
+}
+
+.bis-slot-card span,
+.bis-slot-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
 .bench-week-section {
   display: grid;
   gap: 10px;

@@ -29,6 +29,7 @@ import Layout from "../../layouts/Layout.astro";
 
   interface GearNeedTarget {
     item: string;
+    slot: string;
     category: string;
     importance: string;
     reason: string;
@@ -392,7 +393,7 @@ import Layout from "../../layouts/Layout.astro";
 
   const renderTabbedGearNeed = (need: GearNeedTarget) => `
     <span class="gear-need-item">${escapeHtml(need.item)}</span>
-    <span class="gear-need-meta">${escapeHtml(need.category)} | ${escapeHtml(need.importance)} | ${escapeHtml(need.reason)}</span>
+    <span class="gear-need-meta">${escapeHtml(need.slot)}</span>
   `;
 
   const renderTabbedAcquiredGear = (player: PlayerGearNeed) => {

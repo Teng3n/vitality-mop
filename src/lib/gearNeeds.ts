@@ -1,4 +1,7 @@
-import gearNeedsData from "../data/siegeOfOrgrimmarGearNeeds.json";
+import {
+  SIEGE_OF_ORGRIMMAR_BIS_LISTS,
+  SIEGE_OF_ORGRIMMAR_BOSSES,
+} from "../data/siegeOfOrgrimmarBis";
 import {
   activeRosterPlayers,
   countsTowardMainSpecTotal,
@@ -10,24 +13,10 @@ import { normalizePlayerName } from "./playerNames";
 
 type GearNeedImportance = "BiS / huge" | "Major" | "Minor / slot" | "Tier";
 
-interface GearNeedItemData {
-  item: string;
-  category: string;
-  importance: GearNeedImportance;
-  reason: string;
-  specs: string[];
-}
-
-interface GearNeedBossData {
-  boss: string;
-  order: number;
-  aliases?: string[];
-  items: GearNeedItemData[];
-}
-
 export interface GearNeedTarget {
   item: string;
   bossName: string;
+  slot: string;
   category: string;
   importance: GearNeedImportance;
   reason: string;
@@ -86,10 +75,13 @@ export interface GearNeedsReport {
 }
 
 const normalizeKey = (value: string) => value.trim().toLocaleLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
-const gearNeedBosses = gearNeedsData as GearNeedBossData[];
 const getSpecKey = (spec: string, className: string) => normalizeKey(`${spec} ${className}`);
 const getItemKey = (item: string) => normalizeKey(item);
-const trackedItemKeys = new Set(gearNeedBosses.flatMap((boss) => boss.items.map((item) => getItemKey(item.item))));
+const allBisItems = SIEGE_OF_ORGRIMMAR_BIS_LISTS.flatMap((spec) => spec.items);
+const trackedItemKeys = new Set(allBisItems.map((item) => getItemKey(item.item)));
+const bisListBySpecKey = new Map(
+  SIEGE_OF_ORGRIMMAR_BIS_LISTS.map((spec) => [getSpecKey(spec.spec, spec.className), spec]),
+);
 
 const awardCountsTowardGear = (award: LootAward) =>
   countsTowardMainSpecTotal(award.responseType) || normalizeKey(award.responseType) === "bonus loot";
@@ -114,17 +106,19 @@ const getAwardsByPlayerAndItem = () => {
   return awardsByPlayerAndItem;
 };
 
-const getBossTargetsForPlayer = (boss: GearNeedBossData, player: Player): GearNeedTarget[] => {
+const getBossTargetsForPlayer = (bossName: string, player: Player): GearNeedTarget[] => {
   const playerSpecKey = getSpecKey(player.spec, player.className);
+  const playerBisList = bisListBySpecKey.get(playerSpecKey);
 
-  return boss.items
-    .filter((item) => item.specs.some((spec) => normalizeKey(spec) === playerSpecKey))
+  return (playerBisList?.items ?? [])
+    .filter((item) => item.boss === bossName)
     .map((item) => ({
       item: item.item,
-      bossName: boss.boss,
-      category: item.category,
-      importance: item.importance,
-      reason: item.reason,
+      bossName,
+      slot: item.slot,
+      category: item.slot,
+      importance: "BiS / huge",
+      reason: "BiS",
     }));
 };
 
@@ -186,12 +180,12 @@ const sortBossPlayers = (players: PlayerBossGearStatus[]) => {
 
 export const getGearNeedsReport = (): GearNeedsReport => {
   const awardsByPlayerAndItem = getAwardsByPlayerAndItem();
-  const bosses = gearNeedBosses
-    .map((boss): BossGearNeed => {
+  const bosses = SIEGE_OF_ORGRIMMAR_BOSSES
+    .map((bossName, index): BossGearNeed => {
       const players: PlayerBossGearStatus[] = [];
 
       for (const player of activeRosterPlayers) {
-        const targets = getBossTargetsForPlayer(boss, player);
+        const targets = getBossTargetsForPlayer(bossName, player);
         const awardsByItem = awardsByPlayerAndItem.get(normalizePlayerName(player.name));
         const openTargets = targets.filter((target) => !awardsByItem?.has(getItemKey(target.item)));
         const acquiredTargets = targets.filter((target) => awardsByItem?.has(getItemKey(target.item)));
@@ -204,12 +198,12 @@ export const getGearNeedsReport = (): GearNeedsReport => {
       const acquired = sortedPlayers.filter((player) => player.status === "complete");
 
       return {
-        bossName: boss.boss,
-        order: boss.order,
+        bossName,
+        order: index + 1,
         players: sortedPlayers,
         stillNeeds,
         acquired,
-        targetCount: boss.items.length,
+        targetCount: allBisItems.filter((item) => item.boss === bossName).length,
         stillNeedsCount: stillNeeds.reduce((sum, player) => sum + player.needs.length, 0),
         safeCount: sortedPlayers.filter((player) => player.status !== "needs").length,
       };
@@ -220,16 +214,16 @@ export const getGearNeedsReport = (): GearNeedsReport => {
 
   return {
     generatedAt: new Date().toISOString(),
-    scope: "Siege of Orgrimmar curated early heroic bosses through Kor'kron Dark Shaman.",
+    scope: "Siege of Orgrimmar boss BiS targets across all bosses.",
     notes: [
       "Loot history is treated as authoritative for known awards, including bonus loot.",
       "Warcraft Logs current gear is not imported yet; player profile links are included as the baseline check until a reliable equipped-gear feed is wired in.",
-      "This report tracks curated BiS and major upgrade targets, not every possible sidegrade.",
+      "This report is driven by the officer BiS list data. Non-BiS sidegrades are intentionally excluded.",
     ],
     summary: {
       activeRosterCount: activeRosterPlayers.length,
       bossCount: bosses.length,
-      targetCount: gearNeedBosses.reduce((sum, boss) => sum + boss.items.length, 0),
+      targetCount: allBisItems.length,
       lootAwardsConsidered: matchingTrackedLootAwards.length,
       playersWithOpenNeeds: playersWithOpenNeeds.size,
       warcraftLogsBaseline: "profile links only",
@@ -257,7 +251,7 @@ export const getGearNeedsText = (report = getGearNeedsReport()) => {
     } else {
       for (const player of boss.stillNeeds) {
         const items = player.needs
-          .map((need) => `${need.item} (${need.category}, ${need.importance}: ${need.reason})`)
+          .map((need) => `${need.item} (${need.slot})`)
           .join("; ");
         lines.push(`- ${player.name} (${player.spec} ${player.className}): ${items}`);
       }
