@@ -19,11 +19,13 @@ export const BIS_SLOT_ORDER = [
   "Head",
   "Neck",
   "Shoulder",
+  "Shirt",
   "Back",
   "Chest",
+  "Tabard",
   "Wrist",
-  "Hands",
-  "Waist",
+  "Gloves",
+  "Belt",
   "Legs",
   "Feet",
   "Finger 1",
@@ -72,7 +74,7 @@ const tierItemBySlot = {
   Head: { boss: "Thok the Bloodthirsty", prefix: "Helm" },
   Shoulder: { boss: "Siegecrafter Blackfuse", prefix: "Shoulders" },
   Chest: { boss: "Sha of Pride", prefix: "Chest" },
-  Hands: { boss: "General Nazgrim", prefix: "Gauntlets" },
+  Gloves: { boss: "General Nazgrim", prefix: "Gauntlets" },
   Legs: { boss: "Paragons of the Klaxxi", prefix: "Leggings" },
 } as const;
 
@@ -90,7 +92,7 @@ const tier = (className: keyof typeof tierTokenByClass): BisItem[] => [
   tokenName(className, "Head"),
   tokenName(className, "Shoulder"),
   tokenName(className, "Chest"),
-  tokenName(className, "Hands"),
+  tokenName(className, "Gloves"),
   tokenName(className, "Legs"),
 ];
 

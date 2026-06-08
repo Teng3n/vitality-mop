@@ -3235,16 +3235,18 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
 .bis-paper-doll-grid {
   display: grid;
-  grid-template-columns: minmax(180px, 1fr) minmax(220px, 0.82fr) minmax(180px, 1fr);
+  grid-template-columns: minmax(172px, 1fr) minmax(230px, 0.84fr) minmax(172px, 1fr);
   grid-template-areas:
-    "head center hands"
-    "neck center waist"
+    "head center gloves"
+    "neck center belt"
     "shoulder center legs"
     "back center feet"
     "chest center finger-1"
-    "wrist center finger-2"
-    "trinket-1 main-hand trinket-2"
-    "off-hand two-hand ranged";
+    "shirt center finger-2"
+    "tabard center trinket-1"
+    "wrist center trinket-2"
+    ". main-hand off-hand"
+    ". two-hand ranged";
   gap: 10px 16px;
   align-items: stretch;
 }
@@ -3644,9 +3646,11 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
       "shoulder"
       "back"
       "chest"
+      "shirt"
+      "tabard"
       "wrist"
-      "hands"
-      "waist"
+      "gloves"
+      "belt"
       "legs"
       "feet"
       "finger-1"
