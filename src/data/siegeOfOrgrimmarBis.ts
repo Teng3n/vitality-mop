@@ -144,7 +144,7 @@ export const WOWHEAD_BIS_SOURCE_BY_SPEC: Record<string, string> = {
   "Destruction Warlock": "https://www.wowhead.com/mop-classic/guide/classes/warlock/destruction/dps-best-gear-bis-pve",
   "Arms Warrior": "https://www.wowhead.com/mop-classic/guide/classes/warrior/arms/dps-best-gear-bis-pve",
   "Fury Warrior": "https://www.wowhead.com/mop-classic/guide/classes/warrior/fury/dps-best-gear-bis-pve",
-  "Protection Warrior": "https://www.wowhead.com/mop-classic/guide/classes/warrior/protection/tank-best-gear-bis-pve",
+  "Protection Warrior": "https://www.wowsims.com/mop/warrior/protection/",
 };
 
 const specItems: Record<string, BisItem[]> = {
@@ -730,6 +730,7 @@ const specItems: Record<string, BisItem[]> = {
     item("Greathelm of the Warchief", "Head", "Garrosh Hellscream"),
     item("Blackfuse's Blasting Cord", "Neck", "Siegecrafter Blackfuse"),
     item("Pauldrons of Violent Eruption", "Shoulder", "Immerseus"),
+    item("Qian-Ying, Fortitude of Niuzao", "Back", "Legendary Questline"),
     item("Earthbreaker's Steaming Chestplate", "Chest", "Iron Juggernaut"),
     item("Blood Rage Bracers", "Wrist", "Malkorok"),
     item("Handguards of the Prehistoric Marauder", "Gloves", "General Nazgrim"),
@@ -738,8 +739,8 @@ const specItems: Record<string, BisItem[]> = {
     item("Treads of Unchained Hate", "Feet", "Immerseus"),
     item("Galakrond Control Band", "Finger 1", "Galakras"),
     item("Ring of the Iron Tomb", "Finger 2", "Kor'kron Dark Shaman"),
-    item("Skeer's Bloodsoaked Talisman", "Trinket 1", "Paragons of the Klaxxi"),
-    item("Vial of Living Corruption", "Trinket 2", "Malkorok"),
+    item("Thok's Tail Tip", "Trinket 1", "Thok the Bloodthirsty"),
+    item("Skeer's Bloodsoaked Talisman", "Trinket 2", "Paragons of the Klaxxi"),
     item("Haromm's Frozen Crescent", "Main Hand", "Kor'kron Dark Shaman"),
     item("Shield of Mockery", "Off Hand", "Sha of Pride"),
   ],
