@@ -13,6 +13,8 @@ const getClassTabId = (className: string) => `bis-class-${className.toLowerCase(
 const getSpecTabId = (className: string, spec: string) =>
   `bis-spec-${className.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${spec.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
 const getSlotArea = (slot: string) => slot.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+const WEAPON_SLOTS = ["Main Hand", "Off Hand", "Two-Hand", "Ranged"] as const;
+const PAPER_DOLL_SLOTS = BIS_SLOT_ORDER.filter((slot) => !WEAPON_SLOTS.includes(slot as (typeof WEAPON_SLOTS)[number]));
 ---
 
 <Layout title="BiS Lists | Vitality">
@@ -97,7 +99,7 @@ const getSlotArea = (slot: string) => slot.toLowerCase().replace(/[^a-z0-9]+/g, 
                           <strong>{specList.className}</strong>
                         </div>
                         {
-                          BIS_SLOT_ORDER.map((slot) => {
+                          PAPER_DOLL_SLOTS.map((slot) => {
                             const items = specList.items.filter((bisItem) => bisItem.slot === slot);
                             return (
                               <article
@@ -121,6 +123,36 @@ const getSlotArea = (slot: string) => slot.toLowerCase().replace(/[^a-z0-9]+/g, 
                               </article>
                             );
                           })
+                        }
+                        {
+                          (() => {
+                            const visibleWeaponSlots = WEAPON_SLOTS.map((slot) => ({
+                              slot,
+                              items: specList.items.filter((bisItem) => bisItem.slot === slot),
+                            })).filter((slotGroup) => slotGroup.items.length > 0);
+
+                            if (visibleWeaponSlots.length === 0) {
+                              return null;
+                            }
+
+                            return (
+                              <div class="bis-weapon-strip" data-weapon-count={visibleWeaponSlots.length}>
+                                {visibleWeaponSlots.map(({ slot, items }) => (
+                                  <article class="bis-slot-card">
+                                    <h4>{slot}</h4>
+                                    <ul>
+                                      {items.map((bisItem) => (
+                                        <li>
+                                          <strong>{bisItem.item}</strong>
+                                          <span>{bisItem.boss}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </article>
+                                ))}
+                              </div>
+                            );
+                          })()
                         }
                       </div>
                     </section>

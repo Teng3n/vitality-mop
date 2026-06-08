@@ -102,7 +102,6 @@ import Layout from "../../layouts/Layout.astro";
           <article class="panel officer-tool-card">
             <div class="section-heading">
               <p class="eyebrow">Sync Guild Data</p>
-              <h2>Sync Guild Data</h2>
               <p class="info-note">
                 Refresh roster, calendar, bench, and loot from Google Sheets.
               </p>
@@ -119,7 +118,6 @@ import Layout from "../../layouts/Layout.astro";
           <article class="panel officer-tool-card">
             <div class="section-heading">
               <p class="eyebrow">Warcraft Logs</p>
-              <h2>Sync Warcraft Logs</h2>
               <p class="info-note">
                 Refresh progression data from Warcraft Logs.
               </p>
@@ -136,7 +134,6 @@ import Layout from "../../layouts/Layout.astro";
           <article class="panel officer-tool-card">
             <div class="section-heading">
               <p class="eyebrow">Bench Suggestions</p>
-              <h2>Bench Suggestions</h2>
               <p class="info-note">
                 Generate a draft bench plan from the current roster, calendar statuses, and Bench Rules.
               </p>
@@ -152,7 +149,6 @@ import Layout from "../../layouts/Layout.astro";
           <article class="panel officer-tool-card">
             <div class="section-heading">
               <p class="eyebrow">Gear Needs</p>
-              <h2>Boss Gear Needs</h2>
               <p class="info-note">
                 Compare curated SoO boss drops against roster specs and the guild loot history.
               </p>
@@ -170,7 +166,6 @@ import Layout from "../../layouts/Layout.astro";
           <div class="section-heading inline bench-suggestion-heading">
             <div>
               <p class="eyebrow">Suggested Bench Plan</p>
-              <h2>Suggested Bench Plan</h2>
             </div>
             <button class="filter-button is-subtle" type="button" data-bench-suggestion-copy>Copy</button>
           </div>
@@ -185,7 +180,6 @@ import Layout from "../../layouts/Layout.astro";
           <div class="section-heading inline gear-needs-heading">
             <div>
               <p class="eyebrow">Boss Gear Needs</p>
-              <h2>Boss Gear Needs</h2>
             </div>
             <button class="filter-button is-subtle" type="button" data-gear-needs-copy>Copy</button>
           </div>
@@ -338,27 +332,6 @@ import Layout from "../../layouts/Layout.astro";
   `;
 
   const renderGearNeedsReport = (report: GearNeedsReport) => `
-    <div class="gear-needs-summary">
-      <div>
-        <span class="gear-needs-stat-value">${escapeHtml(report.summary.activeRosterCount)}</span>
-        <span class="gear-needs-stat-label">Raiders</span>
-      </div>
-      <div>
-        <span class="gear-needs-stat-value">${escapeHtml(report.summary.bossCount)}</span>
-        <span class="gear-needs-stat-label">Bosses</span>
-      </div>
-      <div>
-        <span class="gear-needs-stat-value">${escapeHtml(report.summary.playersWithOpenNeeds)}</span>
-        <span class="gear-needs-stat-label">Players With Needs</span>
-      </div>
-      <div>
-        <span class="gear-needs-stat-value">${escapeHtml(report.summary.lootAwardsConsidered)}</span>
-        <span class="gear-needs-stat-label">Loot Awards Applied</span>
-      </div>
-    </div>
-
-    <p class="info-note gear-needs-scope">${escapeHtml(report.scope)}</p>
-
     <div class="gear-needs-boss-list">
       ${report.bosses
         .map(
@@ -435,27 +408,6 @@ import Layout from "../../layouts/Layout.astro";
   `;
 
   const renderTabbedGearNeedsReport = (report: GearNeedsReport) => `
-    <div class="gear-needs-summary">
-      <div>
-        <span class="gear-needs-stat-value">${escapeHtml(report.summary.activeRosterCount)}</span>
-        <span class="gear-needs-stat-label">Raiders</span>
-      </div>
-      <div>
-        <span class="gear-needs-stat-value">${escapeHtml(report.summary.bossCount)}</span>
-        <span class="gear-needs-stat-label">Bosses</span>
-      </div>
-      <div>
-        <span class="gear-needs-stat-value">${escapeHtml(report.summary.playersWithOpenNeeds)}</span>
-        <span class="gear-needs-stat-label">Players With Needs</span>
-      </div>
-      <div>
-        <span class="gear-needs-stat-value">${escapeHtml(report.summary.lootAwardsConsidered)}</span>
-        <span class="gear-needs-stat-label">Loot Awards Applied</span>
-      </div>
-    </div>
-
-    <p class="info-note gear-needs-scope">${escapeHtml(report.scope)}</p>
-
     <div class="gear-needs-tabs" role="tablist" aria-label="Boss gear needs">
       ${report.bosses
         .map((boss, index) => {
