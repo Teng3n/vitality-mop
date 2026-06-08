@@ -3085,7 +3085,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 }
 
 .gear-needs-player-heading a {
-  color: var(--text);
+  color: var(--player-color, var(--text));
   font-weight: 900;
 }
 
@@ -3156,7 +3156,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   border-radius: 8px;
   padding: 8px 11px;
   background: rgba(17, 23, 20, 0.72);
-  color: var(--muted);
+  color: var(--class-color, var(--muted));
   cursor: pointer;
   font: inherit;
   font-size: 0.82rem;
@@ -3173,7 +3173,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 .bis-tab[aria-selected="true"] {
   border-color: rgba(200, 155, 60, 0.58);
   background: rgba(200, 155, 60, 0.12);
-  color: var(--text);
+  color: var(--class-color, var(--text));
   outline: none;
 }
 

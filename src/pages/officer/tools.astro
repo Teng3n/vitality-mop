@@ -1,6 +1,7 @@
 ---
 import OfficerGate from "../../components/OfficerGate.astro";
 import Layout from "../../layouts/Layout.astro";
+import { classColors } from "../../lib/playerStyles";
 ---
 
 <Layout title="Officer Tools | Vitality">
@@ -9,8 +10,12 @@ import Layout from "../../layouts/Layout.astro";
   </OfficerGate>
 </Layout>
 
+<script is:inline type="application/json" id="officer-class-colors" set:html={JSON.stringify(classColors)}></script>
+
 <script>
   const toolsRoot = document.querySelector<HTMLElement>("[data-officer-tools-root]");
+  const classColorData = JSON.parse(document.querySelector("#officer-class-colors")?.textContent ?? "{}") as Record<string, string>;
+  const classColorMap = new Map(Object.entries(classColorData));
   let toolsRendered = false;
 
   const parseJsonResponse = async <T,>(response: Response): Promise<T | undefined> => {
@@ -83,6 +88,11 @@ import Layout from "../../layouts/Layout.astro";
       .replaceAll("<", "&lt;")
       .replaceAll(">", "&gt;")
       .replaceAll('"', "&quot;");
+
+  const getPlayerClassColorStyle = (className: string) => {
+    const color = classColorMap.get(className);
+    return color ? `--player-color: ${escapeHtml(color)}` : "";
+  };
 
   const renderOfficerTools = () => {
     if (!toolsRoot || toolsRendered) {
@@ -320,9 +330,9 @@ import Layout from "../../layouts/Layout.astro";
   `;
 
   const renderPlayerGearNeed = (player: PlayerGearNeed) => `
-    <li class="gear-needs-player">
+    <li class="gear-needs-player" style="${getPlayerClassColorStyle(player.className)}">
       <div class="gear-needs-player-heading">
-        <a href="${escapeHtml(player.warcraftLogsUrl)}" target="_blank" rel="noreferrer">${escapeHtml(player.name)}</a>
+        <a class="player-name" href="${escapeHtml(player.warcraftLogsUrl)}" target="_blank" rel="noreferrer">${escapeHtml(player.name)}</a>
         <span>${escapeHtml(player.spec)} ${escapeHtml(player.className)}</span>
       </div>
       <ul class="gear-needs-item-list">
@@ -391,10 +401,10 @@ import Layout from "../../layouts/Layout.astro";
   };
 
   const renderTabbedRaiderCard = (player: PlayerGearNeed) => `
-    <article class="gear-needs-raider-card" data-gear-status="${escapeHtml(player.status)}">
+    <article class="gear-needs-raider-card" data-gear-status="${escapeHtml(player.status)}" style="${getPlayerClassColorStyle(player.className)}">
       <div class="gear-needs-player-heading">
         <div>
-          <a href="${escapeHtml(player.warcraftLogsUrl)}" target="_blank" rel="noreferrer">${escapeHtml(player.name)}</a>
+          <a class="player-name" href="${escapeHtml(player.warcraftLogsUrl)}" target="_blank" rel="noreferrer">${escapeHtml(player.name)}</a>
           <span>${escapeHtml(player.spec)} ${escapeHtml(player.className)}</span>
         </div>
       </div>

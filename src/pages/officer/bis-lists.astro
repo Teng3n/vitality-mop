@@ -2,6 +2,7 @@
 import OfficerGate from "../../components/OfficerGate.astro";
 import Layout from "../../layouts/Layout.astro";
 import { BIS_SLOT_ORDER, SIEGE_OF_ORGRIMMAR_BIS_LISTS } from "../../data/siegeOfOrgrimmarBis";
+import { classColors } from "../../lib/playerStyles";
 
 const classes = [...new Set(SIEGE_OF_ORGRIMMAR_BIS_LISTS.map((list) => list.className))];
 const listsByClass = classes.map((className) => ({
@@ -36,6 +37,7 @@ const PAPER_DOLL_SLOTS = BIS_SLOT_ORDER.filter((slot) => !WEAPON_SLOTS.includes(
               aria-selected={index === 0 ? "true" : "false"}
               aria-controls={getClassTabId(classGroup.className)}
               data-bis-class-tab={getClassTabId(classGroup.className)}
+              style={`--class-color: ${classColors[classGroup.className] ?? "var(--muted)"}`}
             >
               {classGroup.className}
             </button>
@@ -69,6 +71,7 @@ const PAPER_DOLL_SLOTS = BIS_SLOT_ORDER.filter((slot) => !WEAPON_SLOTS.includes(
                       aria-selected={specIndex === 0 ? "true" : "false"}
                       aria-controls={getSpecTabId(classGroup.className, specList.spec)}
                       data-bis-spec-tab={getSpecTabId(classGroup.className, specList.spec)}
+                      style={`--class-color: ${classColors[classGroup.className] ?? "var(--muted)"}`}
                     >
                       {specList.spec}
                     </button>
