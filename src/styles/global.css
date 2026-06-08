@@ -2952,9 +2952,8 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
 .gear-needs-tabs {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 2px;
 }
 
 .gear-needs-tab {
@@ -3236,11 +3235,50 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
 .bis-paper-doll-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
-  gap: 10px;
+  grid-template-columns: minmax(180px, 1fr) minmax(220px, 0.82fr) minmax(180px, 1fr);
+  grid-template-areas:
+    "head center hands"
+    "neck center waist"
+    "shoulder center legs"
+    "back center feet"
+    "chest center finger-1"
+    "wrist center finger-2"
+    "trinket-1 main-hand trinket-2"
+    "off-hand two-hand ranged";
+  gap: 10px 16px;
+  align-items: stretch;
+}
+
+.bis-paper-doll-center {
+  grid-area: center;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  min-height: 100%;
+  border: 1px solid rgba(43, 58, 49, 0.5);
+  border-radius: 8px;
+  padding: 20px;
+  background:
+    linear-gradient(180deg, rgba(111, 207, 151, 0.08), transparent),
+    rgba(9, 13, 11, 0.34);
+  color: var(--muted);
+  text-align: center;
+}
+
+.bis-paper-doll-center span {
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.bis-paper-doll-center strong {
+  color: var(--text);
+  font-size: 1.4rem;
 }
 
 .bis-slot-card {
+  grid-area: var(--bis-slot-area);
   display: grid;
   align-content: start;
   gap: 8px;
@@ -3595,6 +3633,30 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
   .gear-needs-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bis-paper-doll-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "center"
+      "head"
+      "neck"
+      "shoulder"
+      "back"
+      "chest"
+      "wrist"
+      "hands"
+      "waist"
+      "legs"
+      "feet"
+      "finger-1"
+      "finger-2"
+      "trinket-1"
+      "trinket-2"
+      "main-hand"
+      "off-hand"
+      "two-hand"
+      "ranged";
   }
 
   .schedule-list li {

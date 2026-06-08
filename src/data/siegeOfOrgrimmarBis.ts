@@ -96,6 +96,21 @@ const tier = (className: keyof typeof tierTokenByClass): BisItem[] => [
 
 const item = (name: string, slot: BisSlot, boss: string): BisItem => ({ item: name, slot, boss });
 
+const capItemsPerSlot = (items: BisItem[], maxPerSlot = 2) => {
+  const slotCounts = new Map<BisSlot, number>();
+
+  return items.filter((bisItem) => {
+    const count = slotCounts.get(bisItem.slot) ?? 0;
+
+    if (count >= maxPerSlot) {
+      return false;
+    }
+
+    slotCounts.set(bisItem.slot, count + 1);
+    return true;
+  });
+};
+
 const base: BisSpec[] = [
   { className: "Death Knight", spec: "Blood", role: "Tank" },
   { className: "Death Knight", spec: "Frost", role: "Melee DPS" },
@@ -191,12 +206,23 @@ const tank = [
   item("Curse of Hubris", "Trinket 2", "Garrosh Hellscream"),
   item("Encapsulated Essence of Immerseus", "Main Hand", "Immerseus"),
   item("Xifeng, Longblade of the Titanic Guardian", "Main Hand", "Norushen"),
+];
+
+const shieldTank = [
+  ...tank,
   item("Shield of Mockery", "Off Hand", "Sha of Pride"),
   item("Bulwark of the Fallen General", "Off Hand", "General Nazgrim"),
   item("Visage of the Monstrous", "Off Hand", "Malkorok"),
   item("Ancient Mogu Tower Shield", "Off Hand", "Spoils of Pandaria"),
   item("Hellscream's Barrier", "Off Hand", "Garrosh Hellscream"),
   item("Hellscream's Shield Wall", "Off Hand", "Garrosh Hellscream"),
+];
+
+const twoHandTank = [
+  item("Rook's Unlucky Talisman", "Trinket 1", "Fallen Protectors"),
+  item("Juggernaut's Focusing Crystal", "Trinket 2", "Iron Juggernaut"),
+  item("Vial of Living Corruption", "Trinket 2", "Malkorok"),
+  item("Curse of Hubris", "Trinket 2", "Garrosh Hellscream"),
 ];
 
 const specItems: Record<string, BisItem[]> = {
@@ -237,14 +263,14 @@ const specItems: Record<string, BisItem[]> = {
   "Unholy Death Knight": [...tier("Death Knight"), ...strengthDps],
   "Frost Death Knight": [...tier("Death Knight"), ...strengthDps, item("Hellscream's Cleaver", "Main Hand", "Garrosh Hellscream")],
   "Retribution Paladin": [...tier("Paladin"), ...strengthDps],
-  "Protection Paladin": [...tier("Paladin"), ...tank, item("Haromm's Frozen Crescent", "Main Hand", "Kor'kron Dark Shaman")],
-  "Protection Warrior": [...tier("Warrior"), ...tank, item("Haromm's Frozen Crescent", "Main Hand", "Kor'kron Dark Shaman")],
-  "Blood Death Knight": [...tier("Death Knight"), ...tank, item("Xal'atoh, Desecrated Image of Gorehowl", "Two-Hand", "Garrosh Hellscream")],
-  "Guardian Druid": [...tier("Druid"), ...tank, item("Trident of Corrupted Waters", "Two-Hand", "Immerseus")],
-  "Brewmaster Monk": [...tier("Monk"), ...tank, item("Trident of Corrupted Waters", "Two-Hand", "Immerseus")],
+  "Protection Paladin": [...tier("Paladin"), ...shieldTank, item("Haromm's Frozen Crescent", "Main Hand", "Kor'kron Dark Shaman")],
+  "Protection Warrior": [...tier("Warrior"), ...shieldTank, item("Haromm's Frozen Crescent", "Main Hand", "Kor'kron Dark Shaman")],
+  "Blood Death Knight": [...tier("Death Knight"), ...twoHandTank, item("Xal'atoh, Desecrated Image of Gorehowl", "Two-Hand", "Garrosh Hellscream")],
+  "Guardian Druid": [...tier("Druid"), ...twoHandTank, item("Trident of Corrupted Waters", "Two-Hand", "Immerseus")],
+  "Brewmaster Monk": [...tier("Monk"), ...twoHandTank, item("Trident of Corrupted Waters", "Two-Hand", "Immerseus")],
 };
 
 export const SIEGE_OF_ORGRIMMAR_BIS_LISTS: BisSpecList[] = base.map((spec) => ({
   ...spec,
-  items: specItems[`${spec.spec} ${spec.className}`] ?? [],
+  items: capItemsPerSlot(specItems[`${spec.spec} ${spec.className}`] ?? []),
 }));

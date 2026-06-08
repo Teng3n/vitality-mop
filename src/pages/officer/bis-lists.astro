@@ -12,6 +12,7 @@ const listsByClass = classes.map((className) => ({
 const getClassTabId = (className: string) => `bis-class-${className.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
 const getSpecTabId = (className: string, spec: string) =>
   `bis-spec-${className.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${spec.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+const getSlotArea = (slot: string) => slot.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 ---
 
 <Layout title="BiS Lists | Vitality">
@@ -91,11 +92,19 @@ const getSpecTabId = (className: string, spec: string) =>
                       </div>
 
                       <div class="bis-paper-doll-grid">
+                        <div class="bis-paper-doll-center" aria-hidden="true">
+                          <span>{specList.spec}</span>
+                          <strong>{specList.className}</strong>
+                        </div>
                         {
                           BIS_SLOT_ORDER.map((slot) => {
                             const items = specList.items.filter((bisItem) => bisItem.slot === slot);
                             return (
-                              <article class="bis-slot-card" data-empty={items.length === 0 ? "true" : undefined}>
+                              <article
+                                class="bis-slot-card"
+                                data-empty={items.length === 0 ? "true" : undefined}
+                                style={`--bis-slot-area: ${getSlotArea(slot)}`}
+                              >
                                 <h4>{slot}</h4>
                                 {items.length > 0 ? (
                                   <ul>
