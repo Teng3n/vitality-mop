@@ -27,6 +27,57 @@ import Layout from "../../layouts/Layout.astro";
     }
   };
 
+  interface GearNeedTarget {
+    item: string;
+    category: string;
+    importance: string;
+    reason: string;
+  }
+
+  interface PlayerGearNeed {
+    slug: string;
+    name: string;
+    className: string;
+    spec: string;
+    role: string;
+    warcraftLogsUrl: string;
+    needs: GearNeedTarget[];
+    acquired: {
+      item: string;
+      date: string;
+      boss: string;
+      responseType: string;
+    }[];
+  }
+
+  interface GearNeedsReport {
+    scope: string;
+    notes: string[];
+    summary: {
+      activeRosterCount: number;
+      bossCount: number;
+      targetCount: number;
+      lootAwardsConsidered: number;
+      playersWithOpenNeeds: number;
+      warcraftLogsBaseline: string;
+    };
+    bosses: {
+      bossName: string;
+      order: number;
+      stillNeeds: PlayerGearNeed[];
+      acquired: PlayerGearNeed[];
+      targetCount: number;
+      stillNeedsCount: number;
+    }[];
+  }
+
+  const escapeHtml = (value: string | number) =>
+    String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;");
+
   const renderOfficerTools = () => {
     if (!toolsRoot || toolsRendered) {
       return;
@@ -91,6 +142,22 @@ import Layout from "../../layouts/Layout.astro";
               </button>
             </div>
           </article>
+
+          <article class="panel officer-tool-card">
+            <div class="section-heading">
+              <p class="eyebrow">Gear Needs</p>
+              <h2>Boss Gear Needs</h2>
+              <p class="info-note">
+                Compare curated SoO boss drops against roster specs and the guild loot history.
+              </p>
+            </div>
+
+            <div class="officer-tool-actions">
+              <button class="filter-button is-subtle" type="button" data-gear-needs-load>
+                Load Gear Needs
+              </button>
+            </div>
+          </article>
         </div>
 
         <section class="panel bench-suggestion-output-panel" data-bench-suggestion-output hidden>
@@ -107,11 +174,26 @@ import Layout from "../../layouts/Layout.astro";
           </div>
           <p class="info-note bench-suggestion-status" data-bench-suggestion-status aria-live="polite"></p>
         </section>
+
+        <section class="panel gear-needs-output-panel" data-gear-needs-output hidden>
+          <div class="section-heading inline gear-needs-heading">
+            <div>
+              <p class="eyebrow">Boss Gear Needs</p>
+              <h2>Boss Gear Needs</h2>
+            </div>
+            <button class="filter-button is-subtle" type="button" data-gear-needs-copy>Copy</button>
+          </div>
+
+          <div data-gear-needs-content></div>
+          <pre class="gear-needs-copy-source" data-gear-needs-text hidden></pre>
+          <p class="info-note gear-needs-status" data-gear-needs-status aria-live="polite"></p>
+        </section>
       </section>
     `;
 
     bindSyncControls();
     bindBenchSuggestionTool();
+    bindGearNeedsTool();
   };
 
   const bindSyncControls = () => {
@@ -227,6 +309,137 @@ import Layout from "../../layouts/Layout.astro";
       } catch {
         if (benchSuggestionStatus) {
           benchSuggestionStatus.textContent = "Unable to copy automatically.";
+        }
+      }
+    });
+  };
+
+  const renderGearNeed = (need: GearNeedTarget) => `
+    <span class="gear-need-item">${escapeHtml(need.item)}</span>
+    <span class="gear-need-meta">${escapeHtml(need.category)} · ${escapeHtml(need.importance)} · ${escapeHtml(need.reason)}</span>
+  `;
+
+  const renderPlayerGearNeed = (player: PlayerGearNeed) => `
+    <li class="gear-needs-player">
+      <div class="gear-needs-player-heading">
+        <a href="${escapeHtml(player.warcraftLogsUrl)}" target="_blank" rel="noreferrer">${escapeHtml(player.name)}</a>
+        <span>${escapeHtml(player.spec)} ${escapeHtml(player.className)}</span>
+      </div>
+      <ul class="gear-needs-item-list">
+        ${player.needs.map((need) => `<li>${renderGearNeed(need)}</li>`).join("")}
+      </ul>
+    </li>
+  `;
+
+  const renderGearNeedsReport = (report: GearNeedsReport) => `
+    <div class="gear-needs-summary">
+      <div>
+        <span class="gear-needs-stat-value">${escapeHtml(report.summary.activeRosterCount)}</span>
+        <span class="gear-needs-stat-label">Raiders</span>
+      </div>
+      <div>
+        <span class="gear-needs-stat-value">${escapeHtml(report.summary.bossCount)}</span>
+        <span class="gear-needs-stat-label">Bosses</span>
+      </div>
+      <div>
+        <span class="gear-needs-stat-value">${escapeHtml(report.summary.playersWithOpenNeeds)}</span>
+        <span class="gear-needs-stat-label">Players With Needs</span>
+      </div>
+      <div>
+        <span class="gear-needs-stat-value">${escapeHtml(report.summary.lootAwardsConsidered)}</span>
+        <span class="gear-needs-stat-label">Loot Awards Applied</span>
+      </div>
+    </div>
+
+    <p class="info-note gear-needs-scope">${escapeHtml(report.scope)}</p>
+
+    <div class="gear-needs-boss-list">
+      ${report.bosses
+        .map(
+          (boss) => `
+            <article class="gear-needs-boss">
+              <div class="gear-needs-boss-heading">
+                <div>
+                  <p class="eyebrow">Boss ${escapeHtml(boss.order)}</p>
+                  <h3>${escapeHtml(boss.bossName)}</h3>
+                </div>
+                <span class="gear-needs-boss-count">${escapeHtml(boss.stillNeedsCount)} open</span>
+              </div>
+              ${
+                boss.stillNeeds.length > 0
+                  ? `<ul class="gear-needs-player-list">${boss.stillNeeds.map(renderPlayerGearNeed).join("")}</ul>`
+                  : `<p class="info-note gear-needs-empty">No tracked open needs from this boss.</p>`
+              }
+            </article>
+          `,
+        )
+        .join("")}
+    </div>
+
+    <div class="gear-needs-notes">
+      ${report.notes.map((note) => `<p class="info-note">${escapeHtml(note)}</p>`).join("")}
+    </div>
+  `;
+
+  const bindGearNeedsTool = () => {
+    const gearNeedsTool = toolsRoot?.querySelector<HTMLElement>("[data-bench-suggestion-tool]");
+    const gearNeedsLoad = gearNeedsTool?.querySelector<HTMLButtonElement>("[data-gear-needs-load]");
+    const gearNeedsCopy = gearNeedsTool?.querySelector<HTMLButtonElement>("[data-gear-needs-copy]");
+    const gearNeedsOutput = gearNeedsTool?.querySelector<HTMLElement>("[data-gear-needs-output]");
+    const gearNeedsContent = gearNeedsTool?.querySelector<HTMLElement>("[data-gear-needs-content]");
+    const gearNeedsText = gearNeedsTool?.querySelector<HTMLElement>("[data-gear-needs-text]");
+    const gearNeedsStatus = gearNeedsTool?.querySelector<HTMLElement>("[data-gear-needs-status]");
+
+    gearNeedsLoad?.addEventListener("click", async () => {
+      if (!gearNeedsOutput || !gearNeedsContent || !gearNeedsText) {
+        return;
+      }
+
+      gearNeedsLoad.disabled = true;
+      gearNeedsLoad.textContent = "Loading...";
+
+      if (gearNeedsStatus) {
+        gearNeedsStatus.textContent = "";
+      }
+
+      try {
+        const response = await fetch("/api/gear-needs");
+        const result = await parseJsonResponse<{ ok?: boolean; report?: GearNeedsReport; text?: string; message?: string }>(response);
+
+        if (!response.ok || result?.ok !== true || !result.report) {
+          throw new Error(result?.message ?? "Unable to load gear needs.");
+        }
+
+        gearNeedsContent.innerHTML = renderGearNeedsReport(result.report);
+        gearNeedsText.textContent = result.text ?? "";
+        gearNeedsOutput.hidden = false;
+        gearNeedsLoad.textContent = "Reload Gear Needs";
+      } catch {
+        if (gearNeedsStatus) {
+          gearNeedsStatus.textContent = "Unable to load gear needs.";
+        }
+        gearNeedsLoad.textContent = "Load Gear Needs";
+      } finally {
+        gearNeedsLoad.disabled = false;
+      }
+    });
+
+    gearNeedsCopy?.addEventListener("click", async () => {
+      const text = gearNeedsText?.textContent?.trim() ?? "";
+
+      if (!text) {
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(text);
+
+        if (gearNeedsStatus) {
+          gearNeedsStatus.textContent = "Gear needs copied.";
+        }
+      } catch {
+        if (gearNeedsStatus) {
+          gearNeedsStatus.textContent = "Unable to copy automatically.";
         }
       }
     });

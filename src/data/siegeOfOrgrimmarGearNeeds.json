@@ -1,0 +1,283 @@
+[
+  {
+    "boss": "Immerseus",
+    "order": 1,
+    "items": [
+      {
+        "item": "Purified Bindings of Immerseus",
+        "category": "Trinket",
+        "importance": "BiS / huge",
+        "reason": "caster DPS trinket",
+        "specs": ["Affliction Warlock", "Balance Druid", "Elemental Shaman", "Fire Mage"]
+      },
+      {
+        "item": "Immerseus' Crystalline Eye",
+        "category": "Trinket",
+        "importance": "Major",
+        "reason": "agility DPS trinket",
+        "specs": ["Enhancement Shaman", "Feral Druid", "Subtlety Rogue", "Survival Hunter", "Windwalker Monk"]
+      },
+      {
+        "item": "Trident of Corrupted Waters",
+        "category": "Weapon",
+        "importance": "Major",
+        "reason": "agility polearm / staff weapon",
+        "specs": ["Feral Druid", "Windwalker Monk"]
+      },
+      {
+        "item": "Encapsulated Essence of Immerseus",
+        "category": "Weapon",
+        "importance": "Major",
+        "reason": "tank weapon",
+        "specs": ["Protection Paladin", "Protection Warrior"]
+      }
+    ]
+  },
+  {
+    "boss": "Fallen Protectors",
+    "order": 2,
+    "items": [
+      {
+        "item": "Death Lotus Crossbow",
+        "category": "Weapon",
+        "importance": "Major",
+        "reason": "ranged weapon",
+        "specs": ["Survival Hunter"]
+      },
+      {
+        "item": "Softfoot's Last Resort",
+        "category": "Weapon",
+        "importance": "Major",
+        "reason": "agility one-hander",
+        "specs": ["Enhancement Shaman", "Subtlety Rogue", "Windwalker Monk"]
+      },
+      {
+        "item": "Rook's Unlucky Talisman",
+        "category": "Trinket",
+        "importance": "Major",
+        "reason": "tank trinket",
+        "specs": ["Protection Paladin", "Protection Warrior"]
+      },
+      {
+        "item": "Purehearted Cricket Cage",
+        "category": "Offhand",
+        "importance": "Major",
+        "reason": "spirit offhand / caster frill",
+        "specs": ["Discipline Priest", "Elemental Shaman", "Restoration Shaman"]
+      }
+    ]
+  },
+  {
+    "boss": "Norushen",
+    "order": 3,
+    "items": [
+      {
+        "item": "Fusion-Fire Core",
+        "category": "Trinket",
+        "importance": "Major",
+        "reason": "strength DPS trinket",
+        "specs": ["Arms Warrior", "Retribution Paladin", "Unholy Death Knight"]
+      },
+      {
+        "item": "Norushen's Shortblade",
+        "category": "Weapon",
+        "importance": "Major",
+        "reason": "agility dagger",
+        "specs": ["Subtlety Rogue"]
+      },
+      {
+        "item": "Xifeng, Longblade of the Titanic Guardian",
+        "category": "Weapon",
+        "importance": "Major",
+        "reason": "tank weapon",
+        "specs": ["Protection Paladin", "Protection Warrior"]
+      },
+      {
+        "item": "Norushen's Enigmatic Barrier",
+        "category": "Shield",
+        "importance": "Major",
+        "reason": "healer shield",
+        "specs": ["Holy Paladin", "Restoration Shaman"]
+      },
+      {
+        "item": "Robes of the Blackened Watcher",
+        "category": "Armor",
+        "importance": "Major",
+        "reason": "agility leather chest",
+        "specs": ["Feral Druid", "Windwalker Monk"]
+      }
+    ]
+  },
+  {
+    "boss": "Sha of Pride",
+    "order": 4,
+    "items": [
+      {
+        "item": "Chest of the Cursed Protector",
+        "category": "Tier",
+        "importance": "Tier",
+        "reason": "tier chest token",
+        "specs": ["Arms Warrior", "Elemental Shaman", "Enhancement Shaman", "Protection Warrior", "Restoration Shaman", "Survival Hunter", "Windwalker Monk"]
+      },
+      {
+        "item": "Chest of the Cursed Vanquisher",
+        "category": "Tier",
+        "importance": "Tier",
+        "reason": "tier chest token",
+        "specs": ["Affliction Warlock", "Balance Druid", "Feral Druid", "Fire Mage", "Subtlety Rogue", "Unholy Death Knight"]
+      },
+      {
+        "item": "Chest of the Cursed Conqueror",
+        "category": "Tier",
+        "importance": "Tier",
+        "reason": "tier chest token",
+        "specs": ["Discipline Priest", "Holy Paladin", "Protection Paladin", "Retribution Paladin"]
+      },
+      {
+        "item": "Greatsword of Pride's Fall",
+        "category": "Weapon",
+        "importance": "Major",
+        "reason": "strength two-hander",
+        "specs": ["Arms Warrior", "Retribution Paladin", "Unholy Death Knight"]
+      },
+      {
+        "item": "Gaze of Arrogance",
+        "category": "Weapon",
+        "importance": "Major",
+        "reason": "intellect / spirit staff",
+        "specs": ["Balance Druid", "Discipline Priest", "Elemental Shaman", "Restoration Shaman"]
+      },
+      {
+        "item": "Assurance of Consequence",
+        "category": "Trinket",
+        "importance": "BiS / huge",
+        "reason": "agility cooldown trinket",
+        "specs": ["Enhancement Shaman", "Feral Druid", "Subtlety Rogue", "Survival Hunter", "Windwalker Monk"]
+      },
+      {
+        "item": "Prismatic Prison of Pride",
+        "category": "Trinket",
+        "importance": "Major",
+        "reason": "healer trinket",
+        "specs": ["Discipline Priest", "Holy Paladin", "Restoration Shaman"]
+      },
+      {
+        "item": "Shield of Mockery",
+        "category": "Shield",
+        "importance": "Major",
+        "reason": "tank shield",
+        "specs": ["Protection Paladin", "Protection Warrior"]
+      }
+    ]
+  },
+  {
+    "boss": "Galakras",
+    "order": 5,
+    "items": [
+      {
+        "item": "Dagryn's Discarded Longbow",
+        "category": "Weapon",
+        "importance": "Major",
+        "reason": "ranged weapon",
+        "specs": ["Survival Hunter"]
+      },
+      {
+        "item": "Evil Eye of Galakras",
+        "category": "Trinket",
+        "importance": "BiS / huge",
+        "reason": "strength cooldown trinket",
+        "specs": ["Arms Warrior", "Retribution Paladin", "Unholy Death Knight"]
+      },
+      {
+        "item": "Drakebinder Greatstaff",
+        "category": "Weapon",
+        "importance": "Major",
+        "reason": "intellect / spirit staff",
+        "specs": ["Balance Druid", "Discipline Priest", "Elemental Shaman", "Restoration Shaman"]
+      },
+      {
+        "item": "Extinguished Ember of Galakras",
+        "category": "Ring",
+        "importance": "Major",
+        "reason": "intellect ring",
+        "specs": ["Affliction Warlock", "Balance Druid", "Elemental Shaman", "Fire Mage"]
+      }
+    ]
+  },
+  {
+    "boss": "Iron Juggernaut",
+    "order": 6,
+    "items": [
+      {
+        "item": "Juggernaut's Power Core",
+        "category": "Offhand",
+        "importance": "Major",
+        "reason": "caster / healer offhand",
+        "specs": ["Affliction Warlock", "Balance Druid", "Discipline Priest", "Elemental Shaman", "Fire Mage", "Restoration Shaman"]
+      },
+      {
+        "item": "Juggernaut's Focusing Crystal",
+        "category": "Trinket",
+        "importance": "Major",
+        "reason": "tank trinket",
+        "specs": ["Protection Paladin", "Protection Warrior"]
+      },
+      {
+        "item": "Seismic Bore",
+        "category": "Weapon",
+        "importance": "Major",
+        "reason": "agility one-hander",
+        "specs": ["Enhancement Shaman", "Subtlety Rogue", "Windwalker Monk"]
+      },
+      {
+        "item": "Leggings of Furious Flame",
+        "category": "Armor",
+        "importance": "Major",
+        "reason": "cloth legs",
+        "specs": ["Affliction Warlock", "Fire Mage"]
+      },
+      {
+        "item": "Belt of Ominous Trembles",
+        "category": "Armor",
+        "importance": "Minor / slot",
+        "reason": "cloth belt",
+        "specs": ["Affliction Warlock", "Fire Mage"]
+      }
+    ]
+  },
+  {
+    "boss": "Kor'kron Dark Shaman",
+    "order": 7,
+    "aliases": ["Dark Shaman"],
+    "items": [
+      {
+        "item": "Haromm's Talisman",
+        "category": "Trinket",
+        "importance": "BiS / huge",
+        "reason": "agility trinket",
+        "specs": ["Enhancement Shaman", "Feral Druid", "Subtlety Rogue", "Survival Hunter", "Windwalker Monk"]
+      },
+      {
+        "item": "Kardris' Toxic Totem",
+        "category": "Trinket",
+        "importance": "BiS / huge",
+        "reason": "caster DPS trinket",
+        "specs": ["Affliction Warlock", "Balance Druid", "Elemental Shaman", "Fire Mage"]
+      },
+      {
+        "item": "Kardris' Scepter",
+        "category": "Weapon",
+        "importance": "Major",
+        "reason": "intellect / spirit weapon",
+        "specs": ["Discipline Priest", "Elemental Shaman", "Holy Paladin", "Restoration Shaman"]
+      },
+      {
+        "item": "Haromm's Frozen Crescent",
+        "category": "Weapon",
+        "importance": "Major",
+        "reason": "tank weapon",
+        "specs": ["Protection Paladin", "Protection Warrior"]
+      }
+    ]
+  }
+]
