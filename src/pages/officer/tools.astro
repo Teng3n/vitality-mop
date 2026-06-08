@@ -423,12 +423,11 @@ import Layout from "../../layouts/Layout.astro";
           <a href="${escapeHtml(player.warcraftLogsUrl)}" target="_blank" rel="noreferrer">${escapeHtml(player.name)}</a>
           <span>${escapeHtml(player.spec)} ${escapeHtml(player.className)}</span>
         </div>
-        <span class="gear-needs-status-pill">${escapeHtml(player.statusLabel)}</span>
       </div>
       ${
         player.needs.length > 0
           ? `<ul class="gear-needs-item-list">${player.needs.map((need) => `<li>${renderTabbedGearNeed(need)}</li>`).join("")}</ul>`
-          : `<p class="gear-needs-card-empty">${player.status === "complete" ? "All tracked loot from this boss is logged." : "No tracked boss loot for this spec."}</p>`
+          : ""
       }
       ${renderTabbedAcquiredGear(player)}
     </article>
