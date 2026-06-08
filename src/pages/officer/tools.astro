@@ -48,6 +48,9 @@ import Layout from "../../layouts/Layout.astro";
       boss: string;
       responseType: string;
     }[];
+    status: "needs" | "complete" | "no-tracked-need";
+    statusLabel: string;
+    targetCount: number;
   }
 
   interface GearNeedsReport {
@@ -64,10 +67,12 @@ import Layout from "../../layouts/Layout.astro";
     bosses: {
       bossName: string;
       order: number;
+      players: PlayerGearNeed[];
       stillNeeds: PlayerGearNeed[];
       acquired: PlayerGearNeed[];
       targetCount: number;
       stillNeedsCount: number;
+      safeCount: number;
     }[];
   }
 
@@ -380,6 +385,147 @@ import Layout from "../../layouts/Layout.astro";
       ${report.notes.map((note) => `<p class="info-note">${escapeHtml(note)}</p>`).join("")}
     </div>
   `;
+  void renderGearNeedsReport;
+
+  const getGearNeedsBossTabId = (bossName: string) =>
+    `gear-needs-boss-${bossName.toLocaleLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`;
+
+  const renderTabbedGearNeed = (need: GearNeedTarget) => `
+    <span class="gear-need-item">${escapeHtml(need.item)}</span>
+    <span class="gear-need-meta">${escapeHtml(need.category)} | ${escapeHtml(need.importance)} | ${escapeHtml(need.reason)}</span>
+  `;
+
+  const renderTabbedAcquiredGear = (player: PlayerGearNeed) => {
+    if (player.acquired.length === 0) {
+      return "";
+    }
+
+    return `
+      <ul class="gear-needs-acquired-list">
+        ${player.acquired
+          .map(
+            (award) => `
+              <li>
+                <span>${escapeHtml(award.item)}</span>
+                <span>${escapeHtml(award.responseType)} on ${escapeHtml(award.date)}</span>
+              </li>
+            `,
+          )
+          .join("")}
+      </ul>
+    `;
+  };
+
+  const renderTabbedRaiderCard = (player: PlayerGearNeed) => `
+    <article class="gear-needs-raider-card" data-gear-status="${escapeHtml(player.status)}">
+      <div class="gear-needs-player-heading">
+        <div>
+          <a href="${escapeHtml(player.warcraftLogsUrl)}" target="_blank" rel="noreferrer">${escapeHtml(player.name)}</a>
+          <span>${escapeHtml(player.spec)} ${escapeHtml(player.className)}</span>
+        </div>
+        <span class="gear-needs-status-pill">${escapeHtml(player.statusLabel)}</span>
+      </div>
+      ${
+        player.needs.length > 0
+          ? `<ul class="gear-needs-item-list">${player.needs.map((need) => `<li>${renderTabbedGearNeed(need)}</li>`).join("")}</ul>`
+          : `<p class="gear-needs-card-empty">${player.status === "complete" ? "All tracked loot from this boss is logged." : "No tracked boss loot for this spec."}</p>`
+      }
+      ${renderTabbedAcquiredGear(player)}
+    </article>
+  `;
+
+  const renderTabbedGearNeedsReport = (report: GearNeedsReport) => `
+    <div class="gear-needs-summary">
+      <div>
+        <span class="gear-needs-stat-value">${escapeHtml(report.summary.activeRosterCount)}</span>
+        <span class="gear-needs-stat-label">Raiders</span>
+      </div>
+      <div>
+        <span class="gear-needs-stat-value">${escapeHtml(report.summary.bossCount)}</span>
+        <span class="gear-needs-stat-label">Bosses</span>
+      </div>
+      <div>
+        <span class="gear-needs-stat-value">${escapeHtml(report.summary.playersWithOpenNeeds)}</span>
+        <span class="gear-needs-stat-label">Players With Needs</span>
+      </div>
+      <div>
+        <span class="gear-needs-stat-value">${escapeHtml(report.summary.lootAwardsConsidered)}</span>
+        <span class="gear-needs-stat-label">Loot Awards Applied</span>
+      </div>
+    </div>
+
+    <p class="info-note gear-needs-scope">${escapeHtml(report.scope)}</p>
+
+    <div class="gear-needs-tabs" role="tablist" aria-label="Boss gear needs">
+      ${report.bosses
+        .map((boss, index) => {
+          const tabId = getGearNeedsBossTabId(boss.bossName);
+          return `
+            <button
+              class="gear-needs-tab"
+              type="button"
+              role="tab"
+              aria-selected="${index === 0 ? "true" : "false"}"
+              aria-controls="${escapeHtml(tabId)}"
+              data-gear-needs-tab="${escapeHtml(tabId)}"
+            >
+              <span>${escapeHtml(boss.bossName)}</span>
+              <span>${escapeHtml(boss.stillNeedsCount)} open</span>
+            </button>
+          `;
+        })
+        .join("")}
+    </div>
+
+    <div class="gear-needs-boss-list">
+      ${report.bosses
+        .map((boss, index) => {
+          const tabId = getGearNeedsBossTabId(boss.bossName);
+          return `
+            <article class="gear-needs-boss" id="${escapeHtml(tabId)}" role="tabpanel" ${index === 0 ? "" : "hidden"}>
+              <div class="gear-needs-boss-heading">
+                <div>
+                  <p class="eyebrow">Boss ${escapeHtml(boss.order)}</p>
+                  <h3>${escapeHtml(boss.bossName)}</h3>
+                </div>
+                <div class="gear-needs-boss-metrics">
+                  <span>${escapeHtml(boss.players.length)} raiders</span>
+                  <span>${escapeHtml(boss.stillNeedsCount)} open items</span>
+                  <span>${escapeHtml(boss.safeCount)} clear/done</span>
+                </div>
+              </div>
+              <div class="gear-needs-raider-grid">
+                ${boss.players.map(renderTabbedRaiderCard).join("")}
+              </div>
+            </article>
+          `;
+        })
+        .join("")}
+    </div>
+
+    <div class="gear-needs-notes">
+      ${report.notes.map((note) => `<p class="info-note">${escapeHtml(note)}</p>`).join("")}
+    </div>
+  `;
+
+  const bindGearNeedsTabs = (container: HTMLElement) => {
+    const tabs = [...container.querySelectorAll<HTMLButtonElement>("[data-gear-needs-tab]")];
+    const panels = [...container.querySelectorAll<HTMLElement>(".gear-needs-boss[role='tabpanel']")];
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const selectedPanelId = tab.dataset.gearNeedsTab ?? "";
+
+        tabs.forEach((candidate) => {
+          candidate.setAttribute("aria-selected", String(candidate === tab));
+        });
+
+        panels.forEach((panel) => {
+          panel.hidden = panel.id !== selectedPanelId;
+        });
+      });
+    });
+  };
 
   const bindGearNeedsTool = () => {
     const gearNeedsTool = toolsRoot?.querySelector<HTMLElement>("[data-bench-suggestion-tool]");
@@ -410,7 +556,8 @@ import Layout from "../../layouts/Layout.astro";
           throw new Error(result?.message ?? "Unable to load gear needs.");
         }
 
-        gearNeedsContent.innerHTML = renderGearNeedsReport(result.report);
+        gearNeedsContent.innerHTML = renderTabbedGearNeedsReport(result.report);
+        bindGearNeedsTabs(gearNeedsContent);
         gearNeedsText.textContent = result.text ?? "";
         gearNeedsOutput.hidden = false;
         gearNeedsLoad.textContent = "Reload Gear Needs";

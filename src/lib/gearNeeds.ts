@@ -44,6 +44,14 @@ export interface PlayerGearNeed {
   acquired: PlayerGearAward[];
 }
 
+export type PlayerGearNeedStatus = "needs" | "complete" | "no-tracked-need";
+
+export interface PlayerBossGearStatus extends PlayerGearNeed {
+  status: PlayerGearNeedStatus;
+  statusLabel: string;
+  targetCount: number;
+}
+
 export interface PlayerGearAward {
   item: string;
   date: string;
@@ -54,10 +62,12 @@ export interface PlayerGearAward {
 export interface BossGearNeed {
   bossName: string;
   order: number;
+  players: PlayerBossGearStatus[];
   stillNeeds: PlayerGearNeed[];
   acquired: PlayerGearNeed[];
   targetCount: number;
   stillNeedsCount: number;
+  safeCount: number;
 }
 
 export interface GearNeedsReport {
@@ -128,62 +138,80 @@ const getAwardSummaries = (awards: LootAward[] = []): PlayerGearAward[] =>
     }))
     .sort((a, b) => b.date.localeCompare(a.date));
 
-const getPlayerGearNeed = (
+const getPlayerBossGearStatus = (
   player: Player,
   needs: GearNeedTarget[],
   acquiredTargets: GearNeedTarget[],
   awardsByItem: Map<string, LootAward[]> | undefined,
-): PlayerGearNeed => ({
-  slug: player.slug,
-  name: player.name,
-  className: player.className,
-  spec: player.spec,
-  role: player.role,
-  warcraftLogsUrl: player.warcraftLogsDirectUrl ?? player.warcraftLogsUrl,
-  needs,
-  acquired: acquiredTargets.flatMap((target) => getAwardSummaries(awardsByItem?.get(getItemKey(target.item)))),
-});
+  targetCount: number,
+): PlayerBossGearStatus => {
+  const status: PlayerGearNeedStatus =
+    needs.length > 0 ? "needs" : targetCount > 0 ? "complete" : "no-tracked-need";
+
+  return {
+    slug: player.slug,
+    name: player.name,
+    className: player.className,
+    spec: player.spec,
+    role: player.role,
+    warcraftLogsUrl: player.warcraftLogsDirectUrl ?? player.warcraftLogsUrl,
+    needs,
+    acquired: acquiredTargets.flatMap((target) => getAwardSummaries(awardsByItem?.get(getItemKey(target.item)))),
+    status,
+    statusLabel:
+      status === "needs"
+        ? "Needs loot"
+        : status === "complete"
+          ? "Tracked loot done"
+          : "No tracked loot",
+    targetCount,
+  };
+};
+
+const sortBossPlayers = (players: PlayerBossGearStatus[]) => {
+  const statusRank: Record<PlayerGearNeedStatus, number> = {
+    needs: 0,
+    complete: 1,
+    "no-tracked-need": 2,
+  };
+
+  return players.sort(
+    (a, b) =>
+      statusRank[a.status] - statusRank[b.status] ||
+      b.needs.length - a.needs.length ||
+      a.className.localeCompare(b.className, undefined, { sensitivity: "base" }) ||
+      a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
+  );
+};
 
 export const getGearNeedsReport = (): GearNeedsReport => {
   const awardsByPlayerAndItem = getAwardsByPlayerAndItem();
   const bosses = gearNeedBosses
     .map((boss): BossGearNeed => {
-      const stillNeeds: PlayerGearNeed[] = [];
-      const acquired: PlayerGearNeed[] = [];
+      const players: PlayerBossGearStatus[] = [];
 
       for (const player of activeRosterPlayers) {
         const targets = getBossTargetsForPlayer(boss, player);
-
-        if (targets.length === 0) {
-          continue;
-        }
-
         const awardsByItem = awardsByPlayerAndItem.get(normalizePlayerName(player.name));
         const openTargets = targets.filter((target) => !awardsByItem?.has(getItemKey(target.item)));
         const acquiredTargets = targets.filter((target) => awardsByItem?.has(getItemKey(target.item)));
 
-        if (openTargets.length > 0) {
-          stillNeeds.push(getPlayerGearNeed(player, openTargets, acquiredTargets, awardsByItem));
-        } else {
-          acquired.push(getPlayerGearNeed(player, [], acquiredTargets, awardsByItem));
-        }
+        players.push(getPlayerBossGearStatus(player, openTargets, acquiredTargets, awardsByItem, targets.length));
       }
 
-      const sortPlayers = (players: PlayerGearNeed[]) =>
-        players.sort(
-          (a, b) =>
-            b.needs.length - a.needs.length ||
-            a.className.localeCompare(b.className, undefined, { sensitivity: "base" }) ||
-            a.name.localeCompare(b.name, undefined, { sensitivity: "base" }),
-        );
+      const sortedPlayers = sortBossPlayers(players);
+      const stillNeeds = sortedPlayers.filter((player) => player.status === "needs");
+      const acquired = sortedPlayers.filter((player) => player.status === "complete");
 
       return {
         bossName: boss.boss,
         order: boss.order,
-        stillNeeds: sortPlayers(stillNeeds),
-        acquired: sortPlayers(acquired),
+        players: sortedPlayers,
+        stillNeeds,
+        acquired,
         targetCount: boss.items.length,
         stillNeedsCount: stillNeeds.reduce((sum, player) => sum + player.needs.length, 0),
+        safeCount: sortedPlayers.filter((player) => player.status !== "needs").length,
       };
     })
     .sort((a, b) => a.order - b.order);
