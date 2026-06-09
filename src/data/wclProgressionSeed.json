@@ -4856,6 +4856,42 @@
           }
         },
         {
+          "name": "Fallen Protectors",
+          "encounterId": 51598,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2026-06-08T05:02:13.295Z",
+              "latestKillDate": "2026-06-08T05:02:13.295Z",
+              "bestPercent": 0,
+              "reportCode": "fLaWZPmn4qyjRCXD",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=30",
+              "pulls": 12,
+              "kills": 1
+            }
+          }
+        },
+        {
+          "name": "Norushen",
+          "encounterId": 51624,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2026-06-08T06:06:06.608Z",
+              "latestKillDate": "2026-06-08T06:06:06.608Z",
+              "bestPercent": 0,
+              "reportCode": "fLaWZPmn4qyjRCXD",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=47",
+              "pulls": 8,
+              "kills": 1
+            }
+          }
+        },
+        {
           "name": "Sha of Pride",
           "encounterId": 51604,
           "difficulties": {
@@ -4892,29 +4928,56 @@
           }
         },
         {
-          "name": "Norushen",
-          "encounterId": 51624,
-          "difficulties": {
-            "Heroic": {
-              "status": "Killed",
-              "difficultyId": 4,
-              "rawDifficultyId": 4,
-              "firstKillDate": "2026-06-08T06:06:06.608Z",
-              "latestKillDate": "2026-06-08T06:06:06.608Z",
-              "bestPercent": 0,
-              "reportCode": "fLaWZPmn4qyjRCXD",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=47",
-              "pulls": 8,
-              "kills": 1
-            }
-          }
+          "name": "Iron Juggernaut",
+          "encounterId": null,
+          "difficulties": {}
+        },
+        {
+          "name": "Kor'kron Dark Shaman",
+          "encounterId": null,
+          "difficulties": {}
+        },
+        {
+          "name": "General Nazgrim",
+          "encounterId": null,
+          "difficulties": {}
+        },
+        {
+          "name": "Malkorok",
+          "encounterId": null,
+          "difficulties": {}
+        },
+        {
+          "name": "Spoils of Pandaria",
+          "encounterId": null,
+          "difficulties": {}
+        },
+        {
+          "name": "Thok the Bloodthirsty",
+          "encounterId": null,
+          "difficulties": {}
+        },
+        {
+          "name": "Siegecrafter Blackfuse",
+          "encounterId": null,
+          "difficulties": {}
+        },
+        {
+          "name": "Paragons of the Klaxxi",
+          "encounterId": null,
+          "difficulties": {}
+        },
+        {
+          "name": "Garrosh Hellscream",
+          "encounterId": null,
+          "difficulties": {}
         }
       ],
       "summary": {
         "normalKilled": 0,
-        "normalTotal": 4,
-        "heroicKilled": 4,
-        "heroicTotal": 4
+        "normalTotal": 14,
+        "heroicKilled": 5,
+        "heroicTotal": 14
       }
     }
   ]

@@ -1327,7 +1327,7 @@ addRaidEncounters("Mogu'shan Vaults", "mop", "tier-14", ["The Stone Guard", "Fen
 addRaidEncounters("Heart of Fear", "mop", "tier-14", ["Imperial Vizier Zor'lok", "Blade Lord Ta'yak", "Garalon", "Wind Lord Mel'jarak", "Amber-Shaper Un'sok", "Grand Empress Shek'zeer"]);
 addRaidEncounters("Terrace of Endless Spring", "mop", "tier-14", ["Protectors of the Endless", "Tsulong", "Lei Shi", "Sha of Fear"]);
 addRaidEncounters("Throne of Thunder", "mop", "tier-15", ["Jin'rokh the Breaker", "Horridon", "Council of Elders", "Tortos", "Megaera", "Ji-Kun", "Durumu the Forgotten", "Primordius", "Dark Animus", "Iron Qon", "Twin Consorts", "Twin Empyreans", "Lei Shen", "Ra-den"]);
-addRaidEncounters("Siege of Orgrimmar", "mop", "tier-16", ["Immerseus", "The Fallen Protectors", "Norushen", "Sha of Pride", "Galakras", "Iron Juggernaut", "Kor'kron Dark Shaman", "General Nazgrim", "Malkorok", "Spoils of Pandaria", "Thok the Bloodthirsty", "Siegecrafter Blackfuse", "Paragons of the Klaxxi", "Garrosh Hellscream"]);
+addRaidEncounters("Siege of Orgrimmar", "mop", "tier-16", ["Immerseus", "Fallen Protectors", "The Fallen Protectors", "Norushen", "Sha of Pride", "Galakras", "Iron Juggernaut", "Kor'kron Dark Shaman", "General Nazgrim", "Malkorok", "Spoils of Pandaria", "Thok the Bloodthirsty", "Siegecrafter Blackfuse", "Paragons of the Klaxxi", "Garrosh Hellscream"]);
 
 const canonicalTbcTier5Raids = [
   {
@@ -1344,6 +1344,28 @@ const canonicalTbcTier5Raids = [
   {
     raidName: "Tempest Keep",
     bosses: ["Al'ar", "Void Reaver", "High Astromancer Solarian", "Kael'thas Sunstrider"],
+  },
+];
+
+const canonicalSiegeOfOrgrimmarRaids = [
+  {
+    raidName: "Siege of Orgrimmar",
+    bosses: [
+      "Immerseus",
+      "Fallen Protectors",
+      "Norushen",
+      "Sha of Pride",
+      "Galakras",
+      "Iron Juggernaut",
+      "Kor'kron Dark Shaman",
+      "General Nazgrim",
+      "Malkorok",
+      "Spoils of Pandaria",
+      "Thok the Bloodthirsty",
+      "Siegecrafter Blackfuse",
+      "Paragons of the Klaxxi",
+      "Garrosh Hellscream",
+    ],
   },
 ];
 
@@ -1627,6 +1649,52 @@ function ensureTbcTier5Coverage(raidDrafts: Map<string, RaidDraft>) {
   }
 }
 
+function ensureSiegeOfOrgrimmarCoverage(raidDrafts: Map<string, RaidDraft>) {
+  const hasTierData = [...raidDrafts.values()].some((raid) => raid.tierSlug === "tier-16");
+
+  if (!hasTierData) {
+    return;
+  }
+
+  const tierSourceLabels = getSourceLabelsForTier("tier-16");
+
+  for (const canonicalRaid of canonicalSiegeOfOrgrimmarRaids) {
+    const raidKey = `tier-16:${normalizeProgressionName(canonicalRaid.raidName)}`;
+    const raid =
+      raidDrafts.get(raidKey) ??
+      ({
+        name: canonicalRaid.raidName,
+        zoneId: null,
+        expansionSlug: "mop",
+        tierSlug: "tier-16",
+        sourceGuildId: null,
+        sourceGuildName: null,
+        sourceServerSlug: null,
+        sourceRegion: null,
+        sourceLabel: null,
+        sourceLabels: new Set<string>(),
+        bosses: new Map<string, BossDraft>(),
+      } satisfies RaidDraft);
+    raidDrafts.set(raidKey, raid);
+
+    for (const label of tierSourceLabels) {
+      raid.sourceLabels.add(label);
+    }
+
+    for (const bossName of canonicalRaid.bosses) {
+      const bossKey = normalizeProgressionName(bossName);
+
+      if (!raid.bosses.has(bossKey)) {
+        raid.bosses.set(bossKey, {
+          name: bossName,
+          encounterId: null,
+          difficulties: new Map<string, DifficultyDraft>(),
+        });
+      }
+    }
+  }
+}
+
 function buildProgressionSeed(reportsData: WclReportsData, guildProgressData: WclGuildProgressData = emptyGuildProgressData()): WclProgressionSeed {
   const raidDrafts = new Map<string, RaidDraft>();
   const reportsByRaid = new Map<string, WclReport[]>();
@@ -1690,6 +1758,7 @@ function buildProgressionSeed(reportsData: WclReportsData, guildProgressData: Wc
 
   applyGuildProgressSupplement(raidDrafts, guildProgressData);
   ensureTbcTier5Coverage(raidDrafts);
+  ensureSiegeOfOrgrimmarCoverage(raidDrafts);
 
   const raids = [...raidDrafts.values()]
     .map((raid): ProgressionRaid => {

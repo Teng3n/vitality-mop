@@ -1004,3 +1004,23 @@ export const getBossBenchSuggestionText = (todayIso = getTodayIso()) => {
   lines.push("Loot source: Officer BiS lists and guild loot history");
   return lines.join("\n").trim();
 };
+
+export const getBossBenchSuggestionSheetText = (todayIso = getTodayIso()) => {
+  const suggestions = getBossBenchSuggestions(todayIso);
+
+  if (suggestions.length === 0) {
+    return "Boss";
+  }
+
+  const benchColumnCount = Math.max(0, ...suggestions.map((suggestion) => suggestion.suggestedBenchPlayers.length));
+  const header = ["Boss", ...Array.from({ length: benchColumnCount }, (_, index) => String(index + 1))];
+  const rows = suggestions.map((suggestion) => {
+    const playerNames = suggestion.suggestedBenchPlayers.map((player) => player.name);
+    return [
+      suggestion.bossName,
+      ...Array.from({ length: benchColumnCount }, (_, index) => playerNames[index] ?? ""),
+    ];
+  });
+
+  return [header, ...rows].map((row) => row.join("\t")).join("\n");
+};

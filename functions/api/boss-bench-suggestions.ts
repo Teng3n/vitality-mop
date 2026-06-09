@@ -1,5 +1,5 @@
 import { hasOfficerPasswordConfig, hasValidOfficerSession, jsonResponse, type OfficerAuthEnv } from "../_shared/officer-auth";
-import { getBossBenchSuggestionText } from "../../src/lib/benchSuggestions";
+import { getBossBenchSuggestionSheetText, getBossBenchSuggestionText } from "../../src/lib/benchSuggestions";
 
 interface PagesContext {
   request: Request;
@@ -20,5 +20,9 @@ export const onRequest = async ({ request, env }: PagesContext) => {
     return jsonResponse({ ok: false, message: "Officer access required." }, 401);
   }
 
-  return jsonResponse({ ok: true, text: getBossBenchSuggestionText() });
+  return jsonResponse({
+    ok: true,
+    text: getBossBenchSuggestionText(),
+    sheetText: getBossBenchSuggestionSheetText(),
+  });
 };

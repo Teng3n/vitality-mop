@@ -215,7 +215,6 @@ export const progressionTiers: ProgressionTier[] = [
     name: "Tier 16",
     raidNames: ["Siege of Orgrimmar"],
     displayDifficulties: ["Normal", "Heroic"],
-    releaseStatus: "unreleased",
   },
 ];
 
@@ -349,7 +348,7 @@ const bossNameOrders = new Map<string, Map<string, number>>([
   ["heartoffear", createBossOrder(["Imperial Vizier Zor'lok", "Blade Lord Ta'yak", "Garalon", "Wind Lord Mel'jarak", "Amber-Shaper Un'sok", "Grand Empress Shek'zeer"])],
   ["terraceofendlessspring", createBossOrder(["Protectors of the Endless", "Tsulong", "Lei Shi", "Sha of Fear"])],
   ["throneofthunder", createBossOrder(["Jin'rokh the Breaker", "Horridon", "Council of Elders", "Tortos", "Megaera", "Ji-Kun", "Durumu the Forgotten", "Primordius", "Dark Animus", "Iron Qon", "Twin Consorts", "Lei Shen", "Ra-den"])],
-  ["siegeoforgrimmar", createBossOrder(["Immerseus", "The Fallen Protectors", "Norushen", "Sha of Pride", "Galakras", "Iron Juggernaut", "Kor'kron Dark Shaman", "General Nazgrim", "Malkorok", "Spoils of Pandaria", "Thok the Bloodthirsty", "Siegecrafter Blackfuse", "Paragons of the Klaxxi", "Garrosh Hellscream"])],
+  ["siegeoforgrimmar", createBossOrder(["Immerseus", "Fallen Protectors", "The Fallen Protectors", "Norushen", "Sha of Pride", "Galakras", "Iron Juggernaut", "Kor'kron Dark Shaman", "General Nazgrim", "Malkorok", "Spoils of Pandaria", "Thok the Bloodthirsty", "Siegecrafter Blackfuse", "Paragons of the Klaxxi", "Garrosh Hellscream"])],
 ]);
 
 export const getDifficulty = (boss: ProgressionBoss, difficultyName: string): ProgressionDifficulty | undefined =>

@@ -137,7 +137,7 @@ import Layout from "../../layouts/Layout.astro";
             <div>
               <p class="eyebrow">Boss Suggested Bench Plan</p>
             </div>
-            <button class="filter-button is-subtle" type="button" data-bench-suggestion-copy data-bench-suggestion-kind="boss">Copy</button>
+            <button class="filter-button is-subtle" type="button" data-bench-suggestion-copy data-bench-suggestion-kind="boss">Copy Sheet</button>
           </div>
 
           <div class="bench-suggestion-output">
@@ -242,13 +242,14 @@ import Layout from "../../layouts/Layout.astro";
 
         try {
           const response = await fetch(endpoint);
-          const result = await parseJsonResponse<{ ok?: boolean; text?: string; message?: string }>(response);
+          const result = await parseJsonResponse<{ ok?: boolean; text?: string; sheetText?: string; message?: string }>(response);
 
           if (!response.ok || result?.ok !== true || !result.text) {
             throw new Error(result?.message ?? "Unable to generate bench suggestions.");
           }
 
           text.textContent = result.text;
+          text.dataset.copyText = result.sheetText ?? result.text;
           output.hidden = false;
           benchSuggestionGenerate.textContent = `Regenerate ${kind === "boss" ? "Boss" : "Farm"} Suggestions`;
         } catch {
@@ -266,7 +267,7 @@ import Layout from "../../layouts/Layout.astro";
       benchSuggestionCopy.addEventListener("click", async () => {
         const kind = benchSuggestionCopy.dataset.benchSuggestionKind ?? "farm";
         const { text, status } = getSuggestionElements(kind);
-        const suggestionText = text?.textContent?.trim() ?? "";
+        const suggestionText = (text?.dataset.copyText || text?.textContent || "").trim();
 
         if (!suggestionText) {
           return;
@@ -276,7 +277,7 @@ import Layout from "../../layouts/Layout.astro";
           await navigator.clipboard.writeText(suggestionText);
 
           if (status) {
-            status.textContent = "Bench suggestions copied.";
+            status.textContent = kind === "boss" ? "Boss bench sheet copied." : "Bench suggestions copied.";
           }
         } catch {
           if (status) {
