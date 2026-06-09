@@ -49,6 +49,14 @@ export interface PlayerBossAttendanceSummary {
   events: WclBossAttendanceEvent[];
 }
 
+export interface BossAttendanceOverview {
+  generatedAt: string | null;
+  tierSlug: string;
+  eventCount: number;
+  bossCount: number;
+  playerCount: number;
+}
+
 const attendanceData = wclBossAttendance as WclBossAttendanceData;
 
 const normalizeBossKey = (bossName: string) => normalizeProgressionName(bossName);
@@ -107,4 +115,30 @@ export const hasCurrentBossAttendanceData = () => getBossAttendanceEvents(attend
 export const hasBossAttendanceData = (bossName: string, tierSlug = attendanceData.toolScopeTierSlug) => {
   const bossKey = normalizeBossKey(bossName);
   return getBossAttendanceEvents(tierSlug).some((event) => event.bossKey === bossKey);
+};
+
+export const getBossAttendanceOverview = (tierSlug = attendanceData.toolScopeTierSlug): BossAttendanceOverview => {
+  const events = getBossAttendanceEvents(tierSlug);
+
+  return {
+    generatedAt: attendanceData.generatedAt,
+    tierSlug,
+    eventCount: events.length,
+    bossCount: new Set(events.map((event) => event.bossKey)).size,
+    playerCount: new Set(events.map((event) => event.playerSlug)).size,
+  };
+};
+
+export const getBossAttendanceStatusText = (tierSlug = attendanceData.toolScopeTierSlug) => {
+  const overview = getBossAttendanceOverview(tierSlug);
+
+  if (overview.eventCount === 0) {
+    return "No synced SoO boss attendance events yet; boss bench suggestions are not using Warcraft Logs attendance.";
+  }
+
+  return `Using ${overview.eventCount} synced SoO boss attendance event${overview.eventCount === 1 ? "" : "s"} across ${
+    overview.bossCount
+  } boss${overview.bossCount === 1 ? "" : "es"} and ${overview.playerCount} player${
+    overview.playerCount === 1 ? "" : "s"
+  }${overview.generatedAt ? `, synced ${overview.generatedAt.slice(0, 10)}` : ""}.`;
 };

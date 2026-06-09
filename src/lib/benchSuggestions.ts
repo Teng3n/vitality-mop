@@ -1,6 +1,6 @@
 import benchRulesJson from "../data/benchRules.json";
 import { isCurrentAttendanceDate } from "./attendanceTiers";
-import { getPlayerBossAttendanceSummary, hasBossAttendanceData } from "./bossAttendance";
+import { getBossAttendanceStatusText, getPlayerBossAttendanceSummary, hasBossAttendanceData } from "./bossAttendance";
 import {
   activeRosterPlayers,
   benchSummaries,
@@ -1039,6 +1039,7 @@ export const getBossBenchSuggestionText = (todayIso = getTodayIso()) => {
 
   lines.push(`Rules source: ${benchRules.source}`);
   lines.push("Loot source: Officer BiS lists and guild loot history");
+  lines.push(`WCL boss attendance: ${getBossAttendanceStatusText()}`);
   return lines.join("\n").trim();
 };
 
