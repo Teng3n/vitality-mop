@@ -21,7 +21,7 @@ const RECENT_UNAVAILABLE_WEEK_LOOKBACK = 2;
 const MIN_RECENT_UNAVAILABLE_PENALTY = -20;
 const MIN_ADJACENT_UNAVAILABLE_PENALTY = -30;
 const BOSS_ATTENDANCE_PRESENT_BONUS = 45;
-const BOSS_ATTENDANCE_MISSING_PENALTY = -90;
+const BOSS_ATTENDANCE_MISSING_PENALTY = -420;
 const MAX_BOSS_ATTENDANCE_BONUS = 135;
 
 interface BenchRules {
@@ -51,6 +51,7 @@ interface BenchCandidate {
   daysSinceBench: number;
   hasRecentUnavailablePenalty: boolean;
   hasAdjacentUnavailablePenalty: boolean;
+  hasMissingBossAttendancePenalty?: boolean;
 }
 
 interface PlanningState {
@@ -615,8 +616,10 @@ const scoreBossCandidate = (
   candidate.reasons.unshift(gearReason.reason);
 
   if (attendanceReason.reason) {
-    candidate.reasons.push(attendanceReason.reason);
+    candidate.reasons.splice(1, 0, attendanceReason.reason);
   }
+
+  candidate.hasMissingBossAttendancePenalty = attendanceReason.score < 0;
 
   if (bossSuggestedCount === 0) {
     candidate.reasons.push("not already sat in this boss plan");
@@ -839,6 +842,7 @@ export const getBossBenchSuggestions = (todayIso = getTodayIso()): BossBenchSugg
     if (additionalBenchNeeded > 0) {
       let skippedHardRuleCount = 0;
       let skippedRaidBuffCount = 0;
+      let skippedMissingAttendanceCount = 0;
       const skippedRaidBuffs = new Set<string>();
       const bossGearBySlug = new Map(boss.players.map((player) => [player.slug, player]));
       const candidates = activeRosterPlayers
@@ -856,32 +860,49 @@ export const getBossBenchSuggestions = (todayIso = getTodayIso()): BossBenchSugg
             a.player.name.localeCompare(b.player.name, undefined, { sensitivity: "base" }),
         );
 
-      for (const candidate of candidates) {
-        if (suggestedBenchPlayers.length >= additionalBenchNeeded) {
-          break;
+      const trySelectCandidates = (allowMissingBossAttendance: boolean) => {
+        for (const candidate of candidates) {
+          if (suggestedBenchPlayers.length >= additionalBenchNeeded) {
+            break;
+          }
+
+          if (suggestedBenchSlugs.has(candidate.player.slug)) {
+            continue;
+          }
+
+          if (!allowMissingBossAttendance && candidate.hasMissingBossAttendancePenalty) {
+            skippedMissingAttendanceCount += 1;
+            continue;
+          }
+
+          const currentBenchSlugs = new Set([...existingBenchSlugs, ...suggestedBenchSlugs]);
+
+          if (!passesHardRules(candidate.player, unavailableSlugs, currentBenchSlugs)) {
+            skippedHardRuleCount += 1;
+            continue;
+          }
+
+          const missingBuffs = getRaidBuffCandidateViolations(candidate.player, unavailableSlugs, currentBenchSlugs);
+
+          if (missingBuffs.length > 0) {
+            skippedRaidBuffCount += 1;
+            missingBuffs.forEach((buff) => skippedRaidBuffs.add(buff));
+            continue;
+          }
+
+          suggestedBenchPlayers.push({
+            ...getStatusPlayer(candidate.player),
+            reasons: candidate.reasons,
+          });
+          suggestedBenchSlugs.add(candidate.player.slug);
+          selectedCandidates.push(candidate);
         }
+      };
 
-        const currentBenchSlugs = new Set([...existingBenchSlugs, ...suggestedBenchSlugs]);
+      trySelectCandidates(false);
 
-        if (!passesHardRules(candidate.player, unavailableSlugs, currentBenchSlugs)) {
-          skippedHardRuleCount += 1;
-          continue;
-        }
-
-        const missingBuffs = getRaidBuffCandidateViolations(candidate.player, unavailableSlugs, currentBenchSlugs);
-
-        if (missingBuffs.length > 0) {
-          skippedRaidBuffCount += 1;
-          missingBuffs.forEach((buff) => skippedRaidBuffs.add(buff));
-          continue;
-        }
-
-        suggestedBenchPlayers.push({
-          ...getStatusPlayer(candidate.player),
-          reasons: candidate.reasons,
-        });
-        suggestedBenchSlugs.add(candidate.player.slug);
-        selectedCandidates.push(candidate);
+      if (suggestedBenchPlayers.length < additionalBenchNeeded) {
+        trySelectCandidates(true);
       }
 
       if (suggestedBenchPlayers.length < additionalBenchNeeded) {
@@ -916,6 +937,10 @@ export const getBossBenchSuggestions = (todayIso = getTodayIso()): BossBenchSugg
           notes.push("Some candidates were skipped because benching them would remove raid buff coverage.");
         } else if (existingMissingRaidBuffs.length === 0) {
           notes.push("Raid buffs preserved.");
+        }
+
+        if (skippedMissingAttendanceCount > 0) {
+          notes.push("Players with no synced attendance for this boss were avoided unless needed to complete the bench.");
         }
       }
     }
