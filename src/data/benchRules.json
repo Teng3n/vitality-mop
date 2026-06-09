@@ -15,7 +15,7 @@
     "Healer": 4
   },
   "minimumAvailableByClass": {
-    "Death Knight": 2,
+    "Death Knight": 1,
     "Warrior": 2
   },
   "requireAtLeastOneAvailablePerClass": true,
