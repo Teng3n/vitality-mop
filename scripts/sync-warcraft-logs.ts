@@ -170,6 +170,32 @@ type WclBossAttendanceData = {
   events: WclBossAttendanceEvent[];
 };
 
+type WclBossAttendanceSummaryPlayer = {
+  playerSlug: string;
+  playerName: string;
+  appearances: number;
+  latestDate: string | null;
+  latestReportUrl: string | null;
+};
+
+type WclBossAttendanceSummaryBoss = {
+  bossKey: string;
+  bossName: string;
+  eventCount: number;
+  players: WclBossAttendanceSummaryPlayer[];
+};
+
+type WclBossAttendanceSummaryData = {
+  generatedAt: string | null;
+  source: string;
+  scope: string;
+  tierSlug: "tier-16";
+  eventCount: number;
+  bossCount: number;
+  playerCount: number;
+  bosses: WclBossAttendanceSummaryBoss[];
+};
+
 type ProgressionDifficulty = {
   status: "Killed" | "Best Pull";
   difficultyId: number | null;
@@ -1317,6 +1343,76 @@ function dedupeAttendanceEvents(events: WclBossAttendanceEvent[]) {
   );
 }
 
+function getAttendanceAppearanceKey(event: WclBossAttendanceEvent) {
+  return `${event.playerSlug}:${event.tierSlug}:${event.bossKey}:${event.date}:${event.reportCode}`;
+}
+
+function buildBossAttendanceSummary(
+  attendanceData: WclBossAttendanceData,
+  tierSlug: WclBossAttendanceSummaryData["tierSlug"] = "tier-16",
+): WclBossAttendanceSummaryData {
+  const events = attendanceData.events.filter((event) => event.tierSlug === tierSlug);
+  const eventsByBoss = new Map<string, WclBossAttendanceEvent[]>();
+
+  for (const event of events) {
+    eventsByBoss.set(event.bossKey, [...(eventsByBoss.get(event.bossKey) ?? []), event]);
+  }
+
+  const bosses = [...eventsByBoss.entries()]
+    .map(([bossKey, bossEvents]): WclBossAttendanceSummaryBoss => {
+      const appearanceEventsByKey = new Map<string, WclBossAttendanceEvent>();
+
+      for (const event of bossEvents) {
+        const key = getAttendanceAppearanceKey(event);
+        const previous = appearanceEventsByKey.get(key);
+
+        if (!previous || (event.endTime ?? event.startTime ?? "") > (previous.endTime ?? previous.startTime ?? "")) {
+          appearanceEventsByKey.set(key, event);
+        }
+      }
+
+      const appearancesByPlayer = new Map<string, WclBossAttendanceEvent[]>();
+
+      for (const event of appearanceEventsByKey.values()) {
+        appearancesByPlayer.set(event.playerSlug, [...(appearancesByPlayer.get(event.playerSlug) ?? []), event]);
+      }
+
+      return {
+        bossKey,
+        bossName: bossEvents[0]?.bossName ?? bossKey,
+        eventCount: bossEvents.length,
+        players: [...appearancesByPlayer.entries()]
+          .map(([playerSlug, playerEvents]): WclBossAttendanceSummaryPlayer => {
+            const sortedEvents = [...playerEvents].sort(
+              (a, b) => b.date.localeCompare(a.date) || b.reportCode.localeCompare(a.reportCode),
+            );
+            const latestEvent = sortedEvents[0] ?? null;
+
+            return {
+              playerSlug,
+              playerName: latestEvent?.playerName ?? playerSlug,
+              appearances: sortedEvents.length,
+              latestDate: latestEvent?.date ?? null,
+              latestReportUrl: latestEvent?.reportUrl ?? null,
+            };
+          })
+          .sort((a, b) => a.playerName.localeCompare(b.playerName, undefined, { sensitivity: "base" })),
+      };
+    })
+    .sort((a, b) => a.bossName.localeCompare(b.bossName, undefined, { sensitivity: "base" }));
+
+  return {
+    generatedAt: attendanceData.generatedAt,
+    source: attendanceData.source,
+    scope: "Derived Siege of Orgrimmar boss attendance summary for bench planning.",
+    tierSlug,
+    eventCount: events.length,
+    bossCount: bosses.length,
+    playerCount: new Set(events.map((event) => event.playerSlug)).size,
+    bosses,
+  };
+}
+
 async function fetchReportAttendanceEvents(accessToken: string, sourceReport: WclReport): Promise<WclBossAttendanceEvent[]> {
   const data = await requestGraphQl<WclAttendanceReportQueryData>(accessToken, reportAttendanceQuery, {
     code: sourceReport.code,
@@ -2237,6 +2333,7 @@ async function runWarcraftLogsSync() {
     reportsData,
     existingBossAttendanceData,
   );
+  const bossAttendanceSummaryData = buildBossAttendanceSummary(bossAttendanceData);
   if (reportsData.reports.length === 0 && existingReports.length > 0) {
     console.error("Warcraft Logs sources returned no reports. Preserving existing Warcraft Logs JSON files.");
     return;
@@ -2247,6 +2344,7 @@ async function runWarcraftLogsSync() {
   const sourceFiles: Array<{ path: string; data: unknown }> = [
     { path: "src/data/wclReports.json", data: reportsData },
     { path: "src/data/wclBossAttendance.json", data: bossAttendanceData },
+    { path: "src/data/wclBossAttendanceSummary.json", data: bossAttendanceSummaryData },
     { path: "src/data/wclProgressionSeed.json", data: progressionSeed },
     { path: "src/data/wclRankings.json", data: rankingsData },
   ];
