@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { config as loadEnv } from "dotenv";
+import { cleanPlayerName, getPlayerSlug } from "../src/lib/playerNames";
 import { getTierForRaidName, normalizeProgressionName } from "../src/lib/progressionTiers";
 
 type GraphQlError = {
@@ -23,6 +24,7 @@ type WclReportApiFight = {
   fightPercentage?: number | null;
   startTime?: number | null;
   endTime?: number | null;
+  friendlyPlayers?: number[] | null;
 };
 
 type WclReportApiReport = {
@@ -109,6 +111,65 @@ type WclReportsData = {
   reports: WclReport[];
 };
 
+type WclReportActor = {
+  id?: number | null;
+  name?: string | null;
+  type?: string | null;
+  subType?: string | null;
+  server?: string | null;
+};
+
+type WclAttendanceReportApiReport = WclReportApiReport & {
+  masterData?: {
+    actors?: WclReportActor[] | null;
+  } | null;
+};
+
+type WclAttendanceReportQueryData = {
+  reportData?: {
+    report?: WclAttendanceReportApiReport | null;
+  } | null;
+};
+
+type WclBossAttendanceEvent = {
+  playerSlug: string;
+  playerName: string;
+  playerClass: string | null;
+  playerServer: string | null;
+  attendanceTierSlug: "throne-of-thunder" | "siege-of-orgrimmar";
+  expansionSlug: string;
+  tierSlug: string;
+  raidName: string;
+  bossKey: string;
+  bossName: string;
+  encounterId: number | null;
+  difficulty: string;
+  difficultyId: number | null;
+  rawDifficultyId: number | string | null;
+  date: string;
+  startTime: string | null;
+  endTime: string | null;
+  reportCode: string;
+  reportTitle: string;
+  reportUrl: string;
+  fightId: number;
+  kill: boolean;
+  sourceGuildId?: number;
+  sourceGuildName: string;
+  sourceServerSlug: string;
+  sourceRegion: string;
+  sourceLabel: string;
+};
+
+type WclBossAttendanceData = {
+  generatedAt: string | null;
+  source: string;
+  scope: string;
+  toolScopeTierSlug: "tier-16";
+  historicalTierSlugs: string[];
+  events: WclBossAttendanceEvent[];
+};
+
 type ProgressionDifficulty = {
   status: "Killed" | "Best Pull";
   difficultyId: number | null;
@@ -170,6 +231,7 @@ type WclSyncMeta = {
   sources: WclSourceSummary[];
   reportsSynced: number;
   fightsSynced: number;
+  bossAttendanceEventsSynced?: number;
   guildProgressRecordsSynced: number;
 };
 
@@ -361,6 +423,42 @@ query GuildReportsByGuildId($guildId: Int!, $limit: Int!, $page: Int!) {
       per_page
       current_page
       last_page
+    }
+  }
+}
+`;
+
+const reportAttendanceQuery = `
+query ReportAttendance($code: String!) {
+  reportData {
+    report(code: $code) {
+      code
+      title
+      startTime
+      endTime
+      zone {
+        id
+        name
+      }
+      masterData(translate: true) {
+        actors {
+          id
+          name
+          type
+          subType
+          server
+        }
+      }
+      fights(translate: true) {
+        id
+        name
+        encounterID
+        difficulty
+        kill
+        startTime
+        endTime
+        friendlyPlayers
+      }
     }
   }
 }
@@ -1153,6 +1251,204 @@ async function fetchGuildProgressData(
   };
 }
 
+function getAttendanceTierSlugForProgressionTier(tierSlug: string): WclBossAttendanceEvent["attendanceTierSlug"] | null {
+  if (tierSlug === "tier-15") {
+    return "throne-of-thunder";
+  }
+
+  if (tierSlug === "tier-16") {
+    return "siege-of-orgrimmar";
+  }
+
+  return null;
+}
+
+function shouldSyncBossAttendanceForReport(report: WclReport) {
+  const tierSlug = getReportTierSlug(report);
+  return tierSlug === "tier-15" || tierSlug === "tier-16";
+}
+
+function getExistingAttendanceEventsByReport(existingData: WclBossAttendanceData | null) {
+  const byReport = new Map<string, WclBossAttendanceEvent[]>();
+
+  for (const event of existingData?.events ?? []) {
+    byReport.set(event.reportCode, [...(byReport.get(event.reportCode) ?? []), event]);
+  }
+
+  return byReport;
+}
+
+function isPlayerActor(actor: WclReportActor) {
+  const type = cleanText(actor.type).toLowerCase();
+  return !type || type === "player";
+}
+
+function normalizeReportActor(actor: WclReportActor) {
+  const id = toNumber(actor.id);
+  const playerName = cleanPlayerName(cleanText(actor.name));
+
+  if (id === null || !playerName || !isPlayerActor(actor)) {
+    return null;
+  }
+
+  return {
+    id,
+    playerName,
+    playerSlug: getPlayerSlug(playerName),
+    playerClass: cleanText(actor.subType) || null,
+    playerServer: cleanText(actor.server) || null,
+  };
+}
+
+function dedupeAttendanceEvents(events: WclBossAttendanceEvent[]) {
+  const byKey = new Map<string, WclBossAttendanceEvent>();
+
+  for (const event of events) {
+    byKey.set(`${event.playerSlug}:${event.reportCode}:${event.fightId}`, event);
+  }
+
+  return [...byKey.values()].sort(
+    (a, b) =>
+      a.date.localeCompare(b.date) ||
+      a.tierSlug.localeCompare(b.tierSlug) ||
+      a.raidName.localeCompare(b.raidName) ||
+      a.fightId - b.fightId ||
+      a.playerName.localeCompare(b.playerName, undefined, { sensitivity: "base" }),
+  );
+}
+
+async function fetchReportAttendanceEvents(accessToken: string, sourceReport: WclReport): Promise<WclBossAttendanceEvent[]> {
+  const data = await requestGraphQl<WclAttendanceReportQueryData>(accessToken, reportAttendanceQuery, {
+    code: sourceReport.code,
+  });
+  const report = data.reportData?.report;
+
+  if (!report) {
+    return [];
+  }
+
+  const reportStartMs = toNumber(report.startTime);
+  const reportCode = cleanText(report.code) || sourceReport.code;
+  const reportTitle = cleanText(report.title) || sourceReport.title || reportCode;
+  const reportUrl = `${reportUrlBase}/${reportCode}`;
+  const zoneName = cleanText(report.zone?.name) || sourceReport.zone.name;
+  const actorsById = new Map(
+    (report.masterData?.actors ?? [])
+      .map(normalizeReportActor)
+      .filter((actor): actor is NonNullable<ReturnType<typeof normalizeReportActor>> => Boolean(actor))
+      .map((actor) => [actor.id, actor]),
+  );
+  const events: WclBossAttendanceEvent[] = [];
+
+  for (const fight of report.fights ?? []) {
+    const fightId = toNumber(fight.id);
+
+    if (fightId === null || !Array.isArray(fight.friendlyPlayers) || fight.friendlyPlayers.length === 0) {
+      continue;
+    }
+
+    const bossName = cleanText(fight.name) || "Unknown Encounter";
+    const classification = getCanonicalRaidClassification(zoneName, bossName, sourceReport.sourceTiers);
+    const attendanceTierSlug = classification ? getAttendanceTierSlugForProgressionTier(classification.tierSlug) : null;
+
+    if (!classification || !attendanceTierSlug) {
+      continue;
+    }
+
+    const difficulty = normalizeDifficulty(fight.difficulty);
+    const startMs = getAbsoluteFightTime(reportStartMs, fight.startTime);
+    const endMs = getAbsoluteFightTime(reportStartMs, fight.endTime);
+    const startTime = toIsoString(startMs);
+    const endTime = toIsoString(endMs);
+    const eventDate = (endTime ?? startTime ?? sourceReport.startTime ?? sourceReport.endTime ?? "").slice(0, 10);
+
+    if (!eventDate) {
+      continue;
+    }
+
+    for (const actorId of fight.friendlyPlayers) {
+      const actor = actorsById.get(actorId);
+
+      if (!actor) {
+        continue;
+      }
+
+      events.push({
+        playerSlug: actor.playerSlug,
+        playerName: actor.playerName,
+        playerClass: actor.playerClass,
+        playerServer: actor.playerServer,
+        attendanceTierSlug,
+        expansionSlug: classification.expansionSlug,
+        tierSlug: classification.tierSlug,
+        raidName: classification.raidName,
+        bossKey: normalizeProgressionName(bossName),
+        bossName,
+        encounterId: toNumber(fight.encounterID),
+        difficulty: difficulty.difficulty,
+        difficultyId: difficulty.difficultyId,
+        rawDifficultyId: difficulty.rawDifficultyId,
+        date: eventDate,
+        startTime,
+        endTime,
+        reportCode,
+        reportTitle,
+        reportUrl: `${reportUrl}#fight=${fightId}`,
+        fightId,
+        kill: Boolean(fight.kill),
+        ...(sourceReport.sourceGuildId ? { sourceGuildId: sourceReport.sourceGuildId } : {}),
+        sourceGuildName: sourceReport.sourceGuildName,
+        sourceServerSlug: sourceReport.sourceServerSlug,
+        sourceRegion: sourceReport.sourceRegion,
+        sourceLabel: sourceReport.sourceLabel,
+      });
+    }
+  }
+
+  return dedupeAttendanceEvents(events);
+}
+
+async function fetchBossAttendanceData(
+  accessToken: string,
+  reportsData: WclReportsData,
+  existingData: WclBossAttendanceData | null,
+): Promise<{ data: WclBossAttendanceData; failedReportCodes: string[] }> {
+  const eligibleReports = reportsData.reports.filter(shouldSyncBossAttendanceForReport);
+  const existingEventsByReport = getExistingAttendanceEventsByReport(existingData);
+  const events: WclBossAttendanceEvent[] = [];
+  const failedReportCodes: string[] = [];
+
+  for (const report of eligibleReports) {
+    try {
+      const reportEvents = await fetchReportAttendanceEvents(accessToken, report);
+      events.push(...reportEvents);
+      console.log(`Fetched ${reportEvents.length} boss attendance event(s) from ${report.code}.`);
+    } catch (error) {
+      failedReportCodes.push(report.code);
+      console.error(`WCL boss attendance failed for ${report.code}: ${error instanceof Error ? error.message : String(error)}`);
+
+      const preservedEvents = existingEventsByReport.get(report.code);
+
+      if (preservedEvents?.length) {
+        events.push(...preservedEvents);
+        console.error(`Preserving ${preservedEvents.length} existing boss attendance event(s) for ${report.code}.`);
+      }
+    }
+  }
+
+  return {
+    data: {
+      generatedAt: new Date().toISOString(),
+      source: sourceName,
+      scope: "Raw Warcraft Logs player attendance events for Throne of Thunder and Siege of Orgrimmar boss fights.",
+      toolScopeTierSlug: "tier-16",
+      historicalTierSlugs: ["tier-15"],
+      events: dedupeAttendanceEvents(events),
+    },
+    failedReportCodes,
+  };
+}
+
 async function readJsonIfExists<T>(relativePath: string): Promise<T | null> {
   try {
     const text = await fs.readFile(path.join(root, relativePath), "utf8");
@@ -1825,7 +2121,11 @@ function buildProgressionSeed(reportsData: WclReportsData, guildProgressData: Wc
   };
 }
 
-function buildSyncMeta(reportsData: WclReportsData, guildProgressData: WclGuildProgressData): WclSyncMeta {
+function buildSyncMeta(
+  reportsData: WclReportsData,
+  guildProgressData: WclGuildProgressData,
+  bossAttendanceData: WclBossAttendanceData,
+): WclSyncMeta {
   return {
     lastWclSync: new Date().toISOString(),
     source: sourceName,
@@ -1837,6 +2137,7 @@ function buildSyncMeta(reportsData: WclReportsData, guildProgressData: WclGuildP
     sources: guildSources.map(toSourceSummary),
     reportsSynced: reportsData.reports.length,
     fightsSynced: reportsData.reports.reduce((sum, report) => sum + report.fights.length, 0),
+    bossAttendanceEventsSynced: bossAttendanceData.events.length,
     guildProgressRecordsSynced: guildProgressData.targets.reduce((sum, target) => sum + target.records.length, 0),
   };
 }
@@ -1895,6 +2196,7 @@ async function runWarcraftLogsSync() {
   const existingReportsData = await readJsonIfExists<WclReportsData>("src/data/wclReports.json");
   const existingReports = (existingReportsData?.reports ?? []).map((report) => normalizeExistingReportSource(report));
   const existingGuildProgressData = await readJsonIfExists<WclGuildProgressData>("src/data/wclGuildProgress.json");
+  const existingBossAttendanceData = await readJsonIfExists<WclBossAttendanceData>("src/data/wclBossAttendance.json");
   const existingReportsBySource = new Map<string, WclReport[]>();
   const reportsBySource = new Map<string, WclReport[]>();
   const failedSources: WclGuildSource[] = [];
@@ -1930,6 +2232,11 @@ async function runWarcraftLogsSync() {
 
   const reportsData = combineSourceReports(reportsBySource);
   const { data: guildProgressData, failedTargets: failedGuildProgressTargets } = await fetchGuildProgressData(accessToken, existingGuildProgressData);
+  const { data: bossAttendanceData, failedReportCodes: failedBossAttendanceReportCodes } = await fetchBossAttendanceData(
+    accessToken,
+    reportsData,
+    existingBossAttendanceData,
+  );
   if (reportsData.reports.length === 0 && existingReports.length > 0) {
     console.error("Warcraft Logs sources returned no reports. Preserving existing Warcraft Logs JSON files.");
     return;
@@ -1939,6 +2246,7 @@ async function runWarcraftLogsSync() {
   const rankingsData = buildRankingsFallback(progressionSeed);
   const sourceFiles: Array<{ path: string; data: unknown }> = [
     { path: "src/data/wclReports.json", data: reportsData },
+    { path: "src/data/wclBossAttendance.json", data: bossAttendanceData },
     { path: "src/data/wclProgressionSeed.json", data: progressionSeed },
     { path: "src/data/wclRankings.json", data: rankingsData },
   ];
@@ -1962,7 +2270,7 @@ async function runWarcraftLogsSync() {
   }
 
   if (changedSourceFiles.length > 0) {
-    const syncMeta = buildSyncMeta(reportsData, guildProgressData);
+    const syncMeta = buildSyncMeta(reportsData, guildProgressData, bossAttendanceData);
 
     if (await jsonWouldChange("src/data/wclSyncMeta.json", syncMeta)) {
       await writeJson("src/data/wclSyncMeta.json", syncMeta);
@@ -1983,10 +2291,14 @@ async function runWarcraftLogsSync() {
         .join(", ")}`,
     );
   }
+  if (failedBossAttendanceReportCodes.length > 0) {
+    console.log(`Failed boss attendance reports preserved when possible: ${failedBossAttendanceReportCodes.join(", ")}`);
+  }
   console.log(`Report limit: ${reportLimit}`);
   console.log(`Report pages: ${reportPages}`);
   console.log(`Reports synced: ${reportsData.reports.length}`);
   console.log(`Fights synced: ${reportsData.reports.reduce((sum, report) => sum + report.fights.length, 0)}`);
+  console.log(`Boss attendance events synced: ${bossAttendanceData.events.length}`);
   console.log(`Guild progress records synced: ${guildProgressData.targets.reduce((sum, target) => sum + target.records.length, 0)}`);
   console.log(`Files changed: ${changedFiles.length}`);
 

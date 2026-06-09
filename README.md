@@ -62,6 +62,7 @@ Current public site data lives in:
 - `src/data/benchRules.json`
 - `src/data/syncMeta.json`
 - `src/data/wclReports.json`
+- `src/data/wclBossAttendance.json`
 - `src/data/wclGuildProgress.json`
 - `src/data/wclProgressionSeed.json`
 - `src/data/wclRankings.json`
@@ -253,12 +254,13 @@ The script:
 - Reads recent guild reports for either `WCL_GUILD_SOURCES_JSON` sources or the fallback `WCL_GUILD_NAME`, `WCL_SERVER_SLUG`, and `WCL_REGION`.
 - Extracts report metadata, zone data, and report fight data.
 - Supplements report/fight data with WCL guild progress data when the report list misses historical progression kills.
-- Writes deterministic JSON to `src/data/wclReports.json`, `src/data/wclGuildProgress.json`, `src/data/wclProgressionSeed.json`, and `src/data/wclRankings.json`.
+- Writes deterministic JSON to `src/data/wclReports.json`, `src/data/wclBossAttendance.json`, `src/data/wclGuildProgress.json`, `src/data/wclProgressionSeed.json`, and `src/data/wclRankings.json`.
 - Updates `src/data/wclSyncMeta.json` only when the WCL report/progression/ranking JSON actually changes.
 
 Generated Warcraft Logs files:
 
 - `src/data/wclReports.json`: recent reports with fight metadata.
+- `src/data/wclBossAttendance.json`: raw player attendance events for Throne of Thunder and Siege of Orgrimmar boss fights. Boss bench tools only use Siege of Orgrimmar events; Throne of Thunder is kept for historical viewing.
 - `src/data/wclGuildProgress.json`: guild progress records used to supplement historical kills when report/fight sync is incomplete.
 - `src/data/wclProgressionSeed.json`: raid/boss/difficulty seed data for progression pages.
 - `src/data/wclRankings.json`: ranking data when available, or a safe null fallback when the queried API shape does not expose guild zone rankings.
@@ -305,6 +307,8 @@ query GuildReports($guildName: String!, $serverSlug: String!, $serverRegion: Str
   }
 }
 ```
+
+Boss attendance sync is stored as raw presence events instead of precomputed counts. Each row records a player, boss, date, report link, fight ID, tier, difficulty, and kill flag. Counts, latest attendance, and bench rotation scoring are derived from those rows at runtime. The sync only imports attendance for MoP Tier 15 and Tier 16; current boss bench suggestions only consume Tier 16.
 
 The guild progress supplement uses WCL's `progressRaceData.progressRace` field for focused historical gaps. The current supplement is for guild `619658` and progress zone `1010`, which WCL uses for the TBC Tier 5 SSC/TK guild progress page:
 
@@ -432,6 +436,7 @@ Generated files:
 - `src/data/benchRules.json`
 - `src/data/syncMeta.json`
 - `src/data/wclReports.json`
+- `src/data/wclBossAttendance.json`
 - `src/data/wclGuildProgress.json`
 - `src/data/wclProgressionSeed.json`
 - `src/data/wclRankings.json`

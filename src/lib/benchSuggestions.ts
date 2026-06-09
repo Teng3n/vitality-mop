@@ -1,5 +1,6 @@
 import benchRulesJson from "../data/benchRules.json";
 import { isCurrentAttendanceDate } from "./attendanceTiers";
+import { getPlayerBossAttendanceSummary, hasBossAttendanceData } from "./bossAttendance";
 import {
   activeRosterPlayers,
   benchSummaries,
@@ -19,6 +20,9 @@ const RECENT_BENCH_DAYS = 21;
 const RECENT_UNAVAILABLE_WEEK_LOOKBACK = 2;
 const MIN_RECENT_UNAVAILABLE_PENALTY = -20;
 const MIN_ADJACENT_UNAVAILABLE_PENALTY = -30;
+const BOSS_ATTENDANCE_PRESENT_BONUS = 45;
+const BOSS_ATTENDANCE_MISSING_PENALTY = -90;
+const MAX_BOSS_ATTENDANCE_BONUS = 135;
 
 interface BenchRules {
   neverBenchPlayers: string[];
@@ -559,6 +563,33 @@ const getBossGearReason = (bossGearStatus: PlayerBossGearStatus | undefined) => 
   };
 };
 
+const getBossAttendanceReason = (player: Player, boss: BossGearNeed) => {
+  if (!hasBossAttendanceData(boss.bossName)) {
+    return {
+      score: 0,
+      reason: "",
+    };
+  }
+
+  const summary = getPlayerBossAttendanceSummary(player.slug, boss.bossName);
+
+  if (summary.appearances === 0) {
+    return {
+      score: BOSS_ATTENDANCE_MISSING_PENALTY,
+      reason: "protected because no synced SoO attendance for this boss yet",
+    };
+  }
+
+  const attendanceBonus = Math.min(MAX_BOSS_ATTENDANCE_BONUS, summary.appearances * BOSS_ATTENDANCE_PRESENT_BONUS);
+
+  return {
+    score: attendanceBonus,
+    reason: `has synced SoO attendance for this boss (${summary.appearances} appearance${
+      summary.appearances === 1 ? "" : "s"
+    }${summary.latestDate ? `, latest ${summary.latestDate}` : ""})`,
+  };
+};
+
 const scoreBossCandidate = (
   player: Player,
   weekKey: string,
@@ -571,7 +602,9 @@ const scoreBossCandidate = (
   const bossSuggestedCount = bossPlanningState.suggestedCountBySlug.get(player.slug) ?? 0;
   const lastSuggestedBossOrder = bossPlanningState.lastSuggestedBossOrderBySlug.get(player.slug) ?? 0;
   const gearReason = getBossGearReason(bossGearStatus);
+  const attendanceReason = getBossAttendanceReason(player, boss);
   candidate.score += gearReason.score;
+  candidate.score += attendanceReason.score;
   candidate.score -= bossSuggestedCount * 180;
 
   if (lastSuggestedBossOrder === boss.order - 1) {
@@ -580,6 +613,10 @@ const scoreBossCandidate = (
   }
 
   candidate.reasons.unshift(gearReason.reason);
+
+  if (attendanceReason.reason) {
+    candidate.reasons.push(attendanceReason.reason);
+  }
 
   if (bossSuggestedCount === 0) {
     candidate.reasons.push("not already sat in this boss plan");

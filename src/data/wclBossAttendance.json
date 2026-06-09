@@ -1,0 +1,10 @@
+{
+  "generatedAt": null,
+  "source": "Warcraft Logs API v2",
+  "scope": "Raw Warcraft Logs player attendance events for Throne of Thunder and Siege of Orgrimmar boss fights.",
+  "toolScopeTierSlug": "tier-16",
+  "historicalTierSlugs": [
+    "tier-15"
+  ],
+  "events": []
+}
