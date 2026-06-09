@@ -83,8 +83,12 @@ const expansionSummaries = progressionExpansions.map((expansion) => ({
             const hasData = progress.totalBosses > 0;
             const isComplete = hasData && progress.killedBosses === progress.totalBosses;
             const completionLabel = isUnreleased ? "Status" : progress.killedBosses > 0 && !isComplete ? "Progressed To" : "Completed";
-            const completionValue = isUnreleased ? "Unreleased" : tierProgressionKill ? formatDate(tierProgressionKill.date) : "No kills";
-            const completionDetail = tierProgressionKill ? formatKillRecordBossLabel(tierProgressionKill, tier) : "";
+            const completionValue = isUnreleased
+              ? "Unreleased"
+              : tierProgressionKill
+                ? formatKillRecordBossLabel(tierProgressionKill, tier)
+                : "No kills";
+            const completionDetail = tierProgressionKill ? formatDate(tierProgressionKill.date) : "";
             const href = tier.isPlaceholder ? "" : `/progression/${expansion.slug}/${tier.slug}`;
             const raidNames = tier.raidNames.join(", ");
             const cardClass = `progression-tier-card ${tier.isPlaceholder ? "is-placeholder" : ""}`;
@@ -111,7 +115,7 @@ const expansionSummaries = progressionExpansions.map((expansion) => ({
                     <>
                       <span>{completionLabel}</span>
                       <strong>{completionValue}</strong>
-                      {completionDetail && <small>{completionDetail}</small>}
+                      {completionDetail && <small class="progression-tier-meta-date">{completionDetail}</small>}
                     </>
                   )}
                 </div>

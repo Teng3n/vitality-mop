@@ -1979,6 +1979,12 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   color: var(--text);
 }
 
+.progression-tier-meta-date {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 400;
+}
+
 .progression-tier-link {
   align-self: end;
   margin-top: auto;
