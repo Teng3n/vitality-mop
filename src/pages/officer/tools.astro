@@ -76,45 +76,74 @@ import Layout from "../../layouts/Layout.astro";
 
           <article class="panel officer-tool-card">
             <div class="section-heading">
-              <p class="eyebrow">Bench Suggestions</p>
+              <p class="eyebrow">Farm Bench Suggestions</p>
               <p class="info-note">
-                Generate a draft bench plan from the current roster, calendar statuses, and Bench Rules.
+                Generate the original weekly bench plan from roster, calendar statuses, and Bench Rules.
               </p>
             </div>
 
             <div class="officer-tool-actions">
-              <button class="filter-button is-subtle" type="button" data-bench-suggestion-generate>
-                Generate Bench Suggestions
+              <button
+                class="filter-button is-subtle"
+                type="button"
+                data-bench-suggestion-generate
+                data-bench-suggestion-kind="farm"
+                data-bench-suggestion-endpoint="/api/bench-suggestions"
+              >
+                Generate Farm Suggestions
               </button>
             </div>
           </article>
 
           <article class="panel officer-tool-card">
             <div class="section-heading">
-              <p class="eyebrow">Gear Needs</p>
+              <p class="eyebrow">Boss Bench Suggestions</p>
               <p class="info-note">
-                Review boss-by-boss SoO needs from the officer BiS lists and guild loot history.
+                Generate a boss-by-boss bench plan that prefers players without open BiS from each boss.
               </p>
             </div>
 
             <div class="officer-tool-actions">
-              <a class="filter-button is-subtle" href="/officer/gear-needs">Open Gear Needs</a>
+              <button
+                class="filter-button is-subtle"
+                type="button"
+                data-bench-suggestion-generate
+                data-bench-suggestion-kind="boss"
+                data-bench-suggestion-endpoint="/api/boss-bench-suggestions"
+              >
+                Generate Boss Suggestions
+              </button>
             </div>
           </article>
+
         </div>
 
-        <section class="panel bench-suggestion-output-panel" data-bench-suggestion-output hidden>
+        <section class="panel bench-suggestion-output-panel" data-bench-suggestion-output="farm" hidden>
           <div class="section-heading inline bench-suggestion-heading">
             <div>
-              <p class="eyebrow">Suggested Bench Plan</p>
+              <p class="eyebrow">Farm Suggested Bench Plan</p>
             </div>
-            <button class="filter-button is-subtle" type="button" data-bench-suggestion-copy>Copy</button>
+            <button class="filter-button is-subtle" type="button" data-bench-suggestion-copy data-bench-suggestion-kind="farm">Copy</button>
           </div>
 
           <div class="bench-suggestion-output">
-            <pre data-bench-suggestion-text></pre>
+            <pre data-bench-suggestion-text="farm"></pre>
           </div>
-          <p class="info-note bench-suggestion-status" data-bench-suggestion-status aria-live="polite"></p>
+          <p class="info-note bench-suggestion-status" data-bench-suggestion-status="farm" aria-live="polite"></p>
+        </section>
+
+        <section class="panel bench-suggestion-output-panel" data-bench-suggestion-output="boss" hidden>
+          <div class="section-heading inline bench-suggestion-heading">
+            <div>
+              <p class="eyebrow">Boss Suggested Bench Plan</p>
+            </div>
+            <button class="filter-button is-subtle" type="button" data-bench-suggestion-copy data-bench-suggestion-kind="boss">Copy</button>
+          </div>
+
+          <div class="bench-suggestion-output">
+            <pre data-bench-suggestion-text="boss"></pre>
+          </div>
+          <p class="info-note bench-suggestion-status" data-bench-suggestion-status="boss" aria-live="polite"></p>
         </section>
       </section>
     `;
@@ -181,63 +210,80 @@ import Layout from "../../layouts/Layout.astro";
 
   const bindBenchSuggestionTool = () => {
     const benchSuggestionTool = toolsRoot?.querySelector<HTMLElement>("[data-bench-suggestion-tool]");
-    const benchSuggestionGenerate = benchSuggestionTool?.querySelector<HTMLButtonElement>("[data-bench-suggestion-generate]");
-    const benchSuggestionCopy = benchSuggestionTool?.querySelector<HTMLButtonElement>("[data-bench-suggestion-copy]");
-    const benchSuggestionOutput = benchSuggestionTool?.querySelector<HTMLElement>("[data-bench-suggestion-output]");
-    const benchSuggestionText = benchSuggestionTool?.querySelector<HTMLElement>("[data-bench-suggestion-text]");
-    const benchSuggestionStatus = benchSuggestionTool?.querySelector<HTMLElement>("[data-bench-suggestion-status]");
+    const benchSuggestionGenerateButtons =
+      benchSuggestionTool?.querySelectorAll<HTMLButtonElement>("[data-bench-suggestion-generate]") ?? [];
+    const benchSuggestionCopyButtons =
+      benchSuggestionTool?.querySelectorAll<HTMLButtonElement>("[data-bench-suggestion-copy]") ?? [];
 
-    benchSuggestionGenerate?.addEventListener("click", async () => {
-      if (!benchSuggestionOutput || !benchSuggestionText) {
-        return;
-      }
-
-      benchSuggestionGenerate.disabled = true;
-      benchSuggestionGenerate.textContent = "Generating...";
-
-      if (benchSuggestionStatus) {
-        benchSuggestionStatus.textContent = "";
-      }
-
-      try {
-        const response = await fetch("/api/bench-suggestions");
-        const result = await parseJsonResponse<{ ok?: boolean; text?: string; message?: string }>(response);
-
-        if (!response.ok || result?.ok !== true || !result.text) {
-          throw new Error(result?.message ?? "Unable to generate bench suggestions.");
-        }
-
-        benchSuggestionText.textContent = result.text;
-        benchSuggestionOutput.hidden = false;
-        benchSuggestionGenerate.textContent = "Regenerate Bench Suggestions";
-      } catch {
-        if (benchSuggestionStatus) {
-          benchSuggestionStatus.textContent = "Unable to generate bench suggestions.";
-        }
-        benchSuggestionGenerate.textContent = "Generate Bench Suggestions";
-      } finally {
-        benchSuggestionGenerate.disabled = false;
-      }
+    const getSuggestionElements = (kind: string) => ({
+      output: benchSuggestionTool?.querySelector<HTMLElement>(`[data-bench-suggestion-output="${kind}"]`),
+      text: benchSuggestionTool?.querySelector<HTMLElement>(`[data-bench-suggestion-text="${kind}"]`),
+      status: benchSuggestionTool?.querySelector<HTMLElement>(`[data-bench-suggestion-status="${kind}"]`),
     });
 
-    benchSuggestionCopy?.addEventListener("click", async () => {
-      const suggestionText = benchSuggestionText?.textContent?.trim() ?? "";
+    benchSuggestionGenerateButtons.forEach((benchSuggestionGenerate) => {
+      const kind = benchSuggestionGenerate.dataset.benchSuggestionKind ?? "farm";
+      const endpoint = benchSuggestionGenerate.dataset.benchSuggestionEndpoint ?? "/api/bench-suggestions";
+      const defaultButtonText = benchSuggestionGenerate.textContent ?? "Generate Suggestions";
 
-      if (!suggestionText) {
-        return;
-      }
+      benchSuggestionGenerate.addEventListener("click", async () => {
+        const { output, text, status } = getSuggestionElements(kind);
 
-      try {
-        await navigator.clipboard.writeText(suggestionText);
-
-        if (benchSuggestionStatus) {
-          benchSuggestionStatus.textContent = "Bench suggestions copied.";
+        if (!output || !text) {
+          return;
         }
-      } catch {
-        if (benchSuggestionStatus) {
-          benchSuggestionStatus.textContent = "Unable to copy automatically.";
+
+        benchSuggestionGenerate.disabled = true;
+        benchSuggestionGenerate.textContent = "Generating...";
+
+        if (status) {
+          status.textContent = "";
         }
-      }
+
+        try {
+          const response = await fetch(endpoint);
+          const result = await parseJsonResponse<{ ok?: boolean; text?: string; message?: string }>(response);
+
+          if (!response.ok || result?.ok !== true || !result.text) {
+            throw new Error(result?.message ?? "Unable to generate bench suggestions.");
+          }
+
+          text.textContent = result.text;
+          output.hidden = false;
+          benchSuggestionGenerate.textContent = `Regenerate ${kind === "boss" ? "Boss" : "Farm"} Suggestions`;
+        } catch {
+          if (status) {
+            status.textContent = "Unable to generate bench suggestions.";
+          }
+          benchSuggestionGenerate.textContent = defaultButtonText;
+        } finally {
+          benchSuggestionGenerate.disabled = false;
+        }
+      });
+    });
+
+    benchSuggestionCopyButtons.forEach((benchSuggestionCopy) => {
+      benchSuggestionCopy.addEventListener("click", async () => {
+        const kind = benchSuggestionCopy.dataset.benchSuggestionKind ?? "farm";
+        const { text, status } = getSuggestionElements(kind);
+        const suggestionText = text?.textContent?.trim() ?? "";
+
+        if (!suggestionText) {
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(suggestionText);
+
+          if (status) {
+            status.textContent = "Bench suggestions copied.";
+          }
+        } catch {
+          if (status) {
+            status.textContent = "Unable to copy automatically.";
+          }
+        }
+      });
     });
   };
 

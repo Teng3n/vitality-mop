@@ -9,6 +9,7 @@ import {
   type RaidNight,
   type StatusPlayer,
 } from "./guildData";
+import { getGearNeedsReport, type BossGearNeed, type PlayerBossGearStatus } from "./gearNeeds";
 import { getRaidBuffCoverage } from "./raidBuffs";
 
 const DEFAULT_BENCH_SUGGESTION_WINDOW_WEEKS = 8;
@@ -52,6 +53,11 @@ interface PlanningState {
   suggestedCountBySlug: Map<string, number>;
 }
 
+interface BossPlanningState {
+  suggestedCountBySlug: Map<string, number>;
+  lastSuggestedBossOrderBySlug: Map<string, number>;
+}
+
 export interface BenchSuggestionWeek {
   label: string;
   rosterSize: number;
@@ -64,7 +70,29 @@ export interface BenchSuggestionWeek {
   warnings: string[];
 }
 
+export interface BossBenchSuggestionPlayer extends StatusPlayer {
+  reasons: string[];
+}
+
+export interface BossBenchSuggestion {
+  bossName: string;
+  order: number;
+  rosterSize: number;
+  unavailablePlayers: StatusPlayer[];
+  requiredBenchCount: number;
+  existingBenchPlayers: StatusPlayer[];
+  suggestedBenchPlayers: BossBenchSuggestionPlayer[];
+  status: string;
+  notes: string[];
+  warnings: string[];
+}
+
 const benchRules = benchRulesJson as unknown as BenchRules;
+const MINIMUM_HEALERS = 5;
+const effectiveMinimumAvailableByRole = {
+  ...benchRules.minimumAvailableByRole,
+  Healer: Math.max(benchRules.minimumAvailableByRole.Healer ?? 0, MINIMUM_HEALERS),
+};
 export const BENCH_SUGGESTION_WINDOW_WEEKS =
   benchRules.planningWindowWeeks && benchRules.planningWindowWeeks >= 1
     ? Math.floor(benchRules.planningWindowWeeks)
@@ -152,11 +180,25 @@ const createPlanningState = (): PlanningState => ({
   suggestedCountBySlug: new Map(),
 });
 
+const createBossPlanningState = (): BossPlanningState => ({
+  suggestedCountBySlug: new Map(),
+  lastSuggestedBossOrderBySlug: new Map(),
+});
+
 const addSuggestedBenchToPlanningState = (planningState: PlanningState, playerSlug: string, weekKey: string) => {
   const weekKeys = planningState.suggestedWeekKeysBySlug.get(playerSlug) ?? new Set<string>();
   weekKeys.add(weekKey);
   planningState.suggestedWeekKeysBySlug.set(playerSlug, weekKeys);
   planningState.suggestedCountBySlug.set(playerSlug, (planningState.suggestedCountBySlug.get(playerSlug) ?? 0) + 1);
+};
+
+const addSuggestedBossBenchToPlanningState = (
+  planningState: BossPlanningState,
+  playerSlug: string,
+  bossOrder: number,
+) => {
+  planningState.suggestedCountBySlug.set(playerSlug, (planningState.suggestedCountBySlug.get(playerSlug) ?? 0) + 1);
+  planningState.lastSuggestedBossOrderBySlug.set(playerSlug, bossOrder);
 };
 
 const getSuggestedBenchWeekKeys = (playerSlug: string, planningState: PlanningState) =>
@@ -295,7 +337,7 @@ const getConstraintWarnings = (benchSlugs: Set<string>, unavailableSlugs: Set<st
 
   const counts = getAvailableCounts(unavailableSlugs, benchSlugs);
 
-  for (const [role, minimum] of Object.entries(benchRules.minimumAvailableByRole)) {
+  for (const [role, minimum] of Object.entries(effectiveMinimumAvailableByRole)) {
     const available = counts.byRole.get(normalizeKey(role)) ?? 0;
 
     if (available < minimum) {
@@ -355,7 +397,7 @@ const passesHardRules = (player: Player, unavailableSlugs: Set<string>, benchSlu
   const currentCounts = getAvailableCounts(unavailableSlugs, benchSlugs);
   const nextCounts = getAvailableCounts(unavailableSlugs, nextBenchSlugs);
 
-  for (const [role, minimum] of Object.entries(benchRules.minimumAvailableByRole)) {
+  for (const [role, minimum] of Object.entries(effectiveMinimumAvailableByRole)) {
     const roleKey = normalizeKey(role);
     const currentAvailable = currentCounts.byRole.get(roleKey) ?? 0;
     const nextAvailable = nextCounts.byRole.get(roleKey) ?? 0;
@@ -485,6 +527,75 @@ const getStatusPlayer = (player: Player): StatusPlayer => ({
   className: player.className,
   href: player.href,
 });
+
+const getBossGearReason = (bossGearStatus: PlayerBossGearStatus | undefined) => {
+  if (!bossGearStatus || bossGearStatus.targetCount === 0) {
+    return {
+      score: 220,
+      reason: "no tracked BiS from this boss",
+      lootNeeds: 0,
+    };
+  }
+
+  if (bossGearStatus.status === "complete") {
+    return {
+      score: 240,
+      reason: "already has tracked BiS from this boss",
+      lootNeeds: 0,
+    };
+  }
+
+  const neededItems = bossGearStatus.needs.map((need) => `${need.item} (${need.slot})`);
+
+  return {
+    score: -260 - neededItems.length * 60,
+    reason:
+      neededItems.length > 0
+        ? `would miss ${neededItems.join("; ")}`
+        : "still has tracked BiS from this boss",
+    lootNeeds: neededItems.length,
+  };
+};
+
+const scoreBossCandidate = (
+  player: Player,
+  weekKey: string,
+  boss: BossGearNeed,
+  bossGearStatus: PlayerBossGearStatus | undefined,
+  weekPlanningState: PlanningState,
+  bossPlanningState: BossPlanningState,
+): BenchCandidate => {
+  const candidate = scoreCandidate(player, weekKey, weekPlanningState);
+  const bossSuggestedCount = bossPlanningState.suggestedCountBySlug.get(player.slug) ?? 0;
+  const lastSuggestedBossOrder = bossPlanningState.lastSuggestedBossOrderBySlug.get(player.slug) ?? 0;
+  const gearReason = getBossGearReason(bossGearStatus);
+  candidate.score += gearReason.score;
+  candidate.score -= bossSuggestedCount * 180;
+
+  if (lastSuggestedBossOrder === boss.order - 1) {
+    candidate.score -= 90;
+    candidate.reasons.push("penalized for sitting the previous boss");
+  }
+
+  candidate.reasons.unshift(gearReason.reason);
+
+  if (bossSuggestedCount === 0) {
+    candidate.reasons.push("not already sat in this boss plan");
+  } else {
+    candidate.reasons.push(`already sat ${bossSuggestedCount} boss${bossSuggestedCount === 1 ? "" : "es"} in this boss plan`);
+  }
+
+  if (gearReason.lootNeeds > 0) {
+    candidate.reasons.push("loot penalty applied");
+  }
+
+  return candidate;
+};
+
+const getPrimaryPlanningWeek = (todayIso = getTodayIso()) => {
+  const [planningWeek] = getFutureRaidWeeks(todayIso);
+  return planningWeek ?? { weekKey: todayIso, nights: [] };
+};
 
 export const getBenchSuggestionWeeks = (todayIso = getTodayIso()): BenchSuggestionWeek[] => {
   const weeks = getFutureRaidWeeks(todayIso);
@@ -653,6 +764,156 @@ export const getBenchSuggestionWeeks = (todayIso = getTodayIso()): BenchSuggesti
   return suggestionWeeks;
 };
 
+export const getBossBenchSuggestions = (todayIso = getTodayIso()): BossBenchSuggestion[] => {
+  const { weekKey, nights } = getPrimaryPlanningWeek(todayIso);
+  const gearNeedsReport = getGearNeedsReport();
+  const weekPlanningState = createPlanningState();
+  const bossPlanningState = createBossPlanningState();
+  const unavailablePlayers = getUniquePlayers(nights.map((night) => [...night.out, ...night.late, ...night.mia]));
+  const calendarBenchPlayers = getUniquePlayers(nights.map((night) => night.bench));
+  const unavailableSlugs = new Set(unavailablePlayers.map((player) => player.slug));
+  const existingBenchSlugs = new Set<string>();
+  const activeRosterSize = activeRosterPlayers.length;
+  const availableRaiders = activeRosterSize - unavailableSlugs.size;
+  const requiredBenchCount = Math.max(0, availableRaiders - TARGET_RAID_SIZE);
+  const additionalBenchNeeded = requiredBenchCount;
+
+  return gearNeedsReport.bosses.map((boss): BossBenchSuggestion => {
+    const suggestedBenchPlayers: BossBenchSuggestionPlayer[] = [];
+    const suggestedBenchSlugs = new Set<string>();
+    const selectedCandidates: BenchCandidate[] = [];
+    const warnings: string[] = [];
+    const notes: string[] = [];
+
+    if (availableRaiders < TARGET_RAID_SIZE) {
+      warnings.push(`Raid is short by ${TARGET_RAID_SIZE - availableRaiders} before boss benching.`);
+    }
+
+    warnings.push(...getConstraintWarnings(existingBenchSlugs, unavailableSlugs));
+
+    const existingMissingRaidBuffs = getMissingRaidBuffs(unavailableSlugs, existingBenchSlugs);
+
+    if (existingMissingRaidBuffs.length > 0) {
+      warnings.push(`Existing plan is missing raid buffs: ${existingMissingRaidBuffs.join(", ")}. Review manually.`);
+    }
+
+    if (additionalBenchNeeded > 0) {
+      let skippedHardRuleCount = 0;
+      let skippedRaidBuffCount = 0;
+      const skippedRaidBuffs = new Set<string>();
+      const bossGearBySlug = new Map(boss.players.map((player) => [player.slug, player]));
+      const candidates = activeRosterPlayers
+        .map((player) =>
+          scoreBossCandidate(player, weekKey, boss, bossGearBySlug.get(player.slug), weekPlanningState, bossPlanningState),
+        )
+        .sort(
+          (a, b) =>
+            b.score - a.score ||
+            (bossPlanningState.suggestedCountBySlug.get(a.player.slug) ?? 0) -
+              (bossPlanningState.suggestedCountBySlug.get(b.player.slug) ?? 0) ||
+            a.suggestedCount - b.suggestedCount ||
+            a.totalBenchCount - b.totalBenchCount ||
+            compareDaysSinceBench(a, b) ||
+            a.player.name.localeCompare(b.player.name, undefined, { sensitivity: "base" }),
+        );
+
+      for (const candidate of candidates) {
+        if (suggestedBenchPlayers.length >= additionalBenchNeeded) {
+          break;
+        }
+
+        const currentBenchSlugs = new Set([...existingBenchSlugs, ...suggestedBenchSlugs]);
+
+        if (!passesHardRules(candidate.player, unavailableSlugs, currentBenchSlugs)) {
+          skippedHardRuleCount += 1;
+          continue;
+        }
+
+        const missingBuffs = getRaidBuffCandidateViolations(candidate.player, unavailableSlugs, currentBenchSlugs);
+
+        if (missingBuffs.length > 0) {
+          skippedRaidBuffCount += 1;
+          missingBuffs.forEach((buff) => skippedRaidBuffs.add(buff));
+          continue;
+        }
+
+        suggestedBenchPlayers.push({
+          ...getStatusPlayer(candidate.player),
+          reasons: candidate.reasons,
+        });
+        suggestedBenchSlugs.add(candidate.player.slug);
+        selectedCandidates.push(candidate);
+      }
+
+      if (suggestedBenchPlayers.length < additionalBenchNeeded) {
+        if (skippedRaidBuffCount > 0) {
+          warnings.push(
+            `Could only suggest ${suggestedBenchPlayers.length} of ${additionalBenchNeeded} needed bench players without losing required raid buffs.`,
+          );
+          warnings.push(`Skipped candidates who would remove raid buff coverage: ${[...skippedRaidBuffs].join(", ")}.`);
+        }
+
+        warnings.push(
+          "Could not suggest a full boss bench list because too many players are unavailable or constraints would be violated.",
+        );
+      }
+
+      if (selectedCandidates.length > 0) {
+        const selectedWithLootNeeds = selectedCandidates.filter((candidate) =>
+          candidate.reasons.some((reason) => reason.startsWith("would miss ")),
+        );
+
+        notes.push(
+          selectedWithLootNeeds.length === 0
+            ? "Suggested players do not have open tracked BiS from this boss."
+            : "Some selected players still have tracked BiS on this boss because no higher-ranked valid loot-safe candidates remained.",
+        );
+
+        if (skippedHardRuleCount > 0) {
+          notes.push("Some candidates were skipped due to healer/class minimum or other hard rules.");
+        }
+
+        if (skippedRaidBuffCount > 0) {
+          notes.push("Some candidates were skipped because benching them would remove raid buff coverage.");
+        } else if (existingMissingRaidBuffs.length === 0) {
+          notes.push("Raid buffs preserved.");
+        }
+      }
+    }
+
+    for (const player of suggestedBenchPlayers) {
+      addSuggestedBossBenchToPlanningState(bossPlanningState, player.slug, boss.order);
+      addSuggestedBenchToPlanningState(weekPlanningState, player.slug, weekKey);
+    }
+
+    const status =
+      requiredBenchCount === 0
+        ? "No bench needed"
+        : existingBenchSlugs.size >= requiredBenchCount
+          ? "Already planned"
+          : suggestedBenchPlayers.length > 0
+            ? "Needs review"
+            : "No valid suggestion";
+
+    if (calendarBenchPlayers.length > 0 && suggestedBenchPlayers.length > 0) {
+      notes.unshift("Current calendar bench was not locked; boss suggestions are generated fresh for per-boss rotation.");
+    }
+
+    return {
+      bossName: boss.bossName,
+      order: boss.order,
+      rosterSize: activeRosterSize,
+      unavailablePlayers,
+      requiredBenchCount,
+      existingBenchPlayers: calendarBenchPlayers,
+      suggestedBenchPlayers,
+      status,
+      notes,
+      warnings: [...new Set(warnings)],
+    };
+  });
+};
+
 export const getBenchSuggestionText = (todayIso = getTodayIso()) => {
   const suggestions = getBenchSuggestionWeeks(todayIso);
 
@@ -686,5 +947,58 @@ export const getBenchSuggestionText = (todayIso = getTodayIso()) => {
 
   lines.push(`Rules source: ${benchRules.source}`);
   lines.push(`Planning window weeks: ${BENCH_SUGGESTION_WINDOW_WEEKS}`);
+  return lines.join("\n").trim();
+};
+
+export const getBossBenchSuggestionText = (todayIso = getTodayIso()) => {
+  const suggestions = getBossBenchSuggestions(todayIso);
+
+  if (suggestions.length === 0) {
+    return "Boss Bench Suggestions\n\nNo Siege of Orgrimmar bosses found.";
+  }
+
+  const lines = ["Boss Bench Suggestions", ""];
+  const firstSuggestion = suggestions[0];
+
+  if (firstSuggestion) {
+    lines.push(`Roster: ${firstSuggestion.rosterSize}`);
+    lines.push(
+      `Unavailable: ${firstSuggestion.unavailablePlayers.length}${
+        firstSuggestion.unavailablePlayers.length > 0 ? ` (${playerList(firstSuggestion.unavailablePlayers)})` : ""
+      }`,
+    );
+    lines.push(`Required bench per boss: ${firstSuggestion.requiredBenchCount}`);
+    lines.push(`Current calendar bench (not locked): ${playerList(firstSuggestion.existingBenchPlayers)}`);
+    lines.push("");
+  }
+
+  for (const suggestion of suggestions) {
+    lines.push(`${suggestion.order}. ${suggestion.bossName}`);
+    lines.push(`Suggested boss bench: ${playerList(suggestion.suggestedBenchPlayers)}`);
+    lines.push(`Status: ${suggestion.status}`);
+
+    if (suggestion.suggestedBenchPlayers.length > 0) {
+      lines.push("Why:");
+
+      for (const player of suggestion.suggestedBenchPlayers) {
+        lines.push(`- ${player.name}: ${player.reasons.slice(0, 3).join("; ")}`);
+      }
+    }
+
+    if (suggestion.notes.length > 0) {
+      lines.push("Notes:");
+      lines.push(...suggestion.notes.map((note) => `- ${note}`));
+    }
+
+    if (suggestion.warnings.length > 0) {
+      lines.push("Warnings:");
+      lines.push(...suggestion.warnings.map((warning) => `- ${warning}`));
+    }
+
+    lines.push("");
+  }
+
+  lines.push(`Rules source: ${benchRules.source}`);
+  lines.push("Loot source: Officer BiS lists and guild loot history");
   return lines.join("\n").trim();
 };
