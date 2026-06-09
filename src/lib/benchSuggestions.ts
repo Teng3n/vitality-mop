@@ -23,6 +23,10 @@ const MIN_ADJACENT_UNAVAILABLE_PENALTY = -30;
 const BOSS_ATTENDANCE_PRESENT_BONUS = 45;
 const BOSS_ATTENDANCE_MISSING_PENALTY = -260;
 const MAX_BOSS_ATTENDANCE_BONUS = 135;
+const BOSS_BENCH_REPEAT_PENALTY = 180;
+const BOSS_BENCH_FLOW_CONTINUE_BONUS = 130;
+const BOSS_BENCH_LONG_BLOCK_PENALTY = -260;
+const BOSS_BENCH_MAX_SMOOTH_BLOCK_SIZE = 3;
 
 interface BenchRules {
   neverBenchPlayers: string[];
@@ -61,6 +65,7 @@ interface PlanningState {
 interface BossPlanningState {
   suggestedCountBySlug: Map<string, number>;
   lastSuggestedBossOrderBySlug: Map<string, number>;
+  currentStreakBySlug: Map<string, number>;
 }
 
 export interface BenchSuggestionWeek {
@@ -188,6 +193,7 @@ const createPlanningState = (): PlanningState => ({
 const createBossPlanningState = (): BossPlanningState => ({
   suggestedCountBySlug: new Map(),
   lastSuggestedBossOrderBySlug: new Map(),
+  currentStreakBySlug: new Map(),
 });
 
 const addSuggestedBenchToPlanningState = (planningState: PlanningState, playerSlug: string, weekKey: string) => {
@@ -202,8 +208,12 @@ const addSuggestedBossBenchToPlanningState = (
   playerSlug: string,
   bossOrder: number,
 ) => {
+  const lastSuggestedBossOrder = planningState.lastSuggestedBossOrderBySlug.get(playerSlug) ?? 0;
+  const currentStreak = planningState.currentStreakBySlug.get(playerSlug) ?? 0;
+  const nextStreak = lastSuggestedBossOrder === bossOrder - 1 ? currentStreak + 1 : 1;
   planningState.suggestedCountBySlug.set(playerSlug, (planningState.suggestedCountBySlug.get(playerSlug) ?? 0) + 1);
   planningState.lastSuggestedBossOrderBySlug.set(playerSlug, bossOrder);
+  planningState.currentStreakBySlug.set(playerSlug, nextStreak);
 };
 
 const getSuggestedBenchWeekKeys = (playerSlug: string, planningState: PlanningState) =>
@@ -601,15 +611,23 @@ const scoreBossCandidate = (
   const candidate = scoreCandidate(player, weekKey, weekPlanningState);
   const bossSuggestedCount = bossPlanningState.suggestedCountBySlug.get(player.slug) ?? 0;
   const lastSuggestedBossOrder = bossPlanningState.lastSuggestedBossOrderBySlug.get(player.slug) ?? 0;
+  const currentBossBenchStreak = bossPlanningState.currentStreakBySlug.get(player.slug) ?? 0;
   const gearReason = getBossGearReason(bossGearStatus);
   const attendanceReason = getBossAttendanceReason(player, boss);
   candidate.score += gearReason.score;
   candidate.score += attendanceReason.score;
-  candidate.score -= bossSuggestedCount * 180;
+  candidate.score -= bossSuggestedCount * BOSS_BENCH_REPEAT_PENALTY;
 
   if (lastSuggestedBossOrder === boss.order - 1) {
-    candidate.score -= 90;
-    candidate.reasons.push("penalized for sitting the previous boss");
+    const nextStreak = currentBossBenchStreak + 1;
+
+    if (nextStreak <= BOSS_BENCH_MAX_SMOOTH_BLOCK_SIZE) {
+      candidate.score += BOSS_BENCH_FLOW_CONTINUE_BONUS;
+      candidate.reasons.unshift(`raid-flow bonus for continuing a ${nextStreak}-boss bench block`);
+    } else {
+      candidate.score += BOSS_BENCH_LONG_BLOCK_PENALTY;
+      candidate.reasons.unshift(`penalized for extending past a ${BOSS_BENCH_MAX_SMOOTH_BLOCK_SIZE}-boss bench block`);
+    }
   }
 
   candidate.reasons.unshift(gearReason.reason);
