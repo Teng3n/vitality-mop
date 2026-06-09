@@ -12,7 +12,7 @@
     ]
   ],
   "minimumAvailableByRole": {
-    "Healer": 5
+    "Healer": 4
   },
   "minimumAvailableByClass": {
     "Death Knight": 1,

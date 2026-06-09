@@ -1,5 +1,245 @@
 [
   {
+    "date": "2026-06-09",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Skydancer Boots",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Foggy",
+    "realm": "Raden",
+    "characterRealm": "Foggy-Raden",
+    "item": "Scalebane Bracers",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Kuradelh",
+    "realm": "Raden",
+    "characterRealm": "Kuradelh-Raden",
+    "item": "Dagryn's Fuselight Bracers",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Maverickdog",
+    "realm": "Raden",
+    "characterRealm": "Maverickdog-Raden",
+    "item": "Dagryn's Fuselight Bracers",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Teehee",
+    "realm": "Raden",
+    "characterRealm": "Teehee-Raden",
+    "item": "Scalebane Bracers",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Volkswórgen",
+    "realm": "Raden",
+    "characterRealm": "Volkswórgen-Raden",
+    "item": "Korgra's Venom-Soaked Gauntlets",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Karkan",
+    "realm": "Raden",
+    "characterRealm": "Karkan-Raden",
+    "item": "Krugruk's Rigid Shoulderplates",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Krugruk's Rigid Shoulderplates",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Deéz",
+    "realm": "Raden",
+    "characterRealm": "Deéz-Raden",
+    "item": "Evil Eye of Galakras",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Deéz",
+    "realm": "Raden",
+    "characterRealm": "Deéz-Raden",
+    "item": "Chest of the Cursed Vanquisher",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "item": "Prismatic Prison of Pride",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Kuradelh",
+    "realm": "Raden",
+    "characterRealm": "Kuradelh-Raden",
+    "item": "Assurance of Consequence",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Aurumai",
+    "realm": "Raden",
+    "characterRealm": "Aurumai-Raden",
+    "item": "Chest of the Cursed Protector",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Lexou",
+    "realm": "Raden",
+    "characterRealm": "Lexou-Raden",
+    "item": "Chest of the Cursed Protector",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Karkan",
+    "realm": "Raden",
+    "characterRealm": "Karkan-Raden",
+    "item": "Choker of the Final Word",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Cardinalcrzy",
+    "realm": "Raden",
+    "characterRealm": "Cardinalcrzy-Raden",
+    "item": "Prismatic Prison of Pride",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Chest of the Cursed Protector",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "June",
+    "realm": "Raden",
+    "characterRealm": "June-Raden",
+    "item": "Chest of the Cursed Protector",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Kuradelh",
+    "realm": "Raden",
+    "characterRealm": "Kuradelh-Raden",
+    "item": "Chest of the Cursed Protector",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Maverickdog",
+    "realm": "Raden",
+    "characterRealm": "Maverickdog-Raden",
+    "item": "Chest of the Cursed Protector",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Choker of the Final Word",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-09",
+    "player": "Volkswórgen",
+    "realm": "Raden",
+    "characterRealm": "Volkswórgen-Raden",
+    "item": "Assurance of Consequence",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-08",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Temple Vambraces of the Earthfall",
+    "boss": "Flameweaver Koegler",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-08",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Yak Vest of the Bandit",
+    "boss": "Flameweaver Koegler",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
     "date": "2026-06-08",
     "player": "Cardinalcrzy",
     "realm": "Raden",

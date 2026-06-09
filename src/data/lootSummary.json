@@ -7,8 +7,19 @@
     "major": 0,
     "minor": 2,
     "offspec": 0,
-    "bonusRolls": 0,
+    "bonusRolls": 1,
     "total": 4
+  },
+  {
+    "player": "Aurumai",
+    "realm": "Raden",
+    "characterRealm": "Aurumai-Raden",
+    "bis": 1,
+    "major": 1,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 2
   },
   {
     "player": "Cardinalcrzy",
@@ -18,7 +29,7 @@
     "major": 0,
     "minor": 0,
     "offspec": 0,
-    "bonusRolls": 0,
+    "bonusRolls": 1,
     "total": 2
   },
   {
@@ -29,7 +40,40 @@
     "major": 2,
     "minor": 0,
     "offspec": 0,
+    "bonusRolls": 2,
+    "total": 2
+  },
+  {
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "bis": 2,
+    "major": 0,
+    "minor": 0,
+    "offspec": 0,
     "bonusRolls": 0,
+    "total": 2
+  },
+  {
+    "player": "Foggy",
+    "realm": "Raden",
+    "characterRealm": "Foggy-Raden",
+    "bis": 0,
+    "major": 1,
+    "minor": 1,
+    "offspec": 0,
+    "bonusRolls": 1,
+    "total": 2
+  },
+  {
+    "player": "Kuradelh",
+    "realm": "Raden",
+    "characterRealm": "Kuradelh-Raden",
+    "bis": 1,
+    "major": 1,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 3,
     "total": 2
   },
   {
@@ -55,17 +99,6 @@
     "total": 1
   },
   {
-    "player": "Aurumai",
-    "realm": "Raden",
-    "characterRealm": "Aurumai-Raden",
-    "bis": 0,
-    "major": 1,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 1
-  },
-  {
     "player": "Cabbage",
     "realm": "Raden",
     "characterRealm": "Cabbage-Raden",
@@ -77,25 +110,25 @@
     "total": 1
   },
   {
-    "player": "Fae",
+    "player": "Deéz",
     "realm": "Raden",
-    "characterRealm": "Fae-Raden",
+    "characterRealm": "Deéz-Raden",
     "bis": 1,
     "major": 0,
     "minor": 0,
     "offspec": 0,
-    "bonusRolls": 0,
+    "bonusRolls": 1,
     "total": 1
   },
   {
-    "player": "Foggy",
+    "player": "Drchicken",
     "realm": "Raden",
-    "characterRealm": "Foggy-Raden",
+    "characterRealm": "Drchicken-Raden",
     "bis": 0,
-    "major": 0,
-    "minor": 1,
+    "major": 1,
+    "minor": 0,
     "offspec": 0,
-    "bonusRolls": 1,
+    "bonusRolls": 0,
     "total": 1
   },
   {
@@ -105,6 +138,50 @@
     "bis": 1,
     "major": 0,
     "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 2,
+    "total": 1
+  },
+  {
+    "player": "Karkan",
+    "realm": "Raden",
+    "characterRealm": "Karkan-Raden",
+    "bis": 0,
+    "major": 0,
+    "minor": 1,
+    "offspec": 0,
+    "bonusRolls": 3,
+    "total": 1
+  },
+  {
+    "player": "Lexou",
+    "realm": "Raden",
+    "characterRealm": "Lexou-Raden",
+    "bis": 1,
+    "major": 0,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 1
+  },
+  {
+    "player": "Maverickdog",
+    "realm": "Raden",
+    "characterRealm": "Maverickdog-Raden",
+    "bis": 0,
+    "major": 0,
+    "minor": 1,
+    "offspec": 0,
+    "bonusRolls": 1,
+    "total": 1
+  },
+  {
+    "player": "Teehee",
+    "realm": "Raden",
+    "characterRealm": "Teehee-Raden",
+    "bis": 0,
+    "major": 0,
+    "minor": 1,
     "offspec": 0,
     "bonusRolls": 1,
     "total": 1
@@ -121,64 +198,20 @@
     "total": 1
   },
   {
-    "player": "Drchicken",
+    "player": "Volkswórgen",
     "realm": "Raden",
-    "characterRealm": "Drchicken-Raden",
-    "bis": 0,
-    "major": 0,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 0
-  },
-  {
-    "player": "Karkan",
-    "realm": "Raden",
-    "characterRealm": "Karkan-Raden",
-    "bis": 0,
+    "characterRealm": "Volkswórgen-Raden",
+    "bis": 1,
     "major": 0,
     "minor": 0,
     "offspec": 0,
     "bonusRolls": 2,
-    "total": 0
-  },
-  {
-    "player": "Kuradelh",
-    "realm": "Raden",
-    "characterRealm": "Kuradelh-Raden",
-    "bis": 0,
-    "major": 0,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 2,
-    "total": 0
+    "total": 1
   },
   {
     "player": "Shrynx",
     "realm": "Raden",
     "characterRealm": "Shrynx-Raden",
-    "bis": 0,
-    "major": 0,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 1,
-    "total": 0
-  },
-  {
-    "player": "Teehee",
-    "realm": "Raden",
-    "characterRealm": "Teehee-Raden",
-    "bis": 0,
-    "major": 0,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 1,
-    "total": 0
-  },
-  {
-    "player": "Volkswórgen",
-    "realm": "Raden",
-    "characterRealm": "Volkswórgen-Raden",
     "bis": 0,
     "major": 0,
     "minor": 0,
