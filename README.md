@@ -46,7 +46,7 @@ Connect Cloudflare Pages to the GitHub repository and use these build settings:
 - Build command: `npm run build`
 - Output directory: `dist`
 - Node version: current LTS
-- Environment variables: none required for the static pages. The optional Officer Tools sync buttons require the Cloudflare Pages Function variables documented below.
+- Environment variables: none required for the static pages. The optional Officer Sync buttons require the Cloudflare Pages Function variables documented below.
 
 The public pages use Astro static output and do not require Cloudflare Workers, D1, KV, R2, auth, or live browser-side Google Sheets access. The manual officer sync trigger is implemented as a Cloudflare Pages Function so GitHub credentials stay server-side.
 
@@ -406,7 +406,7 @@ Full sync lives at `.github/workflows/sync-all.yml`. It can be triggered manuall
 
 ## Officer sync buttons
 
-Officer Tools includes separate sync buttons that call the Cloudflare Pages Function at `/api/trigger-sync`. The Function verifies a password server-side and then triggers the correct GitHub Actions workflow dispatch on `feature/guild-site-mvp`.
+Officer Sync includes separate sync buttons that call the Cloudflare Pages Function at `/api/trigger-sync`. The Function verifies a password server-side and then triggers the correct GitHub Actions workflow dispatch on `feature/guild-site-mvp`.
 
 - **Sync Guild Data** posts `syncType: "sheets"` and triggers `.github/workflows/sync-data.yml`. It refreshes roster, calendar, bench, bench rules, and loot from Google Sheets only.
 - **Sync Warcraft Logs** posts `syncType: "wcl"` and triggers `.github/workflows/sync-wcl.yml`. It refreshes progression archive data only.

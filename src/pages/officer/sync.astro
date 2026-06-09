@@ -1,0 +1,141 @@
+---
+import OfficerGate from "../../components/OfficerGate.astro";
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Officer Sync | Vitality">
+  <OfficerGate>
+    <section data-officer-sync-root></section>
+  </OfficerGate>
+</Layout>
+
+<script>
+  const syncRoot = document.querySelector<HTMLElement>("[data-officer-sync-root]");
+  let syncRendered = false;
+
+  const parseJsonResponse = async <T,>(response: Response): Promise<T | undefined> => {
+    const responseText = await response.text();
+
+    if (!responseText) {
+      return undefined;
+    }
+
+    try {
+      return JSON.parse(responseText) as T;
+    } catch {
+      return undefined;
+    }
+  };
+
+  const renderOfficerSync = () => {
+    if (!syncRoot || syncRendered) {
+      return;
+    }
+
+    syncRendered = true;
+    syncRoot.innerHTML = `
+      <section class="page-header officer-client-heading">
+        <p class="eyebrow">Officer</p>
+        <h1>Sync</h1>
+        <p>Refresh guild data from Google Sheets and Warcraft Logs.</p>
+      </section>
+
+      <section class="officer-tools-panel-group">
+        <div class="officer-tools-grid">
+          <article class="panel officer-tool-card">
+            <div class="section-heading">
+              <p class="eyebrow">Sync Guild Data</p>
+            </div>
+
+            <div class="officer-tool-actions">
+              <div class="sync-trigger" data-sync-control>
+                <button class="sync-trigger-button" type="button" data-sync-trigger data-sync-type="sheets">Sync Guild Data</button>
+                <span class="sync-trigger-status" data-sync-trigger-status aria-live="polite"></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel officer-tool-card">
+            <div class="section-heading">
+              <p class="eyebrow">Warcraft Logs</p>
+            </div>
+
+            <div class="officer-tool-actions">
+              <div class="sync-trigger" data-sync-control>
+                <button class="sync-trigger-button" type="button" data-sync-trigger data-sync-type="wcl">Sync Warcraft Logs</button>
+                <span class="sync-trigger-status" data-sync-trigger-status aria-live="polite"></span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    `;
+
+    bindSyncControls();
+  };
+
+  const bindSyncControls = () => {
+    const syncControls = syncRoot?.querySelectorAll<HTMLElement>("[data-sync-control]") ?? [];
+
+    syncControls.forEach((syncControl) => {
+      const syncButton = syncControl.querySelector<HTMLButtonElement>("[data-sync-trigger]");
+      const syncStatus = syncControl.querySelector<HTMLElement>("[data-sync-trigger-status]");
+      const syncType = syncButton?.dataset.syncType ?? "sheets";
+      const defaultButtonText = syncButton?.textContent ?? "Sync";
+      let syncRequestInFlight = false;
+
+      syncButton?.addEventListener("click", async () => {
+        if (syncRequestInFlight) {
+          return;
+        }
+
+        syncRequestInFlight = true;
+        syncButton.disabled = true;
+        syncButton.textContent = "Syncing...";
+
+        if (syncStatus) {
+          syncStatus.textContent = "";
+          syncStatus.dataset.state = "";
+        }
+
+        try {
+          const response = await fetch("/api/trigger-sync", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ syncType }),
+          });
+          const result = await parseJsonResponse<{ ok?: boolean; message?: string }>(response);
+          const isSuccess = response.ok && result?.ok === true;
+          const message = isSuccess
+            ? (result?.message ?? "Sync workflow triggered.")
+            : (result?.message ?? "Unable to trigger sync workflow.");
+
+          if (syncStatus) {
+            syncStatus.textContent = message;
+            syncStatus.dataset.state = isSuccess ? "success" : "error";
+          }
+        } catch {
+          if (syncStatus) {
+            syncStatus.textContent = "Unable to trigger sync workflow.";
+            syncStatus.dataset.state = "error";
+          }
+        } finally {
+          syncRequestInFlight = false;
+          syncButton.disabled = false;
+          syncButton.textContent = defaultButtonText;
+        }
+      });
+    });
+  };
+
+  window.addEventListener("vitality:officer-unlocked", renderOfficerSync);
+  window.addEventListener("vitality:officer-locked", () => {
+    syncRendered = false;
+
+    if (syncRoot) {
+      syncRoot.innerHTML = "";
+    }
+  });
+</script>

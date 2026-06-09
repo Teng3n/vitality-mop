@@ -1,0 +1,130 @@
+---
+import OfficerGate from "../../components/OfficerGate.astro";
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Farm Bench Suggestions | Vitality">
+  <OfficerGate>
+    <section class="page-header officer-client-heading">
+      <p class="eyebrow">Officer</p>
+      <h1>Farm Bench Suggestions</h1>
+      <p>Generate the original weekly bench plan from roster, calendar statuses, and Bench Rules.</p>
+    </section>
+
+    <section
+      class="officer-tools-panel-group bench-suggestion-tool"
+      data-bench-suggestion-page
+      data-bench-suggestion-kind="farm"
+      data-bench-suggestion-endpoint="/api/bench-suggestions"
+    >
+      <div class="officer-tools-grid">
+        <article class="panel officer-tool-card">
+          <div class="section-heading">
+            <p class="eyebrow">Farm Bench Suggestions</p>
+          </div>
+
+          <div class="officer-tool-actions">
+            <button class="filter-button is-subtle" type="button" data-bench-suggestion-generate>
+              Generate Farm Suggestions
+            </button>
+          </div>
+        </article>
+      </div>
+
+      <section class="panel bench-suggestion-output-panel" data-bench-suggestion-output hidden>
+        <div class="section-heading inline bench-suggestion-heading">
+          <div>
+            <p class="eyebrow">Farm Suggested Bench Plan</p>
+          </div>
+          <button class="filter-button is-subtle" type="button" data-bench-suggestion-copy>Copy</button>
+        </div>
+
+        <div class="bench-suggestion-output">
+          <pre data-bench-suggestion-text></pre>
+        </div>
+        <p class="info-note bench-suggestion-status" data-bench-suggestion-status aria-live="polite"></p>
+      </section>
+    </section>
+  </OfficerGate>
+</Layout>
+
+<script>
+  const benchSuggestionPage = document.querySelector<HTMLElement>("[data-bench-suggestion-page]");
+  const benchSuggestionGenerate = benchSuggestionPage?.querySelector<HTMLButtonElement>("[data-bench-suggestion-generate]");
+  const benchSuggestionCopy = benchSuggestionPage?.querySelector<HTMLButtonElement>("[data-bench-suggestion-copy]");
+  const benchSuggestionOutput = benchSuggestionPage?.querySelector<HTMLElement>("[data-bench-suggestion-output]");
+  const benchSuggestionText = benchSuggestionPage?.querySelector<HTMLElement>("[data-bench-suggestion-text]");
+  const benchSuggestionStatus = benchSuggestionPage?.querySelector<HTMLElement>("[data-bench-suggestion-status]");
+  const benchSuggestionKind = benchSuggestionPage?.dataset.benchSuggestionKind ?? "farm";
+  const benchSuggestionEndpoint = benchSuggestionPage?.dataset.benchSuggestionEndpoint ?? "/api/bench-suggestions";
+
+  const parseJsonResponse = async <T,>(response: Response): Promise<T | undefined> => {
+    const responseText = await response.text();
+
+    if (!responseText) {
+      return undefined;
+    }
+
+    try {
+      return JSON.parse(responseText) as T;
+    } catch {
+      return undefined;
+    }
+  };
+
+  benchSuggestionGenerate?.addEventListener("click", async () => {
+    const defaultButtonText = benchSuggestionGenerate.textContent ?? "Generate Suggestions";
+
+    if (!benchSuggestionOutput || !benchSuggestionText) {
+      return;
+    }
+
+    benchSuggestionGenerate.disabled = true;
+    benchSuggestionGenerate.textContent = "Generating...";
+
+    if (benchSuggestionStatus) {
+      benchSuggestionStatus.textContent = "";
+    }
+
+    try {
+      const response = await fetch(benchSuggestionEndpoint);
+      const result = await parseJsonResponse<{ ok?: boolean; text?: string; sheetText?: string; message?: string }>(response);
+
+      if (!response.ok || result?.ok !== true || !result.text) {
+        throw new Error(result?.message ?? "Unable to generate bench suggestions.");
+      }
+
+      benchSuggestionText.textContent = result.text;
+      benchSuggestionText.dataset.copyText = result.sheetText ?? result.text;
+      benchSuggestionOutput.hidden = false;
+      benchSuggestionGenerate.textContent = "Regenerate Farm Suggestions";
+    } catch {
+      if (benchSuggestionStatus) {
+        benchSuggestionStatus.textContent = "Unable to generate bench suggestions.";
+      }
+      benchSuggestionGenerate.textContent = defaultButtonText;
+    } finally {
+      benchSuggestionGenerate.disabled = false;
+    }
+  });
+
+  benchSuggestionCopy?.addEventListener("click", async () => {
+    const suggestionText = (benchSuggestionText?.dataset.copyText || benchSuggestionText?.textContent || "").trim();
+
+    if (!suggestionText) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(suggestionText);
+
+      if (benchSuggestionStatus) {
+        benchSuggestionStatus.textContent = benchSuggestionKind === "boss" ? "Boss bench sheet copied." : "Bench suggestions copied.";
+      }
+    } catch {
+      if (benchSuggestionStatus) {
+        benchSuggestionStatus.textContent = "Unable to copy automatically.";
+      }
+    }
+  });
+</script>

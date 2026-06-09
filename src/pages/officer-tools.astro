@@ -3,22 +3,22 @@ import PageHeader from "../components/PageHeader.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Officer Tools Moved | Vitality">
+<Layout title="Officer Sync Moved | Vitality">
   <PageHeader
-    eyebrow="Officer Tools"
-    title="Officer Tools"
+    eyebrow="Officer"
+    title="Officer Sync"
   />
 
   <section class="panel officer-transition-panel">
     <div class="section-heading">
       <p class="eyebrow">Moved</p>
       <h2>Officer tools moved</h2>
-      <p class="info-note">The officer tools now live in the dedicated Officer section.</p>
+      <p class="info-note">The sync tools now live in the dedicated Officer section.</p>
     </div>
-    <a class="filter-button is-subtle officer-transition-link" href="/officer/tools">Open Officer Tools</a>
+    <a class="filter-button is-subtle officer-transition-link" href="/officer/sync">Open Officer Sync</a>
   </section>
 </Layout>
 
 <script is:inline>
-  window.location.replace("/officer/tools");
+  window.location.replace("/officer/sync");
 </script>
