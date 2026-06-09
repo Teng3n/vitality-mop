@@ -1,5 +1,5 @@
 {
-  "lastWclSync": "2026-06-09T17:19:39.890Z",
+  "lastWclSync": "2026-06-09T18:11:25.383Z",
   "source": "Warcraft Logs API v2",
   "endpoint": "https://classic.warcraftlogs.com/api/v2/client",
   "guild": "Vitality",
@@ -78,5 +78,6 @@
   ],
   "reportsSynced": 1029,
   "fightsSynced": 41441,
+  "bossAttendanceEventsSynced": 24539,
   "guildProgressRecordsSynced": 10
 }
