@@ -4856,6 +4856,42 @@
           }
         },
         {
+          "name": "Sha of Pride",
+          "encounterId": 51604,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2026-06-09T04:57:50.801Z",
+              "latestKillDate": "2026-06-09T04:57:50.801Z",
+              "bestPercent": 0,
+              "reportCode": "BtJbpyWzZKv4wXQ9",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/BtJbpyWzZKv4wXQ9#fight=22",
+              "pulls": 19,
+              "kills": 1
+            }
+          }
+        },
+        {
+          "name": "Galakras",
+          "encounterId": 51622,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2026-06-09T06:01:56.842Z",
+              "latestKillDate": "2026-06-09T06:01:56.842Z",
+              "bestPercent": 0,
+              "reportCode": "jWDnwCPFVxZ9qh4N",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/jWDnwCPFVxZ9qh4N#fight=10",
+              "pulls": 6,
+              "kills": 1
+            }
+          }
+        },
+        {
           "name": "Norushen",
           "encounterId": 51624,
           "difficulties": {
@@ -4876,9 +4912,9 @@
       ],
       "summary": {
         "normalKilled": 0,
-        "normalTotal": 2,
-        "heroicKilled": 2,
-        "heroicTotal": 2
+        "normalTotal": 4,
+        "heroicKilled": 4,
+        "heroicTotal": 4
       }
     }
   ]
