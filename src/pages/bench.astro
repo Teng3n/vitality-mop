@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import OfficerGate from "../components/OfficerGate.astro";
 import PageHeader from "../components/PageHeader.astro";
 import StatCard from "../components/StatCard.astro";
 import { getTodayIso, parseIsoDate, raidNights, type RaidNight, type StatusPlayer } from "../lib/guildData";
@@ -83,75 +84,77 @@ const openWeekCount = benchWeeks.filter((week) => week.uniqueBenchPlayers.length
 ---
 
 <Layout title="Bench | Vitality">
-  <PageHeader
-    eyebrow="Next 8 Weeks Bench Schedule"
-    title="Next 8 Weeks Bench Schedule"
-  />
-
-  <section class="dashboard-grid compact">
-    <StatCard label="Date Range" value={windowDateRange} detail="next 8 weeks" />
-    <StatCard
-      label="Next Bench"
-      value={nextBenchWeek?.label ?? "None"}
-      detail={nextBenchWeek ? formatPlayerDetail(nextBenchWeek.uniqueBenchPlayers.length) : "no bench scheduled"}
+  <OfficerGate>
+    <PageHeader
+      eyebrow="Next 8 Weeks Bench Schedule"
+      title="Next 8 Weeks Bench Schedule"
     />
-    <StatCard label="Open Weeks" value={openWeekCount} detail="no bench scheduled" />
-  </section>
 
-  <section class="panel bench-search-panel">
-    <label class="field bench-search-field">
-      <span>Find player</span>
-      <input type="search" placeholder="Find player..." data-bench-search />
-    </label>
+    <section class="dashboard-grid compact">
+      <StatCard label="Date Range" value={windowDateRange} detail="next 8 weeks" />
+      <StatCard
+        label="Next Bench"
+        value={nextBenchWeek?.label ?? "None"}
+        detail={nextBenchWeek ? formatPlayerDetail(nextBenchWeek.uniqueBenchPlayers.length) : "no bench scheduled"}
+      />
+      <StatCard label="Open Weeks" value={openWeekCount} detail="no bench scheduled" />
+    </section>
 
-    <p class="info-note bench-search-empty" data-bench-search-empty hidden>
-      No bench assignments found for this player in the next 8 weeks.
-    </p>
-  </section>
+    <section class="panel bench-search-panel">
+      <label class="field bench-search-field">
+        <span>Find player</span>
+        <input type="search" placeholder="Find player..." data-bench-search />
+      </label>
 
-  {
-    benchWeeks.length > 0 ? (
-      <section class="bench-week-stack" data-bench-week-stack>
-        {benchWeeks.map((week) => (
-          <article
-            class={`panel bench-week-card${week.uniqueBenchPlayers.length === 0 ? " is-empty" : ""}`}
-            data-bench-week
-            data-bench-search-names={week.searchNames}
-          >
-            <div class="section-heading inline">
-              <div>
-                <h2>{week.label}</h2>
+      <p class="info-note bench-search-empty" data-bench-search-empty hidden>
+        No bench assignments found for this player in the next 8 weeks.
+      </p>
+    </section>
+
+    {
+      benchWeeks.length > 0 ? (
+        <section class="bench-week-stack" data-bench-week-stack>
+          {benchWeeks.map((week) => (
+            <article
+              class={`panel bench-week-card${week.uniqueBenchPlayers.length === 0 ? " is-empty" : ""}`}
+              data-bench-week
+              data-bench-search-names={week.searchNames}
+            >
+              <div class="section-heading inline">
+                <div>
+                  <h2>{week.label}</h2>
+                </div>
+                <span class="status-pill">{week.uniqueBenchPlayers.length} benched</span>
               </div>
-              <span class="status-pill">{week.uniqueBenchPlayers.length} benched</span>
-            </div>
 
-            <section class="bench-week-section compact">
-              {week.uniqueBenchPlayers.length > 0 && <h3>Benched</h3>}
-              {week.uniqueBenchPlayers.length > 0 ? (
-                <ul class="inline-player-list bench-player-list">
-                  {week.uniqueBenchPlayers.map((player) => (
-                    <li data-bench-player-name={player.name}>
-                      <a class="player-name" href={player.href} style={getPlayerNameStyle(player.name)}>
-                        {player.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p class="info-note">No bench scheduled.</p>
-              )}
-            </section>
-          </article>
-        ))}
-      </section>
-    ) : (
-      <section class="panel bench-placeholder">
-        <p class="eyebrow">Bench Schedule</p>
-        <h2>No upcoming bench schedule</h2>
-        <p class="info-note">No future raid nights are currently listed in the calendar data.</p>
-      </section>
-    )
-  }
+              <section class="bench-week-section compact">
+                {week.uniqueBenchPlayers.length > 0 && <h3>Benched</h3>}
+                {week.uniqueBenchPlayers.length > 0 ? (
+                  <ul class="inline-player-list bench-player-list">
+                    {week.uniqueBenchPlayers.map((player) => (
+                      <li data-bench-player-name={player.name}>
+                        <a class="player-name" href={player.href} style={getPlayerNameStyle(player.name)}>
+                          {player.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p class="info-note">No bench scheduled.</p>
+                )}
+              </section>
+            </article>
+          ))}
+        </section>
+      ) : (
+        <section class="panel bench-placeholder">
+          <p class="eyebrow">Bench Schedule</p>
+          <h2>No upcoming bench schedule</h2>
+          <p class="info-note">No future raid nights are currently listed in the calendar data.</p>
+        </section>
+      )
+    }
+  </OfficerGate>
 </Layout>
 
 <script>

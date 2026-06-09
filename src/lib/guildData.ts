@@ -2,11 +2,16 @@ import bench from "../data/bench.json";
 import calendar from "../data/calendar.json";
 import lootSummary from "../data/lootSummary.json";
 import roster from "../data/roster.json";
+import {
+  currentAttendanceTierSlug,
+  getAttendanceTierForDate,
+  isAttendanceDateInTier,
+} from "./attendanceTiers";
 import { allLootHistoryRows } from "./lootTiers";
 import { cleanPlayerName, getPlayerProfileHref, getPlayerSlug, normalizePlayerName } from "./playerNames";
 import { getWarcraftLogsCharacterUrl, getWarcraftLogsSearchUrl } from "./warcraftLogs";
 
-export const RAID_NAME = "Throne of Thunder";
+export const RAID_NAME = "Siege of Orgrimmar";
 export const MAIN_SPEC_LOOT_TYPES = new Set(["best in slot", "major upgrade", "minor upgrade", "bonus loot"]);
 export const CALENDAR_STATUSES = ["Bench", "Out", "Late", "MIA", "Trial"] as const;
 
@@ -242,7 +247,7 @@ export const getRaidNight = (date: RaidDate): RaidNight => {
 
   return {
     ...date,
-    raidName: RAID_NAME,
+    raidName: getAttendanceTierForDate(date.isoDate).label,
     bench,
     out,
     late,
@@ -352,7 +357,7 @@ export const lootSummaries: LootSummary[] = lootSummaryRows
   })
   .sort((a, b) => a.player.localeCompare(b.player, undefined, { sensitivity: "base" }));
 
-const getBenchDatesFromSummary = (benchSummary?: BenchRow) => {
+const getBenchDatesFromSummary = (benchSummary?: BenchRow, tierSlug = currentAttendanceTierSlug) => {
   if (!benchSummary) {
     return [];
   }
@@ -367,10 +372,10 @@ const getBenchDatesFromSummary = (benchSummary?: BenchRow) => {
     dates.add(date);
   }
 
-  return [...dates];
+  return [...dates].filter((isoDate) => isAttendanceDateInTier(isoDate, tierSlug));
 };
 
-const getCalendarBenchDates = (playerName: string) => {
+const getCalendarBenchDates = (playerName: string, tierSlug = currentAttendanceTierSlug) => {
   const calendarPlayer = calendarByName.get(normalizePlayerName(playerName));
 
   if (!calendarPlayer) {
@@ -378,14 +383,14 @@ const getCalendarBenchDates = (playerName: string) => {
   }
 
   return raidDates
-    .filter((date) => calendarPlayer.schedule?.[date.label] === "Bench")
+    .filter((date) => isAttendanceDateInTier(date.isoDate, tierSlug) && calendarPlayer.schedule?.[date.label] === "Bench")
     .map((date) => date.isoDate);
 };
 
-export const getBenchSummary = (playerName: string, todayIso = getTodayIso()): BenchSummary => {
+export const getBenchSummary = (playerName: string, todayIso = getTodayIso(), tierSlug = currentAttendanceTierSlug): BenchSummary => {
   const player = cleanPlayerName(playerName);
   const benchRow = benchRows.find((row) => normalizePlayerName(row.player) === normalizePlayerName(player));
-  const allDates = [...new Set([...getCalendarBenchDates(player), ...getBenchDatesFromSummary(benchRow)])]
+  const allDates = [...new Set([...getCalendarBenchDates(player, tierSlug), ...getBenchDatesFromSummary(benchRow, tierSlug)])]
     .sort((a, b) => a.localeCompare(b))
     .map((isoDate) => ({ label: formatDateLabel(isoDate), isoDate }));
   const pastBenchDates = allDates.filter((date) => date.isoDate < todayIso).sort((a, b) => b.isoDate.localeCompare(a.isoDate));

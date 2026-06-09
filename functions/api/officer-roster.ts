@@ -1,4 +1,5 @@
 import { hasOfficerPasswordConfig, hasValidOfficerSession, jsonResponse, type OfficerAuthEnv } from "../_shared/officer-auth";
+import { isCurrentAttendanceDate } from "../../src/lib/attendanceTiers";
 import { activeRosterPlayers, raidNights } from "../../src/lib/guildData";
 import { classColors } from "../../src/lib/playerStyles";
 
@@ -49,7 +50,7 @@ export const onRequest = async ({ request, env }: PagesContext) => {
     }
   };
 
-  for (const night of raidNights) {
+  for (const night of raidNights.filter((raidNight) => isCurrentAttendanceDate(raidNight.isoDate))) {
     for (const player of night.bench) {
       incrementCount(player.slug, "bench");
     }

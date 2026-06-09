@@ -1,4 +1,5 @@
 import benchRulesJson from "../data/benchRules.json";
+import { isCurrentAttendanceDate } from "./attendanceTiers";
 import {
   activeRosterPlayers,
   benchSummaries,
@@ -171,7 +172,7 @@ const getFutureRaidWeeks = (todayIso = getTodayIso()) => {
 const getPlayerBenchWeekKeys = (playerSlug: string) =>
   new Set(
     raidNights
-      .filter((night) => night.bench.some((player) => player.slug === playerSlug))
+      .filter((night) => isCurrentAttendanceDate(night.isoDate) && night.bench.some((player) => player.slug === playerSlug))
       .map((night) => toIsoDate(getWeekStart(parseIsoDate(night.isoDate)))),
   );
 
@@ -236,6 +237,7 @@ const getWeekKeysBefore = (weekKey: string, count: number) => {
 const hasUnavailableInWeek = (playerSlug: string, weekKey: string) =>
   raidNights.some(
     (night) =>
+      isCurrentAttendanceDate(night.isoDate) &&
       toIsoDate(getWeekStart(parseIsoDate(night.isoDate))) === weekKey &&
       hasUnavailableStatus(night, playerSlug),
   );

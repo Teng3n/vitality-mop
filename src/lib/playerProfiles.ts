@@ -2,6 +2,11 @@ import bench from "../data/bench.json";
 import calendar from "../data/calendar.json";
 import lootSummary from "../data/lootSummary.json";
 import roster from "../data/roster.json";
+import {
+  currentAttendanceTierSlug,
+  getCurrentAttendanceTier,
+  isAttendanceDateInTier,
+} from "./attendanceTiers";
 import { raidNights, type RaidNight, type StatusPlayer } from "./guildData";
 import {
   allLootHistoryRows,
@@ -132,7 +137,7 @@ const todayIso = () => {
   return new Date(today.getFullYear(), today.getMonth(), today.getDate()).toISOString().slice(0, 10);
 };
 
-const getBenchSummaryDates = (benchSummary?: BenchRow) => {
+const getBenchSummaryDates = (benchSummary?: BenchRow, tierSlug = currentAttendanceTierSlug) => {
   if (!benchSummary) {
     return [];
   }
@@ -147,7 +152,9 @@ const getBenchSummaryDates = (benchSummary?: BenchRow) => {
     dates.add(date);
   }
 
-  return [...dates].map((isoDate) => ({ label: getDateLabel(isoDate), isoDate }));
+  return [...dates]
+    .filter((isoDate) => isAttendanceDateInTier(isoDate, tierSlug))
+    .map((isoDate) => ({ label: getDateLabel(isoDate), isoDate }));
 };
 
 const statusKeys = {
@@ -162,6 +169,7 @@ type ProfileStatus = keyof typeof statusKeys;
 const getStatusDatesForPlayer = (slug: string, normalizedName: string, status: ProfileStatus) =>
   raidNights
     .filter((night: RaidNight) =>
+      isAttendanceDateInTier(night.isoDate) &&
       night[statusKeys[status]].some(
         (player: StatusPlayer) => player.slug === slug || normalizePlayerName(player.name) === normalizedName,
       ),
@@ -201,8 +209,9 @@ export const getPlayerProfile = (name: string): PlayerProfile => {
   const outDates = getStatusDatesForPlayer(playerSlug, normalizedDisplayName, "Out");
   const lateDates = getStatusDatesForPlayer(playerSlug, normalizedDisplayName, "Late");
   const miaDates = getStatusDatesForPlayer(playerSlug, normalizedDisplayName, "MIA");
+  const currentAttendanceTier = getCurrentAttendanceTier();
   const attendance = {
-    raidNights: calendarData.raidDates.length,
+    raidNights: calendarData.raidDates.filter((date) => isAttendanceDateInTier(date.isoDate, currentAttendanceTier.slug)).length,
     bench: benchHistory.length,
     out: outDates.length,
     late: lateDates.length,
@@ -231,7 +240,7 @@ export const getPlayerProfile = (name: string): PlayerProfile => {
     (a, b) => parseIsoDate(b.isoDate).getTime() - parseIsoDate(a.isoDate).getTime(),
   );
   const benchDateByIso = new Map(
-    [...sortedBenchHistory, ...getBenchSummaryDates(benchSummary)].map((date) => [
+    [...sortedBenchHistory, ...getBenchSummaryDates(benchSummary, currentAttendanceTier.slug)].map((date) => [
       date.isoDate,
       { label: getDateLabel(date.isoDate), isoDate: date.isoDate },
     ]),

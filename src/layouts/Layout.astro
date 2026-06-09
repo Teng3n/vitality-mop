@@ -1,7 +1,6 @@
 ---
 import fs from "node:fs";
 import path from "node:path";
-import { getArchivedLootTiers, getLootSummaryHref } from "../lib/lootTiers";
 import "../styles/global.css";
 
 interface Props {
@@ -12,7 +11,6 @@ type SyncMeta = {
 };
 
 const { title = "Vitality" } = Astro.props;
-const archivedLootTiers = getArchivedLootTiers();
 type NavChild = {
   href: string;
   label: string;
@@ -35,7 +33,6 @@ const navItems: NavItem[] = [
       { href: "/raid-guides/siege-of-orgrimmar", label: "Siege of Orgrimmar" },
     ],
   },
-  { href: "/bench", label: "Bench" },
   { href: "/roster", label: "Roster" },
   { href: "/calendar", label: "Calendar" },
   {
@@ -45,7 +42,6 @@ const navItems: NavItem[] = [
     children: [
       { href: "/loot", label: "Summary" },
       { href: "/loot/history", label: "History" },
-      ...archivedLootTiers.map((tier) => ({ href: getLootSummaryHref(tier), label: tier.label })),
     ],
   },
   {
