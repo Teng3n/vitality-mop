@@ -25,14 +25,6 @@ const navItems: NavItem[] = [
   { href: "/", label: "Home" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/progression", label: "Progression" },
-  {
-    href: "/raid-guides/siege-of-orgrimmar",
-    label: "Raid Guides",
-    matchPrefix: "/raid-guides",
-    children: [
-      { href: "/raid-guides/siege-of-orgrimmar", label: "Siege of Orgrimmar" },
-    ],
-  },
   { href: "/roster", label: "Roster" },
   { href: "/calendar", label: "Calendar" },
   {
@@ -40,6 +32,8 @@ const navItems: NavItem[] = [
     label: "Loot",
     matchPrefix: "/loot",
     children: [
+      { href: "/loot/bis-lists", label: "BiS Lists" },
+      { href: "/loot/gear-needs", label: "Gear Needs" },
       { href: "/loot", label: "Summary" },
       { href: "/loot/history", label: "History" },
     ],
@@ -51,10 +45,8 @@ const navItems: NavItem[] = [
     children: [
       { href: "/officer/sync", label: "Sync" },
       { href: "/officer/roster", label: "Roster" },
-      { href: "/officer/bis-lists", label: "BiS Lists" },
-      { href: "/officer/gear-needs", label: "Gear Needs" },
-      { href: "/officer/boss-bench-suggestions", label: "Boss Bench Suggestions" },
-      { href: "/officer/farm-bench-suggestions", label: "Farm Bench Suggestions" },
+      { href: "/officer/boss-bench-suggestions", label: "Prog Bench" },
+      { href: "/officer/farm-bench-suggestions", label: "Farm Bench" },
     ],
   },
 ];

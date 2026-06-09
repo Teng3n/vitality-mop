@@ -1,202 +1,25 @@
 ---
-import OfficerGate from "../../components/OfficerGate.astro";
+import PageHeader from "../../components/PageHeader.astro";
 import Layout from "../../layouts/Layout.astro";
-import { BIS_SLOT_ORDER, SIEGE_OF_ORGRIMMAR_BIS_LISTS } from "../../data/siegeOfOrgrimmarBis";
-import { classColors } from "../../lib/playerStyles";
-
-const classes = [...new Set(SIEGE_OF_ORGRIMMAR_BIS_LISTS.map((list) => list.className))];
-const listsByClass = classes.map((className) => ({
-  className,
-  specs: SIEGE_OF_ORGRIMMAR_BIS_LISTS.filter((list) => list.className === className),
-}));
-
-const getClassTabId = (className: string) => `bis-class-${className.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
-const getSpecTabId = (className: string, spec: string) =>
-  `bis-spec-${className.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${spec.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
-const getSlotArea = (slot: string) => slot.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-const WEAPON_SLOTS = ["Main Hand", "Off Hand", "Two-Hand", "Ranged"] as const;
-const PAPER_DOLL_SLOTS = BIS_SLOT_ORDER.filter((slot) => !WEAPON_SLOTS.includes(slot as (typeof WEAPON_SLOTS)[number]));
 ---
 
-<Layout title="BiS Lists | Vitality">
-  <OfficerGate>
-    <section class="page-header officer-client-heading">
-      <p class="eyebrow">Officer</p>
-      <h1>BiS Lists</h1>
-      <p>Siege of Orgrimmar BiS targets used by the boss gear needs tool.</p>
-    </section>
+<Layout title="BiS Lists Moved | Vitality">
+  <PageHeader
+    eyebrow="Loot"
+    title="BiS Lists"
+    description="BiS lists moved to the Loot section."
+  />
 
-    <section class="panel bis-list-panel" data-bis-root>
-      <div class="bis-class-tabs" role="tablist" aria-label="Class BiS lists">
-        {
-          listsByClass.map((classGroup, index) => (
-            <button
-              class="bis-tab"
-              type="button"
-              role="tab"
-              aria-selected={index === 0 ? "true" : "false"}
-              aria-controls={getClassTabId(classGroup.className)}
-              data-bis-class-tab={getClassTabId(classGroup.className)}
-              style={`--class-color: ${classColors[classGroup.className] ?? "var(--muted)"}`}
-            >
-              {classGroup.className}
-            </button>
-          ))
-        }
-      </div>
-
-      <div class="bis-class-panels">
-        {
-          listsByClass.map((classGroup, classIndex) => (
-            <section
-              class="bis-class-panel"
-              id={getClassTabId(classGroup.className)}
-              role="tabpanel"
-              hidden={classIndex !== 0}
-            >
-              <div class="section-heading inline">
-                <div>
-                  <p class="eyebrow">{classGroup.className}</p>
-                  <h2>{classGroup.className} BiS</h2>
-                </div>
-              </div>
-
-              <div class="bis-spec-tabs" role="tablist" aria-label={`${classGroup.className} specs`}>
-                {
-                  classGroup.specs.map((specList, specIndex) => (
-                    <button
-                      class="bis-tab is-spec"
-                      type="button"
-                      role="tab"
-                      aria-selected={specIndex === 0 ? "true" : "false"}
-                      aria-controls={getSpecTabId(classGroup.className, specList.spec)}
-                      data-bis-spec-tab={getSpecTabId(classGroup.className, specList.spec)}
-                      style={`--class-color: ${classColors[classGroup.className] ?? "var(--muted)"}`}
-                    >
-                      {specList.spec}
-                    </button>
-                  ))
-                }
-              </div>
-
-              <div class="bis-spec-panels">
-                {
-                  classGroup.specs.map((specList, specIndex) => (
-                    <section
-                      class="bis-spec-panel"
-                      id={getSpecTabId(classGroup.className, specList.spec)}
-                      role="tabpanel"
-                      hidden={specIndex !== 0}
-                    >
-                      <div class="bis-spec-heading">
-                        <div>
-                          <h3>{specList.spec}</h3>
-                          <p class="info-note">{specList.role}</p>
-                        </div>
-                        <span>{specList.items.length} mapped items</span>
-                      </div>
-
-                      <div class="bis-paper-doll-grid">
-                        <div class="bis-paper-doll-center" aria-hidden="true">
-                          <span>{specList.spec}</span>
-                          <strong>{specList.className}</strong>
-                        </div>
-                        {
-                          PAPER_DOLL_SLOTS.map((slot) => {
-                            const items = specList.items.filter((bisItem) => bisItem.slot === slot);
-                            return (
-                              <article
-                                class="bis-slot-card"
-                                data-empty={items.length === 0 ? "true" : undefined}
-                                style={`--bis-slot-area: ${getSlotArea(slot)}`}
-                              >
-                                <h4>{slot}</h4>
-                                {items.length > 0 ? (
-                                  <ul>
-                                    {items.map((bisItem) => (
-                                      <li>
-                                        <strong>{bisItem.item}</strong>
-                                        <span>{bisItem.boss}</span>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                ) : (
-                                  <p>Not mapped</p>
-                                )}
-                              </article>
-                            );
-                          })
-                        }
-                        {
-                          (() => {
-                            const visibleWeaponSlots = WEAPON_SLOTS.map((slot) => ({
-                              slot,
-                              items: specList.items.filter((bisItem) => bisItem.slot === slot),
-                            })).filter((slotGroup) => slotGroup.items.length > 0);
-
-                            if (visibleWeaponSlots.length === 0) {
-                              return null;
-                            }
-
-                            return (
-                              <div class="bis-weapon-strip" data-weapon-count={visibleWeaponSlots.length}>
-                                {visibleWeaponSlots.map(({ slot, items }) => (
-                                  <article class="bis-slot-card">
-                                    <h4>{slot}</h4>
-                                    <ul>
-                                      {items.map((bisItem) => (
-                                        <li>
-                                          <strong>{bisItem.item}</strong>
-                                          <span>{bisItem.boss}</span>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  </article>
-                                ))}
-                              </div>
-                            );
-                          })()
-                        }
-                      </div>
-                    </section>
-                  ))
-                }
-              </div>
-            </section>
-          ))
-        }
-      </div>
-    </section>
-  </OfficerGate>
+  <section class="panel officer-transition-panel">
+    <div class="section-heading">
+      <p class="eyebrow">Moved</p>
+      <h2>BiS lists moved</h2>
+      <p class="info-note">The BiS lists are now available to the full guild under Loot.</p>
+    </div>
+    <a class="filter-button is-subtle officer-transition-link" href="/loot/bis-lists">Open BiS Lists</a>
+  </section>
 </Layout>
 
-<script>
-  const bindTabbedGroup = (root: ParentNode, tabSelector: string, panelSelector: string, dataKey: string) => {
-    const tabs = [...root.querySelectorAll<HTMLButtonElement>(tabSelector)];
-    const panels = [...root.querySelectorAll<HTMLElement>(panelSelector)];
-
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", () => {
-        const selectedId = tab.dataset[dataKey] ?? "";
-
-        tabs.forEach((candidate) => {
-          candidate.setAttribute("aria-selected", String(candidate === tab));
-        });
-
-        panels.forEach((panel) => {
-          panel.hidden = panel.id !== selectedId;
-        });
-      });
-    });
-  };
-
-  const bisRoot = document.querySelector<HTMLElement>("[data-bis-root]");
-
-  if (bisRoot) {
-    bindTabbedGroup(bisRoot, "[data-bis-class-tab]", ".bis-class-panel", "bisClassTab");
-
-    bisRoot.querySelectorAll<HTMLElement>(".bis-class-panel").forEach((classPanel) => {
-      bindTabbedGroup(classPanel, "[data-bis-spec-tab]", ".bis-spec-panel", "bisSpecTab");
-    });
-  }
+<script is:inline>
+  window.location.replace("/loot/bis-lists");
 </script>

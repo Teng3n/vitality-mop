@@ -91,13 +91,6 @@ const raidPayload = calendar.raidDates.map((date) => ({
           <span>players</span>
         </div>
       </article>
-      <article class="next-raid-list" data-copy-card="bench">
-        <div>
-          <span>Bench this week</span>
-          <strong data-week-bench-count>0</strong>
-        </div>
-        <ul data-week-bench></ul>
-      </article>
       <article class="next-raid-list" data-copy-card="out">
         <div>
           <span>Out this week</span>
@@ -419,34 +412,29 @@ const raidPayload = calendar.raidDates.map((date) => ({
   const getReadiness = ({
     activeRoster,
     rules,
-    benchPlayers,
     outPlayers,
     latePlayers,
     miaPlayers,
   }: {
     activeRoster: DashboardPlayer[];
     rules: BenchRules;
-    benchPlayers: DashboardPlayer[];
     outPlayers: DashboardPlayer[];
     latePlayers: DashboardPlayer[];
     miaPlayers: DashboardPlayer[];
   }) => {
     const activeSlugs = new Set(activeRoster.map((player) => player.slug));
     const activeOnly = (players: DashboardPlayer[]) => players.filter((player) => activeSlugs.has(player.slug));
-    const bench = activeOnly(benchPlayers);
     const out = activeOnly(outPlayers);
     const late = activeOnly(latePlayers);
     const mia = activeOnly(miaPlayers);
     const unavailablePlayers = uniquePlayers([...out, ...late, ...mia]);
     const unavailableSlugs = new Set(unavailablePlayers.map((player) => player.slug));
-    const benchSlugs = new Set(bench.map((player) => player.slug));
-    const unavailableOrBenchSlugs = new Set([...unavailableSlugs, ...benchSlugs]);
     const availableCount = activeRoster.length - unavailableSlugs.size;
-    const raidReadyPlayers = activeRoster.filter((player) => !unavailableOrBenchSlugs.has(player.slug));
+    const raidReadyPlayers = activeRoster.filter((player) => !unavailableSlugs.has(player.slug));
     const raidReadyCount = raidReadyPlayers.length;
     const checks: ReadinessItem[] = [];
     const warnings: ReadinessItem[] = [];
-    const counts = getAvailableCounts(activeRoster, unavailableSlugs, benchSlugs);
+    const counts = getAvailableCounts(activeRoster, unavailableSlugs, new Set());
     const buffCoverage = getRaidBuffCoverage(raidReadyPlayers);
 
     if (raidReadyCount < 25) {
@@ -466,7 +454,6 @@ const raidPayload = calendar.raidDates.map((date) => ({
       }
     };
 
-    addPlayerStatus("Bench", bench);
     addPlayerStatus("Out", out);
     addPlayerStatus("Late", late);
     addPlayerStatus("MIA", mia);
@@ -486,21 +473,6 @@ const raidPayload = calendar.raidDates.map((date) => ({
       warnings.push(makeItem(`${label}: ${buffCoverage.missing.join(", ")}`, buffCoverage.detail, "Raid Buffs"));
     } else {
       checks.push(makeItem("Raid Buffs: All covered", buffCoverage.detail));
-    }
-
-    for (const playerSlug of rules.neverBenchPlayers ?? []) {
-      if (benchSlugs.has(playerSlug)) {
-        const playerName = activeRoster.find((player) => player.slug === playerSlug)?.name ?? playerSlug;
-        warnings.push(makeItem(`Never-bench violation: ${playerName}`, undefined, "Bench Rules"));
-      }
-    }
-
-    for (const [firstPlayer, secondPlayer] of rules.avoidBenchingTogether ?? []) {
-      if (benchSlugs.has(firstPlayer) && benchSlugs.has(secondPlayer)) {
-        const firstName = activeRoster.find((player) => player.slug === firstPlayer)?.name ?? firstPlayer;
-        const secondName = activeRoster.find((player) => player.slug === secondPlayer)?.name ?? secondPlayer;
-        warnings.push(makeItem(`Avoid-together violation: ${firstName} + ${secondName}`, undefined, "Bench Rules"));
-      }
     }
 
     for (const [role, minimum] of Object.entries(rules.minimumAvailableByRole ?? {})) {
@@ -548,16 +520,13 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const rulesNode = card.querySelector<HTMLScriptElement>("[data-bench-rules-data]");
     const dateNode = card.querySelector<HTMLElement>("[data-next-raid-date]");
     const availableCard = card.querySelector<HTMLElement>("[data-available-card]");
-    const benchCard = card.querySelector<HTMLElement>('[data-copy-card="bench"]');
     const outCard = card.querySelector<HTMLElement>('[data-copy-card="out"]');
     const lateCard = card.querySelector<HTMLElement>('[data-copy-card="late"]');
     const readinessCard = card.querySelector<HTMLElement>('[data-copy-card="readiness"]');
     const copyLiveRegion = card.querySelector<HTMLElement>("[data-copy-live]");
     const raidersCount = card.querySelector<HTMLElement>("[data-week-raiders-count]");
-    const benchNode = card.querySelector<HTMLElement>("[data-week-bench]");
     const outNode = card.querySelector<HTMLElement>("[data-week-out]");
     const lateNode = card.querySelector<HTMLElement>("[data-week-late]");
-    const benchCount = card.querySelector<HTMLElement>("[data-week-bench-count]");
     const outCount = card.querySelector<HTMLElement>("[data-week-out-count]");
     const lateCount = card.querySelector<HTMLElement>("[data-week-late-count]");
     const readinessPanel = card.querySelector<HTMLElement>("[data-readiness-panel]");
@@ -592,14 +561,12 @@ const raidPayload = calendar.raidDates.map((date) => ({
         ? currentWeekStart
         : getWeekStart(nextRaid.date);
     const weekRaids = datedRaids.filter((raid) => getWeekStart(raid.date).getTime() === targetWeekStart.getTime()).slice(0, 2);
-    const weekBench = uniquePlayers(weekRaids.flatMap((raid) => raid.bench));
     const weekOut = uniquePlayers(weekRaids.flatMap((raid) => raid.out));
     const weekLate = uniquePlayers(weekRaids.flatMap((raid) => raid.late));
     const weekMia = uniquePlayers(weekRaids.flatMap((raid) => raid.mia));
     const readiness = getReadiness({
       activeRoster,
       rules,
-      benchPlayers: weekBench,
       outPlayers: weekOut,
       latePlayers: weekLate,
       miaPlayers: weekMia,
@@ -609,18 +576,11 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const month = new Intl.DateTimeFormat(undefined, { month: "short" }).format(raidDate);
     const raidDateLabel = `${weekday}, ${month} ${ordinal(raidDate.getDate())}`;
     const unavailableSlugs = new Set(uniquePlayers([...weekOut, ...weekLate, ...weekMia]).map((player) => player.slug));
-    const benchSlugs = new Set(weekBench.map((player) => player.slug));
     const availablePlayers = uniquePlayers(activeRoster.filter((player) => !unavailableSlugs.has(player.slug)));
-    const raidReadyPlayers = uniquePlayers(
-      activeRoster.filter((player) => !unavailableSlugs.has(player.slug) && !benchSlugs.has(player.slug)),
-    );
+    const raidReadyPlayers = availablePlayers;
 
     if (dateNode) {
       dateNode.textContent = raidDateLabel;
-    }
-
-    if (benchNode) {
-      benchNode.innerHTML = playerListHtml(weekBench);
     }
 
     if (outNode) {
@@ -629,10 +589,6 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
     if (lateNode) {
       lateNode.innerHTML = playerListHtml(weekLate);
-    }
-
-    if (benchCount) {
-      benchCount.textContent = String(weekBench.length);
     }
 
     if (outCount) {
@@ -687,14 +643,6 @@ const raidPayload = calendar.raidDates.map((date) => ({
       getText: () => playersToPlainText(availablePlayers),
       successMessage: "Copied available names",
       ariaLabel: "Copy available player names",
-      liveRegion: copyLiveRegion,
-    });
-
-    setupCopyCard({
-      element: benchCard,
-      getText: () => playersToPlainText(weekBench),
-      successMessage: "Copied bench names",
-      ariaLabel: "Copy bench player names",
       liveRegion: copyLiveRegion,
     });
 

@@ -1,181 +1,25 @@
 ---
-import OfficerGate from "../../components/OfficerGate.astro";
+import PageHeader from "../../components/PageHeader.astro";
 import Layout from "../../layouts/Layout.astro";
-import { getGearNeedsReport, getGearNeedsText } from "../../lib/gearNeeds";
-import { classColors } from "../../lib/playerStyles";
-
-const report = getGearNeedsReport();
-const copyText = getGearNeedsText(report);
-const getGearNeedsBossTabId = (bossName: string) =>
-  `gear-needs-boss-${bossName.toLocaleLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}`;
-const getPlayerClassColorStyle = (className: string) => {
-  const color = classColors[className];
-  return color ? `--player-color: ${color}` : undefined;
-};
 ---
 
-<Layout title="Gear Needs | Vitality">
-  <OfficerGate>
-    <section class="page-header officer-client-heading">
-      <p class="eyebrow">Officer</p>
-      <h1>Gear Needs</h1>
-      <p>Boss-by-boss SoO needs from the officer BiS lists and guild loot history.</p>
-    </section>
+<Layout title="Gear Needs Moved | Vitality">
+  <PageHeader
+    eyebrow="Loot"
+    title="Gear Needs"
+    description="Gear needs moved to the Loot section."
+  />
 
-    <section class="panel gear-needs-output-panel" data-gear-needs-page>
-      <div class="section-heading inline gear-needs-heading">
-        <div>
-          <p class="eyebrow">Boss Gear Needs</p>
-        </div>
-        <button class="filter-button is-subtle" type="button" data-gear-needs-copy>Copy</button>
-      </div>
-
-      <div class="gear-needs-tabs" role="tablist" aria-label="Boss gear needs">
-        {
-          report.bosses.map((boss, index) => {
-            const tabId = getGearNeedsBossTabId(boss.bossName);
-
-            return (
-              <button
-                class="gear-needs-tab"
-                type="button"
-                role="tab"
-                aria-selected={index === 0 ? "true" : "false"}
-                aria-controls={tabId}
-                data-gear-needs-tab={tabId}
-              >
-                <span>{boss.bossName}</span>
-                <span>{boss.stillNeedsCount} open</span>
-              </button>
-            );
-          })
-        }
-      </div>
-
-      <div class="gear-needs-boss-list">
-        {
-          report.bosses.map((boss, index) => {
-            const tabId = getGearNeedsBossTabId(boss.bossName);
-
-            return (
-              <article class="gear-needs-boss" id={tabId} role="tabpanel" hidden={index !== 0}>
-                <div class="gear-needs-boss-heading">
-                  <div>
-                    <p class="eyebrow">Boss {boss.order}</p>
-                    <h3>{boss.bossName}</h3>
-                  </div>
-                  <div class="gear-needs-boss-metrics">
-                    <span>{boss.players.length} raiders</span>
-                    <span>{boss.stillNeedsCount} open items</span>
-                    <span>{boss.safeCount} clear/done</span>
-                  </div>
-                </div>
-
-                <div class="gear-needs-raider-grid">
-                  {
-                    boss.players.map((player) => (
-                      <article
-                        class="gear-needs-raider-card"
-                        data-gear-status={player.status}
-                        style={getPlayerClassColorStyle(player.className)}
-                      >
-                        <div class="gear-needs-player-heading">
-                          <div>
-                            <a
-                              class="player-name"
-                              href={player.warcraftLogsUrl}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              {player.name}
-                            </a>
-                            <span>{player.spec} {player.className}</span>
-                          </div>
-                        </div>
-
-                        {
-                          player.needs.length > 0 && (
-                            <ul class="gear-needs-item-list">
-                              {player.needs.map((need) => (
-                                <li>
-                                  <span class="gear-need-item">{need.item}</span>
-                                  <span class="gear-need-meta">{need.slot}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          )
-                        }
-
-                        {
-                          player.acquired.length > 0 && (
-                            <ul class="gear-needs-acquired-list">
-                              {player.acquired.map((award) => (
-                                <li>
-                                  <span>{award.item}</span>
-                                  <span>{award.responseType} on {award.date}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          )
-                        }
-                      </article>
-                    ))
-                  }
-                </div>
-              </article>
-            );
-          })
-        }
-      </div>
-
-      <div class="gear-needs-notes">
-        {report.notes.map((note) => <p class="info-note">{note}</p>)}
-      </div>
-      <pre class="gear-needs-copy-source" data-gear-needs-text hidden>{copyText}</pre>
-      <p class="info-note gear-needs-status" data-gear-needs-status aria-live="polite"></p>
-    </section>
-  </OfficerGate>
+  <section class="panel officer-transition-panel">
+    <div class="section-heading">
+      <p class="eyebrow">Moved</p>
+      <h2>Gear needs moved</h2>
+      <p class="info-note">Boss gear needs are now available to the full guild under Loot.</p>
+    </div>
+    <a class="filter-button is-subtle officer-transition-link" href="/loot/gear-needs">Open Gear Needs</a>
+  </section>
 </Layout>
 
-<script>
-  const gearNeedsPage = document.querySelector<HTMLElement>("[data-gear-needs-page]");
-  const gearNeedsCopy = gearNeedsPage?.querySelector<HTMLButtonElement>("[data-gear-needs-copy]");
-  const gearNeedsText = gearNeedsPage?.querySelector<HTMLElement>("[data-gear-needs-text]");
-  const gearNeedsStatus = gearNeedsPage?.querySelector<HTMLElement>("[data-gear-needs-status]");
-  const gearNeedsTabs = [...(gearNeedsPage?.querySelectorAll<HTMLButtonElement>("[data-gear-needs-tab]") ?? [])];
-  const gearNeedsPanels = [...(gearNeedsPage?.querySelectorAll<HTMLElement>(".gear-needs-boss[role='tabpanel']") ?? [])];
-
-  gearNeedsTabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const selectedPanelId = tab.dataset.gearNeedsTab ?? "";
-
-      gearNeedsTabs.forEach((candidate) => {
-        candidate.setAttribute("aria-selected", String(candidate === tab));
-      });
-
-      gearNeedsPanels.forEach((panel) => {
-        panel.hidden = panel.id !== selectedPanelId;
-      });
-    });
-  });
-
-  gearNeedsCopy?.addEventListener("click", async () => {
-    const text = gearNeedsText?.textContent?.trim() ?? "";
-
-    if (!text) {
-      return;
-    }
-
-    try {
-      await navigator.clipboard.writeText(text);
-
-      if (gearNeedsStatus) {
-        gearNeedsStatus.textContent = "Gear needs copied.";
-      }
-    } catch {
-      if (gearNeedsStatus) {
-        gearNeedsStatus.textContent = "Unable to copy automatically.";
-      }
-    }
-  });
+<script is:inline>
+  window.location.replace("/loot/gear-needs");
 </script>
