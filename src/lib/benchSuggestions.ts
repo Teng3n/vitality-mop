@@ -1,6 +1,11 @@
 import benchRulesJson from "../data/benchRules.json";
 import { isCurrentAttendanceDate } from "./attendanceTiers";
-import { getBossAttendanceStatusText, getPlayerBossAttendanceSummary, hasBossAttendanceData } from "./bossAttendance";
+import {
+  getBossAttendanceStatusText,
+  getPlayerBossAttendanceSummary,
+  hasBossAttendanceData,
+  hasCurrentBossAttendanceData,
+} from "./bossAttendance";
 import {
   activeRosterPlayers,
   benchSummaries,
@@ -21,8 +26,9 @@ const RECENT_UNAVAILABLE_WEEK_LOOKBACK = 2;
 const MIN_RECENT_UNAVAILABLE_PENALTY = -20;
 const MIN_ADJACENT_UNAVAILABLE_PENALTY = -30;
 const BOSS_ATTENDANCE_PRESENT_BONUS = 45;
-const BOSS_ATTENDANCE_MISSING_PENALTY = -260;
+const BOSS_ATTENDANCE_MISSING_PENALTY = -430;
 const MAX_BOSS_ATTENDANCE_BONUS = 135;
+const PROGRESSION_CORE_UNPROGRESSED_BOSS_PENALTY = -650;
 const BOSS_BENCH_REPEAT_PENALTY = 180;
 const BOSS_BENCH_FLOW_CONTINUE_BONUS = 130;
 const BOSS_BENCH_LONG_BLOCK_PENALTY = -260;
@@ -30,6 +36,7 @@ const BOSS_BENCH_MAX_SMOOTH_BLOCK_SIZE = 3;
 
 interface BenchRules {
   neverBenchPlayers: string[];
+  progressionCorePlayers?: string[];
   avoidBenchingTogether: [string, string][];
   minimumAvailableByRole: Record<string, number>;
   minimumAvailableByClass: Record<string, number>;
@@ -98,6 +105,7 @@ export interface BossBenchSuggestion {
 }
 
 const benchRules = benchRulesJson as unknown as BenchRules;
+const progressionCorePlayerSlugs = new Set(benchRules.progressionCorePlayers ?? []);
 const MINIMUM_HEALERS = 5;
 const effectiveMinimumAvailableByRole = {
   ...benchRules.minimumAvailableByRole,
@@ -600,6 +608,22 @@ const getBossAttendanceReason = (player: Player, boss: BossGearNeed) => {
   };
 };
 
+const isUnprogressedBoss = (boss: BossGearNeed) => hasCurrentBossAttendanceData() && !hasBossAttendanceData(boss.bossName);
+
+const getProgressionCoreReason = (player: Player, boss: BossGearNeed) => {
+  if (!progressionCorePlayerSlugs.has(player.slug) || !isUnprogressedBoss(boss)) {
+    return {
+      score: 0,
+      reason: "",
+    };
+  }
+
+  return {
+    score: PROGRESSION_CORE_UNPROGRESSED_BOSS_PENALTY,
+    reason: "protected as progression core on an unprogressed boss",
+  };
+};
+
 const scoreBossCandidate = (
   player: Player,
   weekKey: string,
@@ -614,8 +638,10 @@ const scoreBossCandidate = (
   const currentBossBenchStreak = bossPlanningState.currentStreakBySlug.get(player.slug) ?? 0;
   const gearReason = getBossGearReason(bossGearStatus);
   const attendanceReason = getBossAttendanceReason(player, boss);
+  const progressionCoreReason = getProgressionCoreReason(player, boss);
   candidate.score += gearReason.score;
   candidate.score += attendanceReason.score;
+  candidate.score += progressionCoreReason.score;
   candidate.score -= bossSuggestedCount * BOSS_BENCH_REPEAT_PENALTY;
 
   if (lastSuggestedBossOrder === boss.order - 1) {
@@ -634,6 +660,10 @@ const scoreBossCandidate = (
 
   if (attendanceReason.reason) {
     candidate.reasons.splice(1, 0, attendanceReason.reason);
+  }
+
+  if (progressionCoreReason.reason) {
+    candidate.reasons.splice(1, 0, progressionCoreReason.reason);
   }
 
   if (bossSuggestedCount === 0) {

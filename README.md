@@ -185,9 +185,10 @@ Expected Bench Rules columns:
 
 Enabled accepts `TRUE`, `true`, `yes`, `y`, or `1`. Disabled and blank rows are ignored. Column matching is case-insensitive and tolerant of extra spaces.
 
-Supported hard rule types:
+Supported player protection and hard rule types:
 
 - `NEVER_BENCH_PLAYER`: requires `Player 1`.
+- `PROGRESSION_CORE_PLAYER`: requires `Player 1`. Avoids benching that player on unprogressed bosses unless needed to satisfy hard raid rules.
 - `AVOID_BENCH_TOGETHER`: requires `Player 1` and `Player 2`.
 - `MIN_AVAILABLE_ROLE`: requires `Role` and `Min Available`.
 - `MIN_AVAILABLE_CLASS`: requires `Class` and `Min Available`.
@@ -209,6 +210,7 @@ Example Bench Rules rows:
 ```text
 Enabled | Rule Type              | Player 1  | Player 2    | Class        | Role   | Min Available | Weight | Notes
 TRUE    | NEVER_BENCH_PLAYER     | Tengen    |             |              |        |               |        | Raid lead
+TRUE    | PROGRESSION_CORE_PLAYER| June      |             |              |        |               |        | Avoid benching on unprogressed bosses
 TRUE    | AVOID_BENCH_TOGETHER   | Drchicken | Cardinalcrzy|              |        |               |        | Avoid pairing
 TRUE    | MIN_AVAILABLE_ROLE     |           |             |              | Healer | 5             |        |
 TRUE    | MIN_AVAILABLE_CLASS    |           |             | Death Knight |        | 2             |        |

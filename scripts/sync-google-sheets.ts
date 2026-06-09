@@ -86,6 +86,7 @@ interface BenchRow {
 
 interface BenchRulesData {
   neverBenchPlayers: string[];
+  progressionCorePlayers: string[];
   avoidBenchingTogether: [string, string][];
   minimumAvailableByRole: Record<string, number>;
   minimumAvailableByClass: Record<string, number>;
@@ -242,6 +243,7 @@ const fallbackHardRules = {
 };
 const fallbackBenchRules: BenchRulesData = {
   ...fallbackHardRules,
+  progressionCorePlayers: [],
   planningWindowWeeks: defaultPlanningWindowWeeks,
   scoring: defaultScoring,
   source: "fallback",
@@ -851,6 +853,7 @@ function sortRulePairs(pairs: [string, string][]) {
 function normalizeBenchRules(rules: BenchRulesData): BenchRulesData {
   return {
     neverBenchPlayers: [...new Set(rules.neverBenchPlayers)].sort((a, b) => a.localeCompare(b)),
+    progressionCorePlayers: [...new Set(rules.progressionCorePlayers)].sort((a, b) => a.localeCompare(b)),
     avoidBenchingTogether: sortRulePairs(rules.avoidBenchingTogether),
     minimumAvailableByRole: sortedObjectByKey(rules.minimumAvailableByRole),
     minimumAvailableByClass: sortedObjectByKey(rules.minimumAvailableByClass),
@@ -889,6 +892,7 @@ function parseBenchRules(rows: SheetRow[] | null): BenchRuleParseResult {
 
   const hardRules = {
     neverBenchPlayers: [] as string[],
+    progressionCorePlayers: [] as string[],
     avoidBenchingTogether: [] as [string, string][],
     minimumAvailableByRole: {} as Record<string, number>,
     minimumAvailableByClass: {} as Record<string, number>,
@@ -927,6 +931,16 @@ function parseBenchRules(rows: SheetRow[] | null): BenchRuleParseResult {
 
         hardRules.neverBenchPlayers.push(getPlayerSlug(player1));
         hardRuleCount += 1;
+        importedRuleCount += 1;
+        return;
+
+      case "PROGRESSION_CORE_PLAYER":
+        if (!player1) {
+          warn(`Bench Rules row ${rowNumber}: PROGRESSION_CORE_PLAYER requires Player 1 and was skipped.`);
+          return;
+        }
+
+        hardRules.progressionCorePlayers.push(getPlayerSlug(player1));
         importedRuleCount += 1;
         return;
 

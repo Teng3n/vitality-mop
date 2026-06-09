@@ -1,18 +1,32 @@
 {
   "neverBenchPlayers": [
     "karkan",
-    "lexou",
-    "oswaldmosley",
     "tengen"
+  ],
+  "progressionCorePlayers": [
+    "cardinalcrzy",
+    "chonkars",
+    "drchicken",
+    "fae",
+    "june",
+    "kuradelh",
+    "lexou",
+    "maverickdog",
+    "oswaldmosley",
+    "teehee"
   ],
   "avoidBenchingTogether": [
     [
       "cardinalcrzy",
       "drchicken"
+    ],
+    [
+      "fae",
+      "viglance"
     ]
   ],
   "minimumAvailableByRole": {
-    "Healer": 4
+    "Healer": 5
   },
   "minimumAvailableByClass": {
     "Death Knight": 1,
