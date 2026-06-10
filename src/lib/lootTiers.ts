@@ -106,6 +106,7 @@ const archivedLootHistoryRows = (archivedThroneOfThunderLootHistory as LootHisto
 export const allLootHistoryRows = [...archivedLootHistoryRows, ...liveLootHistoryRows];
 const rosterRows = roster as RosterRow[];
 const activeRosterNames = new Set(rosterRows.map((row) => normalizePlayerName(row.character)));
+const activeRosterDisplayNames = rosterRows.map((row) => cleanPlayerName(row.character));
 const currentLootTier = lootTiers.find((tier) => tier.slug === currentLootTierSlug) ?? lootTiers[0];
 
 const normalizeText = (value: string) => value.trim().toLocaleLowerCase();
@@ -214,6 +215,10 @@ export const countsTowardTierLootTotal = (type: string) => {
 
 export const buildLootSummary = (awards: LootHistoryRow[]) => {
   const summaries = new Map<string, LootSummaryRow>();
+
+  for (const player of activeRosterDisplayNames) {
+    summaries.set(normalizePlayerName(player), getEmptySummary(player));
+  }
 
   for (const award of awards) {
     const player = cleanPlayerName(award.player);
