@@ -30,6 +30,7 @@
   },
   "minimumAvailableByClass": {
     "Death Knight": 1,
+    "Shaman": 3,
     "Warrior": 2
   },
   "requireAtLeastOneAvailablePerClass": true,
