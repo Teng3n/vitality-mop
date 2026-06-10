@@ -1101,7 +1101,9 @@ export const getBossBenchSuggestionSheetText = (todayIso = getTodayIso()) => {
   const benchColumnCount = Math.max(0, ...suggestions.map((suggestion) => suggestion.suggestedBenchPlayers.length));
   const header = ["Boss", ...Array.from({ length: benchColumnCount }, (_, index) => String(index + 1))];
   const rows = suggestions.map((suggestion) => {
-    const playerNames = suggestion.suggestedBenchPlayers.map((player) => player.name);
+    const playerNames = suggestion.suggestedBenchPlayers
+      .map((player) => player.name)
+      .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
     return [
       suggestion.bossName,
       ...Array.from({ length: benchColumnCount }, (_, index) => playerNames[index] ?? ""),
