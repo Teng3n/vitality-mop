@@ -167,11 +167,16 @@ export const getLootTierForAward = (award: LootHistoryRow) =>
     tier.instanceIncludes.some((matchText) => normalizeText(award.instance).includes(normalizeText(matchText))),
   );
 
+export const isDisenchantedLootAward = (award: Pick<LootHistoryRow, "type">) => {
+  const normalizedType = normalizeText(award.type).replace(/[^a-z0-9]+/g, " ");
+  return normalizedType === "disenchant" || normalizedType === "disenchanted";
+};
+
 export const getLootAwardsForTier = (tierSlug = currentLootTierSlug) => {
   const tier = getLootTierBySlug(tierSlug);
 
   return allLootHistoryRows
-    .filter((award) => getLootTierForAward(award)?.slug === tier.slug)
+    .filter((award) => getLootTierForAward(award)?.slug === tier.slug && !isDisenchantedLootAward(award))
     .map((award) => ({ ...award, player: cleanPlayerName(award.player) }))
     .sort((a, b) => b.date.localeCompare(a.date));
 };
