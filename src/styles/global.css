@@ -776,6 +776,7 @@ p {
 }
 
 .next-raid-grid {
+  --readiness-column-layout: minmax(145px, 0.75fr) minmax(0, 1.08fr) minmax(0, 1.42fr);
   display: grid;
   grid-template-columns: 1fr;
   gap: 18px;
@@ -818,7 +819,7 @@ p {
 }
 
 .next-raid-statuses.is-week {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: var(--readiness-column-layout);
 }
 
 .dashboard-raid-card .next-raid-grid {
@@ -989,7 +990,7 @@ p {
 
 .readiness-cards {
   display: grid;
-  grid-template-columns: minmax(145px, 0.75fr) minmax(0, 1.08fr) minmax(0, 1.42fr);
+  grid-template-columns: var(--readiness-column-layout);
   align-items: stretch;
   gap: 12px;
 }
