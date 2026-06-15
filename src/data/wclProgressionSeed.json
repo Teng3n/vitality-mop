@@ -4891,12 +4891,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2026-06-08T05:02:13.295Z",
-              "latestKillDate": "2026-06-08T05:02:13.295Z",
+              "latestKillDate": "2026-06-15T03:54:45.942Z",
               "bestPercent": 0,
               "reportCode": "fLaWZPmn4qyjRCXD",
               "reportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=30",
-              "pulls": 12,
-              "kills": 1
+              "pulls": 15,
+              "kills": 2
             }
           }
         },
@@ -4909,12 +4909,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2026-06-08T03:50:47.571Z",
-              "latestKillDate": "2026-06-08T03:50:47.571Z",
+              "latestKillDate": "2026-06-15T03:22:24.821Z",
               "bestPercent": 0,
               "reportCode": "fLaWZPmn4qyjRCXD",
               "reportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=18",
-              "pulls": 8,
-              "kills": 1
+              "pulls": 10,
+              "kills": 2
             }
           }
         },
@@ -4967,7 +4967,7 @@
               "bestPercent": 0,
               "reportCode": "fLaWZPmn4qyjRCXD",
               "reportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=47",
-              "pulls": 8,
+              "pulls": 9,
               "kills": 1
             }
           }
