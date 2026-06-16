@@ -4931,7 +4931,7 @@
               "bestPercent": 0,
               "reportCode": "BtJbpyWzZKv4wXQ9",
               "reportUrl": "https://classic.warcraftlogs.com/reports/BtJbpyWzZKv4wXQ9#fight=22",
-              "pulls": 19,
+              "pulls": 31,
               "kills": 1
             }
           }
@@ -4963,12 +4963,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2026-06-08T06:06:06.608Z",
-              "latestKillDate": "2026-06-08T06:06:06.608Z",
+              "latestKillDate": "2026-06-15T04:29:08.445Z",
               "bestPercent": 0,
               "reportCode": "fLaWZPmn4qyjRCXD",
               "reportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=47",
-              "pulls": 9,
-              "kills": 1
+              "pulls": 12,
+              "kills": 2
             }
           }
         }
