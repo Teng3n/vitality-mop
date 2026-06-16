@@ -12,6 +12,7 @@ import { cleanPlayerName, getPlayerProfileHref, getPlayerSlug, normalizePlayerNa
 import { getWarcraftLogsCharacterUrl, getWarcraftLogsSearchUrl } from "./warcraftLogs";
 
 export const RAID_NAME = "Siege of Orgrimmar";
+export const RAID_TIME_ZONE = "America/Los_Angeles";
 export const MAIN_SPEC_LOOT_TYPES = new Set(["best in slot", "major upgrade", "minor upgrade", "bonus loot"]);
 export const CALENDAR_STATUSES = ["Bench", "Out", "Late", "MIA", "Trial"] as const;
 
@@ -168,9 +169,16 @@ const dateByIso = new Map(calendarData.raidDates.map((date) => [date.isoDate, da
 
 export const raidDates = [...calendarData.raidDates].sort((a, b) => a.isoDate.localeCompare(b.isoDate));
 
-export const getTodayIso = () => {
-  const today = new Date();
-  return new Date(today.getFullYear(), today.getMonth(), today.getDate()).toISOString().slice(0, 10);
+export const getTodayIso = (now = new Date()) => {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: RAID_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(now);
+  const getPart = (type: Intl.DateTimeFormatPartTypes) => parts.find((part) => part.type === type)?.value ?? "";
+
+  return `${getPart("year")}-${getPart("month")}-${getPart("day")}`;
 };
 
 export const parseIsoDate = (isoDate: string) => {
