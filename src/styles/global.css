@@ -776,8 +776,8 @@ p {
 }
 
 .next-raid-grid {
-  --readiness-column-layout: minmax(145px, 0.75fr) minmax(0, 1.08fr) minmax(0, 1.42fr);
-  --raid-status-layout: minmax(125px, 0.7fr) repeat(4, minmax(0, 1fr));
+  --readiness-column-layout: minmax(125px, 0.72fr) minmax(130px, 0.78fr) minmax(0, 0.96fr) minmax(0, 1.04fr);
+  --raid-status-layout: repeat(4, minmax(0, 1fr));
   display: grid;
   grid-template-columns: 1fr;
   gap: 18px;
@@ -995,6 +995,10 @@ p {
   grid-template-columns: var(--readiness-column-layout);
   align-items: stretch;
   gap: 12px;
+}
+
+.readiness-cards > .next-raid-list {
+  min-height: 150px;
 }
 
 .readiness-columns {

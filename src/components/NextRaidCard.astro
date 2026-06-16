@@ -82,37 +82,28 @@ const raidPayload = calendar.raidDates.map((date) => ({
 
   <div class="next-raid-grid">
     <div class="next-raid-statuses is-week">
-      <article class="next-raid-list next-raid-list-count" data-available-card data-copy-card="available">
-        <div>
-          <span>Available</span>
-        </div>
-        <div class="available-raiders">
-          <strong data-week-raiders-count>{activeRosterCount}</strong>
-          <span>players</span>
-        </div>
-      </article>
-      <article class="next-raid-list" data-copy-card="out-0" data-day-status-card>
+      <article class="next-raid-list" data-copy-card="out-0" data-day-status-card data-day-index="0">
         <div>
           <span data-week-out-label="0">Out</span>
           <strong data-week-out-count="0">0</strong>
         </div>
         <ul data-week-out="0"></ul>
       </article>
-      <article class="next-raid-list" data-copy-card="out-1" data-day-status-card>
-        <div>
-          <span data-week-out-label="1">Out</span>
-          <strong data-week-out-count="1">0</strong>
-        </div>
-        <ul data-week-out="1"></ul>
-      </article>
-      <article class="next-raid-list" data-copy-card="late-0" data-day-status-card>
+      <article class="next-raid-list" data-copy-card="late-0" data-day-status-card data-day-index="0">
         <div>
           <span data-week-late-label="0">Late</span>
           <strong data-week-late-count="0">0</strong>
         </div>
         <ul data-week-late="0"></ul>
       </article>
-      <article class="next-raid-list" data-copy-card="late-1" data-day-status-card>
+      <article class="next-raid-list" data-copy-card="out-1" data-day-status-card data-day-index="1">
+        <div>
+          <span data-week-out-label="1">Out</span>
+          <strong data-week-out-count="1">0</strong>
+        </div>
+        <ul data-week-out="1"></ul>
+      </article>
+      <article class="next-raid-list" data-copy-card="late-1" data-day-status-card data-day-index="1">
         <div>
           <span data-week-late-label="1">Late</span>
           <strong data-week-late-count="1">0</strong>
@@ -122,6 +113,15 @@ const raidPayload = calendar.raidDates.map((date) => ({
     </div>
 
     <section class="readiness-cards" data-readiness-panel>
+      <article class="next-raid-list next-raid-list-count" data-available-card data-copy-card="available">
+        <div>
+          <span>Available</span>
+        </div>
+        <div class="available-raiders">
+          <strong data-week-raiders-count>{activeRosterCount}</strong>
+          <span>players</span>
+        </div>
+      </article>
       <article class="readiness-card readiness-card-status" data-copy-card="readiness">
         <div class="readiness-status">
           <span>Readiness</span>
@@ -598,8 +598,9 @@ const raidPayload = calendar.raidDates.map((date) => ({
       dateNode.textContent = raidDateLabel;
     }
 
-    dayStatusCards.forEach((statusCard, index) => {
-      statusCard.hidden = !weekRaids[index % 2];
+    dayStatusCards.forEach((statusCard) => {
+      const dayIndex = Number(statusCard.dataset.dayIndex ?? 0);
+      statusCard.hidden = !weekRaids[dayIndex];
     });
 
     weekRaids.forEach((raid, index) => {
