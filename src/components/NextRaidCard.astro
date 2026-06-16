@@ -91,19 +91,33 @@ const raidPayload = calendar.raidDates.map((date) => ({
           <span>players</span>
         </div>
       </article>
-      <article class="next-raid-list" data-copy-card="out">
+      <article class="next-raid-list" data-copy-card="out-0" data-day-status-card>
         <div>
-          <span>Out this week</span>
-          <strong data-week-out-count>0</strong>
+          <span data-week-out-label="0">Out</span>
+          <strong data-week-out-count="0">0</strong>
         </div>
-        <ul data-week-out></ul>
+        <ul data-week-out="0"></ul>
       </article>
-      <article class="next-raid-list" data-copy-card="late">
+      <article class="next-raid-list" data-copy-card="out-1" data-day-status-card>
         <div>
-          <span>Late this week</span>
-          <strong data-week-late-count>0</strong>
+          <span data-week-out-label="1">Out</span>
+          <strong data-week-out-count="1">0</strong>
         </div>
-        <ul data-week-late></ul>
+        <ul data-week-out="1"></ul>
+      </article>
+      <article class="next-raid-list" data-copy-card="late-0" data-day-status-card>
+        <div>
+          <span data-week-late-label="0">Late</span>
+          <strong data-week-late-count="0">0</strong>
+        </div>
+        <ul data-week-late="0"></ul>
+      </article>
+      <article class="next-raid-list" data-copy-card="late-1" data-day-status-card>
+        <div>
+          <span data-week-late-label="1">Late</span>
+          <strong data-week-late-count="1">0</strong>
+        </div>
+        <ul data-week-late="1"></ul>
       </article>
     </div>
 
@@ -203,6 +217,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     statuses.length <= 2
       ? statuses.join(" and ")
       : `${statuses.slice(0, -1).join(", ")}, and ${statuses[statuses.length - 1]}`;
+  const formatWeekday = (date: Date) => new Intl.DateTimeFormat(undefined, { weekday: "long" }).format(date);
   const playerListHtml = (players: DashboardPlayer[]) =>
     players
       .map((player) => {
@@ -520,15 +535,18 @@ const raidPayload = calendar.raidDates.map((date) => ({
     const rulesNode = card.querySelector<HTMLScriptElement>("[data-bench-rules-data]");
     const dateNode = card.querySelector<HTMLElement>("[data-next-raid-date]");
     const availableCard = card.querySelector<HTMLElement>("[data-available-card]");
-    const outCard = card.querySelector<HTMLElement>('[data-copy-card="out"]');
-    const lateCard = card.querySelector<HTMLElement>('[data-copy-card="late"]');
+    const dayStatusCards = Array.from(card.querySelectorAll<HTMLElement>("[data-day-status-card]"));
+    const outCards = [0, 1].map((index) => card.querySelector<HTMLElement>(`[data-copy-card="out-${index}"]`));
+    const lateCards = [0, 1].map((index) => card.querySelector<HTMLElement>(`[data-copy-card="late-${index}"]`));
     const readinessCard = card.querySelector<HTMLElement>('[data-copy-card="readiness"]');
     const copyLiveRegion = card.querySelector<HTMLElement>("[data-copy-live]");
     const raidersCount = card.querySelector<HTMLElement>("[data-week-raiders-count]");
-    const outNode = card.querySelector<HTMLElement>("[data-week-out]");
-    const lateNode = card.querySelector<HTMLElement>("[data-week-late]");
-    const outCount = card.querySelector<HTMLElement>("[data-week-out-count]");
-    const lateCount = card.querySelector<HTMLElement>("[data-week-late-count]");
+    const outNodes = [0, 1].map((index) => card.querySelector<HTMLElement>(`[data-week-out="${index}"]`));
+    const lateNodes = [0, 1].map((index) => card.querySelector<HTMLElement>(`[data-week-late="${index}"]`));
+    const outCounts = [0, 1].map((index) => card.querySelector<HTMLElement>(`[data-week-out-count="${index}"]`));
+    const lateCounts = [0, 1].map((index) => card.querySelector<HTMLElement>(`[data-week-late-count="${index}"]`));
+    const outLabels = [0, 1].map((index) => card.querySelector<HTMLElement>(`[data-week-out-label="${index}"]`));
+    const lateLabels = [0, 1].map((index) => card.querySelector<HTMLElement>(`[data-week-late-label="${index}"]`));
     const readinessPanel = card.querySelector<HTMLElement>("[data-readiness-panel]");
     const readinessStatus = card.querySelector<HTMLElement>("[data-readiness-status]");
     const readinessDetail = card.querySelector<HTMLElement>("[data-readiness-detail]");
@@ -561,21 +579,18 @@ const raidPayload = calendar.raidDates.map((date) => ({
         ? currentWeekStart
         : getWeekStart(nextRaid.date);
     const weekRaids = datedRaids.filter((raid) => getWeekStart(raid.date).getTime() === targetWeekStart.getTime()).slice(0, 2);
-    const weekOut = uniquePlayers(weekRaids.flatMap((raid) => raid.out));
-    const weekLate = uniquePlayers(weekRaids.flatMap((raid) => raid.late));
-    const weekMia = uniquePlayers(weekRaids.flatMap((raid) => raid.mia));
     const readiness = getReadiness({
       activeRoster,
       rules,
-      outPlayers: weekOut,
-      latePlayers: weekLate,
-      miaPlayers: weekMia,
+      outPlayers: nextRaid.out,
+      latePlayers: nextRaid.late,
+      miaPlayers: nextRaid.mia,
     });
     const raidDate = nextRaid.date;
-    const weekday = new Intl.DateTimeFormat(undefined, { weekday: "long" }).format(raidDate);
+    const weekday = formatWeekday(raidDate);
     const month = new Intl.DateTimeFormat(undefined, { month: "short" }).format(raidDate);
     const raidDateLabel = `${weekday}, ${month} ${ordinal(raidDate.getDate())}`;
-    const unavailableSlugs = new Set(uniquePlayers([...weekOut, ...weekLate, ...weekMia]).map((player) => player.slug));
+    const unavailableSlugs = new Set(uniquePlayers([...nextRaid.out, ...nextRaid.late, ...nextRaid.mia]).map((player) => player.slug));
     const availablePlayers = uniquePlayers(activeRoster.filter((player) => !unavailableSlugs.has(player.slug)));
     const raidReadyPlayers = availablePlayers;
 
@@ -583,21 +598,39 @@ const raidPayload = calendar.raidDates.map((date) => ({
       dateNode.textContent = raidDateLabel;
     }
 
-    if (outNode) {
-      outNode.innerHTML = playerListHtml(weekOut);
-    }
+    dayStatusCards.forEach((statusCard, index) => {
+      statusCard.hidden = !weekRaids[index % 2];
+    });
 
-    if (lateNode) {
-      lateNode.innerHTML = playerListHtml(weekLate);
-    }
+    weekRaids.forEach((raid, index) => {
+      const dayLabel = formatWeekday(raid.date);
+      const outPlayers = uniquePlayers(raid.out);
+      const latePlayers = uniquePlayers(raid.late);
 
-    if (outCount) {
-      outCount.textContent = String(weekOut.length);
-    }
+      if (outLabels[index]) {
+        outLabels[index].textContent = `Out ${dayLabel}`;
+      }
 
-    if (lateCount) {
-      lateCount.textContent = String(weekLate.length);
-    }
+      if (lateLabels[index]) {
+        lateLabels[index].textContent = `Late ${dayLabel}`;
+      }
+
+      if (outNodes[index]) {
+        outNodes[index].innerHTML = playerListHtml(outPlayers);
+      }
+
+      if (lateNodes[index]) {
+        lateNodes[index].innerHTML = playerListHtml(latePlayers);
+      }
+
+      if (outCounts[index]) {
+        outCounts[index].textContent = String(outPlayers.length);
+      }
+
+      if (lateCounts[index]) {
+        lateCounts[index].textContent = String(latePlayers.length);
+      }
+    });
 
     if (raidersCount) {
       raidersCount.textContent = String(Math.max(readiness.availableCount, 0));
@@ -646,20 +679,24 @@ const raidPayload = calendar.raidDates.map((date) => ({
       liveRegion: copyLiveRegion,
     });
 
-    setupCopyCard({
-      element: outCard,
-      getText: () => playersToPlainText(weekOut),
-      successMessage: "Copied out names",
-      ariaLabel: "Copy out player names",
-      liveRegion: copyLiveRegion,
-    });
+    weekRaids.forEach((raid, index) => {
+      const dayLabel = formatWeekday(raid.date);
 
-    setupCopyCard({
-      element: lateCard,
-      getText: () => playersToPlainText(weekLate),
-      successMessage: "Copied late names",
-      ariaLabel: "Copy late player names",
-      liveRegion: copyLiveRegion,
+      setupCopyCard({
+        element: outCards[index],
+        getText: () => playersToPlainText(uniquePlayers(raid.out)),
+        successMessage: `Copied ${dayLabel} out names`,
+        ariaLabel: `Copy ${dayLabel} out player names`,
+        liveRegion: copyLiveRegion,
+      });
+
+      setupCopyCard({
+        element: lateCards[index],
+        getText: () => playersToPlainText(uniquePlayers(raid.late)),
+        successMessage: `Copied ${dayLabel} late names`,
+        ariaLabel: `Copy ${dayLabel} late player names`,
+        liveRegion: copyLiveRegion,
+      });
     });
 
     setupCopyCard({

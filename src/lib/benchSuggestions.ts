@@ -75,8 +75,9 @@ interface BossPlanningState {
   currentStreakBySlug: Map<string, number>;
 }
 
-export interface BenchSuggestionWeek {
+export interface BenchSuggestionNight {
   label: string;
+  isoDate: string;
   rosterSize: number;
   unavailablePlayers: StatusPlayer[];
   requiredBenchCount: number;
@@ -87,11 +88,19 @@ export interface BenchSuggestionWeek {
   warnings: string[];
 }
 
+export interface BenchSuggestionWeek {
+  label: string;
+  weekKey: string;
+  nights: BenchSuggestionNight[];
+}
+
 export interface BossBenchSuggestionPlayer extends StatusPlayer {
   reasons: string[];
 }
 
 export interface BossBenchSuggestion {
+  targetRaidLabel: string;
+  targetRaidIsoDate: string;
   bossName: string;
   order: number;
   rosterSize: number;
@@ -138,6 +147,12 @@ const formatWeekDateRange = (nights: RaidNight[]) => {
   return firstNight.isoDate === lastNight.isoDate
     ? formatShortDate(firstNight.isoDate)
     : `${formatShortDate(firstNight.isoDate)} - ${formatShortDate(lastNight.isoDate)}`;
+};
+const formatRaidNightLabel = (night: RaidNight) => {
+  const raidDate = parseIsoDate(night.isoDate);
+  const weekday = raidDate.toLocaleDateString(undefined, { weekday: "long" });
+
+  return `${weekday}, ${formatShortDate(night.isoDate)}`;
 };
 const normalizeKey = (value: string) => value.toLocaleLowerCase().replace(/[^a-z0-9]+/g, "");
 const sortStatusPlayers = (players: StatusPlayer[]) =>
@@ -679,185 +694,207 @@ const scoreBossCandidate = (
   return candidate;
 };
 
-const getPrimaryPlanningWeek = (todayIso = getTodayIso()) => {
-  const [planningWeek] = getFutureRaidWeeks(todayIso);
-  return planningWeek ?? { weekKey: todayIso, nights: [] };
+const getPrimaryPlanningNight = (todayIso = getTodayIso()) => {
+  const night = raidNights.find((raidNight) => raidNight.isoDate >= todayIso) ?? raidNights[raidNights.length - 1];
+
+  if (!night) {
+    return { weekKey: todayIso, night: undefined };
+  }
+
+  return {
+    weekKey: toIsoDate(getWeekStart(parseIsoDate(night.isoDate))),
+    night,
+  };
+};
+
+const getBenchSuggestionNight = (
+  night: RaidNight,
+  weekKey: string,
+  planningState: PlanningState,
+): BenchSuggestionNight => {
+  const unavailablePlayers = getUniquePlayers([[...night.out, ...night.late, ...night.mia]]);
+  const existingBenchPlayers = sortStatusPlayers(night.bench);
+  const unavailableSlugs = new Set(unavailablePlayers.map((player) => player.slug));
+  const existingBenchSlugs = new Set(existingBenchPlayers.map((player) => player.slug));
+  const activeRosterSize = activeRosterPlayers.length;
+  const availableRaiders = activeRosterSize - unavailableSlugs.size;
+  const requiredBenchCount = Math.max(0, availableRaiders - TARGET_RAID_SIZE);
+  const additionalBenchNeeded = Math.max(0, requiredBenchCount - existingBenchSlugs.size);
+  const suggestedBenchPlayers: StatusPlayer[] = [];
+  const suggestedBenchSlugs = new Set<string>();
+  const warnings: string[] = [];
+  const notes: string[] = [];
+
+  if (availableRaiders < TARGET_RAID_SIZE) {
+    warnings.push(`Raid is short by ${TARGET_RAID_SIZE - availableRaiders} before benching.`);
+  }
+
+  for (const player of existingBenchPlayers) {
+    if (unavailableSlugs.has(player.slug)) {
+      warnings.push(`${player.name} is marked Bench and also Out/Late/MIA on this raid night. Review manually.`);
+    }
+  }
+
+  if (existingBenchSlugs.size > requiredBenchCount) {
+    warnings.push(
+      `Existing bench exceeds required bench by ${existingBenchSlugs.size - requiredBenchCount}. Review manually if you want to bring players back in.`,
+    );
+  }
+
+  warnings.push(...getConstraintWarnings(existingBenchSlugs, unavailableSlugs));
+
+  const existingMissingRaidBuffs = getMissingRaidBuffs(unavailableSlugs, existingBenchSlugs);
+
+  if (existingMissingRaidBuffs.length > 0) {
+    warnings.push(`Existing plan is missing raid buffs: ${existingMissingRaidBuffs.join(", ")}. Review manually.`);
+  }
+
+  if (additionalBenchNeeded > 0) {
+    const selectedCandidates: BenchCandidate[] = [];
+    let skippedHardRuleCount = 0;
+    let skippedRaidBuffCount = 0;
+    const skippedRaidBuffs = new Set<string>();
+    const candidates = activeRosterPlayers
+      .map((player) => scoreCandidate(player, weekKey, planningState))
+      .sort(
+        (a, b) =>
+          b.score - a.score ||
+          a.suggestedCount - b.suggestedCount ||
+          a.totalBenchCount - b.totalBenchCount ||
+          compareDaysSinceBench(a, b) ||
+          a.player.name.localeCompare(b.player.name, undefined, { sensitivity: "base" }),
+      );
+
+    for (const candidate of candidates) {
+      if (suggestedBenchPlayers.length >= additionalBenchNeeded) {
+        break;
+      }
+
+      const currentBenchSlugs = new Set([...existingBenchSlugs, ...suggestedBenchSlugs]);
+
+      if (!passesHardRules(candidate.player, unavailableSlugs, currentBenchSlugs)) {
+        skippedHardRuleCount += 1;
+        continue;
+      }
+
+      const missingBuffs = getRaidBuffCandidateViolations(candidate.player, unavailableSlugs, currentBenchSlugs);
+
+      if (missingBuffs.length > 0) {
+        skippedRaidBuffCount += 1;
+        missingBuffs.forEach((buff) => skippedRaidBuffs.add(buff));
+        continue;
+      }
+
+      suggestedBenchPlayers.push(getStatusPlayer(candidate.player));
+      suggestedBenchSlugs.add(candidate.player.slug);
+      selectedCandidates.push(candidate);
+    }
+
+    if (suggestedBenchPlayers.length < additionalBenchNeeded) {
+      if (skippedRaidBuffCount > 0) {
+        warnings.push(
+          `Could only suggest ${suggestedBenchPlayers.length} of ${additionalBenchNeeded} needed bench players without losing required raid buffs.`,
+        );
+        warnings.push(`Skipped candidates who would remove raid buff coverage: ${[...skippedRaidBuffs].join(", ")}.`);
+      }
+
+      warnings.push(
+        "Could not suggest a full bench list for this raid night because too many players are unavailable or constraints would be violated.",
+      );
+      warnings.push("No valid bench suggestion found without violating constraints.");
+    }
+
+    if (selectedCandidates.length > 0) {
+      const selectedWithoutRepeat = selectedCandidates.every((candidate) => candidate.suggestedCount === 0);
+      notes.push(
+        selectedWithoutRepeat
+          ? "Selected players had low bench counts and were not already suggested in this planning run."
+          : "Selected players were the highest-ranked valid candidates after bench count and rotation scoring.",
+      );
+
+      const penalizedSelectedCandidates = selectedCandidates.filter(
+        (candidate) => candidate.hasRecentUnavailablePenalty || candidate.hasAdjacentUnavailablePenalty,
+      );
+
+      for (const candidate of penalizedSelectedCandidates) {
+        const penaltyLabel =
+          candidate.hasRecentUnavailablePenalty && candidate.hasAdjacentUnavailablePenalty
+            ? "recent and adjacent Out/Late/MIA"
+            : candidate.hasAdjacentUnavailablePenalty
+              ? "adjacent Out/Late/MIA"
+              : "recent Out/Late/MIA";
+        notes.push(
+          `${candidate.player.name} was selected despite a ${penaltyLabel} penalty because no higher-ranked valid candidates remained.`,
+        );
+      }
+
+      if (penalizedSelectedCandidates.length > 0 && skippedHardRuleCount > 0) {
+        notes.push("Some higher-ranked candidates were skipped due to healer/class minimum or other hard rules.");
+      }
+
+      if (skippedRaidBuffCount > 0) {
+        notes.push("Some candidates were skipped because benching them would remove raid buff coverage.");
+      } else if (existingMissingRaidBuffs.length === 0) {
+        notes.push("Raid buffs preserved.");
+      }
+    }
+  }
+
+  const status =
+    requiredBenchCount === 0
+      ? "No bench needed"
+      : existingBenchSlugs.size >= requiredBenchCount
+        ? "Already planned"
+        : suggestedBenchPlayers.length > 0
+          ? "Needs review"
+          : "No valid suggestion";
+
+  if (existingBenchSlugs.size > 0 && suggestedBenchPlayers.length > 0) {
+    notes.unshift("Existing bench assignments respected.");
+  }
+
+  for (const player of suggestedBenchPlayers) {
+    addSuggestedBenchToPlanningState(planningState, player.slug, weekKey);
+  }
+
+  return {
+    label: formatRaidNightLabel(night),
+    isoDate: night.isoDate,
+    rosterSize: activeRosterSize,
+    unavailablePlayers,
+    requiredBenchCount,
+    existingBenchPlayers,
+    suggestedBenchPlayers,
+    status,
+    notes,
+    warnings: [...new Set(warnings)],
+  };
 };
 
 export const getBenchSuggestionWeeks = (todayIso = getTodayIso()): BenchSuggestionWeek[] => {
   const weeks = getFutureRaidWeeks(todayIso);
   const planningState = createPlanningState();
-  const suggestionWeeks: BenchSuggestionWeek[] = [];
 
-  for (const { weekKey, nights } of weeks) {
-    const unavailablePlayers = getUniquePlayers(nights.map((night) => [...night.out, ...night.late, ...night.mia]));
-    const existingBenchPlayers = getUniquePlayers(nights.map((night) => night.bench));
-    const unavailableSlugs = new Set(unavailablePlayers.map((player) => player.slug));
-    const existingBenchSlugs = new Set(existingBenchPlayers.map((player) => player.slug));
-    const activeRosterSize = activeRosterPlayers.length;
-    const availableRaiders = activeRosterSize - unavailableSlugs.size;
-    const requiredBenchCount = Math.max(0, availableRaiders - TARGET_RAID_SIZE);
-    const additionalBenchNeeded = Math.max(0, requiredBenchCount - existingBenchSlugs.size);
-    const suggestedBenchPlayers: StatusPlayer[] = [];
-    const suggestedBenchSlugs = new Set<string>();
-    const warnings: string[] = [];
-    const notes: string[] = [];
-
-    if (availableRaiders < TARGET_RAID_SIZE) {
-      warnings.push(`Raid is short by ${TARGET_RAID_SIZE - availableRaiders} before benching.`);
-    }
-
-    for (const player of existingBenchPlayers) {
-      if (unavailableSlugs.has(player.slug)) {
-        warnings.push(`${player.name} is marked Bench and also Out/Late/MIA in this date range. Review manually.`);
-      }
-    }
-
-    if (existingBenchSlugs.size > requiredBenchCount) {
-      warnings.push(
-        `Existing bench exceeds required bench by ${existingBenchSlugs.size - requiredBenchCount}. Review manually if you want to bring players back in.`,
-      );
-    }
-
-    warnings.push(...getConstraintWarnings(existingBenchSlugs, unavailableSlugs));
-
-    const existingMissingRaidBuffs = getMissingRaidBuffs(unavailableSlugs, existingBenchSlugs);
-
-    if (existingMissingRaidBuffs.length > 0) {
-      warnings.push(`Existing plan is missing raid buffs: ${existingMissingRaidBuffs.join(", ")}. Review manually.`);
-    }
-
-    if (additionalBenchNeeded > 0) {
-      const selectedCandidates: BenchCandidate[] = [];
-      let skippedHardRuleCount = 0;
-      let skippedRaidBuffCount = 0;
-      const skippedRaidBuffs = new Set<string>();
-      const candidates = activeRosterPlayers
-        .map((player) => scoreCandidate(player, weekKey, planningState))
-        .sort(
-          (a, b) =>
-            b.score - a.score ||
-            a.suggestedCount - b.suggestedCount ||
-            a.totalBenchCount - b.totalBenchCount ||
-            compareDaysSinceBench(a, b) ||
-            a.player.name.localeCompare(b.player.name, undefined, { sensitivity: "base" }),
-        );
-
-      for (const candidate of candidates) {
-        if (suggestedBenchPlayers.length >= additionalBenchNeeded) {
-          break;
-        }
-
-        const currentBenchSlugs = new Set([...existingBenchSlugs, ...suggestedBenchSlugs]);
-
-        if (!passesHardRules(candidate.player, unavailableSlugs, currentBenchSlugs)) {
-          skippedHardRuleCount += 1;
-          continue;
-        }
-
-        const missingBuffs = getRaidBuffCandidateViolations(candidate.player, unavailableSlugs, currentBenchSlugs);
-
-        if (missingBuffs.length > 0) {
-          skippedRaidBuffCount += 1;
-          missingBuffs.forEach((buff) => skippedRaidBuffs.add(buff));
-          continue;
-        }
-
-        suggestedBenchPlayers.push(getStatusPlayer(candidate.player));
-        suggestedBenchSlugs.add(candidate.player.slug);
-        selectedCandidates.push(candidate);
-      }
-
-      if (suggestedBenchPlayers.length < additionalBenchNeeded) {
-        if (skippedRaidBuffCount > 0) {
-          warnings.push(
-            `Could only suggest ${suggestedBenchPlayers.length} of ${additionalBenchNeeded} needed bench players without losing required raid buffs.`,
-          );
-          warnings.push(`Skipped candidates who would remove raid buff coverage: ${[...skippedRaidBuffs].join(", ")}.`);
-        }
-
-        warnings.push(
-          "Could not suggest a full bench list for this week because too many players are unavailable or constraints would be violated.",
-        );
-        warnings.push("No valid bench suggestion found without violating constraints.");
-      }
-
-      if (selectedCandidates.length > 0) {
-        const selectedWithoutRepeat = selectedCandidates.every((candidate) => candidate.suggestedCount === 0);
-        notes.push(
-          selectedWithoutRepeat
-            ? "Selected players had low bench counts and were not already suggested in this planning run."
-            : "Selected players were the highest-ranked valid candidates after bench count and rotation scoring.",
-        );
-
-        const penalizedSelectedCandidates = selectedCandidates.filter(
-          (candidate) => candidate.hasRecentUnavailablePenalty || candidate.hasAdjacentUnavailablePenalty,
-        );
-
-        for (const candidate of penalizedSelectedCandidates) {
-          const penaltyLabel =
-            candidate.hasRecentUnavailablePenalty && candidate.hasAdjacentUnavailablePenalty
-              ? "recent and adjacent Out/Late/MIA"
-              : candidate.hasAdjacentUnavailablePenalty
-                ? "adjacent Out/Late/MIA"
-                : "recent Out/Late/MIA";
-          notes.push(
-            `${candidate.player.name} was selected despite a ${penaltyLabel} penalty because no higher-ranked valid candidates remained.`,
-          );
-        }
-
-        if (penalizedSelectedCandidates.length > 0 && skippedHardRuleCount > 0) {
-          notes.push("Some higher-ranked candidates were skipped due to healer/class minimum or other hard rules.");
-        }
-
-        if (skippedRaidBuffCount > 0) {
-          notes.push("Some candidates were skipped because benching them would remove raid buff coverage.");
-        } else if (existingMissingRaidBuffs.length === 0) {
-          notes.push("Raid buffs preserved.");
-        }
-      }
-    }
-
-    const status =
-      requiredBenchCount === 0
-        ? "No bench needed"
-        : existingBenchSlugs.size >= requiredBenchCount
-          ? "Already planned"
-          : suggestedBenchPlayers.length > 0
-            ? "Needs review"
-            : "No valid suggestion";
-
-    if (existingBenchSlugs.size > 0 && suggestedBenchPlayers.length > 0) {
-      notes.unshift("Existing bench assignments respected.");
-    }
-
-    for (const player of suggestedBenchPlayers) {
-      addSuggestedBenchToPlanningState(planningState, player.slug, weekKey);
-    }
-
-    suggestionWeeks.push({
-      label: formatWeekDateRange(nights),
-      rosterSize: activeRosterSize,
-      unavailablePlayers,
-      requiredBenchCount,
-      existingBenchPlayers,
-      suggestedBenchPlayers,
-      status,
-      notes,
-      warnings: [...new Set(warnings)],
-    });
-  }
-
-  return suggestionWeeks;
+  return weeks.map(({ weekKey, nights }) => ({
+    label: formatWeekDateRange(nights),
+    weekKey,
+    nights: nights.map((night) => getBenchSuggestionNight(night, weekKey, planningState)),
+  }));
 };
 
 export const getBossBenchSuggestions = (todayIso = getTodayIso()): BossBenchSuggestion[] => {
-  const { weekKey, nights } = getPrimaryPlanningWeek(todayIso);
+  const { weekKey, night } = getPrimaryPlanningNight(todayIso);
+
+  if (!night) {
+    return [];
+  }
+
   const gearNeedsReport = getGearNeedsReport();
   const weekPlanningState = createPlanningState();
   const bossPlanningState = createBossPlanningState();
-  const unavailablePlayers = getUniquePlayers(nights.map((night) => [...night.out, ...night.late, ...night.mia]));
-  const calendarBenchPlayers = getUniquePlayers(nights.map((night) => night.bench));
+  const targetRaidLabel = formatRaidNightLabel(night);
+  const unavailablePlayers = getUniquePlayers([[...night.out, ...night.late, ...night.mia]]);
+  const calendarBenchPlayers = sortStatusPlayers(night.bench);
   const unavailableSlugs = new Set(unavailablePlayers.map((player) => player.slug));
   const existingBenchSlugs = new Set<string>();
   const activeRosterSize = activeRosterPlayers.length;
@@ -987,6 +1024,8 @@ export const getBossBenchSuggestions = (todayIso = getTodayIso()): BossBenchSugg
     }
 
     return {
+      targetRaidLabel,
+      targetRaidIsoDate: night.isoDate,
       bossName: boss.bossName,
       order: boss.order,
       rosterSize: activeRosterSize,
@@ -1010,26 +1049,34 @@ export const getBenchSuggestionText = (todayIso = getTodayIso()) => {
 
   const lines = ["Suggested Bench Plan", ""];
 
-  for (const suggestion of suggestions) {
-    lines.push(suggestion.label);
-    lines.push(`Roster: ${suggestion.rosterSize}`);
-    lines.push(`Unavailable: ${suggestion.unavailablePlayers.length}${suggestion.unavailablePlayers.length > 0 ? ` (${playerList(suggestion.unavailablePlayers)})` : ""}`);
-    lines.push(`Required bench: ${suggestion.requiredBenchCount}`);
-    lines.push(`Existing bench: ${playerList(suggestion.existingBenchPlayers)}`);
-    lines.push(`Suggested additional bench: ${playerList(suggestion.suggestedBenchPlayers)}`);
-    lines.push(`Status: ${suggestion.status}`);
+  for (const week of suggestions) {
+    lines.push(`Week: ${week.label}`);
 
-    if (suggestion.notes.length > 0) {
-      lines.push("Notes:");
-      lines.push(...suggestion.notes.map((note) => `- ${note}`));
+    for (const suggestion of week.nights) {
+      lines.push(suggestion.label);
+      lines.push(`Roster: ${suggestion.rosterSize}`);
+      lines.push(
+        `Unavailable: ${suggestion.unavailablePlayers.length}${
+          suggestion.unavailablePlayers.length > 0 ? ` (${playerList(suggestion.unavailablePlayers)})` : ""
+        }`,
+      );
+      lines.push(`Required bench: ${suggestion.requiredBenchCount}`);
+      lines.push(`Existing bench: ${playerList(suggestion.existingBenchPlayers)}`);
+      lines.push(`Suggested additional bench: ${playerList(suggestion.suggestedBenchPlayers)}`);
+      lines.push(`Status: ${suggestion.status}`);
+
+      if (suggestion.notes.length > 0) {
+        lines.push("Notes:");
+        lines.push(...suggestion.notes.map((note) => `- ${note}`));
+      }
+
+      if (suggestion.warnings.length > 0) {
+        lines.push("Warnings:");
+        lines.push(...suggestion.warnings.map((warning) => `- ${warning}`));
+      }
+
+      lines.push("");
     }
-
-    if (suggestion.warnings.length > 0) {
-      lines.push("Warnings:");
-      lines.push(...suggestion.warnings.map((warning) => `- ${warning}`));
-    }
-
-    lines.push("");
   }
 
   lines.push(`Rules source: ${benchRules.source}`);
@@ -1048,6 +1095,7 @@ export const getBossBenchSuggestionText = (todayIso = getTodayIso()) => {
   const firstSuggestion = suggestions[0];
 
   if (firstSuggestion) {
+    lines.push(`Target raid: ${firstSuggestion.targetRaidLabel}`);
     lines.push(`Roster: ${firstSuggestion.rosterSize}`);
     lines.push(
       `Unavailable: ${firstSuggestion.unavailablePlayers.length}${

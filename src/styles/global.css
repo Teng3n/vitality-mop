@@ -777,6 +777,7 @@ p {
 
 .next-raid-grid {
   --readiness-column-layout: minmax(145px, 0.75fr) minmax(0, 1.08fr) minmax(0, 1.42fr);
+  --raid-status-layout: minmax(125px, 0.7fr) repeat(4, minmax(0, 1fr));
   display: grid;
   grid-template-columns: 1fr;
   gap: 18px;
@@ -819,7 +820,7 @@ p {
 }
 
 .next-raid-statuses.is-week {
-  grid-template-columns: var(--readiness-column-layout);
+  grid-template-columns: var(--raid-status-layout);
 }
 
 .dashboard-raid-card .next-raid-grid {
@@ -830,10 +831,10 @@ p {
   display: grid;
   grid-template-rows: auto 1fr;
   gap: 12px;
-  min-height: 160px;
+  min-height: 145px;
   border: 1px solid rgba(43, 58, 49, 0.7);
   border-radius: 8px;
-  padding: 13px;
+  padding: 12px;
   background: rgba(23, 33, 27, 0.7);
 }
 
@@ -906,7 +907,7 @@ p {
 
 .next-raid-list > div {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 10px;
 }
@@ -916,6 +917,7 @@ p {
   font-size: 0.76rem;
   font-weight: 900;
   letter-spacing: 0.06em;
+  line-height: 1.25;
   text-transform: uppercase;
 }
 
@@ -934,8 +936,8 @@ p {
 .next-raid-list ul {
   align-self: center;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 7px 12px;
+  grid-template-columns: 1fr;
+  gap: 7px;
   margin: 0;
   padding: 0;
   list-style: none;
