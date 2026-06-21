@@ -1,4 +1,6 @@
 import wclBossAttendanceSummary from "../data/wclBossAttendanceSummary.json";
+import wclBossAttendance from "../data/wclBossAttendance.json";
+import { activeRosterPlayers, raidNights } from "./guildData";
 import { normalizeProgressionName } from "./progressionTiers";
 
 export interface WclBossAttendanceSummaryPlayer {
@@ -27,6 +29,21 @@ export interface WclBossAttendanceSummaryData {
   bosses: WclBossAttendanceSummaryBoss[];
 }
 
+interface WclBossAttendanceEvent {
+  playerSlug: string;
+  tierSlug: string;
+  bossKey: string;
+  bossName: string;
+  date: string;
+  reportCode: string;
+  fightId: number;
+  kill: boolean;
+}
+
+interface WclBossAttendanceData {
+  events: WclBossAttendanceEvent[];
+}
+
 export interface PlayerBossAttendanceSummary {
   playerSlug: string;
   bossName: string;
@@ -44,13 +61,58 @@ export interface BossAttendanceOverview {
 }
 
 const attendanceSummary = wclBossAttendanceSummary as WclBossAttendanceSummaryData;
+const attendanceData = wclBossAttendance as WclBossAttendanceData;
 
 const normalizeBossKey = (bossName: string) => normalizeProgressionName(bossName);
+const activeRosterSlugs = new Set(activeRosterPlayers.map((player) => player.slug));
+const raidNightByDate = new Map(raidNights.map((night) => [night.isoDate, night]));
+const getBossKillKey = (event: WclBossAttendanceEvent) =>
+  `${event.tierSlug}:${event.bossKey}:${event.date}:${event.reportCode}:${event.fightId}`;
 
 const getBossSummary = (bossName: string) => {
   const bossKey = normalizeBossKey(bossName);
   return attendanceSummary.bosses.find((boss) => boss.bossKey === bossKey);
 };
+
+const bossBenchCountBySlug = (() => {
+  const countBySlug = new Map(activeRosterPlayers.map((player) => [player.slug, 0]));
+  const killEventsByKey = new Map<string, { date: string; presentSlugs: Set<string> }>();
+
+  for (const event of attendanceData.events) {
+    if (event.tierSlug !== attendanceSummary.tierSlug || !event.kill || !activeRosterSlugs.has(event.playerSlug)) {
+      continue;
+    }
+
+    const key = getBossKillKey(event);
+    const killEvent = killEventsByKey.get(key) ?? { date: event.date, presentSlugs: new Set<string>() };
+    killEvent.presentSlugs.add(event.playerSlug);
+    killEventsByKey.set(key, killEvent);
+  }
+
+  for (const killEvent of killEventsByKey.values()) {
+    const raidNight = raidNightByDate.get(killEvent.date);
+
+    if (!raidNight) {
+      continue;
+    }
+
+    const unavailableSlugs = new Set([...raidNight.out, ...raidNight.late, ...raidNight.mia].map((player) => player.slug));
+
+    for (const player of activeRosterPlayers) {
+      if (unavailableSlugs.has(player.slug) || killEvent.presentSlugs.has(player.slug)) {
+        continue;
+      }
+
+      countBySlug.set(player.slug, (countBySlug.get(player.slug) ?? 0) + 1);
+    }
+  }
+
+  return countBySlug;
+})();
+
+export const getPlayerBossBenchCount = (playerSlug: string) => bossBenchCountBySlug.get(playerSlug) ?? 0;
+
+export const getMaxPlayerBossBenchCount = () => Math.max(0, ...bossBenchCountBySlug.values());
 
 export const getPlayerBossAttendanceSummary = (
   playerSlug: string,

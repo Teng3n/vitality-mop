@@ -1,8 +1,10 @@
 import benchRulesJson from "../data/benchRules.json";
 import { isCurrentAttendanceDate } from "./attendanceTiers";
 import {
+  getMaxPlayerBossBenchCount,
   getBossAttendanceStatusText,
   getPlayerBossAttendanceSummary,
+  getPlayerBossBenchCount,
   hasBossAttendanceData,
   hasCurrentBossAttendanceData,
 } from "./bossAttendance";
@@ -138,6 +140,7 @@ export const BENCH_SUGGESTION_WINDOW_WEEKS =
 const benchSummaryBySlug = new Map(benchSummaries.map((summary) => [summary.playerSlug, summary]));
 const activeRosterBySlug = new Map(activeRosterPlayers.map((player) => [player.slug, player]));
 const maxBenchCount = Math.max(0, ...benchSummaries.map((summary) => summary.totalScheduledBenchNights));
+const maxBossBenchCount = getMaxPlayerBossBenchCount();
 
 const getWeekStart = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
 const toIsoDate = (date: Date) =>
@@ -727,12 +730,27 @@ const scoreBossCandidate = (
   bossPlanningState: BossPlanningState,
 ): BenchCandidate => {
   const candidate = scoreCandidate(player, weekKey, weekPlanningState);
+  const scheduledBenchCount = candidate.totalBenchCount;
+  const bossBenchCount = getPlayerBossBenchCount(player.slug);
   const bossSuggestedCount = bossPlanningState.suggestedCountBySlug.get(player.slug) ?? 0;
   const lastSuggestedBossOrder = bossPlanningState.lastSuggestedBossOrderBySlug.get(player.slug) ?? 0;
   const currentBossBenchStreak = bossPlanningState.currentStreakBySlug.get(player.slug) ?? 0;
   const gearReason = getBossGearReason(bossGearStatus);
   const attendanceReason = getBossAttendanceReason(player, boss);
   const progressionCoreReason = getProgressionCoreReason(player, boss);
+
+  if (benchRules.scoring.lowBenchCountWeight) {
+    candidate.score -= (maxBenchCount - scheduledBenchCount) * benchRules.scoring.lowBenchCountWeight;
+    candidate.score += (maxBossBenchCount - bossBenchCount) * benchRules.scoring.lowBenchCountWeight;
+
+    const benchCountReasonIndex = candidate.reasons.findIndex((reason) => reason.startsWith("lower bench count"));
+
+    if (benchCountReasonIndex >= 0) {
+      candidate.reasons[benchCountReasonIndex] = `lower boss bench count (${bossBenchCount})`;
+    }
+  }
+
+  candidate.totalBenchCount = bossBenchCount;
   candidate.score += gearReason.score;
   candidate.score += attendanceReason.score;
   candidate.score += progressionCoreReason.score;
@@ -1130,7 +1148,6 @@ export const getBossBenchSuggestions = (todayIso = getTodayIso()): BossBenchSugg
 
     for (const player of suggestedBenchPlayers) {
       addSuggestedBossBenchToPlanningState(bossPlanningState, player.slug, boss.order);
-      addSuggestedBenchToPlanningState(weekPlanningState, player.slug, weekKey);
     }
 
     const status =

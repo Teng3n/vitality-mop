@@ -130,6 +130,20 @@ const raidNightOptions = raidNights
   const benchSuggestionStatus = benchSuggestionPage?.querySelector<HTMLElement>("[data-bench-suggestion-status]");
   const benchSuggestionKind = benchSuggestionPage?.dataset.benchSuggestionKind ?? "boss";
   const benchSuggestionEndpoint = benchSuggestionPage?.dataset.benchSuggestionEndpoint ?? "/api/boss-bench-suggestions";
+  const classColors: Record<string, string> = {
+    deathknight: "#c41e3a",
+    druid: "#ff7c0a",
+    hunter: "#aad372",
+    mage: "#3fc7eb",
+    monk: "#00ff98",
+    paladin: "#f48cba",
+    priest: "#d8dde8",
+    rogue: "#fff468",
+    shaman: "#0070dd",
+    warlock: "#8788ee",
+    warrior: "#c69b6d",
+  };
+  const getClassColor = (className = "") => classColors[className.toLocaleLowerCase().replace(/[^a-z0-9]+/g, "")];
   const getBenchSuggestionUrl = () => {
     const url = new URL(benchSuggestionEndpoint, window.location.origin);
 
@@ -178,7 +192,7 @@ const raidNightOptions = raidNights
     makeBadge(
       `B${player.totalBenchCount}`,
       "is-count",
-      `Bench count before this pick: ${player.totalBenchCount}. Already selected ${player.bossPlanBenchCount} boss${player.bossPlanBenchCount === 1 ? "" : "es"} earlier in this boss plan.`,
+      `Historical boss-kill bench count: ${player.totalBenchCount}. Already selected ${player.bossPlanBenchCount} boss${player.bossPlanBenchCount === 1 ? "" : "es"} earlier in this boss plan.`,
     );
   const getAttendanceBadge = (player: BossBenchPlayer) =>
     player.bossAttendanceAppearances > 0
@@ -218,6 +232,12 @@ const raidNightOptions = raidNights
     name.className = "boss-bench-player-name";
     name.textContent = player.name;
     name.title = player.reasons.slice(0, 4).join("\n");
+    const classColor = getClassColor(player.className);
+
+    if (classColor) {
+      name.style.setProperty("--player-color", classColor);
+    }
+
     wrapper.appendChild(name);
 
     const badges = document.createElement("span");

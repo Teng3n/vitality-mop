@@ -2939,13 +2939,14 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
 .boss-bench-summary span,
 .boss-bench-legend > span {
-  border: 1px solid rgba(43, 58, 49, 0.16);
+  border: 1px solid rgba(200, 155, 60, 0.2);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.62);
+  background: rgba(17, 23, 20, 0.82);
   color: var(--muted);
   font-size: 0.82rem;
   font-weight: 700;
   padding: 7px 9px;
+  box-shadow: inset 0 1px 0 rgba(242, 240, 232, 0.04);
 }
 
 .boss-bench-table-wrap {
@@ -2977,7 +2978,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
 .boss-bench-table tbody th {
   width: 180px;
-  color: var(--text);
+  color: var(--gold);
   font-weight: 800;
 }
 
@@ -2988,8 +2989,9 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 }
 
 .boss-bench-player-name {
-  color: var(--text);
+  color: var(--player-color, var(--muted));
   font-weight: 800;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
 }
 
 .boss-bench-player-badges {
@@ -3002,9 +3004,9 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   display: inline-flex;
   align-items: center;
   min-height: 20px;
-  border: 1px solid rgba(43, 58, 49, 0.14);
+  border: 1px solid rgba(242, 240, 232, 0.12);
   border-radius: 999px;
-  background: rgba(43, 58, 49, 0.06);
+  background: rgba(43, 58, 49, 0.32);
   color: var(--muted);
   font-size: 0.68rem;
   font-weight: 800;
@@ -3014,33 +3016,33 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 }
 
 .boss-bench-badge.is-safe {
-  border-color: rgba(50, 138, 89, 0.25);
-  background: rgba(50, 138, 89, 0.12);
-  color: #1f6f43;
+  border-color: rgba(111, 207, 151, 0.32);
+  background: rgba(111, 207, 151, 0.14);
+  color: #6fcf97;
 }
 
 .boss-bench-badge.is-complete {
-  border-color: rgba(43, 111, 173, 0.24);
-  background: rgba(43, 111, 173, 0.12);
-  color: #245f97;
+  border-color: rgba(117, 183, 255, 0.32);
+  background: rgba(117, 183, 255, 0.14);
+  color: #75b7ff;
 }
 
 .boss-bench-badge.is-needs {
-  border-color: rgba(180, 74, 60, 0.28);
-  background: rgba(180, 74, 60, 0.12);
-  color: #974236;
+  border-color: rgba(255, 138, 122, 0.34);
+  background: rgba(255, 138, 122, 0.14);
+  color: #ff8a7a;
 }
 
 .boss-bench-badge.is-count {
-  border-color: rgba(94, 80, 151, 0.22);
-  background: rgba(94, 80, 151, 0.1);
-  color: #50458a;
+  border-color: rgba(179, 162, 255, 0.3);
+  background: rgba(179, 162, 255, 0.13);
+  color: #b3a2ff;
 }
 
 .boss-bench-badge.is-attendance {
-  border-color: rgba(191, 129, 44, 0.28);
-  background: rgba(191, 129, 44, 0.12);
-  color: #8a5a1d;
+  border-color: rgba(216, 166, 79, 0.34);
+  background: rgba(216, 166, 79, 0.14);
+  color: #d8a64f;
 }
 
 .bench-suggestion-output-panel summary {
