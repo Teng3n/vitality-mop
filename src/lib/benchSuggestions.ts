@@ -116,7 +116,8 @@ export interface BossBenchSuggestion {
 const benchRules = benchRulesJson as unknown as BenchRules;
 const progressionCorePlayerSlugs = new Set(benchRules.progressionCorePlayers ?? []);
 const MINIMUM_HEALERS = 5;
-const effectiveMinimumAvailableByRole = {
+const SIX_HEALER_BOSS_KEYS = new Set(["immerseus", "ironjuggernaut", "spoilsofpandaria"]);
+const baseMinimumAvailableByRole: Record<string, number> = {
   ...benchRules.minimumAvailableByRole,
   Healer: Math.max(benchRules.minimumAvailableByRole.Healer ?? 0, MINIMUM_HEALERS),
 };
@@ -158,6 +159,17 @@ const normalizeKey = (value: string) => value.toLocaleLowerCase().replace(/[^a-z
 const sortStatusPlayers = (players: StatusPlayer[]) =>
   [...players].sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
 const playerList = (players: StatusPlayer[]) => (players.length > 0 ? players.map((player) => player.name).join(", ") : "None");
+const getBossTargetHealers = (boss?: BossGearNeed) =>
+  boss && SIX_HEALER_BOSS_KEYS.has(normalizeKey(boss.bossName)) ? 6 : MINIMUM_HEALERS;
+const getMinimumAvailableByRole = (overrides: Record<string, number> = {}) => {
+  const minimums = { ...baseMinimumAvailableByRole };
+
+  for (const [role, minimum] of Object.entries(overrides)) {
+    minimums[role] = Math.max(minimums[role] ?? 0, minimum);
+  }
+
+  return minimums;
+};
 const getEffectivePenalty = (weight: number | undefined, minimumPenalty: number) => {
   if (!weight) {
     return 0;
@@ -355,7 +367,11 @@ const getNewMissingRaidBuffs = (
   return getMissingRaidBuffs(unavailableSlugs, projectedBenchSlugs).filter((buff) => !currentMissing.has(buff));
 };
 
-const getConstraintWarnings = (benchSlugs: Set<string>, unavailableSlugs: Set<string>) => {
+const getConstraintWarnings = (
+  benchSlugs: Set<string>,
+  unavailableSlugs: Set<string>,
+  minimumAvailableByRole = baseMinimumAvailableByRole,
+) => {
   const warnings: string[] = [];
 
   for (const playerSlug of benchRules.neverBenchPlayers) {
@@ -376,7 +392,7 @@ const getConstraintWarnings = (benchSlugs: Set<string>, unavailableSlugs: Set<st
 
   const counts = getAvailableCounts(unavailableSlugs, benchSlugs);
 
-  for (const [role, minimum] of Object.entries(effectiveMinimumAvailableByRole)) {
+  for (const [role, minimum] of Object.entries(minimumAvailableByRole)) {
     const available = counts.byRole.get(normalizeKey(role)) ?? 0;
 
     if (available < minimum) {
@@ -416,7 +432,12 @@ const getConstraintWarnings = (benchSlugs: Set<string>, unavailableSlugs: Set<st
   return warnings;
 };
 
-const passesHardRules = (player: Player, unavailableSlugs: Set<string>, benchSlugs: Set<string>) => {
+const passesHardRules = (
+  player: Player,
+  unavailableSlugs: Set<string>,
+  benchSlugs: Set<string>,
+  minimumAvailableByRole = baseMinimumAvailableByRole,
+) => {
   if (unavailableSlugs.has(player.slug) || benchSlugs.has(player.slug) || benchRules.neverBenchPlayers.includes(player.slug)) {
     return false;
   }
@@ -436,7 +457,7 @@ const passesHardRules = (player: Player, unavailableSlugs: Set<string>, benchSlu
   const currentCounts = getAvailableCounts(unavailableSlugs, benchSlugs);
   const nextCounts = getAvailableCounts(unavailableSlugs, nextBenchSlugs);
 
-  for (const [role, minimum] of Object.entries(effectiveMinimumAvailableByRole)) {
+  for (const [role, minimum] of Object.entries(minimumAvailableByRole)) {
     const roleKey = normalizeKey(role);
     const currentAvailable = currentCounts.byRole.get(roleKey) ?? 0;
     const nextAvailable = nextCounts.byRole.get(roleKey) ?? 0;
@@ -479,6 +500,52 @@ const getRaidBuffCandidateViolations = (player: Player, unavailableSlugs: Set<st
   nextBenchSlugs.add(player.slug);
 
   return getNewMissingRaidBuffs(unavailableSlugs, benchSlugs, nextBenchSlugs);
+};
+
+const getRequiredBossBenchByRole = (
+  boss: BossGearNeed,
+  unavailableSlugs: Set<string>,
+  maxBenchSlots: number,
+) => {
+  const targetHealers = getBossTargetHealers(boss);
+  const availableCounts = getAvailableCounts(unavailableSlugs, new Set());
+  const availableHealers = availableCounts.byRole.get("healer") ?? 0;
+  const requiredHealerBenches = Math.min(maxBenchSlots, Math.max(0, availableHealers - targetHealers));
+  const requiredBenchByRole = new Map<string, number>();
+
+  if (requiredHealerBenches > 0) {
+    requiredBenchByRole.set("healer", requiredHealerBenches);
+  }
+
+  return requiredBenchByRole;
+};
+
+const getUnmetRequiredBenchCount = (
+  requiredBenchByRole: Map<string, number>,
+  selectedBenchCountByRole: Map<string, number>,
+) =>
+  [...requiredBenchByRole.entries()].reduce(
+    (sum, [role, required]) => sum + Math.max(0, required - (selectedBenchCountByRole.get(role) ?? 0)),
+    0,
+  );
+
+const preservesRequiredBossBenchSlots = (
+  player: Player,
+  requiredBenchByRole: Map<string, number>,
+  selectedBenchCountByRole: Map<string, number>,
+  selectedBenchCount: number,
+  additionalBenchNeeded: number,
+) => {
+  if (requiredBenchByRole.size === 0) {
+    return true;
+  }
+
+  const nextSelectedBenchCountByRole = new Map(selectedBenchCountByRole);
+  const roleKey = normalizeKey(player.role);
+  nextSelectedBenchCountByRole.set(roleKey, (nextSelectedBenchCountByRole.get(roleKey) ?? 0) + 1);
+
+  const remainingBenchSlots = additionalBenchNeeded - selectedBenchCount - 1;
+  return getUnmetRequiredBenchCount(requiredBenchByRole, nextSelectedBenchCountByRole) <= remainingBenchSlots;
 };
 
 const scoreCandidate = (player: Player, weekKey: string, planningState: PlanningState): BenchCandidate => {
@@ -905,15 +972,19 @@ export const getBossBenchSuggestions = (todayIso = getTodayIso()): BossBenchSugg
   return gearNeedsReport.bosses.map((boss): BossBenchSuggestion => {
     const suggestedBenchPlayers: BossBenchSuggestionPlayer[] = [];
     const suggestedBenchSlugs = new Set<string>();
+    const suggestedBenchCountByRole = new Map<string, number>();
     const selectedCandidates: BenchCandidate[] = [];
     const warnings: string[] = [];
     const notes: string[] = [];
+    const bossTargetHealers = getBossTargetHealers(boss);
+    const bossMinimumAvailableByRole = getMinimumAvailableByRole({ Healer: bossTargetHealers });
+    const requiredBenchByRole = getRequiredBossBenchByRole(boss, unavailableSlugs, additionalBenchNeeded);
 
     if (availableRaiders < TARGET_RAID_SIZE) {
       warnings.push(`Raid is short by ${TARGET_RAID_SIZE - availableRaiders} before boss benching.`);
     }
 
-    warnings.push(...getConstraintWarnings(existingBenchSlugs, unavailableSlugs));
+    warnings.push(...getConstraintWarnings(existingBenchSlugs, unavailableSlugs, bossMinimumAvailableByRole));
 
     const existingMissingRaidBuffs = getMissingRaidBuffs(unavailableSlugs, existingBenchSlugs);
 
@@ -948,7 +1019,12 @@ export const getBossBenchSuggestions = (todayIso = getTodayIso()): BossBenchSugg
 
         const currentBenchSlugs = new Set([...existingBenchSlugs, ...suggestedBenchSlugs]);
 
-        if (!passesHardRules(candidate.player, unavailableSlugs, currentBenchSlugs)) {
+        if (!preservesRequiredBossBenchSlots(candidate.player, requiredBenchByRole, suggestedBenchCountByRole, suggestedBenchPlayers.length, additionalBenchNeeded)) {
+          skippedHardRuleCount += 1;
+          continue;
+        }
+
+        if (!passesHardRules(candidate.player, unavailableSlugs, currentBenchSlugs, bossMinimumAvailableByRole)) {
           skippedHardRuleCount += 1;
           continue;
         }
@@ -966,8 +1042,12 @@ export const getBossBenchSuggestions = (todayIso = getTodayIso()): BossBenchSugg
           reasons: candidate.reasons,
         });
         suggestedBenchSlugs.add(candidate.player.slug);
+        const roleKey = normalizeKey(candidate.player.role);
+        suggestedBenchCountByRole.set(roleKey, (suggestedBenchCountByRole.get(roleKey) ?? 0) + 1);
         selectedCandidates.push(candidate);
       }
+
+      const unmetRequiredBenchCount = getUnmetRequiredBenchCount(requiredBenchByRole, suggestedBenchCountByRole);
 
       if (suggestedBenchPlayers.length < additionalBenchNeeded) {
         if (skippedRaidBuffCount > 0) {
@@ -982,10 +1062,22 @@ export const getBossBenchSuggestions = (todayIso = getTodayIso()): BossBenchSugg
         );
       }
 
+      if (unmetRequiredBenchCount > 0) {
+        warnings.push(
+          `Could not satisfy boss healer target: ${boss.bossName} wants ${bossTargetHealers} available healers, but ${unmetRequiredBenchCount} required healer bench slot${
+            unmetRequiredBenchCount === 1 ? "" : "s"
+          } could not be filled.`,
+        );
+      }
+
       if (selectedCandidates.length > 0) {
         const selectedWithLootNeeds = selectedCandidates.filter((candidate) =>
           candidate.reasons.some((reason) => reason.startsWith("would miss ")),
         );
+
+        if ((requiredBenchByRole.get("healer") ?? 0) > 0 && unmetRequiredBenchCount === 0) {
+          notes.push(`Healer target preserved: ${boss.bossName} is planned for ${bossTargetHealers} available healers.`);
+        }
 
         notes.push(
           selectedWithLootNeeds.length === 0

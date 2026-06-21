@@ -595,8 +595,10 @@ function getFallbackGuildSource(): WclGuildSource {
   const serverSlug = (cleanText(process.env.WCL_SERVER_SLUG) || "raden").toLowerCase();
   const serverName = cleanText(process.env.WCL_SERVER_NAME) || serverSlugToName(serverSlug);
   const region = (cleanText(process.env.WCL_REGION) || "US").toUpperCase();
+  const guildId = normalizeGuildId(process.env.WCL_GUILD_ID);
 
   return {
+    ...(guildId ? { guildId } : {}),
     guildName,
     serverSlug,
     serverName,
@@ -1011,14 +1013,11 @@ async function fetchGuildReportsPages(
 }
 
 function getGuildProgressTargets(): WclGuildProgressTarget[] {
+  const targets: WclGuildProgressTarget[] = [];
   const tier5Source = guildSources.find((source) => source.guildId === 619658 && source.tiers.includes("tbc-tier-5"));
 
-  if (!tier5Source?.guildId) {
-    return [];
-  }
-
-  return [
-    {
+  if (tier5Source?.guildId) {
+    targets.push({
       guildId: tier5Source.guildId,
       guildName: tier5Source.guildName,
       serverSlug: tier5Source.serverSlug,
@@ -1032,8 +1031,33 @@ function getGuildProgressTargets(): WclGuildProgressTarget[] {
       difficulty: "Normal",
       difficultyId: 3,
       size: 25,
-    },
-  ];
+    });
+  }
+
+  for (const source of guildSources.filter((guildSource) => guildSource.guildId && guildSource.tiers.includes("tier-16"))) {
+    for (const difficulty of [
+      { label: "Normal", id: 3 },
+      { label: "Heroic", id: 4 },
+    ]) {
+      targets.push({
+        guildId: source.guildId!,
+        guildName: source.guildName,
+        serverSlug: source.serverSlug,
+        region: source.region,
+        sourceLabel: source.label,
+        // WCL Classic guild progress zone 1054 is Siege of Orgrimmar.
+        zoneId: 1054,
+        zoneName: "Siege of Orgrimmar",
+        expansionSlug: "mop",
+        tierSlug: "tier-16",
+        difficulty: difficulty.label,
+        difficultyId: difficulty.id,
+        size: 25,
+      });
+    }
+  }
+
+  return targets;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
