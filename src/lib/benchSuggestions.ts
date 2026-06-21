@@ -676,7 +676,7 @@ const getBossAttendanceReason = (player: Player, boss: BossGearNeed) => {
   if (summary.appearances === 0) {
     return {
       score: BOSS_ATTENDANCE_MISSING_PENALTY,
-      reason: "protected because no synced SoO attendance for this boss yet",
+      reason: "penalized because no synced SoO attendance for this boss yet",
     };
   }
 
@@ -691,9 +691,11 @@ const getBossAttendanceReason = (player: Player, boss: BossGearNeed) => {
 };
 
 const isUnprogressedBoss = (boss: BossGearNeed) => hasCurrentBossAttendanceData() && !hasBossAttendanceData(boss.bossName);
+const isProgressionCoreProtectedForBoss = (player: Player, boss: BossGearNeed) =>
+  progressionCorePlayerSlugs.has(player.slug) && isUnprogressedBoss(boss);
 
 const getProgressionCoreReason = (player: Player, boss: BossGearNeed) => {
-  if (!progressionCorePlayerSlugs.has(player.slug) || !isUnprogressedBoss(boss)) {
+  if (!isProgressionCoreProtectedForBoss(player, boss)) {
     return {
       score: 0,
       reason: "",
@@ -1020,6 +1022,11 @@ export const getBossBenchSuggestions = (todayIso = getTodayIso()): BossBenchSugg
         const currentBenchSlugs = new Set([...existingBenchSlugs, ...suggestedBenchSlugs]);
 
         if (!preservesRequiredBossBenchSlots(candidate.player, requiredBenchByRole, suggestedBenchCountByRole, suggestedBenchPlayers.length, additionalBenchNeeded)) {
+          skippedHardRuleCount += 1;
+          continue;
+        }
+
+        if (isProgressionCoreProtectedForBoss(candidate.player, boss)) {
           skippedHardRuleCount += 1;
           continue;
         }

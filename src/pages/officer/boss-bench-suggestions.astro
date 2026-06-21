@@ -1,6 +1,18 @@
 ---
 import OfficerGate from "../../components/OfficerGate.astro";
 import Layout from "../../layouts/Layout.astro";
+import { getTodayIso, parseIsoDate, raidNights } from "../../lib/guildData";
+
+const raidNightOptions = raidNights
+  .filter((night) => night.isoDate >= getTodayIso())
+  .slice(0, 8)
+  .map((night) => {
+    const date = parseIsoDate(night.isoDate);
+    return {
+      value: night.isoDate,
+      label: date.toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" }),
+    };
+  });
 ---
 
 <Layout title="Boss Bench Suggestions | Vitality">
@@ -22,6 +34,13 @@ import Layout from "../../layouts/Layout.astro";
           <div class="section-heading">
             <p class="eyebrow">Boss Bench Suggestions</p>
           </div>
+
+          <label class="bench-suggestion-date-field">
+            <span>Raid night</span>
+            <select data-bench-suggestion-date>
+              {raidNightOptions.map((option) => <option value={option.value}>{option.label}</option>)}
+            </select>
+          </label>
 
           <div class="officer-tool-actions">
             <button class="filter-button is-subtle" type="button" data-bench-suggestion-generate>
@@ -52,11 +71,21 @@ import Layout from "../../layouts/Layout.astro";
   const benchSuggestionPage = document.querySelector<HTMLElement>("[data-bench-suggestion-page]");
   const benchSuggestionGenerate = benchSuggestionPage?.querySelector<HTMLButtonElement>("[data-bench-suggestion-generate]");
   const benchSuggestionCopy = benchSuggestionPage?.querySelector<HTMLButtonElement>("[data-bench-suggestion-copy]");
+  const benchSuggestionDate = benchSuggestionPage?.querySelector<HTMLSelectElement>("[data-bench-suggestion-date]");
   const benchSuggestionOutput = benchSuggestionPage?.querySelector<HTMLElement>("[data-bench-suggestion-output]");
   const benchSuggestionText = benchSuggestionPage?.querySelector<HTMLElement>("[data-bench-suggestion-text]");
   const benchSuggestionStatus = benchSuggestionPage?.querySelector<HTMLElement>("[data-bench-suggestion-status]");
   const benchSuggestionKind = benchSuggestionPage?.dataset.benchSuggestionKind ?? "boss";
   const benchSuggestionEndpoint = benchSuggestionPage?.dataset.benchSuggestionEndpoint ?? "/api/boss-bench-suggestions";
+  const getBenchSuggestionUrl = () => {
+    const url = new URL(benchSuggestionEndpoint, window.location.origin);
+
+    if (benchSuggestionDate?.value) {
+      url.searchParams.set("date", benchSuggestionDate.value);
+    }
+
+    return url.toString();
+  };
 
   const parseJsonResponse = async <T,>(response: Response): Promise<T | undefined> => {
     const responseText = await response.text();
@@ -87,7 +116,7 @@ import Layout from "../../layouts/Layout.astro";
     }
 
     try {
-      const response = await fetch(benchSuggestionEndpoint);
+      const response = await fetch(getBenchSuggestionUrl());
       const result = await parseJsonResponse<{ ok?: boolean; text?: string; sheetText?: string; message?: string }>(response);
 
       if (!response.ok || result?.ok !== true || !result.text) {

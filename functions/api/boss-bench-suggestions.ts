@@ -6,6 +6,11 @@ interface PagesContext {
   env: OfficerAuthEnv;
 }
 
+const getRequestedRaidDate = (request: Request) => {
+  const date = new URL(request.url).searchParams.get("date")?.trim();
+  return date && /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : undefined;
+};
+
 export const onRequest = async ({ request, env }: PagesContext) => {
   if (request.method !== "GET") {
     return jsonResponse({ ok: false, message: "Method not allowed." }, 405, { Allow: "GET" });
@@ -20,9 +25,11 @@ export const onRequest = async ({ request, env }: PagesContext) => {
     return jsonResponse({ ok: false, message: "Officer access required." }, 401);
   }
 
+  const raidDate = getRequestedRaidDate(request);
+
   return jsonResponse({
     ok: true,
-    text: getBossBenchSuggestionText(),
-    sheetText: getBossBenchSuggestionSheetText(),
+    text: getBossBenchSuggestionText(raidDate),
+    sheetText: getBossBenchSuggestionSheetText(raidDate),
   });
 };

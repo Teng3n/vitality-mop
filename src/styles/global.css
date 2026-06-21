@@ -2894,6 +2894,29 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   margin-bottom: 0;
 }
 
+.bench-suggestion-date-field {
+  display: grid;
+  gap: 7px;
+  margin: 12px 0 16px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.bench-suggestion-date-field select {
+  width: min(100%, 288px);
+  border: 1px solid rgba(43, 58, 49, 0.2);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 11px 13px;
+  text-transform: none;
+}
+
 .bench-suggestion-actions {
   display: flex;
   flex-wrap: wrap;
