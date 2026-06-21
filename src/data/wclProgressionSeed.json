@@ -4843,21 +4843,6 @@
           "difficulties": {}
         },
         {
-          "name": "General Nazgrim",
-          "encounterId": null,
-          "difficulties": {}
-        },
-        {
-          "name": "Iron Juggernaut",
-          "encounterId": null,
-          "difficulties": {}
-        },
-        {
-          "name": "Kor'kron Dark Shaman",
-          "encounterId": null,
-          "difficulties": {}
-        },
-        {
           "name": "Malkorok",
           "encounterId": null,
           "difficulties": {}
@@ -4901,6 +4886,24 @@
           }
         },
         {
+          "name": "Iron Juggernaut",
+          "encounterId": 51600,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2026-06-16T04:56:48.060Z",
+              "latestKillDate": "2026-06-16T04:56:48.060Z",
+              "bestPercent": 0,
+              "reportCode": "ahrBDQKqpGdMbZWT",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8",
+              "pulls": 7,
+              "kills": 1
+            }
+          }
+        },
+        {
           "name": "Immerseus",
           "encounterId": 51602,
           "difficulties": {
@@ -4919,6 +4922,24 @@
           }
         },
         {
+          "name": "General Nazgrim",
+          "encounterId": 51603,
+          "difficulties": {
+            "Heroic": {
+              "status": "Best Pull",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": null,
+              "latestKillDate": null,
+              "bestPercent": 0.59,
+              "reportCode": "ahrBDQKqpGdMbZWT",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=26",
+              "pulls": 7,
+              "kills": 0
+            }
+          }
+        },
+        {
           "name": "Sha of Pride",
           "encounterId": 51604,
           "difficulties": {
@@ -4927,11 +4948,29 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2026-06-09T04:57:50.801Z",
-              "latestKillDate": "2026-06-09T04:57:50.801Z",
+              "latestKillDate": "2026-06-16T03:33:42.517Z",
               "bestPercent": 0,
               "reportCode": "BtJbpyWzZKv4wXQ9",
               "reportUrl": "https://classic.warcraftlogs.com/reports/BtJbpyWzZKv4wXQ9#fight=22",
-              "pulls": 31,
+              "pulls": 35,
+              "kills": 2
+            }
+          }
+        },
+        {
+          "name": "Kor'kron Dark Shaman",
+          "encounterId": 51606,
+          "difficulties": {
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2026-06-16T05:15:04.630Z",
+              "latestKillDate": "2026-06-16T05:15:04.630Z",
+              "bestPercent": 0,
+              "reportCode": "ahrBDQKqpGdMbZWT",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14",
+              "pulls": 1,
               "kills": 1
             }
           }
@@ -4945,12 +4984,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2026-06-09T06:01:56.842Z",
-              "latestKillDate": "2026-06-09T06:01:56.842Z",
+              "latestKillDate": "2026-06-16T04:03:59.767Z",
               "bestPercent": 0,
               "reportCode": "jWDnwCPFVxZ9qh4N",
               "reportUrl": "https://classic.warcraftlogs.com/reports/jWDnwCPFVxZ9qh4N#fight=10",
-              "pulls": 6,
-              "kills": 1
+              "pulls": 8,
+              "kills": 2
             }
           }
         },
@@ -4974,9 +5013,9 @@
         }
       ],
       "summary": {
-        "normalKilled": 0,
+        "normalKilled": 1,
         "normalTotal": 14,
-        "heroicKilled": 5,
+        "heroicKilled": 6,
         "heroicTotal": 14
       }
     }
