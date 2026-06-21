@@ -16,7 +16,7 @@ import {
   type RaidNight,
   type StatusPlayer,
 } from "./guildData";
-import { getGearNeedsReport, type BossGearNeed, type PlayerBossGearStatus } from "./gearNeeds";
+import { getGearNeedsReport, type BossGearNeed, type GearNeedTarget, type PlayerBossGearStatus } from "./gearNeeds";
 import { getRaidBuffCoverage } from "./raidBuffs";
 
 const DEFAULT_BENCH_SUGGESTION_WINDOW_WEEKS = 8;
@@ -96,6 +96,16 @@ export interface BenchSuggestionWeek {
 
 export interface BossBenchSuggestionPlayer extends StatusPlayer {
   reasons: string[];
+  role: string;
+  lootStatus: PlayerBossGearStatus["status"];
+  lootStatusLabel: string;
+  lootNeeds: GearNeedTarget[];
+  acquiredLootCount: number;
+  targetLootCount: number;
+  totalBenchCount: number;
+  bossPlanBenchCount: number;
+  bossAttendanceAppearances: number;
+  bossAttendanceLatestDate: string | null;
 }
 
 export interface BossBenchSuggestion {
@@ -1044,9 +1054,23 @@ export const getBossBenchSuggestions = (todayIso = getTodayIso()): BossBenchSugg
           continue;
         }
 
+        const bossGearStatus = bossGearBySlug.get(candidate.player.slug);
+        const bossAttendance = getPlayerBossAttendanceSummary(candidate.player.slug, boss.bossName);
+        const bossPlanBenchCount = bossPlanningState.suggestedCountBySlug.get(candidate.player.slug) ?? 0;
+
         suggestedBenchPlayers.push({
           ...getStatusPlayer(candidate.player),
           reasons: candidate.reasons,
+          role: candidate.player.role,
+          lootStatus: bossGearStatus?.status ?? "no-tracked-need",
+          lootStatusLabel: bossGearStatus?.statusLabel ?? "No tracked loot",
+          lootNeeds: bossGearStatus?.needs ?? [],
+          acquiredLootCount: bossGearStatus?.acquired.length ?? 0,
+          targetLootCount: bossGearStatus?.targetCount ?? 0,
+          totalBenchCount: candidate.totalBenchCount,
+          bossPlanBenchCount,
+          bossAttendanceAppearances: bossAttendance.appearances,
+          bossAttendanceLatestDate: bossAttendance.latestDate,
         });
         suggestedBenchSlugs.add(candidate.player.slug);
         const roleKey = normalizeKey(candidate.player.role);

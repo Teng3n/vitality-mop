@@ -1,5 +1,5 @@
 import { hasOfficerPasswordConfig, hasValidOfficerSession, jsonResponse, type OfficerAuthEnv } from "../_shared/officer-auth";
-import { getBossBenchSuggestionSheetText, getBossBenchSuggestionText } from "../../src/lib/benchSuggestions";
+import { getBossBenchSuggestions, getBossBenchSuggestionSheetText, getBossBenchSuggestionText } from "../../src/lib/benchSuggestions";
 
 interface PagesContext {
   request: Request;
@@ -31,5 +31,6 @@ export const onRequest = async ({ request, env }: PagesContext) => {
     ok: true,
     text: getBossBenchSuggestionText(raidDate),
     sheetText: getBossBenchSuggestionSheetText(raidDate),
+    suggestions: getBossBenchSuggestions(raidDate),
   });
 };

@@ -50,28 +50,81 @@ const raidNightOptions = raidNights
         </article>
       </div>
 
-      <section class="panel bench-suggestion-output-panel" data-bench-suggestion-output hidden>
+      <section class="panel boss-bench-visual-panel" data-boss-bench-visual hidden>
         <div class="section-heading inline bench-suggestion-heading">
           <div>
-            <p class="eyebrow">Boss Suggested Bench Plan</p>
+            <p class="eyebrow">Boss Bench Table</p>
+            <h2 data-boss-bench-heading>Suggested Bench Plan</h2>
           </div>
           <button class="filter-button is-subtle" type="button" data-bench-suggestion-copy>Copy Sheet</button>
         </div>
 
+        <div class="boss-bench-summary" data-boss-bench-summary></div>
+
+        <div class="boss-bench-legend" aria-label="Boss bench legend">
+          <span><span class="boss-bench-badge is-safe">No loot</span> No tracked BiS</span>
+          <span><span class="boss-bench-badge is-complete">Done</span> Tracked loot done</span>
+          <span><span class="boss-bench-badge is-needs">Need</span> Still needs loot</span>
+          <span><span class="boss-bench-badge is-count">B#</span> Bench count</span>
+        </div>
+
+        <div class="boss-bench-table-wrap" data-boss-bench-table></div>
+        <p class="info-note bench-suggestion-status" data-bench-suggestion-status aria-live="polite"></p>
+      </section>
+
+      <details class="panel bench-suggestion-output-panel" data-bench-suggestion-output hidden>
+        <summary>Raw boss suggested bench plan</summary>
         <div class="bench-suggestion-output">
           <pre data-bench-suggestion-text></pre>
         </div>
-        <p class="info-note bench-suggestion-status" data-bench-suggestion-status aria-live="polite"></p>
-      </section>
+      </details>
     </section>
   </OfficerGate>
 </Layout>
 
 <script>
+  type BossBenchLootNeed = {
+    item: string;
+    slot: string;
+    importance: string;
+  };
+
+  type BossBenchPlayer = {
+    slug: string;
+    name: string;
+    className?: string;
+    role: string;
+    reasons: string[];
+    lootStatus: "needs" | "complete" | "no-tracked-need";
+    lootStatusLabel: string;
+    lootNeeds: BossBenchLootNeed[];
+    acquiredLootCount: number;
+    targetLootCount: number;
+    totalBenchCount: number;
+    bossPlanBenchCount: number;
+    bossAttendanceAppearances: number;
+    bossAttendanceLatestDate: string | null;
+  };
+
+  type BossBenchSuggestion = {
+    targetRaidLabel: string;
+    rosterSize: number;
+    unavailablePlayers: Array<{ name: string }>;
+    requiredBenchCount: number;
+    bossName: string;
+    order: number;
+    suggestedBenchPlayers: BossBenchPlayer[];
+    warnings: string[];
+  };
+
   const benchSuggestionPage = document.querySelector<HTMLElement>("[data-bench-suggestion-page]");
   const benchSuggestionGenerate = benchSuggestionPage?.querySelector<HTMLButtonElement>("[data-bench-suggestion-generate]");
   const benchSuggestionCopy = benchSuggestionPage?.querySelector<HTMLButtonElement>("[data-bench-suggestion-copy]");
   const benchSuggestionDate = benchSuggestionPage?.querySelector<HTMLSelectElement>("[data-bench-suggestion-date]");
+  const bossBenchVisual = benchSuggestionPage?.querySelector<HTMLElement>("[data-boss-bench-visual]");
+  const bossBenchHeading = benchSuggestionPage?.querySelector<HTMLElement>("[data-boss-bench-heading]");
+  const bossBenchSummary = benchSuggestionPage?.querySelector<HTMLElement>("[data-boss-bench-summary]");
+  const bossBenchTable = benchSuggestionPage?.querySelector<HTMLElement>("[data-boss-bench-table]");
   const benchSuggestionOutput = benchSuggestionPage?.querySelector<HTMLElement>("[data-bench-suggestion-output]");
   const benchSuggestionText = benchSuggestionPage?.querySelector<HTMLElement>("[data-bench-suggestion-text]");
   const benchSuggestionStatus = benchSuggestionPage?.querySelector<HTMLElement>("[data-bench-suggestion-status]");
@@ -85,6 +138,167 @@ const raidNightOptions = raidNights
     }
 
     return url.toString();
+  };
+  const clearElement = (element: HTMLElement | undefined | null) => {
+    if (!element) {
+      return;
+    }
+
+    while (element.firstChild) {
+      element.firstChild.remove();
+    }
+  };
+  const makeBadge = (label: string, className: string, title: string) => {
+    const badge = document.createElement("span");
+    badge.className = `boss-bench-badge ${className}`;
+    badge.textContent = label;
+    badge.title = title;
+    badge.tabIndex = 0;
+    return badge;
+  };
+  const getLootBadge = (player: BossBenchPlayer) => {
+    if (player.lootStatus === "needs") {
+      const itemText = player.lootNeeds.length > 0
+        ? player.lootNeeds.map((need) => `${need.item} (${need.slot})`).join("; ")
+        : "Tracked item details unavailable.";
+      return makeBadge("Need", "is-needs", `Still needs: ${itemText}`);
+    }
+
+    if (player.lootStatus === "complete") {
+      return makeBadge(
+        "Done",
+        "is-complete",
+        `Tracked loot done for this boss. Acquired ${player.acquiredLootCount} of ${player.targetLootCount} tracked item${player.targetLootCount === 1 ? "" : "s"}.`,
+      );
+    }
+
+    return makeBadge("No loot", "is-safe", "No tracked BiS from this boss.");
+  };
+  const getBenchCountBadge = (player: BossBenchPlayer) =>
+    makeBadge(
+      `B${player.totalBenchCount}`,
+      "is-count",
+      `Bench count before this pick: ${player.totalBenchCount}. Already selected ${player.bossPlanBenchCount} boss${player.bossPlanBenchCount === 1 ? "" : "es"} earlier in this boss plan.`,
+    );
+  const getAttendanceBadge = (player: BossBenchPlayer) =>
+    player.bossAttendanceAppearances > 0
+      ? makeBadge(
+          `A${player.bossAttendanceAppearances}`,
+          "is-attendance",
+          `Synced attendance on this boss: ${player.bossAttendanceAppearances} appearance${player.bossAttendanceAppearances === 1 ? "" : "s"}${player.bossAttendanceLatestDate ? `, latest ${player.bossAttendanceLatestDate}` : ""}.`,
+        )
+      : undefined;
+  const renderSummary = (suggestions: BossBenchSuggestion[]) => {
+    clearElement(bossBenchSummary);
+
+    const firstSuggestion = suggestions[0];
+
+    if (!bossBenchSummary || !firstSuggestion) {
+      return;
+    }
+
+    const summaryItems = [
+      `Target raid: ${firstSuggestion.targetRaidLabel}`,
+      `Roster: ${firstSuggestion.rosterSize}`,
+      `Unavailable: ${firstSuggestion.unavailablePlayers.length}${firstSuggestion.unavailablePlayers.length > 0 ? ` (${firstSuggestion.unavailablePlayers.map((player) => player.name).join(", ")})` : ""}`,
+      `Bench per boss: ${firstSuggestion.requiredBenchCount}`,
+    ];
+
+    for (const item of summaryItems) {
+      const pill = document.createElement("span");
+      pill.textContent = item;
+      bossBenchSummary.appendChild(pill);
+    }
+  };
+  const renderPlayerCell = (player: BossBenchPlayer) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "boss-bench-player";
+
+    const name = document.createElement("span");
+    name.className = "boss-bench-player-name";
+    name.textContent = player.name;
+    name.title = player.reasons.slice(0, 4).join("\n");
+    wrapper.appendChild(name);
+
+    const badges = document.createElement("span");
+    badges.className = "boss-bench-player-badges";
+    badges.appendChild(getLootBadge(player));
+    badges.appendChild(getBenchCountBadge(player));
+
+    const attendanceBadge = getAttendanceBadge(player);
+
+    if (attendanceBadge) {
+      badges.appendChild(attendanceBadge);
+    }
+
+    wrapper.appendChild(badges);
+    return wrapper;
+  };
+  const renderBossBenchTable = (suggestions: BossBenchSuggestion[]) => {
+    clearElement(bossBenchTable);
+
+    if (!bossBenchTable || suggestions.length === 0) {
+      return;
+    }
+
+    const maxBenchCount = Math.max(0, ...suggestions.map((suggestion) => suggestion.suggestedBenchPlayers.length));
+    const table = document.createElement("table");
+    table.className = "boss-bench-table";
+
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    const bossHeader = document.createElement("th");
+    bossHeader.scope = "col";
+    bossHeader.textContent = "Boss";
+    headerRow.appendChild(bossHeader);
+
+    for (let index = 1; index <= maxBenchCount; index += 1) {
+      const header = document.createElement("th");
+      header.scope = "col";
+      header.textContent = String(index);
+      headerRow.appendChild(header);
+    }
+
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+
+    for (const suggestion of suggestions) {
+      const row = document.createElement("tr");
+      const bossCell = document.createElement("th");
+      bossCell.scope = "row";
+      bossCell.textContent = suggestion.bossName;
+      row.appendChild(bossCell);
+
+      for (let index = 0; index < maxBenchCount; index += 1) {
+        const cell = document.createElement("td");
+        const player = suggestion.suggestedBenchPlayers[index];
+
+        if (player) {
+          cell.appendChild(renderPlayerCell(player));
+        }
+
+        row.appendChild(cell);
+      }
+
+      tbody.appendChild(row);
+    }
+
+    table.appendChild(tbody);
+    bossBenchTable.appendChild(table);
+  };
+  const renderBossBenchVisual = (suggestions: BossBenchSuggestion[] = []) => {
+    renderSummary(suggestions);
+    renderBossBenchTable(suggestions);
+
+    if (bossBenchHeading && suggestions[0]) {
+      bossBenchHeading.textContent = `Suggested Bench Plan - ${suggestions[0].targetRaidLabel}`;
+    }
+
+    if (bossBenchVisual) {
+      bossBenchVisual.hidden = suggestions.length === 0;
+    }
   };
 
   const parseJsonResponse = async <T,>(response: Response): Promise<T | undefined> => {
@@ -117,7 +331,13 @@ const raidNightOptions = raidNights
 
     try {
       const response = await fetch(getBenchSuggestionUrl());
-      const result = await parseJsonResponse<{ ok?: boolean; text?: string; sheetText?: string; message?: string }>(response);
+      const result = await parseJsonResponse<{
+        ok?: boolean;
+        text?: string;
+        sheetText?: string;
+        suggestions?: BossBenchSuggestion[];
+        message?: string;
+      }>(response);
 
       if (!response.ok || result?.ok !== true || !result.text) {
         throw new Error(result?.message ?? "Unable to generate bench suggestions.");
@@ -125,9 +345,14 @@ const raidNightOptions = raidNights
 
       benchSuggestionText.textContent = result.text;
       benchSuggestionText.dataset.copyText = result.sheetText ?? result.text;
+      renderBossBenchVisual(result.suggestions ?? []);
       benchSuggestionOutput.hidden = false;
       benchSuggestionGenerate.textContent = "Regenerate Boss Suggestions";
     } catch {
+      if (bossBenchVisual) {
+        bossBenchVisual.hidden = true;
+      }
+
       if (benchSuggestionStatus) {
         benchSuggestionStatus.textContent = "Unable to generate bench suggestions.";
       }
