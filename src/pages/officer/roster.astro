@@ -18,6 +18,10 @@ import Layout from "../../layouts/Layout.astro";
     spec: string;
     role: string;
     bench: number;
+    bossesIn: number;
+    availableBosses: number;
+    availableRaidNights: number;
+    syncedRaidNights: number;
     out: number;
     late: number;
     mia: number;
@@ -29,6 +33,8 @@ import Layout from "../../layouts/Layout.astro";
     totals?: {
       roster: number;
       bench: number;
+      bossesIn: number;
+      availableBosses: number;
       out: number;
       late: number;
       mia: number;
@@ -66,6 +72,9 @@ import Layout from "../../layouts/Layout.astro";
       return undefined;
     }
   };
+  const pluralize = (count: number, singular: string, plural = `${singular}s`) => (count === 1 ? singular : plural);
+  const getBenchDetail = (row: OfficerRosterRow) =>
+    `${row.bench} ${pluralize(row.bench, "boss")} missed while available. In ${row.bossesIn} / ${row.availableBosses} available synced boss kills across ${row.availableRaidNights} / ${row.syncedRaidNights} synced raid nights.`;
 
   const compareText = (a: string, b: string) => a.localeCompare(b, undefined, { sensitivity: "base" });
 
@@ -139,7 +148,8 @@ import Layout from "../../layouts/Layout.astro";
             <td data-label="Class" data-sort-value="${escapeHtml(row.class)}">${escapeHtml(row.class)}</td>
             <td data-label="Spec" data-sort-value="${escapeHtml(row.spec)}">${escapeHtml(row.spec)}</td>
             <td data-label="Role" data-sort-value="${escapeHtml(row.role)}">${escapeHtml(row.role)}</td>
-            <td class="status-count" data-label="Bench" data-sort-value="${row.bench}">${row.bench}</td>
+            <td class="status-count" data-label="Boss Bench" data-sort-value="${row.bench}" title="${escapeHtml(getBenchDetail(row))}">${row.bench}</td>
+            <td class="status-count is-wide" data-label="Bosses In" data-sort-value="${row.bossesIn}" title="${escapeHtml(getBenchDetail(row))}">${row.bossesIn} / ${row.availableBosses}</td>
             <td class="status-count" data-label="Out" data-sort-value="${row.out}">${row.out}</td>
             <td class="status-count" data-label="Late" data-sort-value="${row.late}">${row.late}</td>
             <td class="status-count" data-label="MIA" data-sort-value="${row.mia}">${row.mia}</td>
@@ -156,7 +166,8 @@ import Layout from "../../layouts/Layout.astro";
 
       <section class="dashboard-grid roster-summary-grid">
         <article class="stat-card"><span>Roster Count</span><strong>${data.totals.roster}</strong></article>
-        <article class="stat-card"><span>Total Bench</span><strong>${data.totals.bench}</strong></article>
+        <article class="stat-card"><span>Boss Bench</span><strong>${data.totals.bench}</strong></article>
+        <article class="stat-card"><span>Bosses In</span><strong>${data.totals.bossesIn}</strong><small>${data.totals.availableBosses} available</small></article>
         <article class="stat-card"><span>Total Out</span><strong>${data.totals.out}</strong></article>
         <article class="stat-card"><span>Total Late</span><strong>${data.totals.late}</strong></article>
         <article class="stat-card"><span>Total MIA</span><strong>${data.totals.mia}</strong></article>
@@ -171,7 +182,8 @@ import Layout from "../../layouts/Layout.astro";
                 <th data-sort-type="text"><button class="sort-button" type="button" data-sort-key="class" data-sort-type="text"><span>Class</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
                 <th data-sort-type="text"><button class="sort-button" type="button" data-sort-key="spec" data-sort-type="text"><span>Spec</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
                 <th data-sort-type="text"><button class="sort-button" type="button" data-sort-key="role" data-sort-type="text"><span>Role</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
-                <th class="status-count" data-sort-type="number"><button class="sort-button" type="button" data-sort-key="bench" data-sort-type="number"><span>Bench</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
+                <th class="status-count" data-sort-type="number"><button class="sort-button" type="button" data-sort-key="bench" data-sort-type="number"><span>Boss Bench</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
+                <th class="status-count is-wide" data-sort-type="number"><button class="sort-button" type="button" data-sort-key="bossesIn" data-sort-type="number"><span>Bosses In</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
                 <th class="status-count" data-sort-type="number"><button class="sort-button" type="button" data-sort-key="out" data-sort-type="number"><span>Out</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
                 <th class="status-count" data-sort-type="number"><button class="sort-button" type="button" data-sort-key="late" data-sort-type="number"><span>Late</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
                 <th class="status-count" data-sort-type="number"><button class="sort-button" type="button" data-sort-key="mia" data-sort-type="number"><span>MIA</span><span class="sort-indicator" aria-hidden="true"></span></button></th>

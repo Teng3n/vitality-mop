@@ -220,7 +220,7 @@ main {
 }
 
 .roster-summary-grid {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
 .card-grid {
@@ -1484,7 +1484,7 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 }
 
 .roster-table.officer-roster-table {
-  min-width: 860px;
+  min-width: 980px;
 }
 
 .roster-table.officer-roster-table th,
@@ -1499,6 +1499,12 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   font-variant-numeric: tabular-nums;
   text-align: center;
   white-space: nowrap;
+}
+
+.roster-table.officer-roster-table .status-count.is-wide {
+  width: 98px;
+  min-width: 98px;
+  max-width: 98px;
 }
 
 .roster-table.officer-roster-table .status-count .sort-button {

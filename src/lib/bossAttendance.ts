@@ -60,6 +60,15 @@ export interface BossAttendanceOverview {
   playerCount: number;
 }
 
+export interface PlayerBossAttendanceStats {
+  playerSlug: string;
+  availableBossKillCount: number;
+  attendedBossKillCount: number;
+  bossBenchCount: number;
+  availableRaidNightCount: number;
+  syncedRaidNightCount: number;
+}
+
 const attendanceSummary = wclBossAttendanceSummary as WclBossAttendanceSummaryData;
 const attendanceData = wclBossAttendance as WclBossAttendanceData;
 
@@ -74,8 +83,20 @@ const getBossSummary = (bossName: string) => {
   return attendanceSummary.bosses.find((boss) => boss.bossKey === bossKey);
 };
 
-const bossBenchCountBySlug = (() => {
-  const countBySlug = new Map(activeRosterPlayers.map((player) => [player.slug, 0]));
+const bossAttendanceStatsBySlug = (() => {
+  const statsBySlug = new Map<string, PlayerBossAttendanceStats>(
+    activeRosterPlayers.map((player) => [
+      player.slug,
+      {
+        playerSlug: player.slug,
+        availableBossKillCount: 0,
+        attendedBossKillCount: 0,
+        bossBenchCount: 0,
+        availableRaidNightCount: 0,
+        syncedRaidNightCount: 0,
+      },
+    ]),
+  );
   const killEventsByKey = new Map<string, { date: string; presentSlugs: Set<string> }>();
 
   for (const event of attendanceData.events) {
@@ -89,6 +110,9 @@ const bossBenchCountBySlug = (() => {
     killEventsByKey.set(key, killEvent);
   }
 
+  const syncedRaidDates = new Set<string>();
+  const availableRaidDatesBySlug = new Map(activeRosterPlayers.map((player) => [player.slug, new Set<string>()]));
+
   for (const killEvent of killEventsByKey.values()) {
     const raidNight = raidNightByDate.get(killEvent.date);
 
@@ -96,23 +120,53 @@ const bossBenchCountBySlug = (() => {
       continue;
     }
 
+    syncedRaidDates.add(killEvent.date);
     const unavailableSlugs = new Set([...raidNight.out, ...raidNight.late, ...raidNight.mia].map((player) => player.slug));
 
     for (const player of activeRosterPlayers) {
-      if (unavailableSlugs.has(player.slug) || killEvent.presentSlugs.has(player.slug)) {
+      if (unavailableSlugs.has(player.slug)) {
         continue;
       }
 
-      countBySlug.set(player.slug, (countBySlug.get(player.slug) ?? 0) + 1);
+      const stats = statsBySlug.get(player.slug);
+
+      if (!stats) {
+        continue;
+      }
+
+      availableRaidDatesBySlug.get(player.slug)?.add(killEvent.date);
+      stats.availableBossKillCount += 1;
+
+      if (killEvent.presentSlugs.has(player.slug)) {
+        stats.attendedBossKillCount += 1;
+      } else {
+        stats.bossBenchCount += 1;
+      }
     }
   }
 
-  return countBySlug;
+  for (const stats of statsBySlug.values()) {
+    stats.syncedRaidNightCount = syncedRaidDates.size;
+    stats.availableRaidNightCount = availableRaidDatesBySlug.get(stats.playerSlug)?.size ?? 0;
+  }
+
+  return statsBySlug;
 })();
 
-export const getPlayerBossBenchCount = (playerSlug: string) => bossBenchCountBySlug.get(playerSlug) ?? 0;
+export const getPlayerBossAttendanceStats = (playerSlug: string): PlayerBossAttendanceStats =>
+  bossAttendanceStatsBySlug.get(playerSlug) ?? {
+    playerSlug,
+    availableBossKillCount: 0,
+    attendedBossKillCount: 0,
+    bossBenchCount: 0,
+    availableRaidNightCount: 0,
+    syncedRaidNightCount: 0,
+  };
 
-export const getMaxPlayerBossBenchCount = () => Math.max(0, ...bossBenchCountBySlug.values());
+export const getPlayerBossBenchCount = (playerSlug: string) => getPlayerBossAttendanceStats(playerSlug).bossBenchCount;
+
+export const getMaxPlayerBossBenchCount = () =>
+  Math.max(0, ...[...bossAttendanceStatsBySlug.values()].map((stats) => stats.bossBenchCount));
 
 export const getPlayerBossAttendanceSummary = (
   playerSlug: string,

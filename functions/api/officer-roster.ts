@@ -1,5 +1,6 @@
 import { hasOfficerPasswordConfig, hasValidOfficerSession, jsonResponse, type OfficerAuthEnv } from "../_shared/officer-auth";
 import { isCurrentAttendanceDate } from "../../src/lib/attendanceTiers";
+import { getPlayerBossAttendanceStats } from "../../src/lib/bossAttendance";
 import { activeRosterPlayers, raidNights } from "../../src/lib/guildData";
 import { classColors } from "../../src/lib/playerStyles";
 
@@ -8,7 +9,24 @@ interface PagesContext {
   env: OfficerAuthEnv;
 }
 
-type StatusKey = "bench" | "out" | "late" | "mia";
+type StatusKey = "out" | "late" | "mia";
+
+interface OfficerRosterApiRow {
+  player: string;
+  href: string;
+  class: string;
+  classColor: string;
+  spec: string;
+  role: string;
+  bench: number;
+  bossesIn: number;
+  availableBosses: number;
+  availableRaidNights: number;
+  syncedRaidNights: number;
+  out: number;
+  late: number;
+  mia: number;
+}
 
 export const onRequest = async ({ request, env }: PagesContext) => {
   if (request.method !== "GET") {
@@ -25,21 +43,27 @@ export const onRequest = async ({ request, env }: PagesContext) => {
   }
 
   const countBySlug = new Map(
-    activeRosterPlayers.map((player) => [
-      player.slug,
-      {
+    activeRosterPlayers.map((player) => {
+      const bossStats = getPlayerBossAttendanceStats(player.slug);
+      const row: OfficerRosterApiRow = {
         player: player.name,
         href: player.href,
         class: player.className,
         classColor: classColors[player.className] ?? "",
         spec: player.spec,
         role: player.role,
-        bench: 0,
+        bench: bossStats.bossBenchCount,
+        bossesIn: bossStats.attendedBossKillCount,
+        availableBosses: bossStats.availableBossKillCount,
+        availableRaidNights: bossStats.availableRaidNightCount,
+        syncedRaidNights: bossStats.syncedRaidNightCount,
         out: 0,
         late: 0,
         mia: 0,
-      },
-    ]),
+      };
+
+      return [player.slug, row];
+    }),
   );
 
   const incrementCount = (playerSlug: string, key: StatusKey) => {
@@ -51,10 +75,6 @@ export const onRequest = async ({ request, env }: PagesContext) => {
   };
 
   for (const night of raidNights.filter((raidNight) => isCurrentAttendanceDate(raidNight.isoDate))) {
-    for (const player of night.bench) {
-      incrementCount(player.slug, "bench");
-    }
-
     for (const player of night.out) {
       incrementCount(player.slug, "out");
     }
@@ -73,11 +93,13 @@ export const onRequest = async ({ request, env }: PagesContext) => {
     (summary, row) => ({
       roster: summary.roster,
       bench: summary.bench + row.bench,
+      bossesIn: summary.bossesIn + row.bossesIn,
+      availableBosses: summary.availableBosses + row.availableBosses,
       out: summary.out + row.out,
       late: summary.late + row.late,
       mia: summary.mia + row.mia,
     }),
-    { roster: rows.length, bench: 0, out: 0, late: 0, mia: 0 },
+    { roster: rows.length, bench: 0, bossesIn: 0, availableBosses: 0, out: 0, late: 0, mia: 0 },
   );
 
   return jsonResponse({ ok: true, totals, rows });
