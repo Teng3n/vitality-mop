@@ -1,14 +1,36 @@
 [
   {
+    "player": "Foggy",
+    "realm": "Raden",
+    "characterRealm": "Foggy-Raden",
+    "bis": 2,
+    "major": 2,
+    "minor": 2,
+    "offspec": 0,
+    "bonusRolls": 2,
+    "total": 6
+  },
+  {
     "player": "June",
     "realm": "Raden",
     "characterRealm": "June-Raden",
-    "bis": 2,
+    "bis": 3,
     "major": 3,
     "minor": 0,
     "offspec": 0,
     "bonusRolls": 2,
-    "total": 5
+    "total": 6
+  },
+  {
+    "player": "Kaiysz",
+    "realm": "LeiShen",
+    "characterRealm": "Kaiysz-LeiShen",
+    "bis": 2,
+    "major": 3,
+    "minor": 1,
+    "offspec": 0,
+    "bonusRolls": 2,
+    "total": 6
   },
   {
     "player": "Noctuahati",
@@ -16,43 +38,65 @@
     "characterRealm": "Noctuahati-Pagle",
     "bis": 2,
     "major": 3,
-    "minor": 0,
+    "minor": 1,
     "offspec": 1,
     "bonusRolls": 1,
-    "total": 5
-  },
-  {
-    "player": "Lexou",
-    "realm": "Raden",
-    "characterRealm": "Lexou-Raden",
-    "bis": 1,
-    "major": 2,
-    "minor": 1,
-    "offspec": 0,
-    "bonusRolls": 1,
-    "total": 4
+    "total": 6
   },
   {
     "player": "Tengen",
     "realm": "Raden",
     "characterRealm": "Tengen-Raden",
-    "bis": 2,
+    "bis": 3,
     "major": 0,
-    "minor": 2,
+    "minor": 3,
     "offspec": 0,
     "bonusRolls": 4,
-    "total": 4
+    "total": 6
+  },
+  {
+    "player": "Lexou",
+    "realm": "Raden",
+    "characterRealm": "Lexou-Raden",
+    "bis": 2,
+    "major": 2,
+    "minor": 1,
+    "offspec": 0,
+    "bonusRolls": 1,
+    "total": 5
   },
   {
     "player": "Cardinalcrzy",
     "realm": "Raden",
     "characterRealm": "Cardinalcrzy-Raden",
     "bis": 2,
-    "major": 0,
+    "major": 1,
     "minor": 1,
     "offspec": 0,
-    "bonusRolls": 3,
-    "total": 3
+    "bonusRolls": 5,
+    "total": 4
+  },
+  {
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "bis": 3,
+    "major": 1,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 4
+  },
+  {
+    "player": "Marz",
+    "realm": "Raden",
+    "characterRealm": "Marz-Raden",
+    "bis": 3,
+    "major": 1,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 1,
+    "total": 4
   },
   {
     "player": "Chonkars",
@@ -60,6 +104,17 @@
     "characterRealm": "Chonkars-Raden",
     "bis": 1,
     "major": 2,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 3,
+    "total": 3
+  },
+  {
+    "player": "Deéz",
+    "realm": "Raden",
+    "characterRealm": "Deéz-Raden",
+    "bis": 2,
+    "major": 1,
     "minor": 0,
     "offspec": 0,
     "bonusRolls": 2,
@@ -73,7 +128,18 @@
     "major": 1,
     "minor": 2,
     "offspec": 0,
-    "bonusRolls": 0,
+    "bonusRolls": 1,
+    "total": 3
+  },
+  {
+    "player": "Niblainelock",
+    "realm": "Raden",
+    "characterRealm": "Niblainelock-Raden",
+    "bis": 1,
+    "major": 2,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 2,
     "total": 3
   },
   {
@@ -84,7 +150,7 @@
     "major": 1,
     "minor": 2,
     "offspec": 1,
-    "bonusRolls": 1,
+    "bonusRolls": 2,
     "total": 3
   },
   {
@@ -121,36 +187,25 @@
     "total": 2
   },
   {
-    "player": "Deéz",
+    "player": "Bannedpex",
     "realm": "Raden",
-    "characterRealm": "Deéz-Raden",
-    "bis": 2,
-    "major": 0,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 1,
-    "total": 2
-  },
-  {
-    "player": "Fae",
-    "realm": "Raden",
-    "characterRealm": "Fae-Raden",
-    "bis": 2,
-    "major": 0,
+    "characterRealm": "Bannedpex-Raden",
+    "bis": 0,
+    "major": 2,
     "minor": 0,
     "offspec": 0,
     "bonusRolls": 0,
     "total": 2
   },
   {
-    "player": "Foggy",
+    "player": "Gambatte",
     "realm": "Raden",
-    "characterRealm": "Foggy-Raden",
-    "bis": 0,
-    "major": 1,
-    "minor": 1,
+    "characterRealm": "Gambatte-Raden",
+    "bis": 2,
+    "major": 0,
+    "minor": 0,
     "offspec": 0,
-    "bonusRolls": 2,
+    "bonusRolls": 1,
     "total": 2
   },
   {
@@ -176,6 +231,28 @@
     "total": 2
   },
   {
+    "player": "Karkonk",
+    "realm": "Raden",
+    "characterRealm": "Karkonk-Raden",
+    "bis": 1,
+    "major": 1,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 2
+  },
+  {
+    "player": "Kubara",
+    "realm": "Raden",
+    "characterRealm": "Kubara-Raden",
+    "bis": 2,
+    "major": 0,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 0,
+    "total": 2
+  },
+  {
     "player": "Kuradelh",
     "realm": "Raden",
     "characterRealm": "Kuradelh-Raden",
@@ -187,9 +264,20 @@
     "total": 2
   },
   {
-    "player": "Marz",
+    "player": "Maverickdog",
     "realm": "Raden",
-    "characterRealm": "Marz-Raden",
+    "characterRealm": "Maverickdog-Raden",
+    "bis": 0,
+    "major": 0,
+    "minor": 2,
+    "offspec": 0,
+    "bonusRolls": 2,
+    "total": 2
+  },
+  {
+    "player": "Mistify",
+    "realm": "LeiShen",
+    "characterRealm": "Mistify-LeiShen",
     "bis": 2,
     "major": 0,
     "minor": 0,
@@ -198,12 +286,23 @@
     "total": 2
   },
   {
-    "player": "Niblainelock",
+    "player": "Oswaldmosley",
     "realm": "Raden",
-    "characterRealm": "Niblainelock-Raden",
-    "bis": 1,
-    "major": 1,
+    "characterRealm": "Oswaldmosley-Raden",
+    "bis": 2,
+    "major": 0,
     "minor": 0,
+    "offspec": 5,
+    "bonusRolls": 0,
+    "total": 2
+  },
+  {
+    "player": "Viglance",
+    "realm": "Pagle",
+    "characterRealm": "Viglance-Pagle",
+    "bis": 1,
+    "major": 0,
+    "minor": 1,
     "offspec": 0,
     "bonusRolls": 1,
     "total": 2
@@ -238,51 +337,7 @@
     "major": 0,
     "minor": 0,
     "offspec": 0,
-    "bonusRolls": 0,
-    "total": 1
-  },
-  {
-    "player": "Gambatte",
-    "realm": "Raden",
-    "characterRealm": "Gambatte-Raden",
-    "bis": 1,
-    "major": 0,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 0,
-    "total": 1
-  },
-  {
-    "player": "Kaiysz",
-    "realm": "LeiShen",
-    "characterRealm": "Kaiysz-LeiShen",
-    "bis": 0,
-    "major": 1,
-    "minor": 0,
-    "offspec": 0,
     "bonusRolls": 1,
-    "total": 1
-  },
-  {
-    "player": "Maverickdog",
-    "realm": "Raden",
-    "characterRealm": "Maverickdog-Raden",
-    "bis": 0,
-    "major": 0,
-    "minor": 1,
-    "offspec": 0,
-    "bonusRolls": 2,
-    "total": 1
-  },
-  {
-    "player": "Oswaldmosley",
-    "realm": "Raden",
-    "characterRealm": "Oswaldmosley-Raden",
-    "bis": 1,
-    "major": 0,
-    "minor": 0,
-    "offspec": 3,
-    "bonusRolls": 0,
     "total": 1
   },
   {
@@ -293,18 +348,7 @@
     "major": 0,
     "minor": 1,
     "offspec": 0,
-    "bonusRolls": 1,
-    "total": 1
-  },
-  {
-    "player": "Viglance",
-    "realm": "Pagle",
-    "characterRealm": "Viglance-Pagle",
-    "bis": 0,
-    "major": 0,
-    "minor": 1,
-    "offspec": 0,
-    "bonusRolls": 0,
+    "bonusRolls": 2,
     "total": 1
   },
   {
@@ -315,7 +359,7 @@
     "major": 0,
     "minor": 0,
     "offspec": 0,
-    "bonusRolls": 0,
+    "bonusRolls": 1,
     "total": 1
   }
 ]
