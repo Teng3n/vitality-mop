@@ -77,17 +77,55 @@ export interface GearNeedsReport {
 const normalizeKey = (value: string) => value.trim().toLocaleLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 const getSpecKey = (spec: string, className: string) => normalizeKey(`${spec} ${className}`);
 const getItemKey = (item: string) => normalizeKey(item);
+const getTargetKey = (target: GearNeedTarget) => `${getItemKey(target.item)}:${normalizeKey(target.slot)}`;
 const allBisItems = SIEGE_OF_ORGRIMMAR_BIS_LISTS.flatMap((spec) => spec.items);
 const trackedItemKeys = new Set(allBisItems.map((item) => getItemKey(item.item)));
 const bisListBySpecKey = new Map(
   SIEGE_OF_ORGRIMMAR_BIS_LISTS.map((spec) => [getSpecKey(spec.spec, spec.className), spec]),
 );
+const tierTokenGroups = {
+  protector: ["Hunter", "Monk", "Shaman", "Warrior"],
+  vanquisher: ["Death Knight", "Druid", "Mage", "Rogue"],
+  conqueror: ["Paladin", "Priest", "Warlock"],
+} as const;
+const tierTokenSlotNames = {
+  Head: "Helm",
+  Shoulder: "Shoulders",
+  Chest: "Chest",
+  Gloves: "Gauntlets",
+  Legs: "Leggings",
+} as const;
+const tierSetNamesByClass: Record<string, string[]> = {
+  "Death Knight": ["Cyclopean Dread"],
+  Druid: ["Shattered Vale"],
+  Hunter: ["Unblinking Vigil"],
+  Mage: ["Chronomancer"],
+  Monk: ["Seven Sacred Seals"],
+  Paladin: ["Winged Triumph"],
+  Priest: ["Ternion Glory"],
+  Rogue: ["Barbed Assassin"],
+  Shaman: ["Celestial Harmony"],
+  Warlock: ["Horned Nightmare"],
+  Warrior: ["Prehistoric Marauder"],
+};
+const tierTokenByItemKey = new Map(
+  Object.entries(tierTokenGroups).flatMap(([group, classes]) =>
+    Object.entries(tierTokenSlotNames).map(([slot, tokenSlotName]) => [
+      getItemKey(`${tokenSlotName} of the Cursed ${group}`),
+      {
+        slot,
+        classes: new Set(classes.map((className) => normalizeKey(className))),
+      },
+    ] as const),
+  ),
+);
+const tierTokenItemKeys = new Set(tierTokenByItemKey.keys());
 
 const awardCountsTowardGear = (award: LootAward) =>
   countsTowardMainSpecTotal(award.responseType) || normalizeKey(award.responseType) === "bonus loot";
 
 const matchingTrackedLootAwards = lootAwards.filter(
-  (award) => trackedItemKeys.has(getItemKey(award.item)) && awardCountsTowardGear(award),
+  (award) => (trackedItemKeys.has(getItemKey(award.item)) || tierTokenItemKeys.has(getItemKey(award.item))) && awardCountsTowardGear(award),
 );
 
 const getAwardsByPlayerAndItem = () => {
@@ -122,6 +160,45 @@ const getBossTargetsForPlayer = (bossName: string, player: Player): GearNeedTarg
     }));
 };
 
+const isTierTargetForPlayer = (player: Player, target: GearNeedTarget) => {
+  if (!Object.prototype.hasOwnProperty.call(tierTokenSlotNames, target.slot)) {
+    return false;
+  }
+
+  const tierSetNames = tierSetNamesByClass[player.className] ?? [];
+  const targetItemKey = getItemKey(target.item);
+  return tierSetNames.some((tierSetName) => targetItemKey.includes(getItemKey(tierSetName)));
+};
+
+const getEquivalentTierTokenKeys = (player: Player, target: GearNeedTarget) => {
+  if (!isTierTargetForPlayer(player, target)) {
+    return [];
+  }
+
+  const playerClassKey = normalizeKey(player.className);
+
+  return [...tierTokenByItemKey.entries()]
+    .filter(([, token]) => token.slot === target.slot && token.classes.has(playerClassKey))
+    .map(([itemKey]) => itemKey);
+};
+
+const getAwardsForTarget = (
+  player: Player,
+  target: GearNeedTarget,
+  awardsByItem: Map<string, LootAward[]> | undefined,
+) => {
+  const awardKeys = [getItemKey(target.item), ...getEquivalentTierTokenKeys(player, target)];
+  const awardsByUniqueKey = new Map<string, LootAward>();
+
+  for (const awardKey of awardKeys) {
+    for (const award of awardsByItem?.get(awardKey) ?? []) {
+      awardsByUniqueKey.set(`${award.date}:${award.item}:${award.boss}:${award.responseType}`, award);
+    }
+  }
+
+  return [...awardsByUniqueKey.values()];
+};
+
 const getAwardSummaries = (awards: LootAward[] = []): PlayerGearAward[] =>
   awards
     .map((award) => ({
@@ -136,7 +213,7 @@ const getPlayerBossGearStatus = (
   player: Player,
   needs: GearNeedTarget[],
   acquiredTargets: GearNeedTarget[],
-  awardsByItem: Map<string, LootAward[]> | undefined,
+  acquiredAwardsByTargetKey: Map<string, LootAward[]>,
   targetCount: number,
 ): PlayerBossGearStatus => {
   const status: PlayerGearNeedStatus =
@@ -150,7 +227,7 @@ const getPlayerBossGearStatus = (
     role: player.role,
     warcraftLogsUrl: player.warcraftLogsDirectUrl ?? player.warcraftLogsUrl,
     needs,
-    acquired: acquiredTargets.flatMap((target) => getAwardSummaries(awardsByItem?.get(getItemKey(target.item)))),
+    acquired: acquiredTargets.flatMap((target) => getAwardSummaries(acquiredAwardsByTargetKey.get(getTargetKey(target)))),
     status,
     statusLabel:
       status === "needs"
@@ -187,10 +264,22 @@ export const getGearNeedsReport = (): GearNeedsReport => {
       for (const player of activeRosterPlayers) {
         const targets = getBossTargetsForPlayer(bossName, player);
         const awardsByItem = awardsByPlayerAndItem.get(normalizePlayerName(player.name));
-        const openTargets = targets.filter((target) => !awardsByItem?.has(getItemKey(target.item)));
-        const acquiredTargets = targets.filter((target) => awardsByItem?.has(getItemKey(target.item)));
+        const acquiredAwardsByTargetKey = new Map<string, LootAward[]>();
+        const openTargets: GearNeedTarget[] = [];
+        const acquiredTargets: GearNeedTarget[] = [];
 
-        players.push(getPlayerBossGearStatus(player, openTargets, acquiredTargets, awardsByItem, targets.length));
+        for (const target of targets) {
+          const targetAwards = getAwardsForTarget(player, target, awardsByItem);
+
+          if (targetAwards.length > 0) {
+            acquiredTargets.push(target);
+            acquiredAwardsByTargetKey.set(getTargetKey(target), targetAwards);
+          } else {
+            openTargets.push(target);
+          }
+        }
+
+        players.push(getPlayerBossGearStatus(player, openTargets, acquiredTargets, acquiredAwardsByTargetKey, targets.length));
       }
 
       const sortedPlayers = sortBossPlayers(players);
@@ -216,7 +305,7 @@ export const getGearNeedsReport = (): GearNeedsReport => {
     generatedAt: new Date().toISOString(),
     scope: "Siege of Orgrimmar boss BiS targets across all bosses.",
     notes: [
-      "Loot history is treated as authoritative for known awards, including bonus loot.",
+      "Loot history is treated as authoritative for known awards, including bonus loot and class tier tokens.",
       "Warcraft Logs current gear is not imported yet; player profile links are included as the baseline check until a reliable equipped-gear feed is wired in.",
       "This report is driven by the officer BiS list data. Non-BiS sidegrades are intentionally excluded.",
     ],
