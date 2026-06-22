@@ -1,7 +1,7 @@
 import wclBossAttendanceSummary from "../data/wclBossAttendanceSummary.json";
 import wclBossAttendance from "../data/wclBossAttendance.json";
 import { SIEGE_OF_ORGRIMMAR_RELEASE_DATE } from "./attendanceTiers";
-import { activeRosterPlayers, raidNights } from "./guildData";
+import { activeRosterPlayers, getCanonicalPlayerSlug, raidNights } from "./guildData";
 import { normalizeProgressionName } from "./progressionTiers";
 
 export interface WclBossAttendanceSummaryPlayer {
@@ -86,7 +86,9 @@ const pendingFirstLogRosterStartDate = "9999-12-31";
 
 const normalizeBossKey = (bossName: string) => normalizeProgressionName(bossName);
 const activeRosterBySlug = new Map(activeRosterPlayers.map((player) => [player.slug, player]));
-const activeRosterSlugs = new Set(activeRosterPlayers.map((player) => player.slug));
+const activeRosterSlugs = new Set(
+  activeRosterPlayers.flatMap((player) => [player.slug, ...player.attendanceAliasSlugs]),
+);
 const raidNightByDate = new Map(raidNights.map((night) => [night.isoDate, night]));
 const getBossKillKey = (event: WclBossAttendanceEvent) =>
   `${event.tierSlug}:${event.bossKey}:${event.date}:${event.reportCode}:${event.fightId}`;
@@ -115,7 +117,9 @@ const firstLoggedRaidDateBySlug = (() => {
   const dateBySlug = new Map<string, string>();
 
   for (const event of attendanceData.events) {
-    if (event.tierSlug !== attendanceSummary.tierSlug || !activeRosterSlugs.has(event.playerSlug)) {
+    const canonicalPlayerSlug = getCanonicalPlayerSlug(event.playerSlug);
+
+    if (event.tierSlug !== attendanceSummary.tierSlug || !activeRosterBySlug.has(canonicalPlayerSlug)) {
       continue;
     }
 
@@ -125,10 +129,10 @@ const firstLoggedRaidDateBySlug = (() => {
       continue;
     }
 
-    const currentDate = dateBySlug.get(event.playerSlug);
+    const currentDate = dateBySlug.get(canonicalPlayerSlug);
 
     if (!currentDate || raidDate < currentDate) {
-      dateBySlug.set(event.playerSlug, raidDate);
+      dateBySlug.set(canonicalPlayerSlug, raidDate);
     }
   }
 
@@ -186,7 +190,7 @@ const bossAttendanceStatsBySlug = (() => {
 
     const key = getBossKillKey(event);
     const killEvent = killEventsByKey.get(key) ?? { date: getEventRaidDate(event), presentSlugs: new Set<string>() };
-    killEvent.presentSlugs.add(event.playerSlug);
+    killEvent.presentSlugs.add(getCanonicalPlayerSlug(event.playerSlug));
     killEventsByKey.set(key, killEvent);
   }
 

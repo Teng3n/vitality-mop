@@ -2,12 +2,14 @@ import bench from "../data/bench.json";
 import calendar from "../data/calendar.json";
 import lootSummary from "../data/lootSummary.json";
 import roster from "../data/roster.json";
+import rosterStartOverrides from "../data/rosterStartOverrides.json";
 import {
   currentAttendanceTierSlug,
   getAttendanceTierForDate,
   isAttendanceDateInTier,
 } from "./attendanceTiers";
 import { allLootHistoryRows } from "./lootTiers";
+import { getMainSwapAliases } from "./playerAliases";
 import { cleanPlayerName, getPlayerProfileHref, getPlayerSlug, normalizePlayerName } from "./playerNames";
 import { getWarcraftLogsCharacterUrl, getWarcraftLogsSearchUrl } from "./warcraftLogs";
 
@@ -25,6 +27,13 @@ interface RosterRow {
   spec: string;
   role: string;
   realm?: string;
+  attendanceAliases?: string[];
+  rosterStartDate?: string;
+  rosterStartSource?: RosterStartSource;
+}
+
+interface RosterStartOverrideRow {
+  player: string;
   rosterStartDate?: string;
   rosterStartSource?: RosterStartSource;
 }
@@ -93,6 +102,8 @@ export interface Player {
   spec: string;
   role: string;
   realm?: string;
+  attendanceAliases: string[];
+  attendanceAliasSlugs: string[];
   rosterStartDate?: string;
   rosterStartSource?: RosterStartSource;
   status: "Active roster";
@@ -159,6 +170,7 @@ export interface BenchSummary {
 }
 
 const rosterRows = roster as RosterRow[];
+const rosterStartOverrideRows = rosterStartOverrides as RosterStartOverrideRow[];
 const calendarData = calendar as unknown as CalendarData;
 const lootSummaryRows = lootSummary as LootSummaryRow[];
 const lootHistoryRows = allLootHistoryRows as LootHistoryRow[];
@@ -171,6 +183,7 @@ const byNormalizedName = <T>(rows: T[], getName: (row: T) => string) =>
 
 const calendarByName = byNormalizedName(calendarData.players, (row) => row.name);
 const dateByIso = new Map(calendarData.raidDates.map((date) => [date.isoDate, date]));
+const rosterStartOverrideByName = byNormalizedName(rosterStartOverrideRows, (row) => row.player);
 
 export const raidDates = [...calendarData.raidDates].sort((a, b) => a.isoDate.localeCompare(b.isoDate));
 
@@ -197,6 +210,12 @@ export const players: Player[] = rosterRows
   .map((row) => {
     const name = cleanPlayerName(row.character);
     const realm = row.realm?.trim() ?? "";
+    const attendanceAliases = [
+      ...getMainSwapAliases(name),
+      ...(row.attendanceAliases ?? []).map(cleanPlayerName),
+    ].filter((alias, index, aliases) => aliases.findIndex((candidate) => normalizePlayerName(candidate) === normalizePlayerName(alias)) === index);
+    const officerNamesToCheck = [name, ...attendanceAliases].map(normalizePlayerName);
+    const rosterStartOverride = rosterStartOverrideByName.get(normalizePlayerName(name));
 
     return {
       slug: getPlayerSlug(name),
@@ -205,10 +224,12 @@ export const players: Player[] = rosterRows
       spec: row.spec,
       role: row.role,
       realm,
-      rosterStartDate: row.rosterStartDate?.trim() || undefined,
-      rosterStartSource: row.rosterStartSource,
+      attendanceAliases,
+      attendanceAliasSlugs: attendanceAliases.map(getPlayerSlug),
+      rosterStartDate: rosterStartOverride?.rosterStartDate?.trim() || row.rosterStartDate?.trim() || undefined,
+      rosterStartSource: rosterStartOverride?.rosterStartSource ?? row.rosterStartSource,
       status: "Active roster" as const,
-      officer: officerNames.has(normalizePlayerName(name)),
+      officer: officerNamesToCheck.some((officerName) => officerNames.has(officerName)),
       trial: false,
       warcraftLogsUrl: getWarcraftLogsSearchUrl(name),
       warcraftLogsDirectUrl: realm ? getWarcraftLogsCharacterUrl(name, realm) : undefined,
@@ -218,10 +239,24 @@ export const players: Player[] = rosterRows
   .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
 
 export const activeRosterPlayers = players;
-export const playersBySlug = new Map(players.map((player) => [player.slug, player]));
-export const playersByName = new Map(players.map((player) => [normalizePlayerName(player.name), player]));
+export const playersBySlug = new Map(
+  players.flatMap((player) => [
+    [player.slug, player] as const,
+    ...player.attendanceAliasSlugs.map((aliasSlug) => [aliasSlug, player] as const),
+  ]),
+);
+export const playersByName = new Map(
+  players.flatMap((player) => [
+    [normalizePlayerName(player.name), player] as const,
+    ...player.attendanceAliases.map((alias) => [normalizePlayerName(alias), player] as const),
+  ]),
+);
 
 export const getPlayerByName = (name: string) => playersByName.get(normalizePlayerName(name));
+export const getCanonicalPlayerSlug = (playerSlug: string) => playersBySlug.get(playerSlug)?.slug ?? playerSlug;
+
+const hasCalendarRowForPlayer = (player: Player) =>
+  [player.name, ...player.attendanceAliases].some((name) => calendarByName.has(normalizePlayerName(name)));
 
 export const getStatusPlayer = (name: string): StatusPlayer => {
   const rosterPlayer = getPlayerByName(name);
@@ -243,7 +278,7 @@ const normalizeStatus = (status: string | undefined): CalendarStatus | "" => {
 export const getRaidNight = (date: RaidDate): RaidNight => {
   const statuses = new Map<CalendarStatus, StatusPlayer[]>(CALENDAR_STATUSES.map((status) => [status, []]));
   const activePlayersWithoutCalendarRow = activeRosterPlayers
-    .filter((player) => !calendarByName.has(normalizePlayerName(player.name)))
+    .filter((player) => !hasCalendarRowForPlayer(player))
     .map((player) => getStatusPlayer(player.name));
 
   for (const player of calendarData.players) {
@@ -340,11 +375,12 @@ export const countsTowardMainSpecTotal = (responseType: string) =>
 export const lootAwards: LootAward[] = lootHistoryRows
   .map((row) => {
     const player = cleanPlayerName(row.player);
+    const rosterPlayer = getPlayerByName(player);
 
     return {
       date: row.date,
-      playerSlug: getPlayerSlug(player),
-      player,
+      playerSlug: rosterPlayer?.slug ?? getPlayerSlug(player),
+      player: rosterPlayer?.name ?? player,
       item: row.item,
       boss: row.boss,
       instance: row.instance,

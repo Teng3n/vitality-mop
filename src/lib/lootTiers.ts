@@ -1,6 +1,7 @@
 import lootHistory from "../data/lootHistory.json";
 import archivedThroneOfThunderLootHistory from "../data/lootArchive/throneOfThunderHistory.json";
 import roster from "../data/roster.json";
+import { isPlayerIdentityMatch, getPlayerIdentityNames } from "./playerAliases";
 import { cleanPlayerName, normalizePlayerName } from "./playerNames";
 
 export type LootBucketKey = "bis" | "major" | "minor" | "offspec" | "bonusRolls";
@@ -107,6 +108,8 @@ export const allLootHistoryRows = [...archivedLootHistoryRows, ...liveLootHistor
 const rosterRows = roster as RosterRow[];
 const activeRosterNames = new Set(rosterRows.map((row) => normalizePlayerName(row.character)));
 const activeRosterDisplayNames = rosterRows.map((row) => cleanPlayerName(row.character));
+const getActiveRosterDisplayNameForPlayer = (playerName: string) =>
+  activeRosterDisplayNames.find((rosterName) => isPlayerIdentityMatch(rosterName, playerName)) ?? cleanPlayerName(playerName);
 const currentLootTier = lootTiers.find((tier) => tier.slug === currentLootTierSlug) ?? lootTiers[0];
 
 const normalizeText = (value: string) => value.trim().toLocaleLowerCase();
@@ -146,7 +149,9 @@ const getEmptySummary = (player: string, award?: LootHistoryRow): LootSummaryRow
   offspec: 0,
   bonusRolls: 0,
   total: 0,
-  activeRoster: activeRosterNames.has(normalizePlayerName(player)),
+  activeRoster:
+    activeRosterNames.has(normalizePlayerName(player)) ||
+    activeRosterDisplayNames.some((rosterName) => isPlayerIdentityMatch(rosterName, player)),
 });
 
 export const getLootTierBySlug = (slug?: string | null) =>
@@ -221,7 +226,7 @@ export const buildLootSummary = (awards: LootHistoryRow[]) => {
   }
 
   for (const award of awards) {
-    const player = cleanPlayerName(award.player);
+    const player = getActiveRosterDisplayNameForPlayer(award.player);
     const normalized = normalizePlayerName(player);
     const summary = summaries.get(normalized) ?? getEmptySummary(player, award);
     const bucket = getLootBucket(award.type);
@@ -246,22 +251,20 @@ export const getLootSummaryForTier = (tierSlug = currentLootTierSlug) =>
   buildLootSummary(getLootAwardsForTier(tierSlug));
 
 export const getPlayerLootSummaryForTier = (playerName: string, tierSlug = currentLootTierSlug) => {
-  const normalized = normalizePlayerName(playerName);
+  const identityNames = getPlayerIdentityNames(playerName).map(normalizePlayerName);
   return (
-    getLootSummaryForTier(tierSlug).find((row) => normalizePlayerName(row.player) === normalized) ??
+    getLootSummaryForTier(tierSlug).find((row) => identityNames.includes(normalizePlayerName(row.player))) ??
     getEmptySummary(cleanPlayerName(playerName))
   );
 };
 
 export const getPlayerLootAwardsForTier = (playerName: string, tierSlug = currentLootTierSlug) => {
-  const normalized = normalizePlayerName(playerName);
-  return getLootAwardsForTier(tierSlug).filter((award) => normalizePlayerName(award.player) === normalized);
+  return getLootAwardsForTier(tierSlug).filter((award) => isPlayerIdentityMatch(playerName, award.player));
 };
 
 export const getPlayerLootTimeline = (playerName: string, tierSlug = currentLootTierSlug, weekLimit = 26) => {
   const tierAwards = getLootAwardsForTier(tierSlug).sort((a, b) => a.date.localeCompare(b.date));
-  const normalizedPlayerName = normalizePlayerName(playerName);
-  const playerAwards = tierAwards.filter((award) => normalizePlayerName(award.player) === normalizedPlayerName);
+  const playerAwards = tierAwards.filter((award) => isPlayerIdentityMatch(playerName, award.player));
   const weeklyBuckets = new Map<string, Record<LootBucketKey, number>>();
 
   if (tierAwards.length === 0) {
