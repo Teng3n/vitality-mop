@@ -307,8 +307,6 @@ export const getGearNeedsReport = (): GearNeedsReport => {
     generatedAt: new Date().toISOString(),
     scope: "Siege of Orgrimmar boss BiS targets across all bosses.",
     notes: [
-      "Loot history is treated as authoritative for known awards, including bonus loot and class tier tokens.",
-      "Warcraft Logs current gear is not imported yet; player profile links are included as the baseline check until a reliable equipped-gear feed is wired in.",
       "This report is driven by the officer BiS list data. Non-BiS sidegrades are intentionally excluded.",
     ],
     summary: {
