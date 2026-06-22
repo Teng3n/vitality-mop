@@ -2682,21 +2682,27 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   font-weight: 800;
 }
 
-.loot-chart-point {
+.loot-chart-bar {
   cursor: pointer;
   outline: none;
   stroke: rgba(9, 13, 11, 0.8);
-  stroke-width: 2;
+  stroke-width: 1;
   transition:
     opacity 140ms ease,
     stroke 140ms ease,
-    stroke-width 140ms ease;
+    stroke-width 140ms ease,
+    filter 140ms ease;
 }
 
-.loot-chart-point:hover,
-.loot-chart-point:focus-visible {
+.loot-chart-bar:hover,
+.loot-chart-bar:focus-visible {
   stroke: var(--text);
-  stroke-width: 4;
+  stroke-width: 2;
+  filter: brightness(1.14);
+}
+
+[data-loot-empty="true"] {
+  pointer-events: none;
 }
 
 [data-loot-hidden="true"] {
@@ -2748,9 +2754,9 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
 .loot-chart-legend-toggle::before {
   content: "";
-  width: 16px;
-  height: 3px;
-  border-radius: 999px;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
   background: var(--loot-color);
 }
 
