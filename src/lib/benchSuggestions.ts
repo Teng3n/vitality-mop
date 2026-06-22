@@ -128,7 +128,7 @@ export interface BossBenchSuggestion {
 const benchRules = benchRulesJson as unknown as BenchRules;
 const progressionCorePlayerSlugs = new Set(benchRules.progressionCorePlayers ?? []);
 const MINIMUM_HEALERS = 5;
-const SIX_HEALER_BOSS_KEYS = new Set(["immerseus", "ironjuggernaut", "spoilsofpandaria"]);
+const SIX_HEALER_BOSS_KEYS = new Set(["immerseus", "ironjuggernaut", "korkrondarkshaman", "spoilsofpandaria"]);
 const baseMinimumAvailableByRole: Record<string, number> = {
   ...benchRules.minimumAvailableByRole,
   Healer: Math.max(benchRules.minimumAvailableByRole.Healer ?? 0, MINIMUM_HEALERS),
