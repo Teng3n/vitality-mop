@@ -105,7 +105,7 @@
     "realm": "Raden"
   },
   {
-    "character": "Karkan",
+    "character": "Karkonk",
     "class": "Paladin",
     "spec": "Protection",
     "role": "Tank",
@@ -151,8 +151,7 @@
     "class": "Monk",
     "spec": "Mistweaver",
     "role": "Healer",
-    "realm": "Lei Shen",
-    "rosterStartSource": "firstLog"
+    "realm": "Lei Shen"
   },
   {
     "character": "Niblainelock",
