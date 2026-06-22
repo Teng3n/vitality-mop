@@ -28,6 +28,7 @@ export interface PlayerGearNeed {
   className: string;
   spec: string;
   role: string;
+  href: string;
   warcraftLogsUrl: string;
   needs: GearNeedTarget[];
   acquired: PlayerGearAward[];
@@ -225,6 +226,7 @@ const getPlayerBossGearStatus = (
     className: player.className,
     spec: player.spec,
     role: player.role,
+    href: player.href,
     warcraftLogsUrl: player.warcraftLogsDirectUrl ?? player.warcraftLogsUrl,
     needs,
     acquired: acquiredTargets.flatMap((target) => getAwardSummaries(acquiredAwardsByTargetKey.get(getTargetKey(target)))),
