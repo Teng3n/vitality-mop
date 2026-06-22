@@ -17,6 +17,7 @@ export const MAIN_SPEC_LOOT_TYPES = new Set(["best in slot", "major upgrade", "m
 export const CALENDAR_STATUSES = ["Bench", "Out", "Late", "MIA", "Trial"] as const;
 
 export type CalendarStatus = (typeof CALENDAR_STATUSES)[number];
+export type RosterStartSource = "firstLog";
 
 interface RosterRow {
   character: string;
@@ -24,6 +25,8 @@ interface RosterRow {
   spec: string;
   role: string;
   realm?: string;
+  rosterStartDate?: string;
+  rosterStartSource?: RosterStartSource;
 }
 
 interface CalendarSummary {
@@ -90,6 +93,8 @@ export interface Player {
   spec: string;
   role: string;
   realm?: string;
+  rosterStartDate?: string;
+  rosterStartSource?: RosterStartSource;
   status: "Active roster";
   officer: boolean;
   trial: boolean;
@@ -200,6 +205,8 @@ export const players: Player[] = rosterRows
       spec: row.spec,
       role: row.role,
       realm,
+      rosterStartDate: row.rosterStartDate?.trim() || undefined,
+      rosterStartSource: row.rosterStartSource,
       status: "Active roster" as const,
       officer: officerNames.has(normalizePlayerName(name)),
       trial: false,

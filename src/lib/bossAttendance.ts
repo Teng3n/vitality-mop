@@ -1,5 +1,6 @@
 import wclBossAttendanceSummary from "../data/wclBossAttendanceSummary.json";
 import wclBossAttendance from "../data/wclBossAttendance.json";
+import { SIEGE_OF_ORGRIMMAR_RELEASE_DATE } from "./attendanceTiers";
 import { activeRosterPlayers, raidNights } from "./guildData";
 import { normalizeProgressionName } from "./progressionTiers";
 
@@ -35,6 +36,8 @@ interface WclBossAttendanceEvent {
   bossKey: string;
   bossName: string;
   date: string;
+  startTime?: string;
+  difficulty?: string;
   reportCode: string;
   fightId: number;
   kill: boolean;
@@ -69,14 +72,86 @@ export interface PlayerBossAttendanceStats {
   syncedRaidNightCount: number;
 }
 
+export interface PlayerRosterStart {
+  date: string;
+  label: string;
+  source: "tierStart" | "explicit" | "firstLog" | "pendingFirstLog";
+}
+
 const attendanceSummary = wclBossAttendanceSummary as WclBossAttendanceSummaryData;
 const attendanceData = wclBossAttendance as WclBossAttendanceData;
+const raidTimeZone = "America/Los_Angeles";
+const countedBossDifficulties = new Set(["heroic"]);
+const pendingFirstLogRosterStartDate = "9999-12-31";
 
 const normalizeBossKey = (bossName: string) => normalizeProgressionName(bossName);
+const activeRosterBySlug = new Map(activeRosterPlayers.map((player) => [player.slug, player]));
 const activeRosterSlugs = new Set(activeRosterPlayers.map((player) => player.slug));
 const raidNightByDate = new Map(raidNights.map((night) => [night.isoDate, night]));
 const getBossKillKey = (event: WclBossAttendanceEvent) =>
   `${event.tierSlug}:${event.bossKey}:${event.date}:${event.reportCode}:${event.fightId}`;
+const getPacificIsoDate = (isoDateTime: string) => {
+  const date = new Date(isoDateTime);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: raidTimeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const getPart = (type: Intl.DateTimeFormatPartTypes) => parts.find((part) => part.type === type)?.value ?? "";
+
+  return `${getPart("year")}-${getPart("month")}-${getPart("day")}`;
+};
+const getEventRaidDate = (event: WclBossAttendanceEvent) => getPacificIsoDate(event.startTime ?? "") || event.date;
+const isCountedBossDifficulty = (event: WclBossAttendanceEvent) =>
+  countedBossDifficulties.has((event.difficulty ?? "").trim().toLocaleLowerCase());
+
+const firstLoggedRaidDateBySlug = (() => {
+  const dateBySlug = new Map<string, string>();
+
+  for (const event of attendanceData.events) {
+    if (event.tierSlug !== attendanceSummary.tierSlug || !activeRosterSlugs.has(event.playerSlug)) {
+      continue;
+    }
+
+    const raidDate = getEventRaidDate(event);
+
+    if (!raidNightByDate.has(raidDate)) {
+      continue;
+    }
+
+    const currentDate = dateBySlug.get(event.playerSlug);
+
+    if (!currentDate || raidDate < currentDate) {
+      dateBySlug.set(event.playerSlug, raidDate);
+    }
+  }
+
+  return dateBySlug;
+})();
+
+export const getPlayerRosterStart = (playerSlug: string): PlayerRosterStart => {
+  const player = activeRosterBySlug.get(playerSlug);
+
+  if (player?.rosterStartSource === "firstLog") {
+    const firstLoggedDate = firstLoggedRaidDateBySlug.get(playerSlug);
+
+    return firstLoggedDate
+      ? { date: firstLoggedDate, label: firstLoggedDate, source: "firstLog" }
+      : { date: pendingFirstLogRosterStartDate, label: "No synced log yet", source: "pendingFirstLog" };
+  }
+
+  if (player?.rosterStartDate) {
+    return { date: player.rosterStartDate, label: player.rosterStartDate, source: "explicit" };
+  }
+
+  return { date: SIEGE_OF_ORGRIMMAR_RELEASE_DATE, label: "Pre-SoO", source: "tierStart" };
+};
 
 const getBossSummary = (bossName: string) => {
   const bossKey = normalizeBossKey(bossName);
@@ -100,12 +175,17 @@ const bossAttendanceStatsBySlug = (() => {
   const killEventsByKey = new Map<string, { date: string; presentSlugs: Set<string> }>();
 
   for (const event of attendanceData.events) {
-    if (event.tierSlug !== attendanceSummary.tierSlug || !event.kill || !activeRosterSlugs.has(event.playerSlug)) {
+    if (
+      event.tierSlug !== attendanceSummary.tierSlug ||
+      !event.kill ||
+      !isCountedBossDifficulty(event) ||
+      !activeRosterSlugs.has(event.playerSlug)
+    ) {
       continue;
     }
 
     const key = getBossKillKey(event);
-    const killEvent = killEventsByKey.get(key) ?? { date: event.date, presentSlugs: new Set<string>() };
+    const killEvent = killEventsByKey.get(key) ?? { date: getEventRaidDate(event), presentSlugs: new Set<string>() };
     killEvent.presentSlugs.add(event.playerSlug);
     killEventsByKey.set(key, killEvent);
   }
@@ -124,6 +204,10 @@ const bossAttendanceStatsBySlug = (() => {
     const unavailableSlugs = new Set([...raidNight.out, ...raidNight.late, ...raidNight.mia].map((player) => player.slug));
 
     for (const player of activeRosterPlayers) {
+      if (killEvent.date < getPlayerRosterStart(player.slug).date) {
+        continue;
+      }
+
       if (unavailableSlugs.has(player.slug)) {
         continue;
       }

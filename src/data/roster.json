@@ -151,7 +151,8 @@
     "class": "Monk",
     "spec": "Mistweaver",
     "role": "Healer",
-    "realm": "Lei Shen"
+    "realm": "Lei Shen",
+    "rosterStartSource": "firstLog"
   },
   {
     "character": "Niblainelock",

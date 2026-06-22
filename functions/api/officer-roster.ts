@@ -1,7 +1,7 @@
 import { hasOfficerPasswordConfig, hasValidOfficerSession, jsonResponse, type OfficerAuthEnv } from "../_shared/officer-auth";
 import { isCurrentAttendanceDate } from "../../src/lib/attendanceTiers";
-import { getPlayerBossAttendanceStats } from "../../src/lib/bossAttendance";
-import { activeRosterPlayers, raidNights } from "../../src/lib/guildData";
+import { getPlayerBossAttendanceStats, getPlayerRosterStart } from "../../src/lib/bossAttendance";
+import { activeRosterPlayers, formatDateLabel, raidNights } from "../../src/lib/guildData";
 import { classColors } from "../../src/lib/playerStyles";
 
 interface PagesContext {
@@ -18,6 +18,8 @@ interface OfficerRosterApiRow {
   classColor: string;
   spec: string;
   role: string;
+  rosterStartDate: string;
+  rosterStartLabel: string;
   bench: number;
   bossesIn: number;
   availableBosses: number;
@@ -45,6 +47,8 @@ export const onRequest = async ({ request, env }: PagesContext) => {
   const countBySlug = new Map(
     activeRosterPlayers.map((player) => {
       const bossStats = getPlayerBossAttendanceStats(player.slug);
+      const rosterStart = getPlayerRosterStart(player.slug);
+      const hasRosterStartDate = rosterStart.source === "explicit" || rosterStart.source === "firstLog";
       const row: OfficerRosterApiRow = {
         player: player.name,
         href: player.href,
@@ -52,6 +56,8 @@ export const onRequest = async ({ request, env }: PagesContext) => {
         classColor: classColors[player.className] ?? "",
         spec: player.spec,
         role: player.role,
+        rosterStartDate: hasRosterStartDate ? rosterStart.date : "",
+        rosterStartLabel: hasRosterStartDate ? formatDateLabel(rosterStart.date) : rosterStart.label,
         bench: bossStats.bossBenchCount,
         bossesIn: bossStats.attendedBossKillCount,
         availableBosses: bossStats.availableBossKillCount,
