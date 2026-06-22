@@ -4876,12 +4876,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2026-06-08T05:02:13.295Z",
-              "latestKillDate": "2026-06-15T03:54:45.942Z",
+              "latestKillDate": "2026-06-22T03:24:22.953Z",
               "bestPercent": 0,
               "reportCode": "fLaWZPmn4qyjRCXD",
               "reportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=30",
-              "pulls": 15,
-              "kills": 2
+              "pulls": 16,
+              "kills": 3
             }
           }
         },
@@ -4894,12 +4894,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2026-06-16T04:56:48.060Z",
-              "latestKillDate": "2026-06-16T04:56:48.060Z",
+              "latestKillDate": "2026-06-22T05:07:16.003Z",
               "bestPercent": 0,
               "reportCode": "ahrBDQKqpGdMbZWT",
               "reportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8",
-              "pulls": 7,
-              "kills": 1
+              "pulls": 12,
+              "kills": 2
             }
           }
         },
@@ -4912,12 +4912,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2026-06-08T03:50:47.571Z",
-              "latestKillDate": "2026-06-15T03:22:24.821Z",
+              "latestKillDate": "2026-06-22T03:11:37.952Z",
               "bestPercent": 0,
               "reportCode": "fLaWZPmn4qyjRCXD",
               "reportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=18",
-              "pulls": 10,
-              "kills": 2
+              "pulls": 11,
+              "kills": 3
             }
           }
         },
@@ -4948,12 +4948,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2026-06-09T04:57:50.801Z",
-              "latestKillDate": "2026-06-16T03:33:42.517Z",
+              "latestKillDate": "2026-06-22T04:01:02.943Z",
               "bestPercent": 0,
               "reportCode": "BtJbpyWzZKv4wXQ9",
               "reportUrl": "https://classic.warcraftlogs.com/reports/BtJbpyWzZKv4wXQ9#fight=22",
-              "pulls": 35,
-              "kills": 2
+              "pulls": 37,
+              "kills": 3
             }
           }
         },
@@ -4961,6 +4961,18 @@
           "name": "Kor'kron Dark Shaman",
           "encounterId": 51606,
           "difficulties": {
+            "Heroic": {
+              "status": "Best Pull",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": null,
+              "latestKillDate": null,
+              "bestPercent": 28.43,
+              "reportCode": "3KMRZLct82vw6qpz",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=31",
+              "pulls": 5,
+              "kills": 0
+            },
             "Normal": {
               "status": "Killed",
               "difficultyId": 3,
@@ -4984,12 +4996,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2026-06-09T06:01:56.842Z",
-              "latestKillDate": "2026-06-16T04:03:59.767Z",
+              "latestKillDate": "2026-06-22T04:21:21.441Z",
               "bestPercent": 0,
               "reportCode": "jWDnwCPFVxZ9qh4N",
               "reportUrl": "https://classic.warcraftlogs.com/reports/jWDnwCPFVxZ9qh4N#fight=10",
-              "pulls": 8,
-              "kills": 2
+              "pulls": 9,
+              "kills": 3
             }
           }
         },
@@ -5002,12 +5014,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2026-06-08T06:06:06.608Z",
-              "latestKillDate": "2026-06-15T04:29:08.445Z",
+              "latestKillDate": "2026-06-22T03:42:36.670Z",
               "bestPercent": 0,
               "reportCode": "fLaWZPmn4qyjRCXD",
               "reportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=47",
-              "pulls": 12,
-              "kills": 2
+              "pulls": 14,
+              "kills": 3
             }
           }
         }

@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-06-21T22:15:06.884Z",
+  "generatedAt": "2026-06-22T20:31:58.737Z",
   "source": "Warcraft Logs API v2",
   "scope": "Derived Siege of Orgrimmar boss attendance summary for bench planning.",
   "tierSlug": "tier-16",
-  "eventCount": 2793,
+  "eventCount": 3366,
   "bossCount": 8,
-  "playerCount": 32,
+  "playerCount": 33,
   "bosses": [
     {
       "bossKey": "fallenprotectors",
       "bossName": "Fallen Protectors",
-      "eventCount": 375,
+      "eventCount": 400,
       "players": [
         {
           "playerSlug": "arrowqt",
@@ -34,39 +34,46 @@
           "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
         },
         {
+          "playerSlug": "bannedpex",
+          "playerName": "Bannedpex",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
+        },
+        {
           "playerSlug": "cabbage",
           "playerName": "Cabbage",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "cardinalcrzy",
           "playerName": "Cardinalcrzy",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=30"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "chonkars",
           "playerName": "Chonkars",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "deez",
           "playerName": "Deéz",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=30"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "drchicken",
           "playerName": "Drchicken",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=30"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "fae",
@@ -78,9 +85,9 @@
         {
           "playerSlug": "foggy",
           "playerName": "Foggy",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=30"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "gambatte",
@@ -92,16 +99,16 @@
         {
           "playerSlug": "june",
           "playerName": "June",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "kaiysz",
           "playerName": "Kaiysz",
-          "appearances": 1,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "kali",
@@ -118,81 +125,88 @@
           "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
         },
         {
+          "playerSlug": "karkonk",
+          "playerName": "Karkonk",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
+        },
+        {
           "playerSlug": "kubara",
           "playerName": "Kubara",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "kuradelh",
           "playerName": "Kuradelh",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "lexou",
           "playerName": "Lexou",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "marz",
           "playerName": "Marz",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "maverickdog",
           "playerName": "Maverickdog",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=30"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "mistify",
           "playerName": "Mistify",
-          "appearances": 1,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "niblainelock",
           "playerName": "Niblainelock",
-          "appearances": 1,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "noctuahati",
           "playerName": "Noctuahati",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "oswaldmosley",
           "playerName": "Oswaldmosley",
-          "appearances": 1,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "rebbec",
           "playerName": "Rebbec",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "shrynx",
           "playerName": "Shrynx",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "teehee",
@@ -204,44 +218,44 @@
         {
           "playerSlug": "tengen",
           "playerName": "Tengen",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "viglance",
           "playerName": "Viglance",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "volksworgen",
           "playerName": "Volkswórgen",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         },
         {
           "playerSlug": "yellock",
           "playerName": "Yellock",
-          "appearances": 1,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=6"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=2"
         }
       ]
     },
     {
       "bossKey": "galakras",
       "bossName": "Galakras",
-      "eventCount": 200,
+      "eventCount": 225,
       "players": [
         {
           "playerSlug": "arrowqt",
           "playerName": "Arrowqt",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "aurumai",
@@ -258,25 +272,32 @@
           "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
         },
         {
+          "playerSlug": "bannedpex",
+          "playerName": "Bannedpex",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
+        },
+        {
           "playerSlug": "cabbage",
           "playerName": "Cabbage",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "cardinalcrzy",
           "playerName": "Cardinalcrzy",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "chonkars",
           "playerName": "Chonkars",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "deez",
@@ -295,37 +316,37 @@
         {
           "playerSlug": "fae",
           "playerName": "Fae",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "foggy",
           "playerName": "Foggy",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "gambatte",
           "playerName": "Gambatte",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "june",
           "playerName": "June",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "kaiysz",
           "playerName": "Kaiysz",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "kali",
@@ -342,67 +363,81 @@
           "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
         },
         {
+          "playerSlug": "karkonk",
+          "playerName": "Karkonk",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
+        },
+        {
           "playerSlug": "kubara",
           "playerName": "Kubara",
-          "appearances": 1,
-          "latestDate": "2026-06-09",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/jWDnwCPFVxZ9qh4N#fight=10"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "kuradelh",
           "playerName": "Kuradelh",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "lexou",
           "playerName": "Lexou",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "marz",
           "playerName": "Marz",
-          "appearances": 1,
-          "latestDate": "2026-06-09",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/jWDnwCPFVxZ9qh4N#fight=10"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "maverickdog",
           "playerName": "Maverickdog",
-          "appearances": 1,
-          "latestDate": "2026-06-09",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/jWDnwCPFVxZ9qh4N#fight=10"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "mistify",
           "playerName": "Mistify",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "niblainelock",
           "playerName": "Niblainelock",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "noctuahati",
           "playerName": "Noctuahati",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "oswaldmosley",
           "playerName": "Oswaldmosley",
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
+        },
+        {
+          "playerSlug": "rebbec",
+          "playerName": "Rebbec",
           "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "shrynx",
@@ -414,23 +449,23 @@
         {
           "playerSlug": "teehee",
           "playerName": "Teehee",
-          "appearances": 1,
-          "latestDate": "2026-06-09",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/jWDnwCPFVxZ9qh4N#fight=10"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "tengen",
           "playerName": "Tengen",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "viglance",
           "playerName": "Viglance",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         },
         {
           "playerSlug": "volksworgen",
@@ -442,9 +477,9 @@
         {
           "playerSlug": "yellock",
           "playerName": "Yellock",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=32"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=14"
         }
       ]
     },
@@ -640,14 +675,14 @@
     {
       "bossKey": "immerseus",
       "bossName": "Immerseus",
-      "eventCount": 250,
+      "eventCount": 275,
       "players": [
         {
           "playerSlug": "arrowqt",
           "playerName": "Arrowqt",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=18"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "aurumai",
@@ -659,9 +694,9 @@
         {
           "playerSlug": "bannedpex",
           "playerName": "Bannedpex",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=18"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "cabbage",
@@ -673,51 +708,51 @@
         {
           "playerSlug": "cardinalcrzy",
           "playerName": "Cardinalcrzy",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=18"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "chonkars",
           "playerName": "Chonkars",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "deez",
           "playerName": "Deéz",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "drchicken",
           "playerName": "Drchicken",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=18"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "fae",
           "playerName": "Fae",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "foggy",
           "playerName": "Foggy",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=18"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "gambatte",
           "playerName": "Gambatte",
-          "appearances": 1,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "june",
@@ -729,9 +764,9 @@
         {
           "playerSlug": "kaiysz",
           "playerName": "Kaiysz",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "kali",
@@ -748,11 +783,18 @@
           "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
         },
         {
+          "playerSlug": "karkonk",
+          "playerName": "Karkonk",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
+        },
+        {
           "playerSlug": "kubara",
           "playerName": "Kubara",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "kuradelh",
@@ -764,37 +806,37 @@
         {
           "playerSlug": "lexou",
           "playerName": "Lexou",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "marz",
           "playerName": "Marz",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "maverickdog",
           "playerName": "Maverickdog",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=18"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "mistify",
           "playerName": "Mistify",
-          "appearances": 1,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "niblainelock",
           "playerName": "Niblainelock",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "noctuahati",
@@ -806,72 +848,72 @@
         {
           "playerSlug": "oswaldmosley",
           "playerName": "Oswaldmosley",
-          "appearances": 1,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "rebbec",
           "playerName": "Rebbec",
-          "appearances": 1,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "shrynx",
           "playerName": "Shrynx",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "teehee",
           "playerName": "Teehee",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "tengen",
           "playerName": "Tengen",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "viglance",
           "playerName": "Viglance",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "volksworgen",
           "playerName": "Volkswórgen",
-          "appearances": 1,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         },
         {
           "playerSlug": "yellock",
           "playerName": "Yellock",
-          "appearances": 1,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=3"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=1"
         }
       ]
     },
     {
       "bossKey": "ironjuggernaut",
       "bossName": "Iron Juggernaut",
-      "eventCount": 200,
+      "eventCount": 350,
       "players": [
         {
           "playerSlug": "arrowqt",
           "playerName": "Arrowqt",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "aurumai",
@@ -881,67 +923,81 @@
           "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
         },
         {
+          "playerSlug": "bannedpex",
+          "playerName": "Bannedpex",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
+        },
+        {
           "playerSlug": "cabbage",
           "playerName": "Cabbage",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "cardinalcrzy",
           "playerName": "Cardinalcrzy",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "chonkars",
           "playerName": "Chonkars",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "deez",
           "playerName": "Deéz",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "drchicken",
           "playerName": "Drchicken",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "fae",
           "playerName": "Fae",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "foggy",
           "playerName": "Foggy",
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
+        },
+        {
+          "playerSlug": "gambatte",
+          "playerName": "Gambatte",
           "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "june",
           "playerName": "June",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=15"
         },
         {
           "playerSlug": "kaiysz",
           "playerName": "Kaiysz",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "kali",
@@ -958,53 +1014,81 @@
           "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
         },
         {
+          "playerSlug": "karkonk",
+          "playerName": "Karkonk",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
+        },
+        {
           "playerSlug": "kubara",
           "playerName": "Kubara",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "kuradelh",
           "playerName": "Kuradelh",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=15"
         },
         {
           "playerSlug": "lexou",
           "playerName": "Lexou",
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
+        },
+        {
+          "playerSlug": "marz",
+          "playerName": "Marz",
           "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
+        },
+        {
+          "playerSlug": "maverickdog",
+          "playerName": "Maverickdog",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
+        },
+        {
+          "playerSlug": "mistify",
+          "playerName": "Mistify",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "niblainelock",
           "playerName": "Niblainelock",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "noctuahati",
           "playerName": "Noctuahati",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "oswaldmosley",
           "playerName": "Oswaldmosley",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "rebbec",
           "playerName": "Rebbec",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "shrynx",
@@ -1016,23 +1100,23 @@
         {
           "playerSlug": "teehee",
           "playerName": "Teehee",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "tengen",
           "playerName": "Tengen",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "viglance",
           "playerName": "Viglance",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         },
         {
           "playerSlug": "volksworgen",
@@ -1040,20 +1124,27 @@
           "appearances": 1,
           "latestDate": "2026-06-16",
           "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8"
+        },
+        {
+          "playerSlug": "yellock",
+          "playerName": "Yellock",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=20"
         }
       ]
     },
     {
       "bossKey": "korkrondarkshaman",
       "bossName": "Kor'kron Dark Shaman",
-      "eventCount": 25,
+      "eventCount": 223,
       "players": [
         {
           "playerSlug": "arrowqt",
           "playerName": "Arrowqt",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "aurumai",
@@ -1063,60 +1154,81 @@
           "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
         },
         {
+          "playerSlug": "bannedpex",
+          "playerName": "Bannedpex",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=24"
+        },
+        {
           "playerSlug": "cabbage",
           "playerName": "Cabbage",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "cardinalcrzy",
           "playerName": "Cardinalcrzy",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "chonkars",
           "playerName": "Chonkars",
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
+        },
+        {
+          "playerSlug": "deez",
+          "playerName": "Deéz",
           "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "drchicken",
           "playerName": "Drchicken",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "fae",
           "playerName": "Fae",
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
+        },
+        {
+          "playerSlug": "foggy",
+          "playerName": "Foggy",
           "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "gambatte",
           "playerName": "Gambatte",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "june",
           "playerName": "June",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "kaiysz",
           "playerName": "Kaiysz",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=24"
         },
         {
           "playerSlug": "kali",
@@ -1133,60 +1245,81 @@
           "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
         },
         {
+          "playerSlug": "karkonk",
+          "playerName": "Karkonk",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
+        },
+        {
           "playerSlug": "kubara",
           "playerName": "Kubara",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "kuradelh",
           "playerName": "Kuradelh",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "lexou",
           "playerName": "Lexou",
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
+        },
+        {
+          "playerSlug": "marz",
+          "playerName": "Marz",
           "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "maverickdog",
           "playerName": "Maverickdog",
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
+        },
+        {
+          "playerSlug": "mistify",
+          "playerName": "Mistify",
           "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "niblainelock",
           "playerName": "Niblainelock",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "noctuahati",
           "playerName": "Noctuahati",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "oswaldmosley",
           "playerName": "Oswaldmosley",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "rebbec",
           "playerName": "Rebbec",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "shrynx",
@@ -1198,37 +1331,44 @@
         {
           "playerSlug": "teehee",
           "playerName": "Teehee",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "tengen",
           "playerName": "Tengen",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "viglance",
           "playerName": "Viglance",
-          "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
         },
         {
           "playerSlug": "volksworgen",
           "playerName": "Volkswórgen",
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=35"
+        },
+        {
+          "playerSlug": "yellock",
+          "playerName": "Yellock",
           "appearances": 1,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=14"
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=24"
         }
       ]
     },
     {
       "bossKey": "norushen",
       "bossName": "Norushen",
-      "eventCount": 575,
+      "eventCount": 675,
       "players": [
         {
           "playerSlug": "arrowqt",
@@ -1252,74 +1392,81 @@
           "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
         },
         {
+          "playerSlug": "bannedpex",
+          "playerName": "Bannedpex",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
+        },
+        {
           "playerSlug": "cabbage",
           "playerName": "Cabbage",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "cardinalcrzy",
           "playerName": "Cardinalcrzy",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=47"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "chonkars",
           "playerName": "Chonkars",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "deez",
           "playerName": "Deéz",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "drchicken",
           "playerName": "Drchicken",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=47"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "fae",
           "playerName": "Fae",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "foggy",
           "playerName": "Foggy",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=47"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "gambatte",
           "playerName": "Gambatte",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "june",
           "playerName": "June",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "kaiysz",
           "playerName": "Kaiysz",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "kali",
@@ -1336,25 +1483,32 @@
           "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
         },
         {
+          "playerSlug": "karkonk",
+          "playerName": "Karkonk",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
+        },
+        {
           "playerSlug": "kubara",
           "playerName": "Kubara",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "kuradelh",
           "playerName": "Kuradelh",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "lexou",
           "playerName": "Lexou",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "marz",
@@ -1366,9 +1520,9 @@
         {
           "playerSlug": "maverickdog",
           "playerName": "Maverickdog",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=47"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "mistify",
@@ -1380,65 +1534,65 @@
         {
           "playerSlug": "niblainelock",
           "playerName": "Niblainelock",
-          "appearances": 1,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "noctuahati",
           "playerName": "Noctuahati",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "oswaldmosley",
           "playerName": "Oswaldmosley",
-          "appearances": 1,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "rebbec",
           "playerName": "Rebbec",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "shrynx",
           "playerName": "Shrynx",
-          "appearances": 1,
-          "latestDate": "2026-06-08",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/fLaWZPmn4qyjRCXD#fight=47"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "teehee",
           "playerName": "Teehee",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "tengen",
           "playerName": "Tengen",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "viglance",
           "playerName": "Viglance",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "volksworgen",
           "playerName": "Volkswórgen",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=17"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=8"
         },
         {
           "playerSlug": "yellock",
@@ -1452,14 +1606,14 @@
     {
       "bossKey": "shaofpride",
       "bossName": "Sha of Pride",
-      "eventCount": 968,
+      "eventCount": 1018,
       "players": [
         {
           "playerSlug": "arrowqt",
           "playerName": "Arrowqt",
-          "appearances": 3,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 4,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "aurumai",
@@ -1476,39 +1630,46 @@
           "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=32"
         },
         {
+          "playerSlug": "bannedpex",
+          "playerName": "Bannedpex",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
+        },
+        {
           "playerSlug": "cabbage",
           "playerName": "Cabbage",
-          "appearances": 1,
-          "latestDate": "2026-06-09",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BtJbpyWzZKv4wXQ9#fight=22"
+          "appearances": 2,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "cardinalcrzy",
           "playerName": "Cardinalcrzy",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "chonkars",
           "playerName": "Chonkars",
-          "appearances": 3,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 4,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "deez",
           "playerName": "Deéz",
-          "appearances": 3,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 4,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "drchicken",
           "playerName": "Drchicken",
-          "appearances": 3,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 4,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "fae",
@@ -1527,23 +1688,23 @@
         {
           "playerSlug": "gambatte",
           "playerName": "Gambatte",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "june",
           "playerName": "June",
-          "appearances": 3,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 4,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "kaiysz",
           "playerName": "Kaiysz",
-          "appearances": 3,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 4,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "kali",
@@ -1560,32 +1721,39 @@
           "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
         },
         {
+          "playerSlug": "karkonk",
+          "playerName": "Karkonk",
+          "appearances": 1,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
+        },
+        {
           "playerSlug": "kubara",
           "playerName": "Kubara",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "kuradelh",
           "playerName": "Kuradelh",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "lexou",
           "playerName": "Lexou",
-          "appearances": 3,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 4,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "marz",
           "playerName": "Marz",
-          "appearances": 2,
-          "latestDate": "2026-06-15",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/rQf9Jg4NcjhMpKzd#fight=32"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "maverickdog",
@@ -1597,9 +1765,9 @@
         {
           "playerSlug": "mistify",
           "playerName": "Mistify",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "niblainelock",
@@ -1611,65 +1779,65 @@
         {
           "playerSlug": "noctuahati",
           "playerName": "Noctuahati",
-          "appearances": 3,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 4,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "oswaldmosley",
           "playerName": "Oswaldmosley",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "rebbec",
           "playerName": "Rebbec",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "shrynx",
           "playerName": "Shrynx",
-          "appearances": 3,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 4,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "teehee",
           "playerName": "Teehee",
-          "appearances": 3,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 4,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "tengen",
           "playerName": "Tengen",
-          "appearances": 3,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 4,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "viglance",
           "playerName": "Viglance",
-          "appearances": 3,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 4,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "volksworgen",
           "playerName": "Volkswórgen",
-          "appearances": 3,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 4,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         },
         {
           "playerSlug": "yellock",
           "playerName": "Yellock",
-          "appearances": 2,
-          "latestDate": "2026-06-16",
-          "latestReportUrl": "https://classic.warcraftlogs.com/reports/BLX3pWTjRVYKHb6d#fight=25"
+          "appearances": 3,
+          "latestDate": "2026-06-22",
+          "latestReportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=11"
         }
       ]
     }
