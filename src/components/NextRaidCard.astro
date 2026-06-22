@@ -181,10 +181,33 @@ const raidPayload = calendar.raidDates.map((date) => ({
     minimumAvailablePerClass?: number;
   };
 
-  const toLocalDate = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const raidTimeZone = "America/Los_Angeles";
+  const raidDayCutoffHour = 23;
   const parseIsoDate = (isoDate: string) => {
     const [year, month, day] = isoDate.split("-").map(Number);
     return new Date(year, month - 1, day);
+  };
+  const toIsoDate = (date: Date) =>
+    `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+  const addDaysToIsoDate = (isoDate: string, days: number) => {
+    const date = parseIsoDate(isoDate);
+    date.setDate(date.getDate() + days);
+
+    return toIsoDate(date);
+  };
+  const getRaidReadinessAnchorIsoDate = (now = new Date()) => {
+    const parts = new Intl.DateTimeFormat("en-US", {
+      timeZone: raidTimeZone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      hourCycle: "h23",
+    }).formatToParts(now);
+    const getPart = (type: Intl.DateTimeFormatPartTypes) => parts.find((part) => part.type === type)?.value ?? "";
+    const pacificTodayIso = `${getPart("year")}-${getPart("month")}-${getPart("day")}`;
+
+    return Number(getPart("hour")) >= raidDayCutoffHour ? addDaysToIsoDate(pacificTodayIso, 1) : pacificTodayIso;
   };
   const getWeekStart = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
   const ordinal = (day: number) => {
@@ -563,7 +586,7 @@ const raidPayload = calendar.raidDates.map((date) => ({
     }>;
     const activeRoster = JSON.parse(activeRosterNode?.textContent ?? "[]") as DashboardPlayer[];
     const rules = JSON.parse(rulesNode?.textContent ?? "{}") as BenchRules;
-    const today = toLocalDate(new Date());
+    const today = parseIsoDate(getRaidReadinessAnchorIsoDate());
     const datedRaids = raids.map((raid) => ({ ...raid, date: parseIsoDate(raid.isoDate) }));
     const nextRaid = datedRaids.find((raid) => raid.date >= today) ?? datedRaids[datedRaids.length - 1];
 
