@@ -2658,10 +2658,10 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   position: relative;
   display: grid;
   gap: 10px;
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid rgba(43, 58, 49, 0.78);
   border-radius: 8px;
-  padding: 12px;
+  padding: 18px 12px 12px;
   background: rgba(9, 13, 11, 0.46);
 }
 
@@ -2684,10 +2684,13 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
 .loot-chart-bar {
   cursor: pointer;
+  fill-opacity: 0.88;
   outline: none;
-  stroke: rgba(9, 13, 11, 0.8);
-  stroke-width: 1;
+  paint-order: stroke fill;
+  stroke: rgba(238, 248, 235, 0.74);
+  stroke-width: 1.25;
   transition:
+    fill-opacity 140ms ease,
     opacity 140ms ease,
     stroke 140ms ease,
     stroke-width 140ms ease,
@@ -2696,9 +2699,10 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
 
 .loot-chart-bar:hover,
 .loot-chart-bar:focus-visible {
+  fill-opacity: 1;
   stroke: var(--text);
-  stroke-width: 2;
-  filter: brightness(1.14);
+  stroke-width: 2.5;
+  filter: brightness(1.12) drop-shadow(0 0 8px rgba(238, 248, 235, 0.18));
 }
 
 [data-loot-empty="true"] {
@@ -2726,6 +2730,10 @@ th[data-sort-type="number"][aria-sort="descending"] .sort-indicator::after {
   line-height: 1.25;
   pointer-events: none;
   white-space: nowrap;
+}
+
+.loot-chart-tooltip[data-placement="below"] {
+  transform: translate(-50%, 10px);
 }
 
 .loot-chart-legend {

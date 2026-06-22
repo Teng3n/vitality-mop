@@ -33,12 +33,14 @@ const getTimelineBar = (timeline: LootTimelinePoint[], key: LootBucketKey, index
   const point = timeline[index];
   const maxValue = getTimelineMax(timeline);
   const groupWidth = chartInnerWidth / Math.max(timeline.length, 1);
-  const groupPadding = Math.min(6, groupWidth * 0.18);
-  const barSlotWidth = (groupWidth - groupPadding * 2) / lootBucketKeys.length;
-  const barWidth = Math.max(3, barSlotWidth - 2);
+  const clusterWidth = Math.min(groupWidth * 0.44, 132);
+  const barWidth = Math.max(4, Math.min(52, clusterWidth / 3));
+  const barStep = lootBucketKeys.length > 1 ? (clusterWidth - barWidth) / (lootBucketKeys.length - 1) : 0;
   const keyIndex = lootBucketKeys.indexOf(key);
   const height = (point[key] / maxValue) * chartInnerHeight;
-  const x = chartPadding.left + index * groupWidth + groupPadding + keyIndex * barSlotWidth + (barSlotWidth - barWidth) / 2;
+  const groupCenter = chartPadding.left + index * groupWidth + groupWidth / 2;
+  const clusterLeft = groupCenter - clusterWidth / 2;
+  const x = clusterLeft + keyIndex * barStep;
   const y = chartPadding.top + chartInnerHeight - height;
 
   return { x, y, width: barWidth, height, value: point[key], centerX: x + barWidth / 2 };
@@ -207,6 +209,7 @@ const getTickX = (index: number, timelineLength: number) =>
                         return (
                           <rect
                             class="loot-chart-bar"
+                            aria-label={tooltipText}
                             x={chartBar.x}
                             y={chartBar.y}
                             width={chartBar.width}
@@ -223,9 +226,7 @@ const getTickX = (index: number, timelineLength: number) =>
                             data-loot-empty={chartBar.value === 0 ? "true" : undefined}
                             data-loot-hidden={!defaultVisibleLootBuckets.has(key) ? "true" : undefined}
                             tabindex={defaultVisibleLootBuckets.has(key) && chartBar.value > 0 ? "0" : "-1"}
-                          >
-                            <title>{tooltipText}</title>
-                          </rect>
+                          />
                         );
                       }),
                     )}
@@ -379,6 +380,7 @@ const getTickX = (index: number, timelineLength: number) =>
       tooltip.textContent = `${point.dataset.lootWeek}: ${point.dataset.lootValue} ${point.dataset.lootBucket}`;
       tooltip.style.left = `${(x / chartWidth) * 100}%`;
       tooltip.style.top = `${(y / chartHeight) * 100}%`;
+      tooltip.dataset.placement = y < 58 ? "below" : "above";
       tooltip.hidden = false;
     };
 
