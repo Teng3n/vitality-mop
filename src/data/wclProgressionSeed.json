@@ -4843,11 +4843,6 @@
           "difficulties": {}
         },
         {
-          "name": "Malkorok",
-          "encounterId": null,
-          "difficulties": {}
-        },
-        {
           "name": "Paragons of the Klaxxi",
           "encounterId": null,
           "difficulties": {}
@@ -4866,6 +4861,36 @@
           "name": "Thok the Bloodthirsty",
           "encounterId": null,
           "difficulties": {}
+        },
+        {
+          "name": "Malkorok",
+          "encounterId": 51595,
+          "difficulties": {
+            "Heroic": {
+              "status": "Best Pull",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": null,
+              "latestKillDate": null,
+              "bestPercent": 41.66,
+              "reportCode": "zFkMdyKJghYDpZ6a",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/zFkMdyKJghYDpZ6a#fight=56",
+              "pulls": 29,
+              "kills": 0
+            },
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2026-06-23T05:56:51.984Z",
+              "latestKillDate": "2026-06-23T05:56:51.984Z",
+              "bestPercent": 0,
+              "reportCode": "zFkMdyKJghYDpZ6a",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/zFkMdyKJghYDpZ6a#fight=65",
+              "pulls": 1,
+              "kills": 1
+            }
+          }
         },
         {
           "name": "Fallen Protectors",
@@ -4926,16 +4951,16 @@
           "encounterId": 51603,
           "difficulties": {
             "Heroic": {
-              "status": "Best Pull",
+              "status": "Killed",
               "difficultyId": 4,
               "rawDifficultyId": 4,
-              "firstKillDate": null,
-              "latestKillDate": null,
-              "bestPercent": 0.59,
-              "reportCode": "ahrBDQKqpGdMbZWT",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=26",
-              "pulls": 7,
-              "kills": 0
+              "firstKillDate": "2026-06-23T03:51:27.256Z",
+              "latestKillDate": "2026-06-23T03:51:27.256Z",
+              "bestPercent": 0,
+              "reportCode": "zFkMdyKJghYDpZ6a",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/zFkMdyKJghYDpZ6a#fight=31",
+              "pulls": 11,
+              "kills": 1
             }
           }
         },
@@ -4962,16 +4987,16 @@
           "encounterId": 51606,
           "difficulties": {
             "Heroic": {
-              "status": "Best Pull",
+              "status": "Killed",
               "difficultyId": 4,
               "rawDifficultyId": 4,
-              "firstKillDate": null,
-              "latestKillDate": null,
-              "bestPercent": 28.43,
-              "reportCode": "3KMRZLct82vw6qpz",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/3KMRZLct82vw6qpz#fight=31",
-              "pulls": 5,
-              "kills": 0
+              "firstKillDate": "2026-06-23T03:17:14.378Z",
+              "latestKillDate": "2026-06-23T03:17:14.378Z",
+              "bestPercent": 0,
+              "reportCode": "zFkMdyKJghYDpZ6a",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/zFkMdyKJghYDpZ6a#fight=21",
+              "pulls": 6,
+              "kills": 1
             },
             "Normal": {
               "status": "Killed",
@@ -5025,9 +5050,9 @@
         }
       ],
       "summary": {
-        "normalKilled": 1,
+        "normalKilled": 2,
         "normalTotal": 14,
-        "heroicKilled": 6,
+        "heroicKilled": 8,
         "heroicTotal": 14
       }
     }
