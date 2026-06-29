@@ -1,5 +1,815 @@
 [
   {
+    "date": "2026-06-29",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Gauntlets of the Cursed Protector",
+    "boss": "General Nazgrim",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "June",
+    "realm": "Raden",
+    "characterRealm": "June-Raden",
+    "item": "Gauntlets of the Cursed Protector",
+    "boss": "General Nazgrim",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Kuradelh",
+    "realm": "Raden",
+    "characterRealm": "Kuradelh-Raden",
+    "item": "Gauntlets of the Cursed Protector",
+    "boss": "General Nazgrim",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Yak Greaves of the Galeburst",
+    "boss": "General Nazgrim",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Gar'tok, Strength of the Faithful",
+    "boss": "General Nazgrim",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Gar'tok, Strength of the Faithful",
+    "boss": "General Nazgrim",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Engraved Axe of the Tiger",
+    "boss": "General Nazgrim",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Robes of the Warrior's Fall",
+    "boss": "General Nazgrim",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Immaculate Amulet of the Bear",
+    "boss": "General Nazgrim",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "June",
+    "realm": "Raden",
+    "characterRealm": "June-Raden",
+    "item": "Shoulderguards of the Righteous Stand",
+    "boss": "General Nazgrim",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Kubara",
+    "realm": "Raden",
+    "characterRealm": "Kubara-Raden",
+    "item": "Nazgrim's Burnished Insignia",
+    "boss": "General Nazgrim",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Mistify",
+    "realm": "LeiShen",
+    "characterRealm": "Mistify-LeiShen",
+    "item": "Nazgrim's Burnished Insignia",
+    "boss": "General Nazgrim",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "item": "Kardris' Scepter",
+    "boss": "Kor'kron Dark Shaman",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Gambatte",
+    "realm": "Raden",
+    "characterRealm": "Gambatte-Raden",
+    "item": "Echoes of War",
+    "boss": "Kor'kron Dark Shaman",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "June",
+    "realm": "Raden",
+    "characterRealm": "June-Raden",
+    "item": "Riou's Vigilant Leggings",
+    "boss": "Kor'kron Dark Shaman",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Volkswórgen",
+    "realm": "Raden",
+    "characterRealm": "Volkswórgen-Raden",
+    "item": "Damron's Belt of Darkness",
+    "boss": "Kor'kron Dark Shaman",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Volkswórgen",
+    "realm": "Raden",
+    "characterRealm": "Volkswórgen-Raden",
+    "item": "Riou's Vigilant Leggings",
+    "boss": "Kor'kron Dark Shaman",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Cardinalcrzy",
+    "realm": "Raden",
+    "characterRealm": "Cardinalcrzy-Raden",
+    "item": "Iron Wolf Hood",
+    "boss": "Kor'kron Dark Shaman",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "item": "Shackles of Stinking Slime",
+    "boss": "Kor'kron Dark Shaman",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Oswaldmosley",
+    "realm": "Raden",
+    "characterRealm": "Oswaldmosley-Raden",
+    "item": "Breastplate of Shamanic Mirrors",
+    "boss": "Kor'kron Dark Shaman",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Deéz",
+    "realm": "Raden",
+    "characterRealm": "Deéz-Raden",
+    "item": "Ashen Wall Girdle",
+    "boss": "Kor'kron Dark Shaman",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "item": "Shoulderplates of Gushing Geysers",
+    "boss": "Kor'kron Dark Shaman",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Kubara",
+    "realm": "Raden",
+    "characterRealm": "Kubara-Raden",
+    "item": "Shoulderguards of Foul Streams",
+    "boss": "Kor'kron Dark Shaman",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Marz",
+    "realm": "Raden",
+    "characterRealm": "Marz-Raden",
+    "item": "Kardris' Toxic Totem",
+    "boss": "Kor'kron Dark Shaman",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Noctuahati",
+    "realm": "Pagle",
+    "characterRealm": "Noctuahati-Pagle",
+    "item": "Kardris' Scepter",
+    "boss": "Kor'kron Dark Shaman",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Ashen Wall Girdle",
+    "boss": "Kor'kron Dark Shaman",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Volkswórgen",
+    "realm": "Raden",
+    "characterRealm": "Volkswórgen-Raden",
+    "item": "Haromm's Talisman",
+    "boss": "Kor'kron Dark Shaman",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "item": "Zoid's Molten Gauntlets",
+    "boss": "Iron Juggernaut",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Vine Shoulders of the Galeburst",
+    "boss": "Iron Juggernaut",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Noctuahati",
+    "realm": "Pagle",
+    "characterRealm": "Noctuahati-Pagle",
+    "item": "Juggernaut's Power Core",
+    "boss": "Iron Juggernaut",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Engraved Staff of the Fireflash",
+    "boss": "Iron Juggernaut",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Juggernaut's Focusing Crystal",
+    "boss": "Iron Juggernaut",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Maverickdog",
+    "realm": "Raden",
+    "characterRealm": "Maverickdog-Raden",
+    "item": "Minelayer's Padded Boots",
+    "boss": "Iron Juggernaut",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Bracers of the Broken Fault",
+    "boss": "Iron Juggernaut",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Earthripper Gloves",
+    "boss": "Iron Juggernaut",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Oswaldmosley",
+    "realm": "Raden",
+    "characterRealm": "Oswaldmosley-Raden",
+    "item": "Earthbreaker's Steaming Chestplate",
+    "boss": "Iron Juggernaut",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Inlaid Broadaxe of the Mercenary",
+    "boss": "Iron Juggernaut",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Noctuahati",
+    "realm": "Pagle",
+    "characterRealm": "Noctuahati-Pagle",
+    "item": "Laser-Slice Signet",
+    "boss": "Iron Juggernaut",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Dragonmaw Emergency Strap",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Kuradelh",
+    "realm": "Raden",
+    "characterRealm": "Kuradelh-Raden",
+    "item": "Cannoneer's Multipocket Gunbelt",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Oswaldmosley",
+    "realm": "Raden",
+    "characterRealm": "Oswaldmosley-Raden",
+    "item": "Galakrond Control Band",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Cabbage",
+    "realm": "Raden",
+    "characterRealm": "Cabbage-Raden",
+    "item": "Scalebane Bracers",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Niblainelock",
+    "realm": "Raden",
+    "characterRealm": "Niblainelock-Raden",
+    "item": "Flameslinger's Fiery Cowl",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Oswaldmosley",
+    "realm": "Raden",
+    "characterRealm": "Oswaldmosley-Raden",
+    "item": "Thranok's Shattering Helm",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Karkonk",
+    "realm": "Raden",
+    "characterRealm": "Karkonk-Raden",
+    "item": "Swift Serpent Signet",
+    "boss": "Galakras",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Yellock",
+    "realm": "LeiShen",
+    "characterRealm": "Yellock-LeiShen",
+    "item": "Gaze of Arrogance",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Shield of Mockery",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Mistify",
+    "realm": "LeiShen",
+    "characterRealm": "Mistify-LeiShen",
+    "item": "Chest of the Cursed Protector",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Choker of the Final Word",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Noctuahati",
+    "realm": "Pagle",
+    "characterRealm": "Noctuahati-Pagle",
+    "item": "Chest of the Cursed Vanquisher",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Viglance",
+    "realm": "Pagle",
+    "characterRealm": "Viglance-Pagle",
+    "item": "Chest of the Cursed Conqueror",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Kubara",
+    "realm": "Raden",
+    "characterRealm": "Kubara-Raden",
+    "item": "Prismatic Prison of Pride",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-29",
+    "player": "Oswaldmosley",
+    "realm": "Raden",
+    "characterRealm": "Oswaldmosley-Raden",
+    "item": "Greatsword of Pride's Fall",
+    "boss": "Sha of Pride",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Karkonk",
+    "realm": "Raden",
+    "characterRealm": "Karkonk-Raden",
+    "item": "Echoes of War",
+    "boss": "Norushen",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Karkonk",
+    "realm": "Raden",
+    "characterRealm": "Karkonk-Raden",
+    "item": "Reality Ripper Ring",
+    "boss": "Norushen",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Fusion-Fire Core",
+    "boss": "Norushen",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Blight Hurlers",
+    "boss": "Norushen",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Foggy",
+    "realm": "Raden",
+    "characterRealm": "Foggy-Raden",
+    "item": "Untainted Guardian's Chain",
+    "boss": "Norushen",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Kaiysz",
+    "realm": "LeiShen",
+    "characterRealm": "Kaiysz-LeiShen",
+    "item": "Bracers of Blind Hatred",
+    "boss": "Norushen",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Lexou",
+    "realm": "Raden",
+    "characterRealm": "Lexou-Raden",
+    "item": "Bracers of Final Serenity",
+    "boss": "Norushen",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Immaculate Ring of the Windflurry",
+    "boss": "Norushen",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Volkswórgen",
+    "realm": "Raden",
+    "characterRealm": "Volkswórgen-Raden",
+    "item": "Norushen's Shortblade",
+    "boss": "Norushen",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Grips of Unending Anguish",
+    "boss": "Fallen Protectors",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Lifebane Bracers",
+    "boss": "Fallen Protectors",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "item": "Gaze of Echoing Despair",
+    "boss": "Fallen Protectors",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Kaiysz",
+    "realm": "LeiShen",
+    "characterRealm": "Kaiysz-LeiShen",
+    "item": "Sorrowpath Signet",
+    "boss": "Fallen Protectors",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Noctuahati",
+    "realm": "Pagle",
+    "characterRealm": "Noctuahati-Pagle",
+    "item": "Petrified Pennyroyal Ring",
+    "boss": "Fallen Protectors",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Oswaldmosley",
+    "realm": "Raden",
+    "characterRealm": "Oswaldmosley-Raden",
+    "item": "Poisonbinder Girth",
+    "boss": "Fallen Protectors",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Immaculate Ring of the Earthshaker",
+    "boss": "Fallen Protectors",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Waterfall Leggings of the Beast",
+    "boss": "Fallen Protectors",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Gambatte",
+    "realm": "Raden",
+    "characterRealm": "Gambatte-Raden",
+    "item": "Stonetoe's Tormented Treads",
+    "boss": "Fallen Protectors",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Rebbec",
+    "realm": "Raden",
+    "characterRealm": "Rebbec-Raden",
+    "item": "Grips of Unending Anguish",
+    "boss": "Fallen Protectors",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Treads of Unchained Hate",
+    "boss": "Immerseus",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Oswaldmosley",
+    "realm": "Raden",
+    "characterRealm": "Oswaldmosley-Raden",
+    "item": "Treads of Unchained Hate",
+    "boss": "Immerseus",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Teehee",
+    "realm": "Raden",
+    "characterRealm": "Teehee-Raden",
+    "item": "Purified Bindings of Immerseus",
+    "boss": "Immerseus",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Bracers of Sordid Sleep",
+    "boss": "Immerseus",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Ichor-Dripping Shoulderpads",
+    "boss": "Immerseus",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Shrynx",
+    "realm": "Raden",
+    "characterRealm": "Shrynx-Raden",
+    "item": "Hood of Swirling Senses",
+    "boss": "Immerseus",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Viglance",
+    "realm": "Pagle",
+    "characterRealm": "Viglance-Pagle",
+    "item": "Waterwalker Greatboots",
+    "boss": "Immerseus",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Marz",
+    "realm": "Raden",
+    "characterRealm": "Marz-Raden",
+    "item": "Purified Bindings of Immerseus",
+    "boss": "Immerseus",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-06-28",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Engraved Staff of the Invoker",
+    "boss": "Unknown",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
     "date": "2026-06-23",
     "player": "Noctuahati",
     "realm": "Pagle",
