@@ -22,17 +22,6 @@
     "total": 9
   },
   {
-    "player": "Fae",
-    "realm": "Raden",
-    "characterRealm": "Fae-Raden",
-    "bis": 4,
-    "major": 2,
-    "minor": 2,
-    "offspec": 0,
-    "bonusRolls": 1,
-    "total": 8
-  },
-  {
     "player": "Foggy",
     "realm": "Raden",
     "characterRealm": "Foggy-Raden",
@@ -53,6 +42,17 @@
     "offspec": 0,
     "bonusRolls": 2,
     "total": 8
+  },
+  {
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "bis": 4,
+    "major": 1,
+    "minor": 2,
+    "offspec": 0,
+    "bonusRolls": 1,
+    "total": 7
   },
   {
     "player": "Lexou",
