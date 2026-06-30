@@ -4853,30 +4853,43 @@
           "difficulties": {}
         },
         {
-          "name": "Spoils of Pandaria",
+          "name": "Thok the Bloodthirsty",
           "encounterId": null,
           "difficulties": {}
         },
         {
-          "name": "Thok the Bloodthirsty",
-          "encounterId": null,
-          "difficulties": {}
+          "name": "Spoils of Pandaria",
+          "encounterId": 51594,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2026-06-30T06:01:42.583Z",
+              "latestKillDate": "2026-06-30T06:01:42.583Z",
+              "bestPercent": 0,
+              "reportCode": "MjbR2X9H3rpJChBG",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/MjbR2X9H3rpJChBG#fight=44",
+              "pulls": 9,
+              "kills": 1
+            }
+          }
         },
         {
           "name": "Malkorok",
           "encounterId": 51595,
           "difficulties": {
             "Heroic": {
-              "status": "Best Pull",
+              "status": "Killed",
               "difficultyId": 4,
               "rawDifficultyId": 4,
-              "firstKillDate": null,
-              "latestKillDate": null,
-              "bestPercent": 41.66,
-              "reportCode": "zFkMdyKJghYDpZ6a",
-              "reportUrl": "https://classic.warcraftlogs.com/reports/zFkMdyKJghYDpZ6a#fight=56",
-              "pulls": 31,
-              "kills": 0
+              "firstKillDate": "2026-06-30T05:04:36.054Z",
+              "latestKillDate": "2026-06-30T05:04:36.054Z",
+              "bestPercent": 0,
+              "reportCode": "MjbR2X9H3rpJChBG",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/MjbR2X9H3rpJChBG#fight=29",
+              "pulls": 55,
+              "kills": 1
             },
             "Normal": {
               "status": "Killed",
@@ -5052,7 +5065,7 @@
       "summary": {
         "normalKilled": 2,
         "normalTotal": 14,
-        "heroicKilled": 8,
+        "heroicKilled": 10,
         "heroicTotal": 14
       }
     }
