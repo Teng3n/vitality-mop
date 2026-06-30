@@ -5,10 +5,10 @@
     "characterRealm": "Noctuahati-Pagle",
     "bis": 5,
     "major": 4,
-    "minor": 2,
+    "minor": 3,
     "offspec": 3,
     "bonusRolls": 4,
-    "total": 11
+    "total": 12
   },
   {
     "player": "June",
@@ -44,15 +44,15 @@
     "total": 8
   },
   {
-    "player": "Fae",
+    "player": "Karkonk",
     "realm": "Raden",
-    "characterRealm": "Fae-Raden",
-    "bis": 4,
-    "major": 1,
-    "minor": 2,
+    "characterRealm": "Karkonk-Raden",
+    "bis": 2,
+    "major": 5,
+    "minor": 1,
     "offspec": 0,
-    "bonusRolls": 1,
-    "total": 7
+    "bonusRolls": 2,
+    "total": 8
   },
   {
     "player": "Lexou",
@@ -60,7 +60,18 @@
     "characterRealm": "Lexou-Raden",
     "bis": 3,
     "major": 3,
-    "minor": 1,
+    "minor": 2,
+    "offspec": 0,
+    "bonusRolls": 1,
+    "total": 8
+  },
+  {
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "bis": 4,
+    "major": 1,
+    "minor": 2,
     "offspec": 0,
     "bonusRolls": 1,
     "total": 7
@@ -77,12 +88,12 @@
     "total": 6
   },
   {
-    "player": "Karkonk",
+    "player": "Teehee",
     "realm": "Raden",
-    "characterRealm": "Karkonk-Raden",
-    "bis": 2,
-    "major": 4,
-    "minor": 0,
+    "characterRealm": "Teehee-Raden",
+    "bis": 4,
+    "major": 1,
+    "minor": 1,
     "offspec": 0,
     "bonusRolls": 2,
     "total": 6
@@ -110,6 +121,17 @@
     "total": 5
   },
   {
+    "player": "Deéz",
+    "realm": "Raden",
+    "characterRealm": "Deéz-Raden",
+    "bis": 4,
+    "major": 1,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 4,
+    "total": 5
+  },
+  {
     "player": "Drchicken",
     "realm": "Raden",
     "characterRealm": "Drchicken-Raden",
@@ -121,6 +143,17 @@
     "total": 5
   },
   {
+    "player": "Kuradelh",
+    "realm": "Raden",
+    "characterRealm": "Kuradelh-Raden",
+    "bis": 3,
+    "major": 2,
+    "minor": 0,
+    "offspec": 0,
+    "bonusRolls": 4,
+    "total": 5
+  },
+  {
     "player": "Oswaldmosley",
     "realm": "Raden",
     "characterRealm": "Oswaldmosley-Raden",
@@ -128,17 +161,6 @@
     "major": 1,
     "minor": 1,
     "offspec": 8,
-    "bonusRolls": 2,
-    "total": 5
-  },
-  {
-    "player": "Teehee",
-    "realm": "Raden",
-    "characterRealm": "Teehee-Raden",
-    "bis": 4,
-    "major": 0,
-    "minor": 1,
-    "offspec": 0,
     "bonusRolls": 2,
     "total": 5
   },
@@ -154,17 +176,6 @@
     "total": 5
   },
   {
-    "player": "Deéz",
-    "realm": "Raden",
-    "characterRealm": "Deéz-Raden",
-    "bis": 3,
-    "major": 1,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 3,
-    "total": 4
-  },
-  {
     "player": "Gambatte",
     "realm": "Raden",
     "characterRealm": "Gambatte-Raden",
@@ -173,17 +184,6 @@
     "minor": 2,
     "offspec": 0,
     "bonusRolls": 2,
-    "total": 4
-  },
-  {
-    "player": "Kuradelh",
-    "realm": "Raden",
-    "characterRealm": "Kuradelh-Raden",
-    "bis": 2,
-    "major": 2,
-    "minor": 0,
-    "offspec": 0,
-    "bonusRolls": 4,
     "total": 4
   },
   {
