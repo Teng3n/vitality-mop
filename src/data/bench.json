@@ -42,12 +42,6 @@
     "notes": "Scheduled: 2025-08-03, 2026-02-01, 2026-02-02"
   },
   {
-    "player": "Foggy",
-    "totalBenchCount": 3,
-    "lastBenched": "2026-07-05",
-    "notes": "Scheduled: 2026-03-08, 2026-03-09, 2026-07-05"
-  },
-  {
     "player": "Arrowqt",
     "totalBenchCount": 2,
     "lastBenched": "2026-02-02",
@@ -70,6 +64,12 @@
     "totalBenchCount": 2,
     "lastBenched": "2026-05-11",
     "notes": "Scheduled: 2026-05-10, 2026-05-11"
+  },
+  {
+    "player": "Foggy",
+    "totalBenchCount": 2,
+    "lastBenched": "2026-03-09",
+    "notes": "Scheduled: 2026-03-08, 2026-03-09"
   },
   {
     "player": "Kubara",
