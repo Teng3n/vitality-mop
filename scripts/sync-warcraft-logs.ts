@@ -185,6 +185,21 @@ type WclBossAttendanceSummaryBoss = {
   players: WclBossAttendanceSummaryPlayer[];
 };
 
+type WclBossAttendanceSummaryFirstLog = {
+  playerSlug: string;
+  date: string;
+  startTime: string | null;
+};
+
+type WclBossAttendanceSummaryKillEvent = {
+  bossKey: string;
+  date: string;
+  startTime: string | null;
+  reportCode: string;
+  fightId: number;
+  playerSlugs: string[];
+};
+
 type WclBossAttendanceSummaryData = {
   generatedAt: string | null;
   source: string;
@@ -193,6 +208,8 @@ type WclBossAttendanceSummaryData = {
   eventCount: number;
   bossCount: number;
   playerCount: number;
+  firstLoggedRaidDates: WclBossAttendanceSummaryFirstLog[];
+  heroicKillEvents: WclBossAttendanceSummaryKillEvent[];
   bosses: WclBossAttendanceSummaryBoss[];
 };
 
@@ -1371,15 +1388,77 @@ function getAttendanceAppearanceKey(event: WclBossAttendanceEvent) {
   return `${event.playerSlug}:${event.tierSlug}:${event.bossKey}:${event.date}:${event.reportCode}`;
 }
 
+function getPacificIsoDate(isoDateTime: string | null | undefined) {
+  if (!isoDateTime) {
+    return "";
+  }
+
+  const date = new Date(isoDateTime);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Los_Angeles",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const getPart = (type: Intl.DateTimeFormatPartTypes) => parts.find((part) => part.type === type)?.value ?? "";
+
+  return `${getPart("year")}-${getPart("month")}-${getPart("day")}`;
+}
+
+function getBossAttendanceRaidDate(event: Pick<WclBossAttendanceEvent, "date" | "startTime">) {
+  return getPacificIsoDate(event.startTime) || event.date;
+}
+
+function isHeroicKillAttendanceEvent(event: WclBossAttendanceEvent) {
+  return event.kill && event.difficulty.trim().toLocaleLowerCase() === "heroic";
+}
+
 function buildBossAttendanceSummary(
   attendanceData: WclBossAttendanceData,
   tierSlug: WclBossAttendanceSummaryData["tierSlug"] = "tier-16",
 ): WclBossAttendanceSummaryData {
   const events = attendanceData.events.filter((event) => event.tierSlug === tierSlug);
   const eventsByBoss = new Map<string, WclBossAttendanceEvent[]>();
+  const firstLoggedRaidDateBySlug = new Map<string, WclBossAttendanceSummaryFirstLog>();
+  const heroicKillEventsByKey = new Map<
+    string,
+    Omit<WclBossAttendanceSummaryKillEvent, "playerSlugs"> & { playerSlugs: Set<string> }
+  >();
 
   for (const event of events) {
     eventsByBoss.set(event.bossKey, [...(eventsByBoss.get(event.bossKey) ?? []), event]);
+
+    const raidDate = getBossAttendanceRaidDate(event);
+    const previousFirstLog = firstLoggedRaidDateBySlug.get(event.playerSlug);
+
+    if (!previousFirstLog || raidDate < previousFirstLog.date) {
+      firstLoggedRaidDateBySlug.set(event.playerSlug, {
+        playerSlug: event.playerSlug,
+        date: raidDate,
+        startTime: event.startTime,
+      });
+    }
+
+    if (isHeroicKillAttendanceEvent(event)) {
+      const key = `${event.bossKey}:${raidDate}:${event.reportCode}:${event.fightId}`;
+      const killEvent =
+        heroicKillEventsByKey.get(key) ??
+        ({
+          bossKey: event.bossKey,
+          date: raidDate,
+          startTime: event.startTime,
+          reportCode: event.reportCode,
+          fightId: event.fightId,
+          playerSlugs: new Set<string>(),
+        } satisfies Omit<WclBossAttendanceSummaryKillEvent, "playerSlugs"> & { playerSlugs: Set<string> });
+      killEvent.playerSlugs.add(event.playerSlug);
+      heroicKillEventsByKey.set(key, killEvent);
+    }
   }
 
   const bosses = [...eventsByBoss.entries()]
@@ -1433,6 +1512,19 @@ function buildBossAttendanceSummary(
     eventCount: events.length,
     bossCount: bosses.length,
     playerCount: new Set(events.map((event) => event.playerSlug)).size,
+    firstLoggedRaidDates: [...firstLoggedRaidDateBySlug.values()].sort((a, b) => a.playerSlug.localeCompare(b.playerSlug)),
+    heroicKillEvents: [...heroicKillEventsByKey.values()]
+      .map((event) => ({
+        ...event,
+        playerSlugs: [...event.playerSlugs].sort((a, b) => a.localeCompare(b)),
+      }))
+      .sort(
+        (a, b) =>
+          a.date.localeCompare(b.date) ||
+          a.bossKey.localeCompare(b.bossKey) ||
+          a.reportCode.localeCompare(b.reportCode) ||
+          a.fightId - b.fightId,
+      ),
     bosses,
   };
 }

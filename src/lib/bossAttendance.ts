@@ -1,5 +1,4 @@
 import wclBossAttendanceSummary from "../data/wclBossAttendanceSummary.json";
-import wclBossAttendance from "../data/wclBossAttendance.json";
 import { SIEGE_OF_ORGRIMMAR_RELEASE_DATE } from "./attendanceTiers";
 import { activeRosterPlayers, getCanonicalPlayerSlug, raidNights } from "./guildData";
 import { normalizeProgressionName } from "./progressionTiers";
@@ -19,6 +18,21 @@ export interface WclBossAttendanceSummaryBoss {
   players: WclBossAttendanceSummaryPlayer[];
 }
 
+export interface WclBossAttendanceSummaryFirstLog {
+  playerSlug: string;
+  date: string;
+  startTime?: string | null;
+}
+
+export interface WclBossAttendanceSummaryKillEvent {
+  bossKey: string;
+  date: string;
+  startTime?: string | null;
+  reportCode: string;
+  fightId: number;
+  playerSlugs: string[];
+}
+
 export interface WclBossAttendanceSummaryData {
   generatedAt: string | null;
   source: string;
@@ -27,24 +41,9 @@ export interface WclBossAttendanceSummaryData {
   eventCount: number;
   bossCount: number;
   playerCount: number;
+  firstLoggedRaidDates?: WclBossAttendanceSummaryFirstLog[];
+  heroicKillEvents?: WclBossAttendanceSummaryKillEvent[];
   bosses: WclBossAttendanceSummaryBoss[];
-}
-
-interface WclBossAttendanceEvent {
-  playerSlug: string;
-  tierSlug: string;
-  bossKey: string;
-  bossName: string;
-  date: string;
-  startTime?: string;
-  difficulty?: string;
-  reportCode: string;
-  fightId: number;
-  kill: boolean;
-}
-
-interface WclBossAttendanceData {
-  events: WclBossAttendanceEvent[];
 }
 
 export interface PlayerBossAttendanceSummary {
@@ -79,19 +78,12 @@ export interface PlayerRosterStart {
 }
 
 const attendanceSummary = wclBossAttendanceSummary as WclBossAttendanceSummaryData;
-const attendanceData = wclBossAttendance as WclBossAttendanceData;
 const raidTimeZone = "America/Los_Angeles";
-const countedBossDifficulties = new Set(["heroic"]);
 const pendingFirstLogRosterStartDate = "9999-12-31";
 
 const normalizeBossKey = (bossName: string) => normalizeProgressionName(bossName);
 const activeRosterBySlug = new Map(activeRosterPlayers.map((player) => [player.slug, player]));
-const activeRosterSlugs = new Set(
-  activeRosterPlayers.flatMap((player) => [player.slug, ...player.attendanceAliasSlugs]),
-);
 const raidNightByDate = new Map(raidNights.map((night) => [night.isoDate, night]));
-const getBossKillKey = (event: WclBossAttendanceEvent) =>
-  `${event.tierSlug}:${event.bossKey}:${event.date}:${event.reportCode}:${event.fightId}`;
 const getPacificIsoDate = (isoDateTime: string) => {
   const date = new Date(isoDateTime);
 
@@ -109,21 +101,20 @@ const getPacificIsoDate = (isoDateTime: string) => {
 
   return `${getPart("year")}-${getPart("month")}-${getPart("day")}`;
 };
-const getEventRaidDate = (event: WclBossAttendanceEvent) => getPacificIsoDate(event.startTime ?? "") || event.date;
-const isCountedBossDifficulty = (event: WclBossAttendanceEvent) =>
-  countedBossDifficulties.has((event.difficulty ?? "").trim().toLocaleLowerCase());
+const getSummaryEventRaidDate = (event: { date: string; startTime?: string | null }) =>
+  getPacificIsoDate(event.startTime ?? "") || event.date;
 
 const firstLoggedRaidDateBySlug = (() => {
   const dateBySlug = new Map<string, string>();
 
-  for (const event of attendanceData.events) {
+  for (const event of attendanceSummary.firstLoggedRaidDates ?? []) {
     const canonicalPlayerSlug = getCanonicalPlayerSlug(event.playerSlug);
 
-    if (event.tierSlug !== attendanceSummary.tierSlug || !activeRosterBySlug.has(canonicalPlayerSlug)) {
+    if (!activeRosterBySlug.has(canonicalPlayerSlug)) {
       continue;
     }
 
-    const raidDate = getEventRaidDate(event);
+    const raidDate = getSummaryEventRaidDate(event);
 
     if (!raidNightByDate.has(raidDate)) {
       continue;
@@ -176,39 +167,25 @@ const bossAttendanceStatsBySlug = (() => {
       },
     ]),
   );
-  const killEventsByKey = new Map<string, { date: string; presentSlugs: Set<string> }>();
-
-  for (const event of attendanceData.events) {
-    if (
-      event.tierSlug !== attendanceSummary.tierSlug ||
-      !event.kill ||
-      !isCountedBossDifficulty(event) ||
-      !activeRosterSlugs.has(event.playerSlug)
-    ) {
-      continue;
-    }
-
-    const key = getBossKillKey(event);
-    const killEvent = killEventsByKey.get(key) ?? { date: getEventRaidDate(event), presentSlugs: new Set<string>() };
-    killEvent.presentSlugs.add(getCanonicalPlayerSlug(event.playerSlug));
-    killEventsByKey.set(key, killEvent);
-  }
-
   const syncedRaidDates = new Set<string>();
   const availableRaidDatesBySlug = new Map(activeRosterPlayers.map((player) => [player.slug, new Set<string>()]));
 
-  for (const killEvent of killEventsByKey.values()) {
-    const raidNight = raidNightByDate.get(killEvent.date);
+  for (const killEvent of attendanceSummary.heroicKillEvents ?? []) {
+    const killDate = getSummaryEventRaidDate(killEvent);
+    const raidNight = raidNightByDate.get(killDate);
 
     if (!raidNight) {
       continue;
     }
 
-    syncedRaidDates.add(killEvent.date);
+    syncedRaidDates.add(killDate);
+    const presentSlugs = new Set(
+      killEvent.playerSlugs.map(getCanonicalPlayerSlug).filter((playerSlug) => activeRosterBySlug.has(playerSlug)),
+    );
     const unavailableSlugs = new Set([...raidNight.out, ...raidNight.late, ...raidNight.mia].map((player) => player.slug));
 
     for (const player of activeRosterPlayers) {
-      if (killEvent.date < getPlayerRosterStart(player.slug).date) {
+      if (killDate < getPlayerRosterStart(player.slug).date) {
         continue;
       }
 
@@ -222,10 +199,10 @@ const bossAttendanceStatsBySlug = (() => {
         continue;
       }
 
-      availableRaidDatesBySlug.get(player.slug)?.add(killEvent.date);
+      availableRaidDatesBySlug.get(player.slug)?.add(killDate);
       stats.availableBossKillCount += 1;
 
-      if (killEvent.presentSlugs.has(player.slug)) {
+      if (presentSlugs.has(player.slug)) {
         stats.attendedBossKillCount += 1;
       } else {
         stats.bossBenchCount += 1;
