@@ -4848,16 +4848,6 @@
           "difficulties": {}
         },
         {
-          "name": "Siegecrafter Blackfuse",
-          "encounterId": null,
-          "difficulties": {}
-        },
-        {
-          "name": "Thok the Bloodthirsty",
-          "encounterId": null,
-          "difficulties": {}
-        },
-        {
           "name": "Spoils of Pandaria",
           "encounterId": 51594,
           "difficulties": {
@@ -4866,12 +4856,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2026-06-30T06:01:42.583Z",
-              "latestKillDate": "2026-06-30T06:01:42.583Z",
+              "latestKillDate": "2026-07-07T04:21:06.956Z",
               "bestPercent": 0,
               "reportCode": "MjbR2X9H3rpJChBG",
               "reportUrl": "https://classic.warcraftlogs.com/reports/MjbR2X9H3rpJChBG#fight=44",
-              "pulls": 9,
-              "kills": 1
+              "pulls": 12,
+              "kills": 2
             }
           }
         },
@@ -4884,12 +4874,12 @@
               "difficultyId": 4,
               "rawDifficultyId": 4,
               "firstKillDate": "2026-06-30T05:04:36.054Z",
-              "latestKillDate": "2026-06-30T05:04:36.054Z",
+              "latestKillDate": "2026-07-07T03:36:43.359Z",
               "bestPercent": 0,
               "reportCode": "MjbR2X9H3rpJChBG",
               "reportUrl": "https://classic.warcraftlogs.com/reports/MjbR2X9H3rpJChBG#fight=29",
-              "pulls": 60,
-              "kills": 1
+              "pulls": 65,
+              "kills": 2
             },
             "Normal": {
               "status": "Killed",
@@ -4924,6 +4914,24 @@
           }
         },
         {
+          "name": "Thok the Bloodthirsty",
+          "encounterId": 51599,
+          "difficulties": {
+            "Heroic": {
+              "status": "Killed",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": "2026-07-07T05:28:48.234Z",
+              "latestKillDate": "2026-07-07T05:28:48.234Z",
+              "bestPercent": 0,
+              "reportCode": "nKyDX4tBM2ZwNvpk",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/nKyDX4tBM2ZwNvpk#fight=24",
+              "pulls": 7,
+              "kills": 1
+            }
+          }
+        },
+        {
           "name": "Iron Juggernaut",
           "encounterId": 51600,
           "difficulties": {
@@ -4938,6 +4946,36 @@
               "reportUrl": "https://classic.warcraftlogs.com/reports/ahrBDQKqpGdMbZWT#fight=8",
               "pulls": 16,
               "kills": 5
+            }
+          }
+        },
+        {
+          "name": "Siegecrafter Blackfuse",
+          "encounterId": 51601,
+          "difficulties": {
+            "Heroic": {
+              "status": "Best Pull",
+              "difficultyId": 4,
+              "rawDifficultyId": 4,
+              "firstKillDate": null,
+              "latestKillDate": null,
+              "bestPercent": 69.85,
+              "reportCode": "nKyDX4tBM2ZwNvpk",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/nKyDX4tBM2ZwNvpk#fight=29",
+              "pulls": 5,
+              "kills": 0
+            },
+            "Normal": {
+              "status": "Killed",
+              "difficultyId": 3,
+              "rawDifficultyId": 3,
+              "firstKillDate": "2026-07-07T06:02:08.250Z",
+              "latestKillDate": "2026-07-07T06:02:08.250Z",
+              "bestPercent": 0,
+              "reportCode": "nKyDX4tBM2ZwNvpk",
+              "reportUrl": "https://classic.warcraftlogs.com/reports/nKyDX4tBM2ZwNvpk#fight=31",
+              "pulls": 1,
+              "kills": 1
             }
           }
         },
@@ -5063,9 +5101,9 @@
         }
       ],
       "summary": {
-        "normalKilled": 2,
+        "normalKilled": 3,
         "normalTotal": 14,
-        "heroicKilled": 10,
+        "heroicKilled": 11,
         "heroicTotal": 14
       }
     }
