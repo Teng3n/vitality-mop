@@ -1,5 +1,375 @@
 [
   {
+    "date": "2026-07-07",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Shoulders of the Cursed Protector",
+    "boss": "Siegecrafter Blackfuse",
+    "instance": "Siege of Orgrimmar-25 Player",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Fusespark Gloves",
+    "boss": "Siegecrafter Blackfuse",
+    "instance": "Siege of Orgrimmar-25 Player",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Kaiysz",
+    "realm": "LeiShen",
+    "characterRealm": "Kaiysz-LeiShen",
+    "item": "Shoulders of the Cursed Conqueror",
+    "boss": "Siegecrafter Blackfuse",
+    "instance": "Siege of Orgrimmar-25 Player",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Lexou",
+    "realm": "Raden",
+    "characterRealm": "Lexou-Raden",
+    "item": "Shoulders of the Cursed Protector",
+    "boss": "Siegecrafter Blackfuse",
+    "instance": "Siege of Orgrimmar-25 Player",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Maverickdog",
+    "realm": "Raden",
+    "characterRealm": "Maverickdog-Raden",
+    "item": "Ticking Ebon Detonator",
+    "boss": "Siegecrafter Blackfuse",
+    "instance": "Siege of Orgrimmar-25 Player",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Oswaldmosley",
+    "realm": "Raden",
+    "characterRealm": "Oswaldmosley-Raden",
+    "item": "Asgorathian Blood Seal",
+    "boss": "Siegecrafter Blackfuse",
+    "instance": "Siege of Orgrimmar-25 Player",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Foggy",
+    "realm": "Raden",
+    "characterRealm": "Foggy-Raden",
+    "item": "Fusespark Gloves",
+    "boss": "Siegecrafter Blackfuse",
+    "instance": "Siege of Orgrimmar-25 Player",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Gleaming Eye of the Devilsaur",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Foggy",
+    "realm": "Raden",
+    "characterRealm": "Foggy-Raden",
+    "item": "Helm of the Cursed Conqueror",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Kaiysz",
+    "realm": "LeiShen",
+    "characterRealm": "Kaiysz-LeiShen",
+    "item": "Helm of the Cursed Conqueror",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Karkonk",
+    "realm": "Raden",
+    "characterRealm": "Karkonk-Raden",
+    "item": "Gleaming Eye of the Devilsaur",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Kuradelh",
+    "realm": "Raden",
+    "characterRealm": "Kuradelh-Raden",
+    "item": "Helm of the Cursed Protector",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Lexou",
+    "realm": "Raden",
+    "characterRealm": "Lexou-Raden",
+    "item": "Signet of the Dinomancers",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Cabbage",
+    "realm": "Raden",
+    "characterRealm": "Cabbage-Raden",
+    "item": "Helm of the Cursed Conqueror",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Kaiysz",
+    "realm": "LeiShen",
+    "characterRealm": "Kaiysz-LeiShen",
+    "item": "Devilfang Band",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Noctuahati",
+    "realm": "Pagle",
+    "characterRealm": "Noctuahati-Pagle",
+    "item": "Helm of the Cursed Vanquisher",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "June",
+    "realm": "Raden",
+    "characterRealm": "June-Raden",
+    "item": "Helm of the Cursed Protector",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Viglance",
+    "realm": "Pagle",
+    "characterRealm": "Viglance-Pagle",
+    "item": "Helm of the Cursed Conqueror",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Cabbage",
+    "realm": "Raden",
+    "characterRealm": "Cabbage-Raden",
+    "item": "Avool's Ancestral Bracers",
+    "boss": "Spoils of Pandaria",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Ominous Mogu Greatboots",
+    "boss": "Spoils of Pandaria",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "June",
+    "realm": "Raden",
+    "characterRealm": "June-Raden",
+    "item": "Pandaren Roofsprinters",
+    "boss": "Spoils of Pandaria",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Noctuahati",
+    "realm": "Pagle",
+    "characterRealm": "Noctuahati-Pagle",
+    "item": "Klaxxi Grips of Rejuvenation",
+    "boss": "Spoils of Pandaria",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Noctuahati",
+    "realm": "Pagle",
+    "characterRealm": "Noctuahati-Pagle",
+    "item": "Shado-Pan Reliquary Kilt",
+    "boss": "Spoils of Pandaria",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Rebbec",
+    "realm": "Raden",
+    "characterRealm": "Rebbec-Raden",
+    "item": "Arrowflight Girdle",
+    "boss": "Spoils of Pandaria",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Fae",
+    "realm": "Raden",
+    "characterRealm": "Fae-Raden",
+    "item": "Lost Necklace of the Mogu Empress",
+    "boss": "Spoils of Pandaria",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-07-07",
+    "player": "Maverickdog",
+    "realm": "Raden",
+    "characterRealm": "Maverickdog-Raden",
+    "item": "Arrowflight Girdle",
+    "boss": "Spoils of Pandaria",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-07-06",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Ring of Restless Energy",
+    "boss": "Malkorok",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-06",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Wristguards of Ruination",
+    "boss": "Malkorok",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-06",
+    "player": "Marz",
+    "realm": "Raden",
+    "characterRealm": "Marz-Raden",
+    "item": "Frenzied Crystal of Rage",
+    "boss": "Malkorok",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-07-06",
+    "player": "Marz",
+    "realm": "Raden",
+    "characterRealm": "Marz-Raden",
+    "item": "Miasmic Skullbelt",
+    "boss": "Malkorok",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-06",
+    "player": "Maverickdog",
+    "realm": "Raden",
+    "characterRealm": "Maverickdog-Raden",
+    "item": "Kor'kron Hand Cannon",
+    "boss": "Malkorok",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-06",
+    "player": "Rebbec",
+    "realm": "Raden",
+    "characterRealm": "Rebbec-Raden",
+    "item": "Ebon Blood Chestguard",
+    "boss": "Malkorok",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Off Spec"
+  },
+  {
+    "date": "2026-07-06",
+    "player": "Maverickdog",
+    "realm": "Raden",
+    "characterRealm": "Maverickdog-Raden",
+    "item": "Wristguards of Ruination",
+    "boss": "Malkorok",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-07-06",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Turpster's Sonorous Shield",
+    "boss": "Unknown",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-07-06",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Turpster's Sonorous Shield",
+    "boss": "Unknown",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-07-06",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Temple Breastplate of the Beast",
+    "boss": "Unknown",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-07-06",
+    "player": "Tengen",
+    "realm": "Raden",
+    "characterRealm": "Tengen-Raden",
+    "item": "Yak Gauntlets of the Bandit",
+    "boss": "Unknown",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Disenchant"
+  },
+  {
     "date": "2026-07-06",
     "player": "Cabbage",
     "realm": "Raden",
