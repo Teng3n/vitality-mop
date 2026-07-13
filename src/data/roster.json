@@ -72,7 +72,7 @@
   {
     "character": "Gambatte",
     "class": "Rogue",
-    "spec": "Subtlety",
+    "spec": "Combat",
     "role": "Melee DPS",
     "realm": "Raden"
   },
@@ -205,7 +205,7 @@
   {
     "character": "Volkswórgen",
     "class": "Rogue",
-    "spec": "Subtlety",
+    "spec": "Assassination",
     "role": "Melee DPS",
     "realm": "Raden"
   },
