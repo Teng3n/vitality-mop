@@ -1,5 +1,175 @@
 [
   {
+    "date": "2026-07-14",
+    "player": "Foggy",
+    "realm": "Raden",
+    "characterRealm": "Foggy-Raden",
+    "item": "Lever of the Megantholithic Apparatus",
+    "boss": "Siegecrafter Blackfuse",
+    "instance": "Siege of Orgrimmar-25 Player",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-07-14",
+    "player": "Niblainelock",
+    "realm": "Raden",
+    "characterRealm": "Niblainelock-Raden",
+    "item": "Shoulders of the Cursed Conqueror",
+    "boss": "Siegecrafter Blackfuse",
+    "instance": "Siege of Orgrimmar-25 Player",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-07-14",
+    "player": "Aurumai",
+    "realm": "Raden",
+    "characterRealm": "Aurumai-Raden",
+    "item": "Shoulders of the Cursed Protector",
+    "boss": "Siegecrafter Blackfuse",
+    "instance": "Siege of Orgrimmar-25 Player",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-07-14",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Blackfuse's Blasting Cord",
+    "boss": "Siegecrafter Blackfuse",
+    "instance": "Siege of Orgrimmar-25 Player",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-07-14",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Bracers of Infinite Pipes",
+    "boss": "Siegecrafter Blackfuse",
+    "instance": "Siege of Orgrimmar-25 Player",
+    "type": "Disenchant"
+  },
+  {
+    "date": "2026-07-14",
+    "player": "Maverickdog",
+    "realm": "Raden",
+    "characterRealm": "Maverickdog-Raden",
+    "item": "Shoulders of the Cursed Protector",
+    "boss": "Siegecrafter Blackfuse",
+    "instance": "Siege of Orgrimmar-25 Player",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-07-14",
+    "player": "Deéz",
+    "realm": "Raden",
+    "characterRealm": "Deéz-Raden",
+    "item": "Asgorathian Blood Seal",
+    "boss": "Siegecrafter Blackfuse",
+    "instance": "Siege of Orgrimmar-25 Player",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-07-13",
+    "player": "Arrowqt",
+    "realm": "Raden",
+    "characterRealm": "Arrowqt-Raden",
+    "item": "Helm of the Cursed Protector",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-13",
+    "player": "Drchicken",
+    "realm": "Raden",
+    "characterRealm": "Drchicken-Raden",
+    "item": "Thok's Acid-Grooved Tooth",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Minor Upgrade"
+  },
+  {
+    "date": "2026-07-13",
+    "player": "Teehee",
+    "realm": "Raden",
+    "characterRealm": "Teehee-Raden",
+    "item": "Festering Primordial Globule",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Major Upgrade"
+  },
+  {
+    "date": "2026-07-13",
+    "player": "Chonkars",
+    "realm": "Raden",
+    "characterRealm": "Chonkars-Raden",
+    "item": "Devilfang Band",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-13",
+    "player": "Deéz",
+    "realm": "Raden",
+    "characterRealm": "Deéz-Raden",
+    "item": "Helm of the Cursed Vanquisher",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-13",
+    "player": "Volkswórgen",
+    "realm": "Raden",
+    "characterRealm": "Volkswórgen-Raden",
+    "item": "Helm of the Cursed Vanquisher",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Best in Slot"
+  },
+  {
+    "date": "2026-07-13",
+    "player": "Cardinalcrzy",
+    "realm": "Raden",
+    "characterRealm": "Cardinalcrzy-Raden",
+    "item": "Helm of the Cursed Conqueror",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-07-13",
+    "player": "Deéz",
+    "realm": "Raden",
+    "characterRealm": "Deéz-Raden",
+    "item": "Britomart's Jagged Pike",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-07-13",
+    "player": "Rebbec",
+    "realm": "Raden",
+    "characterRealm": "Rebbec-Raden",
+    "item": "Helm of the Cursed Protector",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
+    "date": "2026-07-13",
+    "player": "Yellock",
+    "realm": "LeiShen",
+    "characterRealm": "Yellock-LeiShen",
+    "item": "Festering Primordial Globule",
+    "boss": "Thok the Bloodthirsty",
+    "instance": "Siege of Orgrimmar-25 Player (Heroic)",
+    "type": "Bonus Loot"
+  },
+  {
     "date": "2026-07-13",
     "player": "Oswaldmosley",
     "realm": "Raden",
