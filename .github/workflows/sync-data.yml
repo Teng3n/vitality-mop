@@ -1,8 +1,8 @@
 name: Sync guild data
 
 on:
-  schedule:
-    - cron: "*/15 * * * *"
+  # The MoP site is archived. Keep this available for an intentional final
+  # correction, but do not poll Google Sheets automatically.
   workflow_dispatch:
 
 permissions:

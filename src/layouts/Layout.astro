@@ -23,10 +23,8 @@ type NavItem = NavChild & {
 
 const navItems: NavItem[] = [
   { href: "/", label: "Home" },
-  { href: "/dashboard", label: "Dashboard" },
   { href: "/progression", label: "Progression" },
   { href: "/roster", label: "Roster" },
-  { href: "/calendar", label: "Calendar" },
   {
     href: "/loot",
     label: "Loot",
@@ -90,7 +88,7 @@ const lastDataSync = formatLastDataSync(syncMeta.lastDataSyncAt);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Static guild site for a World of Warcraft Mists of Pandaria Classic raid team."
+      content="Historical archive for the Vitality World of Warcraft Mists of Pandaria Classic raid team."
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
@@ -130,8 +128,8 @@ const lastDataSync = formatLastDataSync(syncMeta.lastDataSyncAt);
           <slot />
         </main>
         <footer class="site-footer">
-          <span>Vitality Guild Tools</span>
-          <span class="site-footer-sync">Last data sync: {lastDataSync}</span>
+          <span>Vitality Guild Archive</span>
+          <span class="site-footer-sync">Archive snapshot: {lastDataSync}</span>
         </footer>
       </div>
     </div>

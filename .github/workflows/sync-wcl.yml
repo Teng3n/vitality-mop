@@ -1,15 +1,8 @@
 name: Sync Warcraft Logs data
 
 on:
+  # The MoP site is archived. Progression refreshes are manual-only.
   workflow_dispatch:
-  push:
-    branches:
-      - feature/guild-site-mvp
-    paths:
-      - ".github/workflows/sync-wcl.yml"
-      - "scripts/sync-warcraft-logs.ts"
-      - "src/lib/playerNames.ts"
-      - "src/lib/progressionTiers.ts"
 
 permissions:
   contents: write

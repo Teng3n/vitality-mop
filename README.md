@@ -387,7 +387,7 @@ Build after syncing:
 npm run build:with-data
 ```
 
-The routine Google Sheets workflow lives at `.github/workflows/sync-data.yml`. It runs every 15 minutes via UTC cron and can also be triggered manually from GitHub:
+The Google Sheets workflow lives at `.github/workflows/sync-data.yml`. The MoP site was archived in September 2026, so the recurring schedule has been removed. It can still be triggered manually from GitHub for an intentional archive correction:
 
 1. Open the repository on GitHub.
 2. Go to **Actions**.
@@ -400,9 +400,9 @@ The routine workflow intentionally avoids unnecessary Cloudflare builds:
 - It checks only the Google Sheets generated JSON files.
 - If there are no generated JSON changes, it prints `No data changes detected.` and exits successfully.
 - If there are changes, it stages and commits only the sheet-generated JSON files.
-- Sheet sync metadata timestamps are updated only when the underlying generated sheet data changed. A scheduled no-change run does not update `syncMeta.json`.
+- Sheet sync metadata timestamps are updated only when the underlying generated sheet data changed. A manual no-change run does not update `syncMeta.json`.
 
-Warcraft Logs archive sync lives at `.github/workflows/sync-wcl.yml`. It can be triggered manually from GitHub and runs `npm run sync:wcl`. It is separate from the routine Google Sheets sync so normal officer data refreshes do not query the historical Warcraft Logs archive.
+Warcraft Logs archive sync lives at `.github/workflows/sync-wcl.yml`. It is manual-only and runs `npm run sync:wcl`. The final archive sync records the Heroic Garrosh kill before routine data collection was retired.
 
 Full sync lives at `.github/workflows/sync-all.yml`. It can be triggered manually from GitHub and runs `npm run sync:all` when both Google Sheets and Warcraft Logs should be refreshed together.
 
