@@ -11,6 +11,12 @@ type ReportIndex = {
   reports: IndexedReport[];
 };
 
+type ProgressionSeed = {
+  raids: Array<{
+    bosses?: Array<{ encounterId?: number | null }>;
+  }>;
+};
+
 type IndexedReport = {
   code: string;
   title: string;
@@ -71,6 +77,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const tokenEndpoint = "https://www.warcraftlogs.com/oauth/token";
 const apiEndpoint = "https://classic.warcraftlogs.com/api/v2/client";
 const reportsPath = path.join(root, "src", "data", "wclReports.json");
+const progressionPath = path.join(root, "src", "data", "wclProgressionSeed.json");
 const charactersPath = path.join(root, "src", "data", "historicalRaiderCharacters.json");
 const rosterPath = path.join(root, "docs", "warcraft-logs-unique-raiders.md");
 const concurrency = Math.max(1, Math.min(Number(process.env.WCL_HISTORY_CONCURRENCY) || 6, 10));
@@ -187,8 +194,15 @@ async function fetchReport(accessToken: string, code: string, attempt = 1): Prom
   return parsed.data?.reportData?.report ?? null;
 }
 
-const reports = (JSON.parse(await fs.readFile(reportsPath, "utf8")) as ReportIndex).reports.filter(
-  (report) => report.code && report.fights?.some((fight) => Number(fight.encounterId) > 0),
+const [reportIndex, progressionSeed] = await Promise.all([
+  fs.readFile(reportsPath, "utf8").then((source) => JSON.parse(source) as ReportIndex),
+  fs.readFile(progressionPath, "utf8").then((source) => JSON.parse(source) as ProgressionSeed),
+]);
+const raidEncounterIds = new Set(
+  progressionSeed.raids.flatMap((raid) => raid.bosses ?? []).map((boss) => Number(boss.encounterId)).filter(Number.isFinite),
+);
+const reports = reportIndex.reports.filter(
+  (report) => report.code && report.fights?.some((fight) => raidEncounterIds.has(Number(fight.encounterId))),
 );
 const accessToken = await getAccessToken();
 const characters = new Map<string, CharacterAggregate>();
@@ -209,7 +223,7 @@ async function processReport(indexed: IndexedReport) {
 
   for (const fight of report.fights ?? []) {
     const fightId = Number(fight.id);
-    if (!Number.isFinite(fightId) || Number(fight.encounterID) <= 0 || !fight.friendlyPlayers?.length) continue;
+    if (!Number.isFinite(fightId) || !raidEncounterIds.has(Number(fight.encounterID)) || !fight.friendlyPlayers?.length) continue;
 
     const timestamp =
       isoDate(absoluteFightTime(reportStart, fight.endTime)) ??
