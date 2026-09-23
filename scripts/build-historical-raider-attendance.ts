@@ -94,6 +94,7 @@ const appliedOwnerScope = cleanText(process.env.WCL_HISTORY_APPLY_OWNER_SCOPE).t
 const applyOwnerSameFightScope = appliedOwnerScope === "same-fight";
 const verifiedClassOverrides = new Map<string, string>([
   ["almaero", "Mage"],
+  ["chackle", "Priest"],
   ["clairesha", "Druid"],
   ["consecratist", "Paladin"],
   ["dessaer", "Warlock"],
@@ -103,16 +104,22 @@ const verifiedClassOverrides = new Map<string, string>([
   ["larissel", "Hunter"],
   ["michellevick", "Hunter"],
   ["neet", "Paladin"],
+  ["nil", "Mage"],
   ["okuninushi", "Warlock"],
   ["rineki", "Hunter"],
   ["robz", "Warlock"],
   ["salamislappa", "Warlock"],
   ["sathanos", "Paladin"],
   ["sizuka", "Mage"],
+  ["sneekytotems", "Shaman"],
   ["swaktion", "Shaman"],
   ["thefishguy", "Druid"],
   ["zerbeh", "Paladin"],
 ]);
+
+// Warcraft Logs can include report metadata actors in a fight's friendlyPlayers list even when
+// they have no combat events, gear, death, or other evidence that they participated in the pull.
+const verifiedNonParticipants = new Set<string>(["moondj"]);
 
 const reportAttendanceQuery = `
 query HistoricalReportAttendance($code: String!) {
@@ -338,7 +345,7 @@ async function processReport(indexed: IndexedReport) {
     for (const actorId of fight.friendlyPlayers) {
       const actor = actors.get(Number(actorId));
       const name = cleanText(actor?.name);
-      if (!name) continue;
+      if (!name || verifiedNonParticipants.has(characterKey(name))) continue;
 
       const appearance: Appearance = {
         expansion,
