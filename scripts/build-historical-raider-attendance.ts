@@ -147,6 +147,17 @@ function isoDate(value: number | null) {
   return value === null ? null : new Date(value).toISOString();
 }
 
+function raidDate(value: string) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Los_Angeles",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date(value));
+  const part = (type: Intl.DateTimeFormatPartTypes) => parts.find((item) => item.type === type)?.value ?? "";
+  return `${part("year")}-${part("month")}-${part("day")}`;
+}
+
 function isLater(candidate: Appearance, current: Appearance | undefined) {
   return !current || candidate.timestamp > current.timestamp;
 }
@@ -258,7 +269,7 @@ async function processReport(indexed: IndexedReport) {
       indexed.startTime;
     if (!timestamp) continue;
 
-    const lastDate = timestamp.slice(0, 10);
+    const lastDate = raidDate(timestamp);
     const expansion = getExpansion(lastDate);
     const source = sourceDisplayName(indexed.sourceLabel);
     const reportCode = cleanText(report.code) || indexed.code;
