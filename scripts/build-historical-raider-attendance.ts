@@ -80,8 +80,15 @@ const apiEndpoint = "https://classic.warcraftlogs.com/api/v2/client";
 const reportsPath = path.join(root, "src", "data", "wclReports.json");
 const progressionPath = path.join(root, "src", "data", "wclProgressionSeed.json");
 const charactersPath = path.join(root, "src", "data", "historicalRaiderCharacters.json");
+const peoplePath = path.join(root, "src", "data", "historicalRaiders.json");
 const rosterPath = path.join(root, "docs", "warcraft-logs-unique-raiders.md");
+const ownerAuditPath = path.join(root, "docs", "owner-scoped-raider-audit.json");
 const concurrency = Math.max(1, Math.min(Number(process.env.WCL_HISTORY_CONCURRENCY) || 6, 10));
+const ownerCharacters = cleanText(process.env.WCL_HISTORY_OWNER_CHARACTERS)
+  .split(",")
+  .map((name) => cleanText(name))
+  .filter(Boolean);
+const ownerCharacterKeys = new Set(ownerCharacters.map(characterKey));
 
 const reportAttendanceQuery = `
 query HistoricalReportAttendance($code: String!) {
@@ -243,9 +250,32 @@ const reports = reportIndex.reports.filter(
 );
 const accessToken = await getAccessToken();
 const characters = new Map<string, CharacterAggregate>();
+const sameFightCharacters = new Map<string, CharacterAggregate>();
 const failedReports: string[] = [];
+const qualifyingReportCodes = new Set<string>();
+const qualifyingReportFightKeys = new Set<string>();
+const qualifyingSameFightKeys = new Set<string>();
+const observedOwnerCharacters = new Set<string>();
 let cursor = 0;
 let completed = 0;
+
+function recordAppearance(target: Map<string, CharacterAggregate>, name: string, appearance: Appearance) {
+  const key = characterKey(name);
+  const aggregate = target.get(key) ?? { name, appearances: new Map<string, Appearance>() };
+  if (isLater(appearance, aggregate.appearances.get(appearance.expansion))) {
+    aggregate.name = name;
+    aggregate.appearances.set(appearance.expansion, appearance);
+  }
+  target.set(key, aggregate);
+}
+
+function mergeCharacters(target: Map<string, CharacterAggregate>, source: Map<string, CharacterAggregate>) {
+  for (const aggregate of source.values()) {
+    for (const appearance of aggregate.appearances.values()) {
+      recordAppearance(target, aggregate.name, appearance);
+    }
+  }
+}
 
 async function processReport(indexed: IndexedReport) {
   const report = await fetchReport(accessToken, indexed.code);
@@ -257,6 +287,9 @@ async function processReport(indexed: IndexedReport) {
       .filter((actor) => actor.id && actor.name && (!actor.type || actor.type.toLocaleLowerCase() === "player"))
       .map((actor) => [Number(actor.id), actor]),
   );
+  const reportCharacters = new Map<string, CharacterAggregate>();
+  const reportFightKeys = new Set<string>();
+  const reportOwnerCharacters = new Set<string>();
 
   for (const fight of report.fights ?? []) {
     const fightId = Number(fight.id);
@@ -274,14 +307,15 @@ async function processReport(indexed: IndexedReport) {
     const source = sourceDisplayName(indexed.sourceLabel);
     const reportCode = cleanText(report.code) || indexed.code;
     const reportTitle = cleanText(report.title) || indexed.title || reportCode;
+    const fightKey = `${reportCode}:${fightId}`;
+    const fightCharacters: Array<{ name: string; appearance: Appearance }> = [];
+    reportFightKeys.add(fightKey);
 
     for (const actorId of fight.friendlyPlayers) {
       const actor = actors.get(Number(actorId));
       const name = cleanText(actor?.name);
       if (!name) continue;
 
-      const key = characterKey(name);
-      const aggregate = characters.get(key) ?? { name, appearances: new Map<string, Appearance>() };
       const appearance: Appearance = {
         expansion,
         className: cleanText(actor?.subType) || "Unknown",
@@ -294,13 +328,32 @@ async function processReport(indexed: IndexedReport) {
         encounterName: cleanText(fight.name) || "Raid encounter",
         timestamp,
       };
-
-      if (isLater(appearance, aggregate.appearances.get(expansion))) {
-        aggregate.name = name;
-        aggregate.appearances.set(expansion, appearance);
-      }
-      characters.set(key, aggregate);
+      fightCharacters.push({ name, appearance });
+      recordAppearance(reportCharacters, name, appearance);
     }
+
+    const ownersInFight = fightCharacters.filter(({ name }) => ownerCharacterKeys.has(characterKey(name)));
+    if (ownersInFight.length > 0) {
+      qualifyingSameFightKeys.add(fightKey);
+      for (const { name } of ownersInFight) {
+        reportOwnerCharacters.add(name);
+        observedOwnerCharacters.add(name);
+      }
+      for (const { name, appearance } of fightCharacters) {
+        recordAppearance(sameFightCharacters, name, appearance);
+      }
+    }
+  }
+
+  if (ownerCharacterKeys.size === 0) {
+    mergeCharacters(characters, reportCharacters);
+    return;
+  }
+
+  if (reportOwnerCharacters.size > 0) {
+    qualifyingReportCodes.add(indexed.code);
+    for (const fightKey of reportFightKeys) qualifyingReportFightKeys.add(fightKey);
+    mergeCharacters(characters, reportCharacters);
   }
 }
 
@@ -324,7 +377,8 @@ async function worker() {
 
 await Promise.all(Array.from({ length: concurrency }, () => worker()));
 
-const records = [...characters.values()]
+function buildRecords(source: Map<string, CharacterAggregate>) {
+  return [...source.values()]
   .map((character) => {
     const appearances = [...character.appearances.values()].sort((left, right) => right.timestamp.localeCompare(left.timestamp));
     const latest = appearances[0];
@@ -342,10 +396,51 @@ const records = [...characters.values()]
     };
   })
   .sort((left, right) => left.name.localeCompare(right.name));
+}
+
+const records = buildRecords(characters);
 
 if (records.length === 0) throw new Error("No verified boss-fight participants were found.");
 if (failedReports.length > 0) {
   throw new Error(`Could not verify ${failedReports.length} report(s): ${failedReports.join(", ")}`);
+}
+
+if (ownerCharacterKeys.size > 0) {
+  const people = JSON.parse(await fs.readFile(peoplePath, "utf8")) as Array<{ name: string; characters: string[] }>;
+  const personByCharacter = new Map(
+    people.flatMap((person) => person.characters.map((character) => [characterKey(character), person.name] as const)),
+  );
+  const summarize = (scopedRecords: ReturnType<typeof buildRecords>) => {
+    const personNames = new Set(scopedRecords.map((record) => personByCharacter.get(characterKey(record.name)) ?? record.name));
+    const expansions = ["Classic", "TBC", "Wrath", "Cataclysm", "MoP"].map((expansion) => {
+      const expansionRecords = scopedRecords.filter((record) => record.appearances.some((appearance) => appearance.expansion === expansion));
+      return {
+        expansion,
+        characters: expansionRecords.length,
+        people: new Set(expansionRecords.map((record) => personByCharacter.get(characterKey(record.name)) ?? record.name)).size,
+      };
+    });
+    return { characters: scopedRecords.length, people: personNames.size, expansions };
+  };
+  const sameFightRecords = buildRecords(sameFightCharacters);
+  const summary = {
+    generatedAt: new Date().toISOString(),
+    ownerCharactersRequested: ownerCharacters,
+    ownerCharactersObserved: [...observedOwnerCharacters].sort((left, right) => left.localeCompare(right)),
+    reportScoped: {
+      reports: qualifyingReportCodes.size,
+      raidBossFights: qualifyingReportFightKeys.size,
+      ...summarize(records),
+    },
+    sameFightScoped: {
+      raidBossFights: qualifyingSameFightKeys.size,
+      ...summarize(sameFightRecords),
+    },
+  };
+  await fs.writeFile(ownerAuditPath, `${JSON.stringify(summary, null, 2)}\n`, "utf8");
+  console.log(`OWNER_SCOPE_SUMMARY ${JSON.stringify(summary)}`);
+  console.log(`Wrote ${path.relative(root, ownerAuditPath)}`);
+  process.exit(0);
 }
 
 const sourceCounts = new Map<string, Set<string>>();
