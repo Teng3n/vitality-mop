@@ -92,6 +92,26 @@ const ownerCharacterKeys = new Set(ownerCharacters.map(characterKey));
 const applyOwnerReportScope = cleanText(process.env.WCL_HISTORY_APPLY_OWNER_REPORT_SCOPE).toLocaleLowerCase() === "true";
 const appliedOwnerScope = cleanText(process.env.WCL_HISTORY_APPLY_OWNER_SCOPE).toLocaleLowerCase();
 const applyOwnerSameFightScope = appliedOwnerScope === "same-fight";
+const verifiedClassOverrides = new Map<string, string>([
+  ["almaero", "Mage"],
+  ["clairesha", "Druid"],
+  ["consecratist", "Paladin"],
+  ["dessaer", "Warlock"],
+  ["garph", "Druid"],
+  ["glorisa", "Mage"],
+  ["lalass", "Warlock"],
+  ["larissel", "Hunter"],
+  ["michellevick", "Hunter"],
+  ["okuninushi", "Warlock"],
+  ["rineki", "Hunter"],
+  ["robz", "Warlock"],
+  ["salamislappa", "Warlock"],
+  ["sathanos", "Paladin"],
+  ["sizuka", "Mage"],
+  ["swaktion", "Shaman"],
+  ["thefishguy", "Druid"],
+  ["zerbeh", "Paladin"],
+]);
 
 const reportAttendanceQuery = `
 query HistoricalReportAttendance($code: String!) {
@@ -321,7 +341,10 @@ async function processReport(indexed: IndexedReport) {
 
       const appearance: Appearance = {
         expansion,
-        className: cleanText(actor?.subType) || "Unknown",
+        className:
+          cleanText(actor?.subType).toLocaleLowerCase() !== "unknown" && cleanText(actor?.subType)
+            ? cleanText(actor?.subType)
+            : verifiedClassOverrides.get(characterKey(name)) ?? "Unknown",
         lastDate,
         source,
         reportUrl: `https://classic.warcraftlogs.com/reports/${reportCode}#fight=${fightId}&type=summary`,
