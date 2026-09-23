@@ -6,7 +6,7 @@ on:
       owner_characters:
         description: Comma-separated character names that identify the guild owner's raid presence
         required: true
-        default: Tengen,Tengenn,Tenngenn,Magegen,Tenmage,Deathgen
+        default: Tengen,Tengenn,Tenngenn,Tenaman,Magegen,Tenmage,Deathgen
 
 permissions:
   contents: read
