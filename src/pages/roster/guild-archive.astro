@@ -224,7 +224,16 @@ const combinationsValue = (raider: HistoricalRaider) =>
                       </ul>
                     </details>
                   ) : (
-                    <p class="history-single-character">1 verified character</p>
+                    <div class="history-single-character">
+                      <span>1 verified character</span>
+                      <div class="history-appearance-links">
+                        {raider.characterDetails[0]?.appearances?.map((appearance) => (
+                          <a href={appearance.reportUrl} target="_blank" rel="noreferrer">
+                            {appearance.expansion} source log
+                          </a>
+                        ))}
+                      </div>
+                    </div>
                   )
                 }
               </div>
@@ -244,7 +253,7 @@ const combinationsValue = (raider: HistoricalRaider) =>
 
       <div class="panel history-empty" hidden data-history-empty>
         <h3>No raiders match those filters</h3>
-        <p>Try another class or role, or clear the search.</p>
+        <p>Try another expansion or class, or clear the search.</p>
       </div>
     </section>
 
