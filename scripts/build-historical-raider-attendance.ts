@@ -13,7 +13,7 @@ type ReportIndex = {
 
 type ProgressionSeed = {
   raids: Array<{
-    bosses?: Array<{ encounterId?: number | null }>;
+    bosses?: Array<{ name?: string | null; encounterId?: number | null }>;
   }>;
 };
 
@@ -25,7 +25,8 @@ type IndexedReport = {
   sourceLabel: string;
   sourceGuildName: string;
   sourceServerSlug: string;
-  fights: Array<{ encounterId?: number | null }>;
+  zone?: { name?: string | null } | null;
+  fights: Array<{ encounterId?: number | null; name?: string | null }>;
 };
 
 type ReportDetail = {
@@ -119,6 +120,10 @@ function characterKey(value: string) {
   return value.normalize("NFC").toLocaleLowerCase();
 }
 
+function encounterKey(value: unknown) {
+  return cleanText(value).toLocaleLowerCase().replace(/[^a-z0-9]+/gu, "");
+}
+
 function sourceDisplayName(value: string) {
   return value.replace(" - ", " — ");
 }
@@ -177,16 +182,20 @@ async function fetchReport(accessToken: string, code: string, attempt = 1): Prom
   });
   const body = await response.text();
 
-  if ((!response.ok || response.status === 429) && attempt < 4) {
-    await new Promise((resolve) => setTimeout(resolve, attempt * 1500));
+  if ((!response.ok || response.status === 429) && attempt < 8) {
+    const retryAfter = Number(response.headers.get("retry-after"));
+    const delay = Number.isFinite(retryAfter) && retryAfter > 0
+      ? retryAfter * 1000
+      : Math.min(60_000, 5_000 * 2 ** (attempt - 1));
+    await new Promise((resolve) => setTimeout(resolve, delay));
     return fetchReport(accessToken, code, attempt + 1);
   }
   if (!response.ok) throw new Error(`${code}: HTTP ${response.status}: ${body.slice(0, 300)}`);
 
   const parsed = JSON.parse(body) as GraphQlResponse<AttendanceQuery>;
   if (parsed.errors?.length) {
-    if (attempt < 4) {
-      await new Promise((resolve) => setTimeout(resolve, attempt * 1500));
+    if (attempt < 8) {
+      await new Promise((resolve) => setTimeout(resolve, Math.min(60_000, 5_000 * 2 ** (attempt - 1))));
       return fetchReport(accessToken, code, attempt + 1);
     }
     throw new Error(`${code}: ${parsed.errors.map((error) => error.message ?? "Unknown GraphQL error").join("; ")}`);
@@ -198,11 +207,28 @@ const [reportIndex, progressionSeed] = await Promise.all([
   fs.readFile(reportsPath, "utf8").then((source) => JSON.parse(source) as ReportIndex),
   fs.readFile(progressionPath, "utf8").then((source) => JSON.parse(source) as ProgressionSeed),
 ]);
-const raidEncounterIds = new Set(
-  progressionSeed.raids.flatMap((raid) => raid.bosses ?? []).map((boss) => Number(boss.encounterId)).filter(Number.isFinite),
+const raidEncounterNames = new Set(
+  progressionSeed.raids.flatMap((raid) => raid.bosses ?? []).map((boss) => encounterKey(boss.name)),
 );
+for (const name of [
+  "High Priestess Jeklik", "High Priest Venoxis", "High Priestess Mar'li", "Bloodlord Mandokir",
+  "Edge of Madness", "High Priest Thekal", "High Priestess Arlokk", "Jin'do the Hexxer", "Hakkar", "Gahz'ranka",
+  "Archavon the Stone Watcher", "Emalon the Storm Watcher", "Koralon the Flame Watcher", "Toravon the Ice Watcher",
+  "Argaloth", "Occu'thar", "Alizabal", "Blood Council", "Queen Lana'thel",
+  "Akil'zon", "Nalorakk", "Jan'alai", "Halazzi", "Hex Lord Malacrass", "Zul'jin",
+]) {
+  raidEncounterNames.add(encounterKey(name));
+}
+
+function isRaidEncounter(report: IndexedReport, fightName: unknown) {
+  const key = encounterKey(fightName);
+  if (raidEncounterNames.has(key)) return true;
+  if (key !== "daakara") return false;
+  return encounterKey(report.zone?.name).includes("zulaman") || encounterKey(report.title).includes("zulaman");
+}
+
 const reports = reportIndex.reports.filter(
-  (report) => report.code && report.fights?.some((fight) => raidEncounterIds.has(Number(fight.encounterId))),
+  (report) => report.code && report.fights?.some((fight) => isRaidEncounter(report, fight.name)),
 );
 const accessToken = await getAccessToken();
 const characters = new Map<string, CharacterAggregate>();
@@ -223,7 +249,7 @@ async function processReport(indexed: IndexedReport) {
 
   for (const fight of report.fights ?? []) {
     const fightId = Number(fight.id);
-    if (!Number.isFinite(fightId) || !raidEncounterIds.has(Number(fight.encounterID)) || !fight.friendlyPlayers?.length) continue;
+    if (!Number.isFinite(fightId) || !isRaidEncounter(indexed, fight.name) || !fight.friendlyPlayers?.length) continue;
 
     const timestamp =
       isoDate(absoluteFightTime(reportStart, fight.endTime)) ??

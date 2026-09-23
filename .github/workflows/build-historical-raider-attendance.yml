@@ -38,7 +38,7 @@ jobs:
         env:
           WCL_CLIENT_ID: ${{ secrets.WCL_CLIENT_ID }}
           WCL_CLIENT_SECRET: ${{ secrets.WCL_CLIENT_SECRET }}
-          WCL_HISTORY_CONCURRENCY: 6
+          WCL_HISTORY_CONCURRENCY: 3
 
       - name: Commit verified archive data
         shell: bash
