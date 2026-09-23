@@ -102,6 +102,17 @@ query UnknownReportAudit($code: String!, $fightIDs: [Int]) {
   }
 }`;
 
+const characterLookupQuery = `
+query UnknownCharacterLookup($id: Int!, $name: String!, $serverSlug: String!) {
+  characterData {
+    byId: character(id: $id) { id canonicalID name classID level server { name slug } }
+    byName: character(name: $name, serverSlug: $serverSlug, serverRegion: "US") {
+      id canonicalID name classID level server { name slug }
+    }
+  }
+  gameData { classes { id name slug } }
+}`;
+
 const characters = JSON.parse(await fs.readFile(charactersPath, "utf8")) as CharacterRecord[];
 const unknowns = characters.flatMap((character) =>
   (character.appearances ?? [])
@@ -129,16 +140,36 @@ for (const [reportCode, appearances] of byReport) {
   for (const appearance of appearances) {
     const fight = (report.fights ?? []).find((candidate) => Number(candidate.id) === appearance.fightId);
     const matchingActors = actors.filter((actor) => nameKey(actor.name) === nameKey(appearance.characterName));
-    const actorAudits = matchingActors.map((actor) => {
+    const actorAudits = [];
+    for (const actor of matchingActors) {
       const actorId = Number(actor.id);
-      return {
+      const gameId = Number(actor.gameID);
+      const lookup = Number.isFinite(gameId) && actor.server
+        ? await graphql<{
+            characterData?: {
+              byId?: { classID?: number | null } | null;
+              byName?: { classID?: number | null } | null;
+            } | null;
+            gameData?: { classes?: Array<{ id: number; name: string; slug: string }> | null } | null;
+          }>(token, characterLookupQuery, {
+            id: gameId,
+            name: clean(actor.name),
+            serverSlug: clean(actor.server).toLocaleLowerCase(),
+          })
+        : null;
+      const character = lookup?.characterData?.byId ?? lookup?.characterData?.byName ?? null;
+      const classID = character?.classID ?? null;
+      const resolvedClass = lookup?.gameData?.classes?.find((item) => item.id === classID) ?? null;
+      actorAudits.push({
         ...actor,
         petOwnerActor: actor.petOwner ? actorById.get(Number(actor.petOwner)) ?? null : null,
         listedAsFriendlyPlayer: Boolean(fight?.friendlyPlayers?.includes(actorId)),
         listedAsFriendlyPet: Boolean(fight?.friendlyPets?.some((unit) => Number(unit.id) === actorId)),
         listedAsFriendlyNpc: Boolean(fight?.friendlyNPCs?.some((unit) => Number(unit.id) === actorId)),
-      };
-    });
+        characterLookup: lookup?.characterData ?? null,
+        resolvedClass,
+      });
+    }
     results.push({
       ...appearance,
       fight,
