@@ -423,6 +423,20 @@ if (ownerCharacterKeys.size > 0) {
     return { characters: scopedRecords.length, people: personNames.size, expansions };
   };
   const sameFightRecords = buildRecords(sameFightCharacters);
+  const sameFightCharacterKeys = new Set(sameFightRecords.map((record) => characterKey(record.name)));
+  const reportOnlyCharacters = records
+    .filter((record) => !sameFightCharacterKeys.has(characterKey(record.name)))
+    .map((record) => ({
+      name: record.name,
+      person: personByCharacter.get(characterKey(record.name)) ?? record.name,
+      className: record.className,
+      lastDate: record.lastDate,
+      source: record.source,
+      reportUrl: record.reportUrl,
+      reportTitle: record.reportTitle,
+      encounterName: record.encounterName,
+      expansions: record.appearances.map((appearance) => appearance.expansion),
+    }));
   const summary = {
     generatedAt: new Date().toISOString(),
     ownerCharactersRequested: ownerCharacters,
@@ -436,6 +450,7 @@ if (ownerCharacterKeys.size > 0) {
       raidBossFights: qualifyingSameFightKeys.size,
       ...summarize(sameFightRecords),
     },
+    reportOnlyCharacters,
   };
   await fs.writeFile(ownerAuditPath, `${JSON.stringify(summary, null, 2)}\n`, "utf8");
   console.log(`OWNER_SCOPE_SUMMARY ${JSON.stringify(summary)}`);
