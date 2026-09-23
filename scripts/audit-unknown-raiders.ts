@@ -31,6 +31,13 @@ type FightUnit = { id?: number | null; gameID?: number | null; petOwner?: number
 
 type ReportAudit = {
   masterData?: { actors?: Actor[] | null } | null;
+  rankedCharacters?: Array<{
+    id?: number | null;
+    canonicalID?: number | null;
+    name?: string | null;
+    classID?: number | null;
+    server?: { name?: string | null; slug?: string | null } | null;
+  }> | null;
   fights?: Array<{
     id?: number | null;
     name?: string | null;
@@ -94,6 +101,7 @@ query UnknownReportAudit($code: String!, $fightIDs: [Int]) {
       masterData(translate: true) {
         actors { id gameID name type subType petOwner server icon }
       }
+      rankedCharacters { id canonicalID name classID server { name slug } }
       fights(fightIDs: $fightIDs, translate: true) {
         id name friendlyPlayers friendlySpecs
         friendlyPets { id gameID petOwner }
@@ -164,6 +172,9 @@ for (const [reportCode, appearances] of byReport) {
       const classID = character?.classID ?? null;
       const resolvedClass = lookup?.gameData?.classes?.find((item) => item.id === classID) ?? null;
       const playerIndex = fight?.friendlyPlayers?.indexOf(actorId) ?? -1;
+      const rankedCharacter = (report.rankedCharacters ?? []).find(
+        (candidate) => Number(candidate.id) === gameId || nameKey(candidate.name) === nameKey(actor.name),
+      ) ?? null;
       actorAudits.push({
         ...actor,
         petOwnerActor: actor.petOwner ? actorById.get(Number(actor.petOwner)) ?? null : null,
@@ -173,6 +184,7 @@ for (const [reportCode, appearances] of byReport) {
         characterLookup: lookup?.characterData ?? null,
         resolvedClass,
         friendlySpec: playerIndex >= 0 ? fight?.friendlySpecs?.[playerIndex] ?? null : null,
+        rankedCharacter,
       });
     }
     results.push({
