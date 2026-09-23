@@ -3,6 +3,14 @@ name: Audit owner-scoped raiders
 on:
   workflow_dispatch:
     inputs:
+      audit_type:
+        description: Historical-raider audit to run
+        required: true
+        type: choice
+        default: owner-scope
+        options:
+          - owner-scope
+          - unknown-actors
       owner_characters:
         description: Comma-separated character names that identify the guild owner's raid presence
         required: true
@@ -16,7 +24,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  audit:
+  owner-audit:
+    if: inputs.audit_type == 'owner-scope'
     runs-on: ubuntu-latest
     timeout-minutes: 90
 
@@ -46,4 +55,35 @@ jobs:
         with:
           name: owner-scoped-raider-audit
           path: docs/owner-scoped-raider-audit.json
+          if-no-files-found: error
+
+  unknown-actor-audit:
+    if: inputs.audit_type == 'unknown-actors'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit unknown actors
+        run: npx tsx scripts/audit-unknown-raiders.ts
+        env:
+          WCL_CLIENT_ID: ${{ secrets.WCL_CLIENT_ID }}
+          WCL_CLIENT_SECRET: ${{ secrets.WCL_CLIENT_SECRET }}
+
+      - name: Upload audit result
+        uses: actions/upload-artifact@v4
+        with:
+          name: unknown-raider-audit
+          path: docs/unknown-raider-audit.json
           if-no-files-found: error
