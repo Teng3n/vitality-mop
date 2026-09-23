@@ -39,6 +39,8 @@ jobs:
           WCL_CLIENT_ID: ${{ secrets.WCL_CLIENT_ID }}
           WCL_CLIENT_SECRET: ${{ secrets.WCL_CLIENT_SECRET }}
           WCL_HISTORY_CONCURRENCY: 3
+          WCL_HISTORY_OWNER_CHARACTERS: Tengen,Tengenn,Tenngenn,Magegen,Tenmage,Deathgen
+          WCL_HISTORY_APPLY_OWNER_REPORT_SCOPE: "true"
 
       - name: Commit verified archive data
         shell: bash

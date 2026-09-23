@@ -89,6 +89,7 @@ const ownerCharacters = cleanText(process.env.WCL_HISTORY_OWNER_CHARACTERS)
   .map((name) => cleanText(name))
   .filter(Boolean);
 const ownerCharacterKeys = new Set(ownerCharacters.map(characterKey));
+const applyOwnerReportScope = cleanText(process.env.WCL_HISTORY_APPLY_OWNER_REPORT_SCOPE).toLocaleLowerCase() === "true";
 
 const reportAttendanceQuery = `
 query HistoricalReportAttendance($code: String!) {
@@ -455,7 +456,7 @@ if (ownerCharacterKeys.size > 0) {
   await fs.writeFile(ownerAuditPath, `${JSON.stringify(summary, null, 2)}\n`, "utf8");
   console.log(`OWNER_SCOPE_SUMMARY ${JSON.stringify(summary)}`);
   console.log(`Wrote ${path.relative(root, ownerAuditPath)}`);
-  process.exit(0);
+  if (!applyOwnerReportScope) process.exit(0);
 }
 
 const sourceCounts = new Map<string, Set<string>>();
@@ -475,7 +476,9 @@ const rosterLines = [
     .map(([source, names]) => `- ${source}: ${names.size} character names`),
   `- Combined unique character names: ${records.length}`,
   "",
-  "Definition: a named player character included in `friendlyPlayers` for at least one uploaded raid boss encounter. Merely appearing in a report actor list or guild roster is not enough. Names are deduplicated case-insensitively across all guild identities.",
+  applyOwnerReportScope
+    ? "Definition: a named player character included in `friendlyPlayers` for at least one uploaded raid boss encounter in a report where an approved guild-anchor character also appeared in a raid boss encounter. Merely appearing in a report actor list or guild roster is not enough. Names are deduplicated case-insensitively across all guild identities."
+    : "Definition: a named player character included in `friendlyPlayers` for at least one uploaded raid boss encounter. Merely appearing in a report actor list or guild roster is not enough. Names are deduplicated case-insensitively across all guild identities.",
   "",
   "## Alphabetical list",
   "",
