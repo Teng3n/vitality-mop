@@ -38,7 +38,6 @@ type ReportAudit = {
     friendlyPets?: FightUnit[] | null;
     friendlyNPCs?: FightUnit[] | null;
   }> | null;
-  playerDetails?: unknown;
 };
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -99,30 +98,9 @@ query UnknownReportAudit($code: String!, $fightIDs: [Int]) {
         friendlyPets { id gameID petOwner }
         friendlyNPCs { id gameID petOwner }
       }
-      playerDetails(fightIDs: $fightIDs, translate: true)
     }
   }
 }`;
-
-const activityQuery = `
-query UnknownActorActivity($code: String!, $fightIDs: [Int], $sourceID: Int!) {
-  reportData {
-    report(code: $code) {
-      casts: table(dataType: Casts, fightIDs: $fightIDs, sourceID: $sourceID, translate: true)
-      damage: table(dataType: DamageDone, fightIDs: $fightIDs, sourceID: $sourceID, translate: true)
-      healing: table(dataType: Healing, fightIDs: $fightIDs, sourceID: $sourceID, translate: true)
-      summons: table(dataType: Summons, fightIDs: $fightIDs, sourceID: $sourceID, translate: true)
-    }
-  }
-}`;
-
-function findNamedValues(value: unknown, soughtName: string, pathParts: string[] = []): string[] {
-  if (Array.isArray(value)) return value.flatMap((item, index) => findNamedValues(item, soughtName, [...pathParts, String(index)]));
-  if (!value || typeof value !== "object") return [];
-  const record = value as Record<string, unknown>;
-  const found = nameKey(record.name) === nameKey(soughtName) ? [pathParts.join(".") || "root"] : [];
-  return [...found, ...Object.entries(record).flatMap(([key, item]) => findNamedValues(item, soughtName, [...pathParts, key]))];
-}
 
 const characters = JSON.parse(await fs.readFile(charactersPath, "utf8")) as CharacterRecord[];
 const unknowns = characters.flatMap((character) =>
@@ -151,30 +129,20 @@ for (const [reportCode, appearances] of byReport) {
   for (const appearance of appearances) {
     const fight = (report.fights ?? []).find((candidate) => Number(candidate.id) === appearance.fightId);
     const matchingActors = actors.filter((actor) => nameKey(actor.name) === nameKey(appearance.characterName));
-    const actorAudits = [];
-    for (const actor of matchingActors) {
+    const actorAudits = matchingActors.map((actor) => {
       const actorId = Number(actor.id);
-      const activity = Number.isFinite(actorId)
-        ? await graphql<{ reportData?: { report?: Record<string, unknown> | null } | null }>(token, activityQuery, {
-            code: reportCode,
-            fightIDs: [appearance.fightId],
-            sourceID: actorId,
-          }).then((response) => response.reportData?.report ?? null)
-        : null;
-      actorAudits.push({
+      return {
         ...actor,
         petOwnerActor: actor.petOwner ? actorById.get(Number(actor.petOwner)) ?? null : null,
         listedAsFriendlyPlayer: Boolean(fight?.friendlyPlayers?.includes(actorId)),
         listedAsFriendlyPet: Boolean(fight?.friendlyPets?.some((unit) => Number(unit.id) === actorId)),
         listedAsFriendlyNpc: Boolean(fight?.friendlyNPCs?.some((unit) => Number(unit.id) === actorId)),
-        activity,
-      });
-    }
+      };
+    });
     results.push({
       ...appearance,
       fight,
       actors: actorAudits,
-      playerDetailPaths: findNamedValues(report.playerDetails, appearance.characterName),
     });
   }
 }
