@@ -102,6 +102,7 @@ const verifiedClassOverrides = new Map<string, string>([
   ["lalass", "Warlock"],
   ["larissel", "Hunter"],
   ["michellevick", "Hunter"],
+  ["neet", "Paladin"],
   ["okuninushi", "Warlock"],
   ["rineki", "Hunter"],
   ["robz", "Warlock"],
