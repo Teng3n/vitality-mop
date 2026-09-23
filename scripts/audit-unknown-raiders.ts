@@ -157,7 +157,9 @@ for (const [reportCode, appearances] of byReport) {
             serverSlug: clean(actor.server).toLocaleLowerCase(),
           })
         : null;
-      const character = lookup?.characterData?.byId ?? lookup?.characterData?.byName ?? null;
+      const byName = lookup?.characterData?.byName ?? null;
+      const byId = lookup?.characterData?.byId ?? null;
+      const character = byName ?? (nameKey((byId as { name?: string } | null)?.name) === nameKey(actor.name) ? byId : null);
       const classID = character?.classID ?? null;
       const resolvedClass = lookup?.gameData?.classes?.find((item) => item.id === classID) ?? null;
       actorAudits.push({
