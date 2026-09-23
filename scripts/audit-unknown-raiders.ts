@@ -35,6 +35,7 @@ type ReportAudit = {
     id?: number | null;
     name?: string | null;
     friendlyPlayers?: number[] | null;
+    friendlySpecs?: string[] | null;
     friendlyPets?: FightUnit[] | null;
     friendlyNPCs?: FightUnit[] | null;
   }> | null;
@@ -94,7 +95,7 @@ query UnknownReportAudit($code: String!, $fightIDs: [Int]) {
         actors { id gameID name type subType petOwner server icon }
       }
       fights(fightIDs: $fightIDs, translate: true) {
-        id name friendlyPlayers
+        id name friendlyPlayers friendlySpecs
         friendlyPets { id gameID petOwner }
         friendlyNPCs { id gameID petOwner }
       }
@@ -111,21 +112,6 @@ query UnknownCharacterLookup($id: Int!, $name: String!, $serverSlug: String!) {
     }
   }
   gameData { classes { id name slug } }
-}`;
-
-const actorEventsQuery = `
-query UnknownActorEvents($code: String!, $fightIDs: [Int], $sourceID: Int!) {
-  reportData {
-    report(code: $code) {
-      masterData(translate: true) {
-        abilities { gameID name type icon }
-      }
-      casts: events(dataType: Casts, fightIDs: $fightIDs, sourceID: $sourceID, limit: 10000) { data }
-      damage: events(dataType: DamageDone, fightIDs: $fightIDs, sourceID: $sourceID, limit: 10000) { data }
-      healing: events(dataType: Healing, fightIDs: $fightIDs, sourceID: $sourceID, limit: 10000) { data }
-      combatantInfo: events(dataType: CombatantInfo, fightIDs: $fightIDs, sourceID: $sourceID, limit: 100) { data }
-    }
-  }
 }`;
 
 const characters = JSON.parse(await fs.readFile(charactersPath, "utf8")) as CharacterRecord[];
@@ -177,22 +163,7 @@ for (const [reportCode, appearances] of byReport) {
       const character = byName ?? (nameKey((byId as { name?: string } | null)?.name) === nameKey(actor.name) ? byId : null);
       const classID = character?.classID ?? null;
       const resolvedClass = lookup?.gameData?.classes?.find((item) => item.id === classID) ?? null;
-      const eventData = await graphql<{
-        reportData?: {
-          report?: {
-            masterData?: { abilities?: Array<{ gameID?: number; name?: string; type?: string; icon?: string }> | null } | null;
-            casts?: { data?: unknown } | null;
-            damage?: { data?: unknown } | null;
-            healing?: { data?: unknown } | null;
-            combatantInfo?: { data?: unknown } | null;
-          } | null;
-        } | null;
-      }>(token, actorEventsQuery, {
-        code: reportCode,
-        fightIDs: [appearance.fightId],
-        sourceID: actorId,
-      });
-      const eventReport = eventData.reportData?.report ?? null;
+      const playerIndex = fight?.friendlyPlayers?.indexOf(actorId) ?? -1;
       actorAudits.push({
         ...actor,
         petOwnerActor: actor.petOwner ? actorById.get(Number(actor.petOwner)) ?? null : null,
@@ -201,13 +172,7 @@ for (const [reportCode, appearances] of byReport) {
         listedAsFriendlyNpc: Boolean(fight?.friendlyNPCs?.some((unit) => Number(unit.id) === actorId)),
         characterLookup: lookup?.characterData ?? null,
         resolvedClass,
-        abilities: eventReport?.masterData?.abilities ?? [],
-        events: {
-          casts: eventReport?.casts?.data ?? null,
-          damage: eventReport?.damage?.data ?? null,
-          healing: eventReport?.healing?.data ?? null,
-          combatantInfo: eventReport?.combatantInfo?.data ?? null,
-        },
+        friendlySpec: playerIndex >= 0 ? fight?.friendlySpecs?.[playerIndex] ?? null : null,
       });
     }
     results.push({
