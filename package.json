@@ -13,6 +13,7 @@
     "debug:wcl-guild-progress": "tsx scripts/debug-wcl-guild-progress.ts",
     "debug:wcl-progression": "tsx scripts/debug-wcl-progression.ts",
     "dedupe:wcl-raiders": "tsx scripts/dedupe-wcl-raiders.ts",
+    "build:historical-attendance": "tsx scripts/build-historical-raider-attendance.ts",
     "build:historical-raiders": "tsx scripts/build-historical-raiders.ts",
     "sync:sheets": "tsx scripts/sync-google-sheets.ts",
     "sync:data": "npm run sync:sheets",

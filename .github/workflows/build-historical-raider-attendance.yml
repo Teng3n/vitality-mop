@@ -1,0 +1,54 @@
+name: Build historical raider attendance
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-historical-raider-attendance
+  cancel-in-progress: false
+
+jobs:
+  build-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build verified historical attendance
+        run: |
+          npm run build:historical-attendance
+          npm run dedupe:wcl-raiders
+          npm run build:historical-raiders
+        env:
+          WCL_CLIENT_ID: ${{ secrets.WCL_CLIENT_ID }}
+          WCL_CLIENT_SECRET: ${{ secrets.WCL_CLIENT_SECRET }}
+          WCL_HISTORY_CONCURRENCY: 6
+
+      - name: Commit verified archive data
+        shell: bash
+        run: |
+          if git diff --quiet -- docs/warcraft-logs-unique-raiders.md docs/warcraft-logs-deduped-people.md src/data/historicalRaiderCharacters.json src/data/historicalRaiders.json; then
+            echo "No historical archive changes detected."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/warcraft-logs-unique-raiders.md docs/warcraft-logs-deduped-people.md src/data/historicalRaiderCharacters.json src/data/historicalRaiders.json
+          git commit -m "data: verify historical raiders against boss fights"
+          git push
